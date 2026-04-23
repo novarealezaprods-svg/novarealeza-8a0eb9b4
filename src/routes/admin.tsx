@@ -24,6 +24,7 @@ function Admin() {
   const [video, setVideo] = useState<string>("");
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [newImage, setNewImage] = useState("");
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -32,7 +33,15 @@ function Admin() {
       setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
       setVideo(localStorage.getItem("nr_preview_video") || "");
     } catch {}
+    setLoaded(true);
   }, []);
+
+  // Auto-save vídeo sempre que mudar (após carregamento inicial)
+  useEffect(() => {
+    if (!loaded || typeof window === "undefined") return;
+    if (video) localStorage.setItem("nr_preview_video", video);
+    else localStorage.removeItem("nr_preview_video");
+  }, [video, loaded]);
 
   const saveBeats = (next: BeatMeta[]) => {
     setBeats(next);
