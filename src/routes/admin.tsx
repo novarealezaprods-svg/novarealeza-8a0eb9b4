@@ -47,9 +47,17 @@ function Admin() {
     setBeats(next);
     localStorage.setItem("nr_beats", JSON.stringify(next));
   };
+  const persistBeats = () => {
+    localStorage.setItem("nr_beats", JSON.stringify(beats));
+    toast.success("Beats salvos! Recarregue a home para ver.");
+  };
   const saveImages = (next: string[]) => {
     setProofImages(next);
     localStorage.setItem("nr_proof_images", JSON.stringify(next));
+  };
+  const persistImages = () => {
+    localStorage.setItem("nr_proof_images", JSON.stringify(proofImages));
+    toast.success("Imagens salvas! Recarregue a home para ver.");
   };
   const saveVideo = (url: string) => {
     setVideo(url);
@@ -180,6 +188,13 @@ function Admin() {
               ))}
             </div>
           )}
+          {proofImages.length > 0 && (
+            <div className="mt-4 flex justify-end">
+              <Button onClick={persistImages} size="sm" variant="default">
+                <Save className="h-3 w-3 mr-1" /> Salvar imagens
+              </Button>
+            </div>
+          )}
         </Card>
 
         {/* Beats */}
@@ -239,6 +254,13 @@ function Admin() {
                   {b.url && <audio src={b.url} controls className="w-full h-8" />}
                 </div>
               ))}
+            </div>
+          )}
+          {beats.length > 0 && (
+            <div className="mt-4 flex justify-end">
+              <Button onClick={persistBeats} size="sm" variant="default">
+                <Save className="h-3 w-3 mr-1" /> Salvar beats
+              </Button>
             </div>
           )}
         </Card>
