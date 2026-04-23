@@ -71,33 +71,38 @@ function Index() {
       >
         <div className="mx-auto max-w-5xl px-6 text-center">
           <Badge variant="outline" className="mb-6 border-border/60 bg-card/40 backdrop-blur text-xs tracking-widest uppercase">
-            <Flame className="h-3 w-3 mr-1 text-accent" /> Lançamento 2026
+            <Flame className="h-3 w-3 mr-1 text-accent" /> Preço por tempo limitado
           </Badge>
 
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
-            50 BEATS PACK
+            PACK DE 100 BEATS
           </h1>
           <p className="mt-4 text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-accent">
             100% ROYALTY FREE
           </p>
 
           <p className="mt-8 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground">
-            Pack completo, profissional e pronto para uso. Trap, New Jazz, Hard, Sampled, R&B e muito mais.
+            Pack completo, profissional e pronto para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais.
           </p>
 
           {/* Video / preview placeholder */}
           <div className="mt-12 mx-auto max-w-2xl">
-            <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group cursor-pointer">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform">
-                  <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
-                </div>
-              </div>
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-muted-foreground">
-                <span>PREVIEW DO PACK</span>
-                <span>2:41</span>
-              </div>
+            <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
+              {previewVideo ? (
+                <video src={previewVideo} controls className="absolute inset-0 w-full h-full object-cover" />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)]">
+                      <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
+                    </div>
+                    <Link to="/admin" className="text-xs text-muted-foreground hover:text-primary uppercase tracking-widest">
+                      Enviar vídeo de preview
+                    </Link>
+                  </div>
+                </>
+              )}
             </Card>
           </div>
 
