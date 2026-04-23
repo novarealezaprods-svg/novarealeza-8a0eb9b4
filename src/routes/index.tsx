@@ -1,16 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "50 Beats Pack — 100% Royalty Free | Cadence Beats" },
-      { name: "description", content: "Pack completo de 50 beats profissionais, prontos para uso. Trap, New Jazz, Hard, Sampled, R&B e muito mais. 100% royalty free." },
-      { property: "og:title", content: "50 Beats Pack — 100% Royalty Free" },
+      { title: "Pack de 100 Beats — 100% Royalty Free | Nova Realeza" },
+      { name: "description", content: "Pack completo de 100 beats profissionais, prontos para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais. 100% royalty free." },
+      { property: "og:title", content: "Pack de 100 Beats — 100% Royalty Free" },
       { property: "og:description", content: "Pack completo, profissional e pronto para uso. Liberado para Spotify, YouTube e mais." },
       { property: "og:type", content: "website" },
     ],
@@ -18,13 +19,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const genres = ["Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
+const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 
 const features = [
-  "50 beats profissionais prontos para uso",
+  "100 beats profissionais prontos para uso",
   "100% royalty free — você fica com tudo",
   "Liberado para Spotify, YouTube, TikTok",
-  "Stems separados (kick, snare, melody, 808)",
   "Mixados e masterizados em alta qualidade",
   "Acesso vitalício + atualizações futuras",
 ];
