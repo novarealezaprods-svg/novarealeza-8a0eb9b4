@@ -256,6 +256,13 @@ function Admin() {
               ))}
             </div>
           )}
+          {beats.length > 0 && (
+            <div className="mt-4 flex justify-end">
+              <Button onClick={persistBeats} size="sm" variant="default">
+                <Save className="h-3 w-3 mr-1" /> Salvar beats
+              </Button>
+            </div>
+          )}
         </Card>
 
         <div className="text-xs text-muted-foreground border-t border-border/50 pt-6">
