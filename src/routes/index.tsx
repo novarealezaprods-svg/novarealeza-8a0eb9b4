@@ -125,7 +125,17 @@ function Index() {
           <div className="mt-12 mx-auto max-w-2xl">
             <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
               {previewVideo ? (
-                <video src={previewVideo} controls className="absolute inset-0 w-full h-full object-cover" />
+                getEmbedUrl(previewVideo) ? (
+                  <iframe
+                    src={getEmbedUrl(previewVideo)!}
+                    title="Preview"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                ) : (
+                  <video src={previewVideo} controls className="absolute inset-0 w-full h-full object-cover" />
+                )
               ) : (
                 <>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
