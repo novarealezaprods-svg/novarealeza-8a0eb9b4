@@ -220,7 +220,7 @@ function Index() {
               <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
                 Oferta limitada
               </Badge>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight">50 Beats Pack</h2>
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight">Pack de 100 Beats</h2>
               <div className="mt-6 flex items-center justify-center gap-3">
                 <span className="text-lg text-muted-foreground line-through">R$ 97</span>
                 <span className="text-5xl md:text-6xl font-black text-primary">R$ 20</span>
@@ -257,7 +257,6 @@ function Index() {
               { q: "Posso usar os beats no Spotify e YouTube?", a: "Sim! Todos os beats são 100% royalty free. Você pode monetizar onde quiser." },
               { q: "Como recebo o pack?", a: "Após a compra, você recebe acesso imediato ao link de download por e-mail." },
               { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
-              { q: "Os beats têm stems?", a: "Sim, todos os beats vêm com stems separados (kick, snare, 808, melody, FX)." },
             ].map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
                 <AccordionTrigger className="text-left font-semibold">{item.q}</AccordionTrigger>
@@ -269,7 +268,7 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/50 py-10 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Cadence Beats. Todos os direitos reservados.
+        © {new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.
       </footer>
     </div>
   );
