@@ -1,16 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "50 Beats Pack — 100% Royalty Free | Cadence Beats" },
-      { name: "description", content: "Pack completo de 50 beats profissionais, prontos para uso. Trap, New Jazz, Hard, Sampled, R&B e muito mais. 100% royalty free." },
-      { property: "og:title", content: "50 Beats Pack — 100% Royalty Free" },
+      { title: "Pack de 100 Beats — 100% Royalty Free | Nova Realeza" },
+      { name: "description", content: "Pack completo de 100 beats profissionais, prontos para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais. 100% royalty free." },
+      { property: "og:title", content: "Pack de 100 Beats — 100% Royalty Free" },
       { property: "og:description", content: "Pack completo, profissional e pronto para uso. Liberado para Spotify, YouTube e mais." },
       { property: "og:type", content: "website" },
     ],
@@ -18,13 +19,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const genres = ["Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
+const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 
 const features = [
-  "50 beats profissionais prontos para uso",
+  "100 beats profissionais prontos para uso",
   "100% royalty free — você fica com tudo",
   "Liberado para Spotify, YouTube, TikTok",
-  "Stems separados (kick, snare, melody, 808)",
   "Mixados e masterizados em alta qualidade",
   "Acesso vitalício + atualizações futuras",
 ];
@@ -36,15 +36,31 @@ const testimonials = [
 ];
 
 function Index() {
+  const [previewVideo, setPreviewVideo] = useState<string | null>(null);
+  const [proofImages, setProofImages] = useState<string[]>([]);
+  const [beats, setBeats] = useState<{ name: string }[]>([]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setPreviewVideo(localStorage.getItem("nr_preview_video"));
+    try {
+      setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
+      setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
+    } catch {}
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
       <header className="absolute top-0 inset-x-0 z-20">
-        <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-center">
+        <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-bold tracking-widest uppercase">
             <Music2 className="h-4 w-4 text-primary" />
-            Cadence
+            Nova Realeza
           </div>
+          <Link to="/admin" className="text-xs uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
+            Admin
+          </Link>
         </div>
       </header>
 
@@ -55,33 +71,38 @@ function Index() {
       >
         <div className="mx-auto max-w-5xl px-6 text-center">
           <Badge variant="outline" className="mb-6 border-border/60 bg-card/40 backdrop-blur text-xs tracking-widest uppercase">
-            <Flame className="h-3 w-3 mr-1 text-accent" /> Lançamento 2026
+            <Flame className="h-3 w-3 mr-1 text-accent" /> Preço por tempo limitado
           </Badge>
 
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
-            50 BEATS PACK
+            PACK DE 100 BEATS
           </h1>
           <p className="mt-4 text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-accent">
             100% ROYALTY FREE
           </p>
 
           <p className="mt-8 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground">
-            Pack completo, profissional e pronto para uso. Trap, New Jazz, Hard, Sampled, R&B e muito mais.
+            Pack completo, profissional e pronto para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais.
           </p>
 
           {/* Video / preview placeholder */}
           <div className="mt-12 mx-auto max-w-2xl">
-            <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group cursor-pointer">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform">
-                  <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
-                </div>
-              </div>
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-muted-foreground">
-                <span>PREVIEW DO PACK</span>
-                <span>2:41</span>
-              </div>
+            <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
+              {previewVideo ? (
+                <video src={previewVideo} controls className="absolute inset-0 w-full h-full object-cover" />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)]">
+                      <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
+                    </div>
+                    <Link to="/admin" className="text-xs text-muted-foreground hover:text-primary uppercase tracking-widest">
+                      Enviar vídeo de preview
+                    </Link>
+                  </div>
+                </>
+              )}
             </Card>
           </div>
 
@@ -115,7 +136,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
             { n: "+2.500", l: "Produtores" },
-            { n: "+50M", l: "Streams gerados" },
+            { n: "+10M", l: "Streams gerados" },
             { n: "4.9/5", l: "Avaliação média" },
             { n: "100%", l: "Royalty free" },
           ].map((s) => (
@@ -159,21 +180,34 @@ function Index() {
             <p className="mt-3 text-muted-foreground">Quem já está usando o pack</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
-            {testimonials.map((t) => (
-              <Card key={t.name} className="p-6 border-border/60 bg-background">
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-sm leading-relaxed text-foreground/90">"{t.text}"</p>
-                <div className="mt-5 pt-4 border-t border-border/60">
-                  <div className="font-bold text-sm">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.role}</div>
-                </div>
-              </Card>
-            ))}
+            {proofImages.length > 0
+              ? proofImages.map((src, i) => (
+                  <Card key={i} className="overflow-hidden border-border/60 bg-background">
+                    <img src={src} alt={`Prova social ${i + 1}`} className="w-full h-72 object-cover" />
+                  </Card>
+                ))
+              : testimonials.map((t) => (
+                  <Card key={t.name} className="p-6 border-border/60 bg-background">
+                    <div className="flex gap-0.5 mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                      ))}
+                    </div>
+                    <p className="text-sm leading-relaxed text-foreground/90">"{t.text}"</p>
+                    <div className="mt-5 pt-4 border-t border-border/60">
+                      <div className="font-bold text-sm">{t.name}</div>
+                      <div className="text-xs text-muted-foreground">{t.role}</div>
+                    </div>
+                  </Card>
+                ))}
           </div>
+          {proofImages.length === 0 && (
+            <div className="mt-8 text-center">
+              <Link to="/admin" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-primary">
+                <Upload className="h-3 w-3" /> Enviar fotos de prova social
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -186,10 +220,10 @@ function Index() {
               <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
                 Oferta limitada
               </Badge>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight">50 Beats Pack</h2>
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight">Pack de 100 Beats</h2>
               <div className="mt-6 flex items-center justify-center gap-3">
-                <span className="text-lg text-muted-foreground line-through">R$ 197</span>
-                <span className="text-5xl md:text-6xl font-black text-primary">R$ 47</span>
+                <span className="text-lg text-muted-foreground line-through">R$ 97</span>
+                <span className="text-5xl md:text-6xl font-black text-primary">R$ 20</span>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">Pagamento único · Acesso vitalício</p>
 
@@ -223,7 +257,6 @@ function Index() {
               { q: "Posso usar os beats no Spotify e YouTube?", a: "Sim! Todos os beats são 100% royalty free. Você pode monetizar onde quiser." },
               { q: "Como recebo o pack?", a: "Após a compra, você recebe acesso imediato ao link de download por e-mail." },
               { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
-              { q: "Os beats têm stems?", a: "Sim, todos os beats vêm com stems separados (kick, snare, 808, melody, FX)." },
             ].map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
                 <AccordionTrigger className="text-left font-semibold">{item.q}</AccordionTrigger>
@@ -235,7 +268,7 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/50 py-10 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Cadence Beats. Todos os direitos reservados.
+        © {new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.
       </footer>
     </div>
   );
