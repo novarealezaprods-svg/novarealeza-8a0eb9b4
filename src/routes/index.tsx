@@ -136,7 +136,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
             { n: "+2.500", l: "Produtores" },
-            { n: "+50M", l: "Streams gerados" },
+            { n: "+10M", l: "Streams gerados" },
             { n: "4.9/5", l: "Avaliação média" },
             { n: "100%", l: "Royalty free" },
           ].map((s) => (
@@ -180,21 +180,34 @@ function Index() {
             <p className="mt-3 text-muted-foreground">Quem já está usando o pack</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
-            {testimonials.map((t) => (
-              <Card key={t.name} className="p-6 border-border/60 bg-background">
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-sm leading-relaxed text-foreground/90">"{t.text}"</p>
-                <div className="mt-5 pt-4 border-t border-border/60">
-                  <div className="font-bold text-sm">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.role}</div>
-                </div>
-              </Card>
-            ))}
+            {proofImages.length > 0
+              ? proofImages.map((src, i) => (
+                  <Card key={i} className="overflow-hidden border-border/60 bg-background">
+                    <img src={src} alt={`Prova social ${i + 1}`} className="w-full h-72 object-cover" />
+                  </Card>
+                ))
+              : testimonials.map((t) => (
+                  <Card key={t.name} className="p-6 border-border/60 bg-background">
+                    <div className="flex gap-0.5 mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                      ))}
+                    </div>
+                    <p className="text-sm leading-relaxed text-foreground/90">"{t.text}"</p>
+                    <div className="mt-5 pt-4 border-t border-border/60">
+                      <div className="font-bold text-sm">{t.name}</div>
+                      <div className="text-xs text-muted-foreground">{t.role}</div>
+                    </div>
+                  </Card>
+                ))}
           </div>
+          {proofImages.length === 0 && (
+            <div className="mt-8 text-center">
+              <Link to="/admin" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-primary">
+                <Upload className="h-3 w-3" /> Enviar fotos de prova social
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -209,8 +222,8 @@ function Index() {
               </Badge>
               <h2 className="text-3xl md:text-5xl font-black tracking-tight">50 Beats Pack</h2>
               <div className="mt-6 flex items-center justify-center gap-3">
-                <span className="text-lg text-muted-foreground line-through">R$ 197</span>
-                <span className="text-5xl md:text-6xl font-black text-primary">R$ 47</span>
+                <span className="text-lg text-muted-foreground line-through">R$ 97</span>
+                <span className="text-5xl md:text-6xl font-black text-primary">R$ 20</span>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">Pagamento único · Acesso vitalício</p>
 
