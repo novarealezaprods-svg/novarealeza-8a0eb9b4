@@ -50,6 +50,17 @@ const faq = [
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
 
+function getEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  // YouTube
+  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+  // Vimeo
+  const vm = url.match(/vimeo\.com\/(\d+)/);
+  if (vm) return `https://player.vimeo.com/video/${vm[1]}`;
+  return null;
+}
+
 function IndexWrapper() {
   return (
     <EditableProvider>
@@ -114,7 +125,17 @@ function Index() {
           <div className="mt-12 mx-auto max-w-2xl">
             <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
               {previewVideo ? (
-                <video src={previewVideo} controls className="absolute inset-0 w-full h-full object-cover" />
+                getEmbedUrl(previewVideo) ? (
+                  <iframe
+                    src={getEmbedUrl(previewVideo)!}
+                    title="Preview"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                ) : (
+                  <video src={previewVideo} controls className="absolute inset-0 w-full h-full object-cover" />
+                )
               ) : (
                 <>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
@@ -326,7 +347,7 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/50 py-10 text-center text-xs text-muted-foreground">
-        <EditableText id="footer">© {new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.</EditableText>
+        <EditableText id="footer">{`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}</EditableText>
       </footer>
     </div>
   );

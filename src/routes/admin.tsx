@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Music2, Trash2, Upload, Video, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Music2, Trash2, Plus, Video, Image as ImageIcon, Link2, Save } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -16,96 +16,51 @@ export const Route = createFileRoute("/admin")({
   component: Admin,
 });
 
-type Beat = { name: string; url: string };
 type BeatMeta = { name: string; url: string; key?: string; bpm?: string };
-
-function fileToDataUrl(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
 
 function Admin() {
   const [beats, setBeats] = useState<BeatMeta[]>([]);
-  const [video, setVideo] = useState<string | null>(null);
+  const [video, setVideo] = useState<string>("");
   const [proofImages, setProofImages] = useState<string[]>([]);
+  const [newImage, setNewImage] = useState("");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
       setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
-      setVideo(localStorage.getItem("nr_preview_video"));
+      setVideo(localStorage.getItem("nr_preview_video") || "");
     } catch {}
   }, []);
 
-  const handleBeats = async (files: FileList | null) => {
-    if (!files) return;
-    const next = [...beats];
-    for (const f of Array.from(files)) {
-      const url = await fileToDataUrl(f);
-      next.push({ name: f.name.replace(/\.[^.]+$/, ""), url, key: "", bpm: "" });
-    }
-    setBeats(next);
-    try {
-      localStorage.setItem("nr_beats", JSON.stringify(next));
-    } catch {
-      alert("Arquivos muito grandes para o armazenamento local. Para uploads grandes, ative o Lovable Cloud.");
-    }
-  };
-
-  const updateBeat = (i: number, patch: Partial<BeatMeta>) => {
-    const next = beats.map((b, idx) => (idx === i ? { ...b, ...patch } : b));
-    setBeats(next);
-    try {
-      localStorage.setItem("nr_beats", JSON.stringify(next));
-    } catch {}
-  };
-
-  const handleVideo = async (file: File | null) => {
-    if (!file) return;
-    const url = await fileToDataUrl(file);
-    setVideo(url);
-    try {
-      localStorage.setItem("nr_preview_video", url);
-    } catch {
-      alert("Vídeo muito grande para o armazenamento local. Use um arquivo menor ou ative o Lovable Cloud.");
-    }
-  };
-
-  const handleImages = async (files: FileList | null) => {
-    if (!files) return;
-    const next = [...proofImages];
-    for (const f of Array.from(files)) {
-      next.push(await fileToDataUrl(f));
-    }
-    setProofImages(next);
-    try {
-      localStorage.setItem("nr_proof_images", JSON.stringify(next));
-    } catch {
-      alert("Imagens muito grandes para armazenamento local.");
-    }
-  };
-
-  const removeBeat = (i: number) => {
-    const next = beats.filter((_, idx) => idx !== i);
+  const saveBeats = (next: BeatMeta[]) => {
     setBeats(next);
     localStorage.setItem("nr_beats", JSON.stringify(next));
   };
-
-  const removeImage = (i: number) => {
-    const next = proofImages.filter((_, idx) => idx !== i);
+  const saveImages = (next: string[]) => {
     setProofImages(next);
     localStorage.setItem("nr_proof_images", JSON.stringify(next));
   };
-
-  const clearVideo = () => {
-    setVideo(null);
-    localStorage.removeItem("nr_preview_video");
+  const saveVideo = (url: string) => {
+    setVideo(url);
+    if (url) localStorage.setItem("nr_preview_video", url);
+    else localStorage.removeItem("nr_preview_video");
   };
+
+  const addBeat = () => {
+    saveBeats([...beats, { name: `Beat ${beats.length + 1}`, url: "", key: "", bpm: "" }]);
+  };
+  const updateBeat = (i: number, patch: Partial<BeatMeta>) => {
+    saveBeats(beats.map((b, idx) => (idx === i ? { ...b, ...patch } : b)));
+  };
+  const removeBeat = (i: number) => saveBeats(beats.filter((_, idx) => idx !== i));
+
+  const addImage = () => {
+    if (!newImage.trim()) return;
+    saveImages([...proofImages, newImage.trim()]);
+    setNewImage("");
+  };
+  const removeImage = (i: number) => saveImages(proofImages.filter((_, idx) => idx !== i));
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -122,11 +77,16 @@ function Admin() {
 
       <main className="mx-auto max-w-5xl px-6 py-12 space-y-10">
         <div>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight">Painel de uploads</h1>
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight">Painel de conteúdo</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Envie seus beats, o vídeo de preview e as fotos de prova social. Os arquivos ficam salvos no
-            seu navegador (localStorage). Para hospedagem real e download público, ative o Lovable Cloud.
+            Cole <strong>links externos</strong> dos seus arquivos. Sem limite de tamanho. Use Dropbox,
+            Google Drive (link público), YouTube, Vimeo, Imgur, ou qualquer hospedagem direta (.mp3, .mp4, .jpg).
           </p>
+          <div className="mt-3 text-xs text-muted-foreground bg-card border border-border/60 rounded-md p-3">
+            <strong className="text-foreground">Dica para Dropbox:</strong> troque <code>?dl=0</code> por <code>?raw=1</code> no final do link.
+            <br />
+            <strong className="text-foreground">Google Drive:</strong> use <code>https://drive.google.com/uc?export=download&amp;id=ID_DO_ARQUIVO</code>
+          </div>
         </div>
 
         {/* Vídeo */}
@@ -135,44 +95,55 @@ function Admin() {
             <Video className="h-4 w-4 text-primary" />
             <h2 className="font-bold tracking-wide uppercase text-sm">Vídeo de preview</h2>
           </div>
-          <Label htmlFor="video" className="text-xs text-muted-foreground">Selecione um arquivo .mp4 (curto, &lt;5MB recomendado)</Label>
-          <Input
-            id="video"
-            type="file"
-            accept="video/*"
-            onChange={(e) => handleVideo(e.target.files?.[0] ?? null)}
-            className="mt-2"
-          />
-          {video && (
-            <div className="mt-4 space-y-3">
-              <video src={video} controls className="w-full rounded-md max-h-72 bg-black" />
-              <Button variant="outline" size="sm" onClick={clearVideo}>
-                <Trash2 className="h-3 w-3 mr-1" /> Remover vídeo
+          <Label htmlFor="video" className="text-xs text-muted-foreground">
+            Cole o link do YouTube, Vimeo ou um .mp4 direto
+          </Label>
+          <div className="flex gap-2 mt-2">
+            <Input
+              id="video"
+              value={video}
+              onChange={(e) => setVideo(e.target.value)}
+              placeholder="https://youtube.com/watch?v=... ou https://...mp4"
+              className="flex-1"
+            />
+            <Button onClick={() => saveVideo(video)} variant="default" size="sm">
+              <Save className="h-3 w-3 mr-1" /> Salvar
+            </Button>
+            {video && (
+              <Button onClick={() => saveVideo("")} variant="outline" size="sm">
+                <Trash2 className="h-3 w-3" />
               </Button>
-            </div>
+            )}
+          </div>
+          {video && (
+            <p className="mt-3 text-xs text-muted-foreground truncate">Atual: {video}</p>
           )}
         </Card>
 
-        {/* Fotos de prova social */}
+        {/* Fotos */}
         <Card className="p-6 border-border/60 bg-card">
           <div className="flex items-center gap-2 mb-4">
             <ImageIcon className="h-4 w-4 text-primary" />
             <h2 className="font-bold tracking-wide uppercase text-sm">Fotos de prova social</h2>
           </div>
-          <Label htmlFor="images" className="text-xs text-muted-foreground">Prints de vendas, depoimentos, conversas, streams etc.</Label>
-          <Input
-            id="images"
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => handleImages(e.target.files)}
-            className="mt-2"
-          />
+          <Label className="text-xs text-muted-foreground">Cole o link de uma imagem (.jpg, .png, .webp)</Label>
+          <div className="flex gap-2 mt-2">
+            <Input
+              value={newImage}
+              onChange={(e) => setNewImage(e.target.value)}
+              placeholder="https://i.imgur.com/exemplo.jpg"
+              className="flex-1"
+              onKeyDown={(e) => e.key === "Enter" && addImage()}
+            />
+            <Button onClick={addImage} size="sm">
+              <Plus className="h-3 w-3 mr-1" /> Adicionar
+            </Button>
+          </div>
           {proofImages.length > 0 && (
             <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
               {proofImages.map((src, i) => (
                 <div key={i} className="relative group rounded-md overflow-hidden border border-border/60">
-                  <img src={src} alt={`Prova ${i + 1}`} className="w-full h-40 object-cover" />
+                  <img src={src} alt={`Prova ${i + 1}`} className="w-full h-40 object-cover bg-muted" />
                   <button
                     onClick={() => removeImage(i)}
                     className="absolute top-2 right-2 bg-background/80 hover:bg-destructive hover:text-destructive-foreground p-1.5 rounded-full transition-colors opacity-0 group-hover:opacity-100"
@@ -187,24 +158,26 @@ function Admin() {
 
         {/* Beats */}
         <Card className="p-6 border-border/60 bg-card">
-          <div className="flex items-center gap-2 mb-4">
-            <Upload className="h-4 w-4 text-primary" />
-            <h2 className="font-bold tracking-wide uppercase text-sm">Seus beats</h2>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Link2 className="h-4 w-4 text-primary" />
+              <h2 className="font-bold tracking-wide uppercase text-sm">Beats (links externos)</h2>
+            </div>
+            <Button onClick={addBeat} size="sm" variant="outline">
+              <Plus className="h-3 w-3 mr-1" /> Adicionar beat
+            </Button>
           </div>
-          <Label htmlFor="beats" className="text-xs text-muted-foreground">Envie .mp3 / .wav (selecione vários)</Label>
-          <Input
-            id="beats"
-            type="file"
-            accept="audio/*"
-            multiple
-            onChange={(e) => handleBeats(e.target.files)}
-            className="mt-2"
-          />
+          <p className="text-xs text-muted-foreground">
+            Cole o link direto do .mp3 ou .wav. Para waveform funcionar, o link precisa permitir CORS
+            (Dropbox <code>?raw=1</code> e Cloudinary funcionam bem).
+          </p>
+          {beats.length === 0 && (
+            <p className="mt-6 text-sm text-muted-foreground text-center py-8">
+              Nenhum beat ainda. Clique em "Adicionar beat" para começar.
+            </p>
+          )}
           {beats.length > 0 && (
             <div className="mt-5 space-y-3">
-              <div className="text-xs text-muted-foreground">
-                {beats.length} beat(s) carregado(s) · preencha nome, nota e BPM (mostrados nos players da landing)
-              </div>
               {beats.map((b, i) => (
                 <div key={i} className="p-3 rounded-md border border-border/60 bg-background space-y-2">
                   <div className="flex items-center gap-2">
@@ -218,8 +191,8 @@ function Admin() {
                     <Input
                       value={b.key ?? ""}
                       onChange={(e) => updateBeat(i, { key: e.target.value })}
-                      placeholder="Nota (ex: C#m)"
-                      className="w-28 h-8"
+                      placeholder="Nota"
+                      className="w-24 h-8"
                     />
                     <Input
                       value={b.bpm ?? ""}
@@ -231,7 +204,13 @@ function Admin() {
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   </div>
-                  <audio src={b.url} controls className="w-full h-8" />
+                  <Input
+                    value={b.url}
+                    onChange={(e) => updateBeat(i, { url: e.target.value })}
+                    placeholder="https://link-direto-do-audio.mp3"
+                    className="h-8 text-xs"
+                  />
+                  {b.url && <audio src={b.url} controls className="w-full h-8" />}
                 </div>
               ))}
             </div>
@@ -239,8 +218,7 @@ function Admin() {
         </Card>
 
         <div className="text-xs text-muted-foreground border-t border-border/50 pt-6">
-          Dica: para venda real com download seguro, pagamento e hospedagem dos beats, ative o
-          Lovable Cloud — peça no chat "ativar Lovable Cloud" para configurar storage e checkout.
+          Para venda real com download seguro, pagamento e hospedagem, ative o Lovable Cloud — peça no chat.
         </div>
       </main>
     </div>
