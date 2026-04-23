@@ -302,7 +302,7 @@ function Index() {
                 ))}
               </div>
 
-              <Button size="lg" variant="cta" className="mt-10 w-full h-14 text-base font-bold tracking-wide">
+              <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-10 w-full h-14 text-base font-bold tracking-wide">
                 <Download className="h-5 w-5 mr-2" />
                 <EditableText id="price-cta">QUERO MEU PACK AGORA</EditableText>
               </Button>
