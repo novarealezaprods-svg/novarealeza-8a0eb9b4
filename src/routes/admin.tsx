@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Music2, Trash2, Plus, Video, Image as ImageIcon, Link2, Save } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -43,24 +44,40 @@ function Admin() {
   };
   const saveVideo = (url: string) => {
     setVideo(url);
-    if (url) localStorage.setItem("nr_preview_video", url);
-    else localStorage.removeItem("nr_preview_video");
+    if (url) {
+      localStorage.setItem("nr_preview_video", url);
+      toast.success("Vídeo salvo! Recarregue a home para ver.");
+    } else {
+      localStorage.removeItem("nr_preview_video");
+      toast.success("Vídeo removido");
+    }
   };
 
   const addBeat = () => {
     saveBeats([...beats, { name: `Beat ${beats.length + 1}`, url: "", key: "", bpm: "" }]);
+    toast.success("Beat adicionado. Cole o link e os dados.");
   };
   const updateBeat = (i: number, patch: Partial<BeatMeta>) => {
     saveBeats(beats.map((b, idx) => (idx === i ? { ...b, ...patch } : b)));
   };
-  const removeBeat = (i: number) => saveBeats(beats.filter((_, idx) => idx !== i));
+  const removeBeat = (i: number) => {
+    saveBeats(beats.filter((_, idx) => idx !== i));
+    toast.success("Beat removido");
+  };
 
   const addImage = () => {
-    if (!newImage.trim()) return;
+    if (!newImage.trim()) {
+      toast.error("Cole o link da imagem primeiro");
+      return;
+    }
     saveImages([...proofImages, newImage.trim()]);
     setNewImage("");
+    toast.success("Imagem adicionada");
   };
-  const removeImage = (i: number) => saveImages(proofImages.filter((_, idx) => idx !== i));
+  const removeImage = (i: number) => {
+    saveImages(proofImages.filter((_, idx) => idx !== i));
+    toast.success("Imagem removida");
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
