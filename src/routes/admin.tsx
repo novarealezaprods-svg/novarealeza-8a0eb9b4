@@ -202,16 +202,36 @@ function Admin() {
           />
           {beats.length > 0 && (
             <div className="mt-5 space-y-3">
-              <div className="text-xs text-muted-foreground">{beats.length} beat(s) carregado(s)</div>
+              <div className="text-xs text-muted-foreground">
+                {beats.length} beat(s) carregado(s) · preencha nome, nota e BPM (mostrados nos players da landing)
+              </div>
               {beats.map((b, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 rounded-md border border-border/60 bg-background">
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">{b.name}</div>
-                    <audio src={b.url} controls className="mt-2 w-full h-8" />
+                <div key={i} className="p-3 rounded-md border border-border/60 bg-background space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground w-6">#{i + 1}</span>
+                    <Input
+                      value={b.name}
+                      onChange={(e) => updateBeat(i, { name: e.target.value })}
+                      placeholder="Nome do beat"
+                      className="flex-1 h-8"
+                    />
+                    <Input
+                      value={b.key ?? ""}
+                      onChange={(e) => updateBeat(i, { key: e.target.value })}
+                      placeholder="Nota (ex: C#m)"
+                      className="w-28 h-8"
+                    />
+                    <Input
+                      value={b.bpm ?? ""}
+                      onChange={(e) => updateBeat(i, { bpm: e.target.value })}
+                      placeholder="BPM"
+                      className="w-20 h-8"
+                    />
+                    <Button variant="ghost" size="sm" onClick={() => removeBeat(i)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={() => removeBeat(i)}>
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
+                  <audio src={b.url} controls className="w-full h-8" />
                 </div>
               ))}
             </div>
