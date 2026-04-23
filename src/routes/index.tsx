@@ -36,15 +36,31 @@ const testimonials = [
 ];
 
 function Index() {
+  const [previewVideo, setPreviewVideo] = useState<string | null>(null);
+  const [proofImages, setProofImages] = useState<string[]>([]);
+  const [beats, setBeats] = useState<{ name: string }[]>([]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setPreviewVideo(localStorage.getItem("nr_preview_video"));
+    try {
+      setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
+      setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
+    } catch {}
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Nav */}
       <header className="absolute top-0 inset-x-0 z-20">
-        <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-center">
+        <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-bold tracking-widest uppercase">
             <Music2 className="h-4 w-4 text-primary" />
-            Cadence
+            Nova Realeza
           </div>
+          <Link to="/admin" className="text-xs uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
+            Admin
+          </Link>
         </div>
       </header>
 
