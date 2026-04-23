@@ -163,6 +163,36 @@ function Admin() {
           )}
         </Card>
 
+        {/* Link de pagamento */}
+        <Card className="p-6 border-border/60 bg-card">
+          <div className="flex items-center gap-2 mb-4">
+            <ShoppingCart className="h-4 w-4 text-primary" />
+            <h2 className="font-bold tracking-wide uppercase text-sm">Link de pagamento</h2>
+          </div>
+          <Label htmlFor="checkout" className="text-xs text-muted-foreground">
+            Cole o link da sua página de venda (Hotmart, Kiwify, Eduzz, Stripe, Pay etc.). Os botões de CTA da home vão redirecionar para cá.
+          </Label>
+          <div className="flex gap-2 mt-2">
+            <Input
+              id="checkout"
+              value={checkoutUrl}
+              onChange={(e) => setCheckoutUrl(e.target.value)}
+              placeholder="https://pay.hotmart.com/..."
+              className="flex-1"
+            />
+            {checkoutUrl && (
+              <Button onClick={() => setCheckoutUrl("")} variant="outline" size="sm">
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            )}
+          </div>
+          {checkoutUrl && (
+            <p className="mt-3 text-xs text-muted-foreground truncate">
+              Salvo automaticamente · Atual: {checkoutUrl}
+            </p>
+          )}
+        </Card>
+
         {/* Fotos */}
         <Card className="p-6 border-border/60 bg-card">
           <div className="flex items-center gap-2 mb-4">
