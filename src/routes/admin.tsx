@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Music2, Trash2, Plus, Video, Image as ImageIcon, Link2, Save } from "lucide-react";
+import { ArrowLeft, Music2, Trash2, Plus, Video, Image as ImageIcon, Link2, Save, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -24,6 +24,7 @@ function Admin() {
   const [video, setVideo] = useState<string>("");
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [newImage, setNewImage] = useState("");
+  const [checkoutUrl, setCheckoutUrl] = useState<string>("");
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ function Admin() {
       setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
       setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
       setVideo(localStorage.getItem("nr_preview_video") || "");
+      setCheckoutUrl(localStorage.getItem("nr_checkout_url") || "");
     } catch {}
     setLoaded(true);
   }, []);
@@ -42,6 +44,13 @@ function Admin() {
     if (video) localStorage.setItem("nr_preview_video", video);
     else localStorage.removeItem("nr_preview_video");
   }, [video, loaded]);
+
+  // Auto-save link de pagamento
+  useEffect(() => {
+    if (!loaded || typeof window === "undefined") return;
+    if (checkoutUrl) localStorage.setItem("nr_checkout_url", checkoutUrl);
+    else localStorage.removeItem("nr_checkout_url");
+  }, [checkoutUrl, loaded]);
 
   const saveBeats = (next: BeatMeta[]) => {
     setBeats(next);
@@ -151,6 +160,36 @@ function Admin() {
           </div>
           {video && (
             <p className="mt-3 text-xs text-muted-foreground truncate">Atual: {video}</p>
+          )}
+        </Card>
+
+        {/* Link de pagamento */}
+        <Card className="p-6 border-border/60 bg-card">
+          <div className="flex items-center gap-2 mb-4">
+            <ShoppingCart className="h-4 w-4 text-primary" />
+            <h2 className="font-bold tracking-wide uppercase text-sm">Link de pagamento</h2>
+          </div>
+          <Label htmlFor="checkout" className="text-xs text-muted-foreground">
+            Cole o link da sua página de venda (Hotmart, Kiwify, Eduzz, Stripe, Pay etc.). Os botões de CTA da home vão redirecionar para cá.
+          </Label>
+          <div className="flex gap-2 mt-2">
+            <Input
+              id="checkout"
+              value={checkoutUrl}
+              onChange={(e) => setCheckoutUrl(e.target.value)}
+              placeholder="https://pay.hotmart.com/..."
+              className="flex-1"
+            />
+            {checkoutUrl && (
+              <Button onClick={() => setCheckoutUrl("")} variant="outline" size="sm">
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            )}
+          </div>
+          {checkoutUrl && (
+            <p className="mt-3 text-xs text-muted-foreground truncate">
+              Salvo automaticamente · Atual: {checkoutUrl}
+            </p>
           )}
         </Card>
 

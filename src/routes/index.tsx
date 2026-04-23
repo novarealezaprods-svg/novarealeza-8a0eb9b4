@@ -7,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { EditableProvider, EditableText, EditModeToggle } from "@/components/EditableContext";
+import { VideoPreview } from "@/components/VideoPreview";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,17 +51,6 @@ const faq = [
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
 
-function getEmbedUrl(url: string): string | null {
-  if (!url) return null;
-  // YouTube
-  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
-  if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
-  // Vimeo
-  const vm = url.match(/vimeo\.com\/(\d+)/);
-  if (vm) return `https://player.vimeo.com/video/${vm[1]}`;
-  return null;
-}
-
 function IndexWrapper() {
   return (
     <EditableProvider>
@@ -74,15 +64,25 @@ function Index() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
+  const [checkoutUrl, setCheckoutUrl] = useState<string>("");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     setPreviewVideo(localStorage.getItem("nr_preview_video"));
+    setCheckoutUrl(localStorage.getItem("nr_checkout_url") || "");
     try {
       setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
       setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
     } catch {}
   }, []);
+
+  const handleCheckout = () => {
+    if (checkoutUrl) {
+      window.open(checkoutUrl, "_blank", "noopener,noreferrer");
+    } else {
+      window.location.href = "/admin";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -125,17 +125,7 @@ function Index() {
           <div className="mt-12 mx-auto max-w-2xl">
             <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
               {previewVideo ? (
-                getEmbedUrl(previewVideo) ? (
-                  <iframe
-                    src={getEmbedUrl(previewVideo)!}
-                    title="Preview"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full"
-                  />
-                ) : (
-                  <video src={previewVideo} controls className="absolute inset-0 w-full h-full object-cover" />
-                )
+                <VideoPreview url={previewVideo} />
               ) : (
                 <>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
@@ -158,7 +148,7 @@ function Index() {
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4">
-            <Button size="lg" variant="cta" className="text-base h-14 px-10 font-bold tracking-wide">
+            <Button onClick={handleCheckout} size="lg" variant="cta" className="text-base h-14 px-10 font-bold tracking-wide">
               <Flame className="h-5 w-5 mr-2" />
               <EditableText id="hero-cta">GARANTIR MEU PACK</EditableText>
             </Button>
@@ -312,7 +302,7 @@ function Index() {
                 ))}
               </div>
 
-              <Button size="lg" variant="cta" className="mt-10 w-full h-14 text-base font-bold tracking-wide">
+              <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-10 w-full h-14 text-base font-bold tracking-wide">
                 <Download className="h-5 w-5 mr-2" />
                 <EditableText id="price-cta">QUERO MEU PACK AGORA</EditableText>
               </Button>
