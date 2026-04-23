@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
+import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,7 +39,7 @@ const testimonials = [
 function Index() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
-  const [beats, setBeats] = useState<{ name: string }[]>([]);
+  const [beats, setBeats] = useState<BeatItem[]>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
