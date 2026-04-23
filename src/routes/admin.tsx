@@ -17,6 +17,7 @@ export const Route = createFileRoute("/admin")({
 });
 
 type Beat = { name: string; url: string };
+type BeatMeta = { name: string; url: string; key?: string; bpm?: string };
 
 function fileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ function fileToDataUrl(file: File): Promise<string> {
 }
 
 function Admin() {
-  const [beats, setBeats] = useState<Beat[]>([]);
+  const [beats, setBeats] = useState<BeatMeta[]>([]);
   const [video, setVideo] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
 
@@ -46,7 +47,7 @@ function Admin() {
     const next = [...beats];
     for (const f of Array.from(files)) {
       const url = await fileToDataUrl(f);
-      next.push({ name: f.name, url });
+      next.push({ name: f.name.replace(/\.[^.]+$/, ""), url, key: "", bpm: "" });
     }
     setBeats(next);
     try {
@@ -54,6 +55,14 @@ function Admin() {
     } catch {
       alert("Arquivos muito grandes para o armazenamento local. Para uploads grandes, ative o Lovable Cloud.");
     }
+  };
+
+  const updateBeat = (i: number, patch: Partial<BeatMeta>) => {
+    const next = beats.map((b, idx) => (idx === i ? { ...b, ...patch } : b));
+    setBeats(next);
+    try {
+      localStorage.setItem("nr_beats", JSON.stringify(next));
+    } catch {}
   };
 
   const handleVideo = async (file: File | null) => {
