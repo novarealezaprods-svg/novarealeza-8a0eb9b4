@@ -188,6 +188,13 @@ function Admin() {
               ))}
             </div>
           )}
+          {proofImages.length > 0 && (
+            <div className="mt-4 flex justify-end">
+              <Button onClick={persistImages} size="sm" variant="default">
+                <Save className="h-3 w-3 mr-1" /> Salvar imagens
+              </Button>
+            </div>
+          )}
         </Card>
 
         {/* Beats */}
