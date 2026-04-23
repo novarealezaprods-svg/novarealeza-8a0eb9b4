@@ -40,8 +40,8 @@ export const Route = createRootRoute({
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Pack 100 Beats" },
       { name: "twitter:description", content: "Beat Weaver is a customizable landing page for selling music packs and beats." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/532d22cd-b436-48ec-abbe-86141d3e8ab1/id-preview-69fef4db--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app-1776951582950.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/532d22cd-b436-48ec-abbe-86141d3e8ab1/id-preview-69fef4db--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app-1776951582950.png" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/439725ec-4dad-4e71-909d-936a41791135/id-preview-e287d40e--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app-1776953203387.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/439725ec-4dad-4e71-909d-936a41791135/id-preview-e287d40e--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app-1776953203387.png" },
     ],
     links: [
       {
