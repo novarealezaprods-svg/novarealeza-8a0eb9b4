@@ -29,14 +29,18 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Pack 100 Beats" },
+      { name: "description", content: "Beat Weaver is a customizable landing page for selling music packs and beats." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Pack 100 Beats" },
+      { property: "og:description", content: "Beat Weaver is a customizable landing page for selling music packs and beats." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Pack 100 Beats" },
+      { name: "twitter:description", content: "Beat Weaver is a customizable landing page for selling music packs and beats." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/532d22cd-b436-48ec-abbe-86141d3e8ab1/id-preview-69fef4db--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app-1776951582950.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/532d22cd-b436-48ec-abbe-86141d3e8ab1/id-preview-69fef4db--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app-1776951582950.png" },
     ],
     links: [
       {
