@@ -7,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { EditableProvider, EditableText, EditModeToggle } from "@/components/EditableContext";
+import { VideoPreview } from "@/components/VideoPreview";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,17 +51,6 @@ const faq = [
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
 
-function getEmbedUrl(url: string): string | null {
-  if (!url) return null;
-  // YouTube
-  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
-  if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
-  // Vimeo
-  const vm = url.match(/vimeo\.com\/(\d+)/);
-  if (vm) return `https://player.vimeo.com/video/${vm[1]}`;
-  return null;
-}
-
 function IndexWrapper() {
   return (
     <EditableProvider>
@@ -74,15 +64,25 @@ function Index() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
+  const [checkoutUrl, setCheckoutUrl] = useState<string>("");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     setPreviewVideo(localStorage.getItem("nr_preview_video"));
+    setCheckoutUrl(localStorage.getItem("nr_checkout_url") || "");
     try {
       setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
       setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
     } catch {}
   }, []);
+
+  const handleCheckout = () => {
+    if (checkoutUrl) {
+      window.open(checkoutUrl, "_blank", "noopener,noreferrer");
+    } else {
+      window.location.href = "/admin";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
