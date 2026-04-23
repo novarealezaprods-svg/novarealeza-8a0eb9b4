@@ -326,7 +326,7 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/50 py-10 text-center text-xs text-muted-foreground">
-        <EditableText id="footer">© {new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.</EditableText>
+        <EditableText id="footer">{`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}</EditableText>
       </footer>
     </div>
   );
