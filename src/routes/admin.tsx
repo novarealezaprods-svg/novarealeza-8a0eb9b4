@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Music2, Trash2, Plus, Video, Image as ImageIcon, Link2, Save } from "lucide-react";
+import { ArrowLeft, Music2, Trash2, Plus, Video, Image as ImageIcon, Link2, Save, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -24,6 +24,7 @@ function Admin() {
   const [video, setVideo] = useState<string>("");
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [newImage, setNewImage] = useState("");
+  const [checkoutUrl, setCheckoutUrl] = useState<string>("");
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ function Admin() {
       setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
       setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
       setVideo(localStorage.getItem("nr_preview_video") || "");
+      setCheckoutUrl(localStorage.getItem("nr_checkout_url") || "");
     } catch {}
     setLoaded(true);
   }, []);
@@ -42,6 +44,13 @@ function Admin() {
     if (video) localStorage.setItem("nr_preview_video", video);
     else localStorage.removeItem("nr_preview_video");
   }, [video, loaded]);
+
+  // Auto-save link de pagamento
+  useEffect(() => {
+    if (!loaded || typeof window === "undefined") return;
+    if (checkoutUrl) localStorage.setItem("nr_checkout_url", checkoutUrl);
+    else localStorage.removeItem("nr_checkout_url");
+  }, [checkoutUrl, loaded]);
 
   const saveBeats = (next: BeatMeta[]) => {
     setBeats(next);
