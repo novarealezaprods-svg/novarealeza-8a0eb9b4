@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
+import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,7 +39,7 @@ const testimonials = [
 function Index() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
-  const [beats, setBeats] = useState<{ name: string }[]>([]);
+  const [beats, setBeats] = useState<BeatItem[]>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -212,6 +213,41 @@ function Index() {
       </section>
 
       {/* Pricing / Final CTA */}
+      {/* Beats preview */}
+      <section className="py-24 border-t border-border/50">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
+              Ouça antes de comprar
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
+              10 beats em <span className="text-primary">preview</span>
+            </h2>
+            <p className="mt-3 text-muted-foreground text-sm">
+              Players com waveform · 1 minuto de prévia · No pack você recebe a versão completa
+            </p>
+          </div>
+
+          {beats.length > 0 ? (
+            <div className="space-y-3">
+              {beats.slice(0, 10).map((b, i) => (
+                <BeatPlayer key={`${b.name}-${i}`} beat={b} index={i} />
+              ))}
+            </div>
+          ) : (
+            <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center">
+              <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">
+                Nenhum beat enviado ainda.
+              </p>
+              <Link to="/admin" className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-primary hover:underline">
+                <Upload className="h-3 w-3" /> Enviar beats no admin
+              </Link>
+            </Card>
+          )}
+        </div>
+      </section>
+
       <section className="py-24">
         <div className="mx-auto max-w-2xl px-6">
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center" style={{ boxShadow: "var(--shadow-glow)" }}>
