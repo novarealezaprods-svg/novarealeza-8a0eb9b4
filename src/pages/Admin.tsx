@@ -44,14 +44,14 @@ export default function Admin() {
         try { lsImages = JSON.parse(localStorage.getItem("nr_proof_images") || "[]"); } catch {}
         try { lsBeats = JSON.parse(localStorage.getItem("nr_beats") || "[]"); } catch {}
 
-        const ops: Promise<any>[] = [];
+        const ops: PromiseLike<any>[] = [];
         if (lsVideo && !v) {
           v = lsVideo;
-          ops.push(supabase.from("site_settings").upsert({ key: "preview_video", value: lsVideo }));
+          ops.push(Promise.resolve(supabase.from("site_settings").upsert({ key: "preview_video", value: lsVideo })));
         }
         if (lsCheckout && !c) {
           c = lsCheckout;
-          ops.push(supabase.from("site_settings").upsert({ key: "checkout_url", value: lsCheckout }));
+          ops.push(Promise.resolve(supabase.from("site_settings").upsert({ key: "checkout_url", value: lsCheckout })));
         }
         if (lsImages.length && imageRows.length === 0) {
           const rows = lsImages.map((url, i) => ({ url, position: i }));
