@@ -23,7 +23,7 @@ const testimonials = [
   { name: "Maya R&B", text: "Variedade insana de estilos. Vale cada centavo.", role: "Cantora" },
 ];
 const stats = [
-  { id: "stat-1", n: "+2.500", l: "Produtores" },
+  { id: "stat-1", n: "+2.500", l: "Artistas que compraram" },
   { id: "stat-2", n: "+10M", l: "Streams gerados" },
   { id: "stat-3", n: "4.9/5", l: "Avaliação média" },
   { id: "stat-4", n: "100%", l: "Royalty free" },
