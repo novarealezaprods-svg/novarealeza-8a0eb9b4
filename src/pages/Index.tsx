@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -9,21 +9,7 @@ import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { EditableProvider, EditableText, EditModeToggle } from "@/components/EditableContext";
 import { VideoPreview } from "@/components/VideoPreview";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Pack de 100 Beats — 100% Royalty Free | Nova Realeza" },
-      { name: "description", content: "Pack completo de 100 beats profissionais, prontos para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais. 100% royalty free." },
-      { property: "og:title", content: "Pack de 100 Beats — 100% Royalty Free" },
-      { property: "og:description", content: "Pack completo, profissional e pronto para uso. Liberado para Spotify, YouTube e mais." },
-      { property: "og:type", content: "website" },
-    ],
-  }),
-  component: IndexWrapper,
-});
-
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
-
 const features = [
   "100 beats profissionais prontos para uso",
   "100% royalty free — você fica com tudo",
@@ -31,27 +17,24 @@ const features = [
   "Mixados e masterizados em alta qualidade",
   "Acesso vitalício + atualizações futuras",
 ];
-
 const testimonials = [
   { name: "MC Vinny", text: "Lancei 3 sons em 1 semana com o pack. Qualidade absurda.", role: "Artista independente" },
   { name: "Lucas Prod", text: "Os stems salvaram minha vida. Consigo customizar tudo.", role: "Beatmaker" },
   { name: "Maya R&B", text: "Variedade insana de estilos. Vale cada centavo.", role: "Cantora" },
 ];
-
 const stats = [
   { id: "stat-1", n: "+2.500", l: "Produtores" },
   { id: "stat-2", n: "+10M", l: "Streams gerados" },
   { id: "stat-3", n: "4.9/5", l: "Avaliação média" },
   { id: "stat-4", n: "100%", l: "Royalty free" },
 ];
-
 const faq = [
   { q: "Posso usar os beats no Spotify e YouTube?", a: "Sim! Todos os beats são 100% royalty free. Você pode monetizar onde quiser." },
   { q: "Como recebo o pack?", a: "Após a compra, você recebe acesso imediato ao link de download por e-mail." },
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
 
-function IndexWrapper() {
+export default function IndexPage() {
   return (
     <EditableProvider>
       <Index />
@@ -67,7 +50,6 @@ function Index() {
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
     setPreviewVideo(localStorage.getItem("nr_preview_video"));
     setCheckoutUrl(localStorage.getItem("nr_checkout_url") || "");
     try {
@@ -86,7 +68,6 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Nav */}
       <header className="absolute top-0 inset-x-0 z-20">
         <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-bold tracking-widest uppercase">
@@ -99,11 +80,7 @@ function Index() {
         </div>
       </header>
 
-      {/* Hero */}
-      <section
-        className="relative overflow-hidden pt-32 pb-20"
-        style={{ backgroundImage: "var(--gradient-hero)" }}
-      >
+      <section className="relative overflow-hidden pt-32 pb-20" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className="mx-auto max-w-5xl px-6 text-center">
           <Badge variant="outline" className="mb-6 border-border/60 bg-card/40 backdrop-blur text-xs tracking-widest uppercase">
             <Flame className="h-3 w-3 mr-1 text-accent" />
@@ -121,7 +98,6 @@ function Index() {
             Pack completo, profissional e pronto para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais.
           </EditableText>
 
-          {/* Video / preview */}
           <div className="mt-12 mx-auto max-w-2xl">
             <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
               {previewVideo ? (
@@ -158,7 +134,6 @@ function Index() {
             </div>
           </div>
 
-          {/* Genres */}
           <div className="mt-14 flex flex-wrap items-center justify-center gap-2">
             {genres.map((g, i) => (
               <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
@@ -169,7 +144,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Social proof bar */}
       <section className="border-y border-border/50 bg-card/30">
         <div className="mx-auto max-w-6xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {stats.map((s) => (
@@ -181,7 +155,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Features */}
       <section className="py-24">
         <div className="mx-auto max-w-5xl px-6">
           <div className="text-center mb-14">
@@ -205,7 +178,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Testimonials */}
       <section className="py-24 bg-card/30 border-y border-border/50">
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center mb-14">
@@ -244,7 +216,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Beats preview */}
       <section className="py-24 border-t border-border/50">
         <div className="mx-auto max-w-4xl px-6">
           <div className="text-center mb-12">
@@ -277,7 +248,6 @@ function Index() {
         </div>
       </section>
 
-      {/* Pricing */}
       <section className="py-24">
         <div className="mx-auto max-w-2xl px-6">
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center" style={{ boxShadow: "var(--shadow-glow)" }}>
@@ -315,7 +285,6 @@ function Index() {
         </div>
       </section>
 
-      {/* FAQ */}
       <section className="py-24 border-t border-border/50">
         <div className="mx-auto max-w-3xl px-6">
           <EditableText as="h2" id="faq-title" className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10 block">

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -7,19 +7,9 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, Music2, Trash2, Plus, Video, Image as ImageIcon, Link2, Save, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/admin")({
-  head: () => ({
-    meta: [
-      { title: "Admin — Nova Realeza" },
-      { name: "robots", content: "noindex,nofollow" },
-    ],
-  }),
-  component: Admin,
-});
-
 type BeatMeta = { name: string; url: string; key?: string; bpm?: string };
 
-function Admin() {
+export default function Admin() {
   const [beats, setBeats] = useState<BeatMeta[]>([]);
   const [video, setVideo] = useState<string>("");
   const [proofImages, setProofImages] = useState<string[]>([]);
@@ -28,7 +18,6 @@ function Admin() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
     try {
       setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
       setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
@@ -38,16 +27,14 @@ function Admin() {
     setLoaded(true);
   }, []);
 
-  // Auto-save vídeo sempre que mudar (após carregamento inicial)
   useEffect(() => {
-    if (!loaded || typeof window === "undefined") return;
+    if (!loaded) return;
     if (video) localStorage.setItem("nr_preview_video", video);
     else localStorage.removeItem("nr_preview_video");
   }, [video, loaded]);
 
-  // Auto-save link de pagamento
   useEffect(() => {
-    if (!loaded || typeof window === "undefined") return;
+    if (!loaded) return;
     if (checkoutUrl) localStorage.setItem("nr_checkout_url", checkoutUrl);
     else localStorage.removeItem("nr_checkout_url");
   }, [checkoutUrl, loaded]);
@@ -132,7 +119,6 @@ function Admin() {
           </div>
         </div>
 
-        {/* Vídeo */}
         <Card className="p-6 border-border/60 bg-card">
           <div className="flex items-center gap-2 mb-4">
             <Video className="h-4 w-4 text-primary" />
@@ -142,13 +128,7 @@ function Admin() {
             Cole o link do YouTube, Vimeo ou um .mp4 direto
           </Label>
           <div className="flex gap-2 mt-2">
-            <Input
-              id="video"
-              value={video}
-              onChange={(e) => setVideo(e.target.value)}
-              placeholder="https://youtube.com/watch?v=... ou https://...mp4"
-              className="flex-1"
-            />
+            <Input id="video" value={video} onChange={(e) => setVideo(e.target.value)} placeholder="https://youtube.com/watch?v=... ou https://...mp4" className="flex-1" />
             <Button onClick={() => saveVideo(video)} variant="default" size="sm">
               <Save className="h-3 w-3 mr-1" /> Salvar
             </Button>
@@ -158,12 +138,9 @@ function Admin() {
               </Button>
             )}
           </div>
-          {video && (
-            <p className="mt-3 text-xs text-muted-foreground truncate">Atual: {video}</p>
-          )}
+          {video && <p className="mt-3 text-xs text-muted-foreground truncate">Atual: {video}</p>}
         </Card>
 
-        {/* Link de pagamento */}
         <Card className="p-6 border-border/60 bg-card">
           <div className="flex items-center gap-2 mb-4">
             <ShoppingCart className="h-4 w-4 text-primary" />
@@ -173,27 +150,16 @@ function Admin() {
             Cole o link da sua página de venda (Hotmart, Kiwify, Eduzz, Stripe, Pay etc.). Os botões de CTA da home vão redirecionar para cá.
           </Label>
           <div className="flex gap-2 mt-2">
-            <Input
-              id="checkout"
-              value={checkoutUrl}
-              onChange={(e) => setCheckoutUrl(e.target.value)}
-              placeholder="https://pay.hotmart.com/..."
-              className="flex-1"
-            />
+            <Input id="checkout" value={checkoutUrl} onChange={(e) => setCheckoutUrl(e.target.value)} placeholder="https://pay.hotmart.com/..." className="flex-1" />
             {checkoutUrl && (
               <Button onClick={() => setCheckoutUrl("")} variant="outline" size="sm">
                 <Trash2 className="h-3 w-3" />
               </Button>
             )}
           </div>
-          {checkoutUrl && (
-            <p className="mt-3 text-xs text-muted-foreground truncate">
-              Salvo automaticamente · Atual: {checkoutUrl}
-            </p>
-          )}
+          {checkoutUrl && <p className="mt-3 text-xs text-muted-foreground truncate">Salvo automaticamente · Atual: {checkoutUrl}</p>}
         </Card>
 
-        {/* Fotos */}
         <Card className="p-6 border-border/60 bg-card">
           <div className="flex items-center gap-2 mb-4">
             <ImageIcon className="h-4 w-4 text-primary" />
@@ -201,13 +167,7 @@ function Admin() {
           </div>
           <Label className="text-xs text-muted-foreground">Cole o link de uma imagem (.jpg, .png, .webp)</Label>
           <div className="flex gap-2 mt-2">
-            <Input
-              value={newImage}
-              onChange={(e) => setNewImage(e.target.value)}
-              placeholder="https://i.imgur.com/exemplo.jpg"
-              className="flex-1"
-              onKeyDown={(e) => e.key === "Enter" && addImage()}
-            />
+            <Input value={newImage} onChange={(e) => setNewImage(e.target.value)} placeholder="https://i.imgur.com/exemplo.jpg" className="flex-1" onKeyDown={(e) => e.key === "Enter" && addImage()} />
             <Button onClick={addImage} size="sm">
               <Plus className="h-3 w-3 mr-1" /> Adicionar
             </Button>
@@ -217,10 +177,7 @@ function Admin() {
               {proofImages.map((src, i) => (
                 <div key={i} className="relative group rounded-md overflow-hidden border border-border/60">
                   <img src={src} alt={`Prova ${i + 1}`} className="w-full h-40 object-cover bg-muted" />
-                  <button
-                    onClick={() => removeImage(i)}
-                    className="absolute top-2 right-2 bg-background/80 hover:bg-destructive hover:text-destructive-foreground p-1.5 rounded-full transition-colors opacity-0 group-hover:opacity-100"
-                  >
+                  <button onClick={() => removeImage(i)} className="absolute top-2 right-2 bg-background/80 hover:bg-destructive hover:text-destructive-foreground p-1.5 rounded-full transition-colors opacity-0 group-hover:opacity-100">
                     <Trash2 className="h-3 w-3" />
                   </button>
                 </div>
@@ -236,7 +193,6 @@ function Admin() {
           )}
         </Card>
 
-        {/* Beats */}
         <Card className="p-6 border-border/60 bg-card">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -251,45 +207,21 @@ function Admin() {
             Cole o link direto do .mp3 ou .wav. Para waveform funcionar, o link precisa permitir CORS
             (Dropbox <code>?raw=1</code> e Cloudinary funcionam bem).
           </p>
-          {beats.length === 0 && (
-            <p className="mt-6 text-sm text-muted-foreground text-center py-8">
-              Nenhum beat ainda. Clique em "Adicionar beat" para começar.
-            </p>
-          )}
+          {beats.length === 0 && <p className="mt-6 text-sm text-muted-foreground text-center py-8">Nenhum beat ainda. Clique em "Adicionar beat" para começar.</p>}
           {beats.length > 0 && (
             <div className="mt-5 space-y-3">
               {beats.map((b, i) => (
                 <div key={i} className="p-3 rounded-md border border-border/60 bg-background space-y-2">
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground w-6">#{i + 1}</span>
-                    <Input
-                      value={b.name}
-                      onChange={(e) => updateBeat(i, { name: e.target.value })}
-                      placeholder="Nome do beat"
-                      className="flex-1 h-8"
-                    />
-                    <Input
-                      value={b.key ?? ""}
-                      onChange={(e) => updateBeat(i, { key: e.target.value })}
-                      placeholder="Nota"
-                      className="w-24 h-8"
-                    />
-                    <Input
-                      value={b.bpm ?? ""}
-                      onChange={(e) => updateBeat(i, { bpm: e.target.value })}
-                      placeholder="BPM"
-                      className="w-20 h-8"
-                    />
+                    <Input value={b.name} onChange={(e) => updateBeat(i, { name: e.target.value })} placeholder="Nome do beat" className="flex-1 h-8" />
+                    <Input value={b.key ?? ""} onChange={(e) => updateBeat(i, { key: e.target.value })} placeholder="Nota" className="w-24 h-8" />
+                    <Input value={b.bpm ?? ""} onChange={(e) => updateBeat(i, { bpm: e.target.value })} placeholder="BPM" className="w-20 h-8" />
                     <Button variant="ghost" size="sm" onClick={() => removeBeat(i)}>
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   </div>
-                  <Input
-                    value={b.url}
-                    onChange={(e) => updateBeat(i, { url: e.target.value })}
-                    placeholder="https://link-direto-do-audio.mp3"
-                    className="h-8 text-xs"
-                  />
+                  <Input value={b.url} onChange={(e) => updateBeat(i, { url: e.target.value })} placeholder="https://link-direto-do-audio.mp3" className="h-8 text-xs" />
                   {b.url && <audio src={b.url} controls className="w-full h-8" />}
                 </div>
               ))}
