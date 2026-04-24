@@ -229,23 +229,27 @@ export function VideoPreview({ url }: { url: string }) {
           <div className="relative px-4 sm:px-5 pb-4 pt-10">
             {/* Progress bar */}
             <div
+              onPointerDown={startScrub}
               onClick={seek}
-              className="group/bar relative h-2 cursor-pointer rounded-full bg-white/20 overflow-hidden"
+              className="group/bar relative h-5 -my-1.5 flex items-center cursor-pointer touch-none select-none"
             >
-              <div
-                className="absolute inset-y-0 left-0 bg-primary rounded-full transition-[width] duration-150"
-                style={{
-                  width: `${progress}%`,
-                  boxShadow: "0 0 12px var(--primary), 0 0 4px var(--primary)",
-                }}
-              />
-              <div
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 group-hover/bar:opacity-100 transition-opacity"
-                style={{
-                  left: `${progress}%`,
-                  boxShadow: "0 0 10px var(--primary)",
-                }}
-              />
+              {/* Track */}
+              <div className="relative h-1.5 w-full rounded-full bg-white/25 overflow-visible group-hover/bar:h-2 transition-[height]">
+                <div
+                  className="absolute inset-y-0 left-0 bg-primary rounded-full"
+                  style={{
+                    width: `${progress}%`,
+                    boxShadow: "0 0 12px var(--primary), 0 0 4px var(--primary)",
+                  }}
+                />
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-4 w-4 rounded-full bg-primary opacity-0 group-hover/bar:opacity-100 transition-opacity"
+                  style={{
+                    left: `${progress}%`,
+                    boxShadow: "0 0 12px var(--primary)",
+                  }}
+                />
+              </div>
             </div>
 
             {/* Controls row */}
