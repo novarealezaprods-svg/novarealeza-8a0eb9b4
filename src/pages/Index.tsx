@@ -122,10 +122,6 @@ export default function IndexPage() {
               <Flame className="h-5 w-5 mr-2" />
               <span>GARANTIR MEU PACK</span>
             </Button>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              <ShieldCheck className="h-3 w-3" />
-              <span>Garantia de 7 dias · Pagamento seguro</span>
-            </div>
 
             <a
               href="#avaliacoes"
