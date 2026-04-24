@@ -10,8 +10,26 @@ function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" 
   return null;
 }
 
+function normalizeDirectUrl(url: string): string {
+  if (!url) return url;
+  // Dropbox: convert share link to direct file URL
+  if (/dropbox\.com/.test(url)) {
+    let u = url.replace("www.dropbox.com", "dl.dropboxusercontent.com");
+    u = u.replace(/([?&])dl=0(&|$)/, "$1raw=1$2");
+    if (!/[?&](raw|dl)=1/.test(u)) {
+      u += (u.includes("?") ? "&" : "?") + "raw=1";
+    }
+    return u;
+  }
+  // Google Drive: convert view link to direct
+  const gd = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
+  if (gd) return `https://drive.google.com/uc?export=download&id=${gd[1]}`;
+  return url;
+}
+
 export function VideoPreview({ url }: { url: string }) {
   const embed = getEmbedUrl(url);
+  const directUrl = embed ? url : normalizeDirectUrl(url);
   const [unmuted, setUnmuted] = useState(false);
   const [ended, setEnded] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
@@ -89,7 +107,7 @@ export function VideoPreview({ url }: { url: string }) {
         <video
           key={reloadKey}
           ref={videoRef}
-          src={url}
+          src={directUrl}
           autoPlay
           muted
           playsInline
