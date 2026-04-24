@@ -247,12 +247,6 @@ export default function IndexPage() {
 
       <section className="py-24">
         <div className="mx-auto max-w-2xl px-6">
-          <div className="mb-6 flex justify-center animate-fade-in">
-            <Badge variant="outline" className="border-accent/50 bg-card/60 backdrop-blur text-xs tracking-widest uppercase px-4 py-1.5">
-              <Flame className="h-3 w-3 mr-1 text-accent" />
-              <span>Preço por tempo limitado</span>
-            </Badge>
-          </div>
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center" style={{ boxShadow: "var(--shadow-glow)" }}>
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
             <div className="relative">
