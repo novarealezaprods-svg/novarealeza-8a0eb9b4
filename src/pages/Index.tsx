@@ -40,6 +40,8 @@ export default function IndexPage() {
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
 
+  const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
+
   useEffect(() => {
     (async () => {
       const [{ data: settings }, { data: imgs }, { data: bts }] = await Promise.all([
@@ -66,7 +68,7 @@ export default function IndexPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="absolute top-0 inset-x-0 z-20">
-        <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
+        <div className={`${CONTAINER} py-6 flex items-center justify-between`}>
           <div />
           <Link to="/admin" className="text-xs uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
             Admin
@@ -74,8 +76,8 @@ export default function IndexPage() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden pt-32 pb-20" style={{ backgroundImage: "var(--gradient-hero)" }}>
-        <div className="mx-auto max-w-5xl px-6 text-center">
+      <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
+        <div className={`${CONTAINER} text-center`}>
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
             PACK DE 100 BEATS
           </h1>
@@ -83,7 +85,7 @@ export default function IndexPage() {
             100% ROYALTY FREE
           </p>
 
-          <p className="mt-8 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground">
+          <p className="mt-8 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
             Pack completo, profissional e pronto para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais.
           </p>
 
@@ -131,7 +133,7 @@ export default function IndexPage() {
             </a>
           </div>
 
-          <div className="mt-14 flex flex-wrap items-center justify-center gap-2">
+          <div className="mt-14 flex flex-wrap items-center justify-center gap-2.5">
             {genres.map((g, i) => (
               <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
                 {g}
@@ -141,27 +143,34 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section id="avaliacoes" className="py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
-        <div className="mx-auto max-w-6xl px-6">
+      <section id="avaliacoes" className="py-20 md:py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
+        <div className={CONTAINER}>
           <div className="text-center mb-14">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
             <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {proofImages.length > 0
               ? proofImages.map((src, i) => (
                   <Card key={i} className="overflow-hidden border-border/60 bg-background">
-                    <img src={src} alt={`Prova social ${i + 1}`} className="w-full h-72 object-cover" />
+                    <div className="aspect-square w-full overflow-hidden">
+                      <img
+                        src={src}
+                        alt={`Prova social ${i + 1}`}
+                        loading="lazy"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </Card>
                 ))
               : testimonials.map((t, i) => (
-                  <Card key={i} className="p-6 border-border/60 bg-background">
+                  <Card key={i} className="p-6 border-border/60 bg-background flex flex-col">
                     <div className="flex gap-0.5 mb-4">
                       {[...Array(5)].map((_, j) => (
                         <Star key={j} className="h-4 w-4 fill-primary text-primary" />
                       ))}
                     </div>
-                    <p className="text-sm leading-relaxed text-foreground/90">{`"${t.text}"`}</p>
+                    <p className="text-sm leading-relaxed text-foreground/90 flex-1">{`"${t.text}"`}</p>
                     <div className="mt-5 pt-4 border-t border-border/60">
                       <div className="font-bold text-sm">{t.name}</div>
                       <div className="text-xs text-muted-foreground">{t.role}</div>
@@ -180,7 +189,7 @@ export default function IndexPage() {
       </section>
 
       <section className="border-y border-border/50 bg-card/30">
-        <div className="mx-auto max-w-6xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className={`${CONTAINER} py-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center`}>
           {stats.map((s) => (
             <div key={s.id}>
               <div className="text-2xl md:text-3xl font-black">{s.n}</div>
@@ -190,8 +199,8 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-24">
-        <div className="mx-auto max-w-5xl px-6">
+      <section className="py-20 md:py-24">
+        <div className={CONTAINER}>
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
               <span>O que vem no pack</span>
@@ -200,7 +209,7 @@ export default function IndexPage() {
               Tudo que você precisa para soltar hits
             </h2>
           </div>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {features.map((f, i) => (
               <Card key={i} className="p-5 flex items-start gap-3 border-border/60 bg-card hover:border-primary/40 transition-colors">
                 <div className="h-6 w-6 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -213,8 +222,8 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-24 border-t border-border/50">
-        <div className="mx-auto max-w-4xl px-6">
+      <section className="py-20 md:py-24 border-t border-border/50">
+        <div className={CONTAINER}>
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
               <span>Ouça antes de comprar</span>
@@ -228,13 +237,13 @@ export default function IndexPage() {
           </div>
 
           {beats.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-4 max-w-4xl mx-auto">
               {beats.slice(0, 10).map((b, i) => (
                 <BeatPlayer key={`${b.name}-${i}`} beat={b} index={i} />
               ))}
             </div>
           ) : (
-            <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center">
+            <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
               <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
               <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
               <Link to="/admin" className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-primary hover:underline">
@@ -245,9 +254,9 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-24">
-        <div className="mx-auto max-w-2xl px-6">
-          <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center" style={{ boxShadow: "var(--shadow-glow)" }}>
+      <section className="py-20 md:py-24">
+        <div className={CONTAINER}>
+          <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
             <div className="relative">
               <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
@@ -282,8 +291,8 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-24 border-t border-border/50">
-        <div className="mx-auto max-w-3xl px-6">
+      <section className="py-20 md:py-24 border-t border-border/50">
+        <div className={`${CONTAINER} max-w-3xl`}>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10">
             Perguntas frequentes
           </h2>
