@@ -8,7 +8,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
-import { StickyPlayer } from "@/components/StickyPlayer";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 const features = [
@@ -303,13 +302,6 @@ export default function IndexPage() {
       <footer className="border-t border-border/50 py-10 text-center text-xs text-muted-foreground">
         {`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}
       </footer>
-
-      {beats.length > 0 && (
-        <>
-          <div className="h-24" aria-hidden />
-          <StickyPlayer beats={beats.slice(0, 10)} />
-        </>
-      )}
     </div>
   );
 }
