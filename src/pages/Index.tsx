@@ -146,40 +146,6 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="border-y border-border/50 bg-card/30">
-        <div className="mx-auto max-w-6xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          {stats.map((s) => (
-            <div key={s.id}>
-              <div className="text-2xl md:text-3xl font-black">{s.n}</div>
-              <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{s.l}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="py-24">
-        <div className="mx-auto max-w-5xl px-6">
-          <div className="text-center mb-14">
-            <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
-              <span>O que vem no pack</span>
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-              Tudo que você precisa para soltar hits
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {features.map((f, i) => (
-              <Card key={i} className="p-5 flex items-start gap-3 border-border/60 bg-card hover:border-primary/40 transition-colors">
-                <div className="h-6 w-6 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Check className="h-3.5 w-3.5 text-primary" />
-                </div>
-                <span className="text-sm md:text-base">{f}</span>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section id="avaliacoes" className="py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center mb-14">
@@ -215,6 +181,40 @@ export default function IndexPage() {
               </Link>
             </div>
           )}
+        </div>
+      </section>
+
+      <section className="border-y border-border/50 bg-card/30">
+        <div className="mx-auto max-w-6xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {stats.map((s) => (
+            <div key={s.id}>
+              <div className="text-2xl md:text-3xl font-black">{s.n}</div>
+              <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-24">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="text-center mb-14">
+            <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
+              <span>O que vem no pack</span>
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
+              Tudo que você precisa para soltar hits
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {features.map((f, i) => (
+              <Card key={i} className="p-5 flex items-start gap-3 border-border/60 bg-card hover:border-primary/40 transition-colors">
+                <div className="h-6 w-6 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Check className="h-3.5 w-3.5 text-primary" />
+                </div>
+                <span className="text-sm md:text-base">{f}</span>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
