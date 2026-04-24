@@ -135,6 +135,30 @@ export function VideoPreview({ url }: { url: string }) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     v.currentTime = Math.max(0, Math.min(duration, x * duration));
+    setCurrent(v.currentTime);
+  };
+
+  const startScrub = (e: React.PointerEvent<HTMLDivElement>) => {
+    const v = videoRef.current;
+    if (!v || !duration) return;
+    const bar = e.currentTarget;
+    bar.setPointerCapture(e.pointerId);
+    const update = (clientX: number) => {
+      const rect = bar.getBoundingClientRect();
+      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      v.currentTime = x * duration;
+      setCurrent(v.currentTime);
+    };
+    update(e.clientX);
+    const move = (ev: PointerEvent) => update(ev.clientX);
+    const end = () => {
+      bar.removeEventListener("pointermove", move);
+      bar.removeEventListener("pointerup", end);
+      bar.removeEventListener("pointercancel", end);
+    };
+    bar.addEventListener("pointermove", move);
+    bar.addEventListener("pointerup", end);
+    bar.addEventListener("pointercancel", end);
   };
 
   const enterFullscreen = () => {
