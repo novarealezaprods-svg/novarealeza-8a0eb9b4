@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload, ChevronDown } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 
