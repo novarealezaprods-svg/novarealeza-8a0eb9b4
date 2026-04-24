@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
-import { EditableProvider, EditableText, EditModeToggle } from "@/components/EditableContext";
 import { VideoPreview } from "@/components/VideoPreview";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
@@ -36,15 +35,6 @@ const faq = [
 ];
 
 export default function IndexPage() {
-  return (
-    <EditableProvider>
-      <Index />
-      <EditModeToggle />
-    </EditableProvider>
-  );
-}
-
-function Index() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
@@ -79,7 +69,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-bold tracking-widest uppercase">
             <Music2 className="h-4 w-4 text-primary" />
-            <EditableText id="brand">Nova Realeza</EditableText>
+            <span>Nova Realeza</span>
           </div>
           <Link to="/admin" className="text-xs uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
             Admin
@@ -91,19 +81,19 @@ function Index() {
         <div className="mx-auto max-w-5xl px-6 text-center">
           <Badge variant="outline" className="mb-6 border-border/60 bg-card/40 backdrop-blur text-xs tracking-widest uppercase">
             <Flame className="h-3 w-3 mr-1 text-accent" />
-            <EditableText id="hero-badge">Preço por tempo limitado</EditableText>
+            <span>Preço por tempo limitado</span>
           </Badge>
 
-          <EditableText as="h1" id="hero-title" className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95] block">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
             PACK DE 100 BEATS
-          </EditableText>
-          <EditableText as="p" id="hero-subtitle" className="mt-4 text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-accent block">
+          </h1>
+          <p className="mt-4 text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-accent">
             100% ROYALTY FREE
-          </EditableText>
+          </p>
 
-          <EditableText as="p" id="hero-desc" className="mt-8 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground block">
+          <p className="mt-8 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground">
             Pack completo, profissional e pronto para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais.
-          </EditableText>
+          </p>
 
           <div className="mt-12 mx-auto max-w-2xl">
             <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
@@ -126,25 +116,25 @@ function Index() {
           </div>
 
           <p className="mt-6 text-sm">
-            <EditableText id="hero-released" className="text-primary font-bold">Uso liberado</EditableText>
-            <EditableText id="hero-released-2" className="text-muted-foreground"> para Spotify, YouTube e etc...</EditableText>
+            <span className="text-primary font-bold">Uso liberado</span>
+            <span className="text-muted-foreground"> para Spotify, YouTube e etc...</span>
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4">
             <Button onClick={handleCheckout} size="lg" variant="cta" className="text-base h-14 px-10 font-bold tracking-wide">
               <Flame className="h-5 w-5 mr-2" />
-              <EditableText id="hero-cta">GARANTIR MEU PACK</EditableText>
+              <span>GARANTIR MEU PACK</span>
             </Button>
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <ShieldCheck className="h-3 w-3" />
-              <EditableText id="hero-guarantee">Garantia de 7 dias · Pagamento seguro</EditableText>
+              <span>Garantia de 7 dias · Pagamento seguro</span>
             </div>
           </div>
 
           <div className="mt-14 flex flex-wrap items-center justify-center gap-2">
             {genres.map((g, i) => (
               <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
-                <EditableText id={`genre-${i}`}>{g}</EditableText>
+                {g}
               </Badge>
             ))}
           </div>
@@ -155,8 +145,8 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {stats.map((s) => (
             <div key={s.id}>
-              <EditableText as="div" id={`${s.id}-n`} className="text-2xl md:text-3xl font-black block">{s.n}</EditableText>
-              <EditableText as="div" id={`${s.id}-l`} className="text-xs uppercase tracking-widest text-muted-foreground mt-1 block">{s.l}</EditableText>
+              <div className="text-2xl md:text-3xl font-black">{s.n}</div>
+              <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{s.l}</div>
             </div>
           ))}
         </div>
@@ -166,11 +156,11 @@ function Index() {
         <div className="mx-auto max-w-5xl px-6">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
-              <EditableText id="features-badge">O que vem no pack</EditableText>
+              <span>O que vem no pack</span>
             </Badge>
-            <EditableText as="h2" id="features-title" className="text-4xl md:text-5xl font-black tracking-tight block">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
               Tudo que você precisa para soltar hits
-            </EditableText>
+            </h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {features.map((f, i) => (
@@ -178,7 +168,7 @@ function Index() {
                 <div className="h-6 w-6 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="h-3.5 w-3.5 text-primary" />
                 </div>
-                <EditableText id={`feature-${i}`} className="text-sm md:text-base">{f}</EditableText>
+                <span className="text-sm md:text-base">{f}</span>
               </Card>
             ))}
           </div>
@@ -188,8 +178,8 @@ function Index() {
       <section className="py-24 bg-card/30 border-y border-border/50">
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center mb-14">
-            <EditableText as="h2" id="testi-title" className="text-4xl md:text-5xl font-black tracking-tight block">Feedbacks reais</EditableText>
-            <EditableText as="p" id="testi-subtitle" className="mt-3 text-muted-foreground block">Quem já está usando o pack</EditableText>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Feedbacks reais</h2>
+            <p className="mt-3 text-muted-foreground">Quem já está usando o pack</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
             {proofImages.length > 0
@@ -205,10 +195,10 @@ function Index() {
                         <Star key={j} className="h-4 w-4 fill-primary text-primary" />
                       ))}
                     </div>
-                    <EditableText as="p" id={`testi-${i}-text`} multiline className="text-sm leading-relaxed text-foreground/90 block">{`"${t.text}"`}</EditableText>
+                    <p className="text-sm leading-relaxed text-foreground/90">{`"${t.text}"`}</p>
                     <div className="mt-5 pt-4 border-t border-border/60">
-                      <EditableText as="div" id={`testi-${i}-name`} className="font-bold text-sm block">{t.name}</EditableText>
-                      <EditableText as="div" id={`testi-${i}-role`} className="text-xs text-muted-foreground block">{t.role}</EditableText>
+                      <div className="font-bold text-sm">{t.name}</div>
+                      <div className="text-xs text-muted-foreground">{t.role}</div>
                     </div>
                   </Card>
                 ))}
@@ -227,14 +217,14 @@ function Index() {
         <div className="mx-auto max-w-4xl px-6">
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
-              <EditableText id="beats-badge">Ouça antes de comprar</EditableText>
+              <span>Ouça antes de comprar</span>
             </Badge>
-            <EditableText as="h2" id="beats-title" className="text-4xl md:text-5xl font-black tracking-tight block">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
               10 beats em preview
-            </EditableText>
-            <EditableText as="p" id="beats-subtitle" className="mt-3 text-muted-foreground text-sm block">
+            </h2>
+            <p className="mt-3 text-muted-foreground text-sm">
               Players com waveform · 1 minuto de prévia · No pack você recebe a versão completa
-            </EditableText>
+            </p>
           </div>
 
           {beats.length > 0 ? (
@@ -261,31 +251,31 @@ function Index() {
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
             <div className="relative">
               <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
-                <EditableText id="price-badge">Oferta limitada</EditableText>
+                <span>Oferta limitada</span>
               </Badge>
-              <EditableText as="h2" id="price-title" className="text-3xl md:text-5xl font-black tracking-tight block">Pack de 100 Beats</EditableText>
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight">Pack de 100 Beats</h2>
               <div className="mt-6 flex items-center justify-center gap-3">
-                <EditableText as="span" id="price-old" className="text-lg text-muted-foreground line-through">R$ 97</EditableText>
-                <EditableText as="span" id="price-new" className="text-5xl md:text-6xl font-black text-primary">R$ 20</EditableText>
+                <span className="text-lg text-muted-foreground line-through">R$ 97</span>
+                <span className="text-5xl md:text-6xl font-black text-primary">R$ 20</span>
               </div>
-              <EditableText as="p" id="price-note" className="mt-2 text-sm text-muted-foreground block">Pagamento único · Acesso vitalício</EditableText>
+              <p className="mt-2 text-sm text-muted-foreground">Pagamento único · Acesso vitalício</p>
 
               <div className="mt-8 space-y-2 text-left max-w-sm mx-auto">
                 {features.slice(0, 4).map((f, i) => (
                   <div key={i} className="flex items-center gap-2 text-sm">
                     <Check className="h-4 w-4 text-primary flex-shrink-0" />
-                    <EditableText id={`price-feature-${i}`}>{f}</EditableText>
+                    <span>{f}</span>
                   </div>
                 ))}
               </div>
 
               <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-10 w-full h-14 text-base font-bold tracking-wide">
                 <Download className="h-5 w-5 mr-2" />
-                <EditableText id="price-cta">QUERO MEU PACK AGORA</EditableText>
+                <span>QUERO MEU PACK AGORA</span>
               </Button>
               <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1">
                 <ShieldCheck className="h-3 w-3" />
-                <EditableText id="price-guarantee">Garantia incondicional de 7 dias</EditableText>
+                <span>Garantia incondicional de 7 dias</span>
               </p>
             </div>
           </Card>
@@ -294,17 +284,17 @@ function Index() {
 
       <section className="py-24 border-t border-border/50">
         <div className="mx-auto max-w-3xl px-6">
-          <EditableText as="h2" id="faq-title" className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10 block">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10">
             Perguntas frequentes
-          </EditableText>
+          </h2>
           <Accordion type="single" collapsible className="w-full">
             {faq.map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
                 <AccordionTrigger className="text-left font-semibold">
-                  <EditableText id={`faq-q-${i}`}>{item.q}</EditableText>
+                  <span>{item.q}</span>
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">
-                  <EditableText id={`faq-a-${i}`} multiline>{item.a}</EditableText>
+                  {item.a}
                 </AccordionContent>
               </AccordionItem>
             ))}
@@ -313,7 +303,7 @@ function Index() {
       </section>
 
       <footer className="border-t border-border/50 py-10 text-center text-xs text-muted-foreground">
-        <EditableText id="footer">{`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}</EditableText>
+        {`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}
       </footer>
     </div>
   );
