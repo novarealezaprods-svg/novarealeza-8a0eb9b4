@@ -136,19 +136,18 @@ export default function IndexPage() {
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
             <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className={proofImages.length > 0
+            ? "flex flex-wrap justify-center items-start gap-6"
+            : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"}>
             {proofImages.length > 0
               ? proofImages.map((src, i) => (
-                  <Card key={i} className="overflow-hidden border-border/60 bg-background">
-                    <div className="aspect-square w-full overflow-hidden">
-                      <img
-                        src={src}
-                        alt={`Prova social ${i + 1}`}
-                        loading="lazy"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </Card>
+                  <img
+                    key={i}
+                    src={src}
+                    alt={`Prova social ${i + 1}`}
+                    loading="lazy"
+                    className="max-w-full sm:max-w-[320px] md:max-w-[360px] h-auto rounded-lg border border-border/60 bg-background shadow-sm"
+                  />
                 ))
               : testimonials.map((t, i) => (
                   <Card key={i} className="p-6 border-border/60 bg-background flex flex-col">
