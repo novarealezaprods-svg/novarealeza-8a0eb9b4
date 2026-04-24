@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -50,12 +51,18 @@ function Index() {
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
 
   useEffect(() => {
-    setPreviewVideo(localStorage.getItem("nr_preview_video"));
-    setCheckoutUrl(localStorage.getItem("nr_checkout_url") || "");
-    try {
-      setProofImages(JSON.parse(localStorage.getItem("nr_proof_images") || "[]"));
-      setBeats(JSON.parse(localStorage.getItem("nr_beats") || "[]"));
-    } catch {}
+    (async () => {
+      const [{ data: settings }, { data: imgs }, { data: bts }] = await Promise.all([
+        supabase.from("site_settings").select("key,value"),
+        supabase.from("proof_images").select("url").order("position", { ascending: true }),
+        supabase.from("beats").select("name,url,key,bpm").order("position", { ascending: true }),
+      ]);
+      const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
+      setPreviewVideo(map["preview_video"] ?? null);
+      setCheckoutUrl(map["checkout_url"] ?? "");
+      setProofImages((imgs ?? []).map((r: any) => r.url));
+      setBeats((bts ?? []) as BeatItem[]);
+    })();
   }, []);
 
   const handleCheckout = () => {
