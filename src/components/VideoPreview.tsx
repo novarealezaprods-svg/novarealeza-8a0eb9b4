@@ -135,6 +135,30 @@ export function VideoPreview({ url }: { url: string }) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     v.currentTime = Math.max(0, Math.min(duration, x * duration));
+    setCurrent(v.currentTime);
+  };
+
+  const startScrub = (e: React.PointerEvent<HTMLDivElement>) => {
+    const v = videoRef.current;
+    if (!v || !duration) return;
+    const bar = e.currentTarget;
+    bar.setPointerCapture(e.pointerId);
+    const update = (clientX: number) => {
+      const rect = bar.getBoundingClientRect();
+      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      v.currentTime = x * duration;
+      setCurrent(v.currentTime);
+    };
+    update(e.clientX);
+    const move = (ev: PointerEvent) => update(ev.clientX);
+    const end = () => {
+      bar.removeEventListener("pointermove", move);
+      bar.removeEventListener("pointerup", end);
+      bar.removeEventListener("pointercancel", end);
+    };
+    bar.addEventListener("pointermove", move);
+    bar.addEventListener("pointerup", end);
+    bar.addEventListener("pointercancel", end);
   };
 
   const enterFullscreen = () => {
@@ -195,7 +219,7 @@ export function VideoPreview({ url }: { url: string }) {
       {/* Custom controls — only for direct video files */}
       {!embed && !ended && (
         <div
-          className={`absolute inset-x-0 bottom-0 z-10 transition-opacity duration-300 ${
+          className={`absolute inset-x-0 bottom-0 z-30 transition-opacity duration-300 ${
             showControls ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         >
@@ -205,23 +229,27 @@ export function VideoPreview({ url }: { url: string }) {
           <div className="relative px-4 sm:px-5 pb-4 pt-10">
             {/* Progress bar */}
             <div
+              onPointerDown={startScrub}
               onClick={seek}
-              className="group/bar relative h-2 cursor-pointer rounded-full bg-white/20 overflow-hidden"
+              className="group/bar relative h-5 -my-1.5 flex items-center cursor-pointer touch-none select-none"
             >
-              <div
-                className="absolute inset-y-0 left-0 bg-primary rounded-full transition-[width] duration-150"
-                style={{
-                  width: `${progress}%`,
-                  boxShadow: "0 0 12px var(--primary), 0 0 4px var(--primary)",
-                }}
-              />
-              <div
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-3.5 w-3.5 rounded-full bg-primary opacity-0 group-hover/bar:opacity-100 transition-opacity"
-                style={{
-                  left: `${progress}%`,
-                  boxShadow: "0 0 10px var(--primary)",
-                }}
-              />
+              {/* Track */}
+              <div className="relative h-1.5 w-full rounded-full bg-white/25 overflow-visible group-hover/bar:h-2 transition-[height]">
+                <div
+                  className="absolute inset-y-0 left-0 bg-primary rounded-full"
+                  style={{
+                    width: `${progress}%`,
+                    boxShadow: "0 0 12px var(--primary), 0 0 4px var(--primary)",
+                  }}
+                />
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-4 w-4 rounded-full bg-primary opacity-0 group-hover/bar:opacity-100 transition-opacity"
+                  style={{
+                    left: `${progress}%`,
+                    boxShadow: "0 0 12px var(--primary)",
+                  }}
+                />
+              </div>
             </div>
 
             {/* Controls row */}
