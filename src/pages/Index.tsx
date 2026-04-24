@@ -76,11 +76,6 @@ export default function IndexPage() {
 
       <section className="relative overflow-hidden pt-32 pb-20" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className="mx-auto max-w-5xl px-6 text-center">
-          <Badge variant="outline" className="mb-6 border-border/60 bg-card/40 backdrop-blur text-xs tracking-widest uppercase">
-            <Flame className="h-3 w-3 mr-1 text-accent" />
-            <span>Preço por tempo limitado</span>
-          </Badge>
-
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
             PACK DE 100 BEATS
           </h1>
@@ -252,6 +247,12 @@ export default function IndexPage() {
 
       <section className="py-24">
         <div className="mx-auto max-w-2xl px-6">
+          <div className="mb-6 flex justify-center animate-fade-in">
+            <Badge variant="outline" className="border-accent/50 bg-card/60 backdrop-blur text-xs tracking-widest uppercase px-4 py-1.5">
+              <Flame className="h-3 w-3 mr-1 text-accent" />
+              <span>Preço por tempo limitado</span>
+            </Badge>
+          </div>
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center" style={{ boxShadow: "var(--shadow-glow)" }}>
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
             <div className="relative">
