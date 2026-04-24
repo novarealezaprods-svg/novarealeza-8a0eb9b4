@@ -67,15 +67,6 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="absolute top-0 inset-x-0 z-20">
-        <div className={`${CONTAINER} py-6 flex items-center justify-between`}>
-          <div />
-          <Link to="/admin" className="text-xs uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
-            Admin
-          </Link>
-        </div>
-      </header>
-
       <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center`}>
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
@@ -100,9 +91,6 @@ export default function IndexPage() {
                     <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)]">
                       <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
                     </div>
-                    <Link to="/admin" className="text-xs text-muted-foreground hover:text-primary uppercase tracking-widest">
-                      Enviar vídeo de preview
-                    </Link>
                   </div>
                 </>
               )}
@@ -178,13 +166,6 @@ export default function IndexPage() {
                   </Card>
                 ))}
           </div>
-          {proofImages.length === 0 && (
-            <div className="mt-8 text-center">
-              <Link to="/admin" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-primary">
-                <Upload className="h-3 w-3" /> Enviar fotos de prova social
-              </Link>
-            </div>
-          )}
         </div>
       </section>
 
@@ -246,9 +227,6 @@ export default function IndexPage() {
             <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
               <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
               <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
-              <Link to="/admin" className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-primary hover:underline">
-                <Upload className="h-3 w-3" /> Enviar beats no admin
-              </Link>
             </Card>
           )}
         </div>
