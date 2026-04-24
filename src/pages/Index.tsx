@@ -67,10 +67,7 @@ export default function IndexPage() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="absolute top-0 inset-x-0 z-20">
         <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm font-bold tracking-widest uppercase">
-            <Music2 className="h-4 w-4 text-primary" />
-            <span>Nova Realeza</span>
-          </div>
+          <div />
           <Link to="/admin" className="text-xs uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
             Admin
           </Link>
