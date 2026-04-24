@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, Upload, ChevronDown } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 
@@ -126,6 +126,18 @@ export default function IndexPage() {
               <ShieldCheck className="h-3 w-3" />
               <span>Garantia de 7 dias · Pagamento seguro</span>
             </div>
+
+            <a
+              href="#avaliacoes"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("avaliacoes")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="group mt-2 flex flex-col items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <span className="font-medium tracking-wide">Veja as avaliações do pack</span>
+              <ChevronDown className="h-5 w-5 animate-bounce group-hover:text-primary" />
+            </a>
           </div>
 
           <div className="mt-14 flex flex-wrap items-center justify-center gap-2">
@@ -172,11 +184,11 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-card/30 border-y border-border/50">
+      <section id="avaliacoes" className="py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center mb-14">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Feedbacks reais</h2>
-            <p className="mt-3 text-muted-foreground">Quem já está usando o pack</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
+            <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
             {proofImages.length > 0
