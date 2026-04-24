@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      beats: {
+        Row: {
+          bpm: string | null
+          created_at: string
+          id: string
+          key: string | null
+          name: string
+          position: number
+          url: string
+        }
+        Insert: {
+          bpm?: string | null
+          created_at?: string
+          id?: string
+          key?: string | null
+          name: string
+          position?: number
+          url?: string
+        }
+        Update: {
+          bpm?: string | null
+          created_at?: string
+          id?: string
+          key?: string | null
+          name?: string
+          position?: number
+          url?: string
+        }
+        Relationships: []
+      }
+      proof_images: {
+        Row: {
+          created_at: string
+          id: string
+          position: number
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          position?: number
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          position?: number
+          url?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
