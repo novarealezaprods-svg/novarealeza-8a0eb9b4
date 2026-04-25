@@ -14,11 +14,27 @@ const PREVIEW_SECONDS = 60;
 // Global registry to ensure only one beat plays at a time
 const playingAudios = new Set<HTMLAudioElement>();
 
+// Notify other players to reset their progress UI when a new beat starts
+const beatStartListeners = new Set<(audio: HTMLAudioElement) => void>();
+
 export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    const listener = (audio: HTMLAudioElement) => {
+      if (audio !== audioRef.current && audioRef.current) {
+        audioRef.current.currentTime = 0;
+        setCurrent(0);
+      }
+    };
+    beatStartListeners.add(listener);
+    return () => {
+      beatStartListeners.delete(listener);
+    };
+  }, []);
 
   const previewEnd = Math.min(PREVIEW_SECONDS, duration || PREVIEW_SECONDS);
   const progress = previewEnd ? Math.min(current / previewEnd, 1) : 0;
@@ -73,6 +89,7 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
           });
           playingAudios.add(e.currentTarget);
           setPlaying(true);
+          beatStartListeners.forEach((fn) => fn(e.currentTarget));
         }}
         onPause={(e) => {
           playingAudios.delete(e.currentTarget);
