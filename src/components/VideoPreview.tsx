@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, Volume2, VolumeX, Loader2 } from "lucide-react";
+import { RotateCcw, Volume2, VolumeX, Loader2, Play, Pause } from "lucide-react";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -47,10 +47,13 @@ export function VideoPreview({ url }: { url: string }) {
   const [loading, setLoading] = useState(true);
   const [playbackFailed, setPlaybackFailed] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
   const pollRef = useRef<number | null>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   // YouTube postMessage state + progress polling
   useEffect(() => {
@@ -149,7 +152,30 @@ export function VideoPreview({ url }: { url: string }) {
     setEnded(false);
     setProgress(0);
     setLoading(true);
+    setPaused(false);
     setReloadKey((k) => k + 1);
+  };
+
+  const togglePlay = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) {
+      void v.play();
+      setPaused(false);
+    } else {
+      v.pause();
+      setPaused(true);
+    }
+  };
+
+  const seekFromEvent = (clientX: number) => {
+    const v = videoRef.current;
+    const bar = progressBarRef.current;
+    if (!v || !bar || !v.duration || !isFinite(v.duration)) return;
+    const rect = bar.getBoundingClientRect();
+    const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+    v.currentTime = ratio * v.duration;
+    setProgress(ratio * 100);
   };
 
   return (
@@ -174,7 +200,10 @@ export function VideoPreview({ url }: { url: string }) {
           preload="auto"
           playsInline
           onEnded={() => setEnded(true)}
-          onPlaying={() => setLoading(false)}
+          onPlaying={() => { setLoading(false); setPaused(false); }}
+          onPause={() => setPaused(true)}
+          onPlay={() => setPaused(false)}
+          onLoadedMetadata={(e) => setDuration(e.currentTarget.duration || 0)}
           onWaiting={() => setLoading(true)}
           onCanPlay={() => setLoading(false)}
           onError={() => {
@@ -255,15 +284,76 @@ export function VideoPreview({ url }: { url: string }) {
 
       {/* Progress bar — verde fluorescente */}
       {!ended && !loading && (
-        <div className="absolute inset-x-0 bottom-0 z-30 h-1 bg-white/15 pointer-events-none">
-          <div
-            className="h-full bg-primary transition-[width] duration-150 ease-linear"
-            style={{
-              width: `${progress}%`,
-              boxShadow: "0 0 10px var(--primary), 0 0 4px var(--primary)",
-            }}
-          />
-        </div>
+        <>
+          {/* Pause/Play button — bottom-left */}
+          {!embed && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              aria-label={paused ? "Reproduzir" : "Pausar"}
+              className="absolute bottom-3 left-3 z-40 h-10 w-10 rounded-full bg-black/55 hover:bg-black/75 backdrop-blur-sm flex items-center justify-center text-white transition-colors"
+            >
+              {paused ? <Play className="h-5 w-5 fill-current ml-0.5" /> : <Pause className="h-5 w-5 fill-current" />}
+            </button>
+          )}
+
+          {/* Seekable progress bar (only for direct <video>) */}
+          {!embed ? (
+            <div
+              ref={progressBarRef}
+              role="slider"
+              aria-label="Progresso do vídeo"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(progress)}
+              tabIndex={0}
+              onClick={(e) => { e.stopPropagation(); seekFromEvent(e.clientX); }}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                e.currentTarget.setPointerCapture(e.pointerId);
+                seekFromEvent(e.clientX);
+              }}
+              onPointerMove={(e) => {
+                if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+                  seekFromEvent(e.clientX);
+                }
+              }}
+              onPointerUp={(e) => {
+                if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+                  e.currentTarget.releasePointerCapture(e.pointerId);
+                }
+              }}
+              className="absolute inset-x-0 bottom-0 z-30 h-3 flex items-end cursor-pointer touch-none group"
+            >
+              <div className="relative w-full h-1 group-hover:h-1.5 transition-[height] bg-white/20">
+                <div
+                  className="absolute inset-y-0 left-0 bg-primary"
+                  style={{
+                    width: `${progress}%`,
+                    boxShadow: "0 0 10px var(--primary), 0 0 4px var(--primary)",
+                  }}
+                />
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{
+                    left: `calc(${progress}% - 6px)`,
+                    boxShadow: "0 0 8px var(--primary)",
+                  }}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="absolute inset-x-0 bottom-0 z-30 h-1 bg-white/15 pointer-events-none">
+              <div
+                className="h-full bg-primary transition-[width] duration-150 ease-linear"
+                style={{
+                  width: `${progress}%`,
+                  boxShadow: "0 0 10px var(--primary), 0 0 4px var(--primary)",
+                }}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
