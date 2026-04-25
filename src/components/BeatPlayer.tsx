@@ -13,6 +13,9 @@ export type BeatItem = {
 const PREVIEW_SECONDS = 60;
 const BARS = 64;
 
+// Global registry to ensure only one beat plays at a time
+const playingAudios = new Set<HTMLAudioElement>();
+
 function formatTime(s: number) {
   if (!isFinite(s)) return "0:00";
   const m = Math.floor(s / 60);
@@ -75,6 +78,10 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
       a.pause();
     } else {
       if (a.currentTime >= previewEnd) a.currentTime = 0;
+      // Pause any other audio currently playing
+      playingAudios.forEach((other) => {
+        if (other !== a) other.pause();
+      });
       a.play().catch(() => {});
     }
   };
@@ -149,9 +156,21 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
         src={beat.url}
         preload="metadata"
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onEnded={() => setPlaying(false)}
+        onPlay={(e) => {
+          playingAudios.forEach((other) => {
+            if (other !== e.currentTarget) other.pause();
+          });
+          playingAudios.add(e.currentTarget);
+          setPlaying(true);
+        }}
+        onPause={(e) => {
+          playingAudios.delete(e.currentTarget);
+          setPlaying(false);
+        }}
+        onEnded={(e) => {
+          playingAudios.delete(e.currentTarget);
+          setPlaying(false);
+        }}
         onTimeUpdate={(e) => {
           const t = e.currentTarget.currentTime;
           if (t >= PREVIEW_SECONDS) {
