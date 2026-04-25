@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, Volume2, VolumeX, Loader2 } from "lucide-react";
+import { RotateCcw, Volume2, VolumeX, Loader2, Play, Pause } from "lucide-react";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -47,10 +47,13 @@ export function VideoPreview({ url }: { url: string }) {
   const [loading, setLoading] = useState(true);
   const [playbackFailed, setPlaybackFailed] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
   const pollRef = useRef<number | null>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   // YouTube postMessage state + progress polling
   useEffect(() => {
