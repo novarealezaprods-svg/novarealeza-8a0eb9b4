@@ -194,7 +194,7 @@ export default function IndexPage() {
           </div>
 
           {beats.length > 0 ? (
-            <div className="space-y-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 max-w-5xl mx-auto">
               {beats.slice(0, 10).map((b, i) => (
                 <BeatPlayer key={`${b.name}-${i}`} beat={b} index={i} />
               ))}
