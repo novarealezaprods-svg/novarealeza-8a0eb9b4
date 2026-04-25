@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 
@@ -303,8 +303,47 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <footer className="border-t border-border/50 py-10 text-center text-xs text-muted-foreground">
-        {`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}
+      <footer className="border-t border-border/50 py-12">
+        <div className={`${CONTAINER} flex flex-col items-center gap-6`}>
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
+            <a
+              href="mailto:novarealezaprods@gmail.com"
+              className="group flex items-center gap-2.5 text-sm text-foreground/90 hover:text-primary transition-colors"
+            >
+              <span className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <Mail className="h-4 w-4 text-primary" />
+              </span>
+              <span className="font-medium">novarealezaprods@gmail.com</span>
+            </a>
+            <a
+              href="https://wa.me/5511978768141"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2.5 text-sm text-foreground/90 hover:text-primary transition-colors"
+            >
+              <span className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <Phone className="h-4 w-4 text-primary" />
+              </span>
+              <span className="font-medium">(11) 97876-8141</span>
+            </a>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <User className="h-3.5 w-3.5" />
+              <span>Cléber Marques Ernanandes</span>
+            </div>
+            <div className="hidden sm:block h-3 w-px bg-border" />
+            <div className="flex items-center gap-2">
+              <Building2 className="h-3.5 w-3.5" />
+              <span>CNPJ 51.800.800/0001-28</span>
+            </div>
+          </div>
+
+          <p className="text-xs text-muted-foreground/70">
+            {`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}
+          </p>
+        </div>
       </footer>
     </div>
   );
