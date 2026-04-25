@@ -102,9 +102,9 @@ export function VideoPreview({ url }: { url: string }) {
     return () => window.clearTimeout(t);
   }, [loading, ended, reloadKey]);
 
-  useEffect(() => {
-    if (loading || ended) return;
-
+  // Note: browsers block unmuting without a user gesture. We keep the video
+  // muted so autoplay works reliably; a tap/click on the player will unmute.
+  const unmute = () => {
     if (embed?.provider === "youtube") {
       const post = (msg: object) =>
         iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
@@ -112,26 +112,25 @@ export function VideoPreview({ url }: { url: string }) {
       post({ event: "command", func: "setVolume", args: [100] });
       return;
     }
-
     if (embed?.provider === "vimeo") {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ method: "setVolume", value: 1 }),
-        "*"
-      );
       iframeRef.current?.contentWindow?.postMessage(
         JSON.stringify({ method: "setMuted", value: false }),
         "*"
       );
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ method: "setVolume", value: 1 }),
+        "*"
+      );
       return;
     }
-
     if (videoRef.current) {
       try {
         videoRef.current.muted = false;
         videoRef.current.volume = 1;
+        void videoRef.current.play();
       } catch {}
     }
-  }, [loading, ended, reloadKey, embed]);
+  };
 
   useEffect(() => {
     if (embed || !videoRef.current) return;
@@ -161,7 +160,7 @@ export function VideoPreview({ url }: { url: string }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-black">
+    <div className="relative w-full h-full bg-black" onClick={unmute}>
       {embed ? (
         <iframe
           key={reloadKey}
