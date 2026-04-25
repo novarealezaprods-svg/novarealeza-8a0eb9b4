@@ -189,7 +189,7 @@ export default function IndexPage() {
               10 beats em preview
             </h2>
             <p className="mt-3 text-muted-foreground text-sm">
-              Players com waveform · 1 minuto de prévia · No pack você recebe a versão completa
+              1 minuto de prévia · No pack você recebe a versão completa
             </p>
           </div>
 
