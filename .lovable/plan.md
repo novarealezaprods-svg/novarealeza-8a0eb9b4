@@ -1,25 +1,18 @@
 ## Problema
 
-O `/admin` está quebrado porque dois arquivos no projeto importam `@tanstack/react-start`, um pacote que **não está instalado** (este projeto usa Vite + React Router DOM, não TanStack Start).
+As imagens de prova social não aparecem (só ícone azul de imagem quebrada) porque as URLs no banco usam `https://www.dropbox.com/...?raw=1`. Esse host **não serve a imagem como binário** — devolve uma página HTML de visualização, então `<img>` não consegue exibir.
 
-Esses arquivos são:
-- `src/integrations/supabase/auth-middleware.ts`
-- `src/integrations/supabase/client.server.ts`
-
-Ambos são **órfãos** — nenhum outro arquivo do projeto os importa. Mas mesmo assim eles quebram o build do Vite por causa do import inexistente, fazendo o `/admin` (e às vezes o `/`) parar de funcionar.
-
-A página `src/pages/Admin.tsx` em si está **intacta e correta** — usa só o cliente Supabase normal e o React Router DOM.
+A correção é simples: usar `https://dl.dropboxusercontent.com/...` (o host de download direto). O projeto **já tem** uma função utilitária para isso em `src/components/VideoPreview.tsx` (`normalizeDirectUrl`), atualmente só usada para vídeo.
 
 ## Solução
 
-1. **Deletar** `src/integrations/supabase/auth-middleware.ts`
-2. **Deletar** `src/integrations/supabase/client.server.ts`
+1. **Extrair `normalizeDirectUrl`** para um arquivo utilitário compartilhado: `src/lib/normalize-url.ts`.
+2. **Atualizar `src/components/VideoPreview.tsx`** para importar a função do novo local (mantendo o mesmo comportamento).
+3. **Atualizar `src/pages/Index.tsx`**: aplicar `normalizeDirectUrl(src)` no `<img src=...>` da grade de provas sociais (linha ~149). Isso conserta as 6 imagens já cadastradas instantaneamente, sem precisar editar nada no banco.
+4. **Atualizar `src/pages/Admin.tsx`**: ao adicionar uma nova imagem, normalizar a URL antes de salvar no banco, para que futuras imagens já entrem no formato correto.
 
-Não há mais nada a mudar. Após a remoção:
-- O build do Vite volta a passar
-- A rota `/admin` volta a abrir o painel normalmente
-- Login/leitura/escrita das tabelas (`beats`, `proof_images`, `site_settings`) continua funcionando como já estava (RLS público)
+## Resultado
 
-## Observação
-
-Esses arquivos têm sido recriados automaticamente em algumas edições anteriores porque parecem ser o template padrão do Lovable Cloud para projetos TanStack Start. Como este projeto **não é** TanStack Start, eles devem permanecer apagados. Se reaparecerem, basta apagar de novo — eles não são usados em lugar nenhum.
+- As 6 imagens atuais passam a carregar imediatamente na home, sem mexer no banco.
+- Novas imagens adicionadas pelo /admin via link do Dropbox funcionarão automaticamente, independente do formato que o usuário colar (`?dl=0`, `?raw=1`, `www.dropbox.com`, etc.).
+- Links do Google Drive também passam a funcionar (a função já trata esse caso).

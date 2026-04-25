@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, Music2, Trash2, Plus, Video, Image as ImageIcon, Link2, Save, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 type BeatRow = { id?: string; name: string; url: string; key?: string | null; bpm?: string | null; position: number };
 type ImageRow = { id?: string; url: string; position: number };
@@ -143,8 +144,9 @@ export default function Admin() {
   const addImage = async () => {
     if (!newImage.trim()) { toast.error("Cole o link da imagem primeiro"); return; }
     const position = proofImages.length;
+    const normalized = normalizeDirectUrl(newImage.trim());
     const { data, error } = await supabase.from("proof_images")
-      .insert({ url: newImage.trim(), position }).select().single();
+      .insert({ url: normalized, position }).select().single();
     if (error || !data) { toast.error("Erro"); return; }
     setProofImages([...proofImages, data as ImageRow]);
     setNewImage("");
