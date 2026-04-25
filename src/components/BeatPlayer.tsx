@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 export type BeatItem = {
   name: string;
@@ -64,7 +65,7 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
 
       <audio
         ref={audioRef}
-        src={beat.url}
+        src={normalizeDirectUrl(beat.url)}
         preload="metadata"
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
         onPlay={(e) => {
