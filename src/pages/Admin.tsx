@@ -35,6 +35,24 @@ export default function Admin() {
       let imageRows = (imgs ?? []) as ImageRow[];
       let beatRows = (bts ?? []) as BeatRow[];
 
+      // Normalize Dropbox/Drive URLs on load and persist fixes for outdated rows
+      const fixes = imageRows
+        .map((row) => {
+          const fixed = normalizeDirectUrl(row.url);
+          return fixed !== row.url ? { ...row, url: fixed } : null;
+        })
+        .filter(Boolean) as ImageRow[];
+      if (fixes.length) {
+        imageRows = imageRows.map((r) => fixes.find((f) => f.id === r.id) ?? r);
+        await Promise.all(
+          fixes
+            .filter((f) => !!f.id)
+            .map((f) =>
+              supabase.from("proof_images").update({ url: f.url }).eq("id", f.id as string)
+            )
+        );
+      }
+
       // One-shot migration from localStorage
       const migrated = localStorage.getItem("nr_migrated_to_supabase");
       if (!migrated) {
