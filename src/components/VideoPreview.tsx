@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, VolumeX, Loader2 } from "lucide-react";
+import { RotateCcw, Volume2, Loader2 } from "lucide-react";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -161,10 +161,21 @@ export function VideoPreview({ url }: { url: string }) {
         <button
           onClick={unmute}
           aria-label="Ativar som"
-          className="absolute inset-0 z-20 flex items-center justify-center group animate-fade-in"
+          className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 animate-fade-in"
         >
-          <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform">
-            <VolumeX className="h-9 w-9 text-primary-foreground" />
+          <div
+            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm sm:text-base shadow-[var(--shadow-glow)] hover:scale-105 transition-transform"
+            style={{
+              boxShadow:
+                "0 0 20px var(--primary), 0 0 6px var(--primary), 0 4px 14px rgba(0,0,0,0.4)",
+            }}
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-primary-foreground opacity-75 animate-ping" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary-foreground" />
+            </span>
+            <Volume2 className="h-4 w-4" />
+            <span>O vídeo já começou — aumente o volume</span>
           </div>
         </button>
       )}
