@@ -1,30 +1,25 @@
-## Plano para restaurar o acesso ao /admin
+## Problema
 
-### O problema identificado
-O `/admin` não sumiu por ter sido removido da aplicação. A rota ainda existe em `src/main.tsx` e a página ainda existe em `src/pages/Admin.tsx`.
+O `/admin` está quebrado porque dois arquivos no projeto importam `@tanstack/react-start`, um pacote que **não está instalado** (este projeto usa Vite + React Router DOM, não TanStack Start).
 
-O bloqueio real é outro: o projeto está com erro de build por causa destes dois arquivos:
+Esses arquivos são:
 - `src/integrations/supabase/auth-middleware.ts`
 - `src/integrations/supabase/client.server.ts`
 
-Hoje eles importam módulos que não existem nesse projeto (`@tanstack/react-start`), então a aplicação falha ao compilar. Quando o build quebra, o site publicado pode parar de refletir corretamente as rotas, incluindo `/admin`.
+Ambos são **órfãos** — nenhum outro arquivo do projeto os importa. Mas mesmo assim eles quebram o build do Vite por causa do import inexistente, fazendo o `/admin` (e às vezes o `/`) parar de funcionar.
 
-### O que vou fazer
-1. Remover ou neutralizar os dois arquivos quebrados que sobraram no projeto e não estão sendo usados por nenhuma outra parte do código.
-2. Garantir que o build volte a passar sem mexer no conteúdo do seu admin.
-3. Confirmar que a rota `/admin` continua apontando para `src/pages/Admin.tsx`.
-4. Validar no preview que o painel abre novamente.
-5. Se necessário, orientar o republish para a versão publicada voltar a refletir o estado correto.
+A página `src/pages/Admin.tsx` em si está **intacta e correta** — usa só o cliente Supabase normal e o React Router DOM.
 
-### Resultado esperado
-- `/admin` volta a abrir
-- seu painel continua com os campos de vídeo, checkout, beats e imagens
-- nenhum link salvo no banco é apagado
+## Solução
 
-### Detalhes técnicos
-- `src/main.tsx` já declara: `path="/admin" element={<AdminPage />}`
-- `src/pages/Admin.tsx` continua carregando os dados das tabelas `site_settings`, `proof_images` e `beats`
-- a falha atual vem de imports inválidos em arquivos órfãos, não de perda de dados nem remoção da rota
+1. **Deletar** `src/integrations/supabase/auth-middleware.ts`
+2. **Deletar** `src/integrations/supabase/client.server.ts`
 
-### Observação
-Não vou alterar seus dados salvos. O foco é só restaurar a compilação e o acesso ao painel.
+Não há mais nada a mudar. Após a remoção:
+- O build do Vite volta a passar
+- A rota `/admin` volta a abrir o painel normalmente
+- Login/leitura/escrita das tabelas (`beats`, `proof_images`, `site_settings`) continua funcionando como já estava (RLS público)
+
+## Observação
+
+Esses arquivos têm sido recriados automaticamente em algumas edições anteriores porque parecem ser o template padrão do Lovable Cloud para projetos TanStack Start. Como este projeto **não é** TanStack Start, eles devem permanecer apagados. Se reaparecerem, basta apagar de novo — eles não são usados em lugar nenhum.
