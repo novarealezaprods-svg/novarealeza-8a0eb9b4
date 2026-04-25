@@ -179,6 +179,35 @@ export default function IndexPage() {
         </div>
       </section>
 
+      <section className="py-20 md:py-24 border-t border-border/50">
+        <div className={CONTAINER}>
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
+              <span>Ouça antes de comprar</span>
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
+              10 beats em preview
+            </h2>
+            <p className="mt-3 text-muted-foreground text-sm">
+              Players com waveform · 1 minuto de prévia · No pack você recebe a versão completa
+            </p>
+          </div>
+
+          {beats.length > 0 ? (
+            <div className="space-y-4 max-w-4xl mx-auto">
+              {beats.slice(0, 10).map((b, i) => (
+                <BeatPlayer key={`${b.name}-${i}`} beat={b} index={i} />
+              ))}
+            </div>
+          ) : (
+            <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
+              <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
+            </Card>
+          )}
+        </div>
+      </section>
+
       <section className="border-y border-border/50 bg-card/30">
         <div className={`${CONTAINER} py-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center`}>
           {stats.map((s) => (
@@ -210,35 +239,6 @@ export default function IndexPage() {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="py-20 md:py-24 border-t border-border/50">
-        <div className={CONTAINER}>
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
-              <span>Ouça antes de comprar</span>
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-              10 beats em preview
-            </h2>
-            <p className="mt-3 text-muted-foreground text-sm">
-              Players com waveform · 1 minuto de prévia · No pack você recebe a versão completa
-            </p>
-          </div>
-
-          {beats.length > 0 ? (
-            <div className="space-y-4 max-w-4xl mx-auto">
-              {beats.slice(0, 10).map((b, i) => (
-                <BeatPlayer key={`${b.name}-${i}`} beat={b} index={i} />
-              ))}
-            </div>
-          ) : (
-            <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
-              <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
-              <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
-            </Card>
-          )}
         </div>
       </section>
 
