@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, VolumeX } from "lucide-react";
+import { Play, RotateCcw } from "lucide-react";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
   const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
   if (yt)
     return {
-      src: `https://www.youtube.com/embed/${yt[1]}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`,
+      src: `https://www.youtube.com/embed/${yt[1]}?autoplay=0&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`,
       provider: "youtube",
     };
   const vm = url.match(/vimeo\.com\/(\d+)/);
   if (vm)
     return {
-      src: `https://player.vimeo.com/video/${vm[1]}?autoplay=1&muted=1&playsinline=1`,
+      src: `https://player.vimeo.com/video/${vm[1]}?autoplay=0&playsinline=1`,
       provider: "vimeo",
     };
   return null;
@@ -36,62 +36,70 @@ function normalizeDirectUrl(url: string): string {
 export function VideoPreview({ url }: { url: string }) {
   const embed = getEmbedUrl(url);
   const directUrl = embed ? url : normalizeDirectUrl(url);
-  const [unmuted, setUnmuted] = useState(false);
+  const [started, setStarted] = useState(false);
   const [ended, setEnded] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
+  const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const ytDuration = useRef(0);
+  const pollRef = useRef<number | null>(null);
 
+  // YouTube postMessage state + progress polling
   useEffect(() => {
-    if (!embed || embed.provider !== "youtube") return;
+    if (!embed || embed.provider !== "youtube" || !started) return;
     const handler = (e: MessageEvent) => {
       try {
         const data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
         if (data?.event === "onStateChange" && data?.info === 0) setEnded(true);
+        if (data?.event === "infoDelivery" && data?.info) {
+          if (typeof data.info.duration === "number" && data.info.duration > 0) {
+            ytDuration.current = data.info.duration;
+          }
+          if (typeof data.info.currentTime === "number" && ytDuration.current > 0) {
+            setProgress((data.info.currentTime / ytDuration.current) * 100);
+          }
+        }
       } catch {}
     };
     window.addEventListener("message", handler);
-    const t = setTimeout(() => {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: "listening", id: 1 }),
-        "*"
-      );
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: "command", func: "addEventListener", args: ["onStateChange"] }),
-        "*"
-      );
-    }, 800);
+    const post = (msg: object) =>
+      iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
+    const init = setTimeout(() => {
+      post({ event: "listening", id: 1 });
+      post({ event: "command", func: "addEventListener", args: ["onStateChange"] });
+      post({ event: "command", func: "playVideo", args: [] });
+    }, 500);
+    pollRef.current = window.setInterval(() => {
+      post({ event: "command", func: "getCurrentTime", args: [] });
+      post({ event: "command", func: "getDuration", args: [] });
+    }, 250);
     return () => {
       window.removeEventListener("message", handler);
-      clearTimeout(t);
+      clearTimeout(init);
+      if (pollRef.current) window.clearInterval(pollRef.current);
     };
-  }, [embed, reloadKey]);
+  }, [embed, started, reloadKey]);
 
-  const unmute = () => {
-    setUnmuted(true);
-    if (embed?.provider === "youtube") {
+  const start = () => {
+    setStarted(true);
+    if (embed?.provider === "vimeo") {
       iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: "command", func: "unMute", args: [] }),
+        JSON.stringify({ method: "play" }),
         "*"
       );
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: "command", func: "setVolume", args: [100] }),
-        "*"
-      );
-    } else if (embed?.provider === "vimeo") {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ method: "setVolume", value: 1 }),
-        "*"
-      );
-    } else if (videoRef.current) {
-      videoRef.current.muted = false;
-      videoRef.current.volume = 1;
+    } else if (!embed && videoRef.current) {
+      const v = videoRef.current;
+      v.muted = false;
+      v.volume = 1;
+      v.play().catch(() => {});
     }
   };
 
   const replay = () => {
     setEnded(false);
-    setUnmuted(false);
+    setStarted(false);
+    setProgress(0);
     setReloadKey((k) => k + 1);
   };
 
@@ -112,23 +120,25 @@ export function VideoPreview({ url }: { url: string }) {
           key={reloadKey}
           ref={videoRef}
           src={directUrl}
-          autoPlay
-          muted
           playsInline
           onEnded={() => setEnded(true)}
+          onTimeUpdate={(e) => {
+            const v = e.currentTarget;
+            if (v.duration > 0) setProgress((v.currentTime / v.duration) * 100);
+          }}
           className="absolute inset-0 w-full h-full object-cover"
         />
       )}
 
-      {/* Unmute overlay — minimalista estilo dcadencebeats */}
-      {!unmuted && !ended && (
+      {/* Play overlay */}
+      {!started && !ended && (
         <button
-          onClick={unmute}
-          aria-label="Ativar som"
-          className="absolute inset-0 z-20 flex items-center justify-center group"
+          onClick={start}
+          aria-label="Tocar vídeo"
+          className="absolute inset-0 z-20 flex items-center justify-center bg-background/30 group"
         >
-          <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform">
-            <VolumeX className="h-9 w-9 text-primary-foreground" />
+          <div className="h-20 w-20 rounded-full bg-primary/95 flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform">
+            <Play className="h-9 w-9 text-primary-foreground fill-current ml-1" />
           </div>
         </button>
       )}
@@ -144,6 +154,19 @@ export function VideoPreview({ url }: { url: string }) {
             <RotateCcw className="h-9 w-9 text-primary-foreground" />
           </div>
         </button>
+      )}
+
+      {/* Progress bar — verde fluorescente */}
+      {started && !ended && (
+        <div className="absolute inset-x-0 bottom-0 z-30 h-1 bg-white/15 pointer-events-none">
+          <div
+            className="h-full bg-primary transition-[width] duration-150 ease-linear"
+            style={{
+              width: `${progress}%`,
+              boxShadow: "0 0 10px var(--primary), 0 0 4px var(--primary)",
+            }}
+          />
+        </div>
       )}
     </div>
   );
