@@ -98,6 +98,37 @@ export function VideoPreview({ url }: { url: string }) {
   }, [loading, ended, reloadKey]);
 
   useEffect(() => {
+    if (loading || ended) return;
+
+    if (embed?.provider === "youtube") {
+      const post = (msg: object) =>
+        iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
+      post({ event: "command", func: "unMute", args: [] });
+      post({ event: "command", func: "setVolume", args: [100] });
+      return;
+    }
+
+    if (embed?.provider === "vimeo") {
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ method: "setVolume", value: 1 }),
+        "*"
+      );
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ method: "setMuted", value: false }),
+        "*"
+      );
+      return;
+    }
+
+    if (videoRef.current) {
+      try {
+        videoRef.current.muted = false;
+        videoRef.current.volume = 1;
+      } catch {}
+    }
+  }, [loading, ended, reloadKey, embed]);
+
+  useEffect(() => {
     if (embed || !videoRef.current) return;
     const video = videoRef.current;
     setPlaybackFailed(false);
