@@ -45,9 +45,11 @@ export default function Admin() {
       if (fixes.length) {
         imageRows = imageRows.map((r) => fixes.find((f) => f.id === r.id) ?? r);
         await Promise.all(
-          fixes.map((f) =>
-            supabase.from("proof_images").update({ url: f.url }).eq("id", f.id)
-          )
+          fixes
+            .filter((f) => !!f.id)
+            .map((f) =>
+              supabase.from("proof_images").update({ url: f.url }).eq("id", f.id as string)
+            )
         );
       }
 
