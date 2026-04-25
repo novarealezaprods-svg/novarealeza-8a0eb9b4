@@ -291,9 +291,9 @@ export function VideoPreview({ url }: { url: string }) {
               type="button"
               onClick={(e) => { e.stopPropagation(); togglePlay(); }}
               aria-label={paused ? "Reproduzir" : "Pausar"}
-              className="absolute bottom-3 left-3 z-40 h-10 w-10 rounded-full bg-black/55 hover:bg-black/75 backdrop-blur-sm flex items-center justify-center text-white transition-colors"
+              className="absolute bottom-2 left-2 z-40 h-6 w-6 rounded-full bg-black/55 hover:bg-black/75 backdrop-blur-sm flex items-center justify-center text-white transition-colors"
             >
-              {paused ? <Play className="h-5 w-5 fill-current ml-0.5" /> : <Pause className="h-5 w-5 fill-current" />}
+              {paused ? <Play className="h-3 w-3 fill-current ml-[1px]" /> : <Pause className="h-3 w-3 fill-current" />}
             </button>
           )}
 
