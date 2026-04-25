@@ -51,7 +51,11 @@ export default function IndexPage() {
       const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
       setPreviewVideo(map["preview_video"] ?? null);
       setCheckoutUrl(map["checkout_url"] ?? "");
-      setProofImages((imgs ?? []).map((r: any) => r.url));
+      setProofImages(
+        (imgs ?? []).map((r: any) =>
+          String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
+        )
+      );
       setBeats((bts ?? []) as BeatItem[]);
     })();
   }, []);
