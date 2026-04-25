@@ -7,7 +7,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
-import { Link } from "react-router-dom";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
@@ -65,8 +64,6 @@ export default function IndexPage() {
   const handleCheckout = () => {
     if (checkoutUrl) {
       window.open(checkoutUrl, "_blank", "noopener,noreferrer");
-    } else {
-      window.location.href = "/admin";
     }
   };
 
@@ -344,13 +341,6 @@ export default function IndexPage() {
           <p className="text-xs text-muted-foreground/70">
             {`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}
           </p>
-
-          <Link
-            to="/admin"
-            className="text-[10px] uppercase tracking-widest text-muted-foreground/40 hover:text-primary transition-colors"
-          >
-            Admin
-          </Link>
         </div>
       </footer>
     </div>
