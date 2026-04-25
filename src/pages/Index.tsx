@@ -243,6 +243,8 @@ export default function IndexPage() {
       </section>
 
       <section className="py-20 md:py-24">
+        {""}
+      </section>
         <div className={CONTAINER}>
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
