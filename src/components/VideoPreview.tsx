@@ -160,7 +160,7 @@ export function VideoPreview({ url }: { url: string }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-black">
+    <div className="relative w-full h-full bg-black" onClick={unmute}>
       {embed ? (
         <iframe
           key={reloadKey}
