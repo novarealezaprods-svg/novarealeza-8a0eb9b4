@@ -221,8 +221,7 @@ export default function IndexPage() {
                 <span>Oferta limitada</span>
               </Badge>
               <h2 className="text-3xl md:text-5xl font-black tracking-tight">Pack de 100 Beats</h2>
-              <div className="mt-6 flex items-center justify-center gap-3">
-                <span className="text-lg text-muted-foreground line-through">R$ 97</span>
+              <div className="mt-6 flex items-center justify-center">
                 <span className="text-5xl md:text-6xl font-black text-primary">R$ 19,90</span>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">Pagamento único · Acesso vitalício</p>
