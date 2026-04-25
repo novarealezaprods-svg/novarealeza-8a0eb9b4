@@ -137,18 +137,17 @@ export default function IndexPage() {
             <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
           </div>
           <div className={proofImages.length > 0
-            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
+            ? "grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-12 items-center justify-items-center max-w-5xl mx-auto"
             : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"}>
             {proofImages.length > 0
               ? proofImages.map((src, i) => (
-                  <div key={i} className="flex justify-center">
-                    <img
-                      src={src}
-                      alt={`Prova social ${i + 1}`}
-                      loading="lazy"
-                      className="w-full h-auto rounded-lg border border-border/60 bg-background shadow-sm"
-                    />
-                  </div>
+                  <img
+                    key={i}
+                    src={src}
+                    alt={`Prova social ${i + 1}`}
+                    loading="lazy"
+                    className="max-w-full h-auto rounded-lg"
+                  />
                 ))
               : testimonials.map((t, i) => (
                   <Card key={i} className="p-6 border-border/60 bg-background flex flex-col">
