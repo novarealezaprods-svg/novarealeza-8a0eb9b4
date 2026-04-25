@@ -178,7 +178,7 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24 border-t border-border/50">
         <div className={CONTAINER}>
-          <div className="mb-12 flex flex-wrap items-center justify-center gap-2.5">
+          <div className="mb-10 flex flex-wrap items-center justify-center gap-2.5">
             {genres.map((g, i) => (
               <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
                 {g}
