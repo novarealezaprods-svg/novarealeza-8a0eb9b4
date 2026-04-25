@@ -41,6 +41,7 @@ export function VideoPreview({ url }: { url: string }) {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showNotice, setShowNotice] = useState(false);
+  const [playbackFailed, setPlaybackFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
@@ -88,28 +89,6 @@ export function VideoPreview({ url }: { url: string }) {
     };
   }, [embed, reloadKey]);
 
-  // Auto-unmute as soon as the video is ready (browser may keep it muted
-  // without a user gesture — the notice covers that case).
-  useEffect(() => {
-    if (loading || ended) return;
-    if (embed?.provider === "youtube") {
-      const post = (msg: object) =>
-        iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
-      post({ event: "command", func: "unMute", args: [] });
-      post({ event: "command", func: "setVolume", args: [100] });
-    } else if (embed?.provider === "vimeo") {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ method: "setVolume", value: 1 }),
-        "*"
-      );
-    } else if (videoRef.current) {
-      try {
-        videoRef.current.muted = false;
-        videoRef.current.volume = 1;
-      } catch {}
-    }
-  }, [loading, ended, embed, reloadKey]);
-
   // Show the "raise the volume" notice for ~3s when playback starts.
   useEffect(() => {
     if (loading || ended) return;
@@ -117,6 +96,26 @@ export function VideoPreview({ url }: { url: string }) {
     const t = window.setTimeout(() => setShowNotice(false), 3000);
     return () => window.clearTimeout(t);
   }, [loading, ended, reloadKey]);
+
+  useEffect(() => {
+    if (embed || !videoRef.current) return;
+    const video = videoRef.current;
+    setPlaybackFailed(false);
+
+    const tryPlay = async () => {
+      try {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        await video.play();
+      } catch {
+        setPlaybackFailed(true);
+        setLoading(false);
+      }
+    };
+
+    void tryPlay();
+  }, [embed, directUrl, reloadKey]);
 
   const replay = () => {
     setEnded(false);
@@ -144,11 +143,17 @@ export function VideoPreview({ url }: { url: string }) {
           src={directUrl}
           autoPlay
           muted
+          defaultMuted
+          preload="auto"
           playsInline
           onEnded={() => setEnded(true)}
           onPlaying={() => setLoading(false)}
           onWaiting={() => setLoading(true)}
           onCanPlay={() => setLoading(false)}
+          onError={() => {
+            setPlaybackFailed(true);
+            setLoading(false);
+          }}
           onTimeUpdate={(e) => {
             const v = e.currentTarget;
             if (v.duration > 0) setProgress((v.currentTime / v.duration) * 100);
@@ -186,6 +191,21 @@ export function VideoPreview({ url }: { url: string }) {
             </span>
             <Volume2 className="h-4 w-4" />
             <span>O vídeo já começou — aumente o volume</span>
+          </div>
+        </div>
+      )}
+
+      {playbackFailed && !ended && (
+        <div className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 pointer-events-none">
+          <div
+            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm sm:text-base shadow-[var(--shadow-glow)]"
+            style={{
+              boxShadow:
+                "0 0 20px var(--primary), 0 0 6px var(--primary), 0 4px 14px rgba(0,0,0,0.4)",
+            }}
+          >
+            <Volume2 className="h-4 w-4" />
+            <span>O vídeo não carregou direito — recarregue a página</span>
           </div>
         </div>
       )}
