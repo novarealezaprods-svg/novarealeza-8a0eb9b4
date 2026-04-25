@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { RotateCcw, Volume2, VolumeX, Loader2, Play, Pause } from "lucide-react";
+import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -16,26 +17,6 @@ function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" 
       provider: "vimeo",
     };
   return null;
-}
-
-function normalizeDirectUrl(url: string): string {
-  if (!url) return url;
-  if (/dropbox\.com/.test(url)) {
-    // Always serve from dl.dropboxusercontent.com (the binary host).
-    // www.dropbox.com returns an HTML preview page for ?dl=0, which makes
-    // <video> hang forever in production.
-    let u = url
-      .replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
-      .replace("http://www.dropbox.com", "https://dl.dropboxusercontent.com");
-    // Strip dl=0 / dl=1 / raw=1 first, then force raw=1 once.
-    u = u.replace(/([?&])(dl|raw)=[01]/g, "$1");
-    u = u.replace(/[?&]+$/, "").replace(/&&+/g, "&").replace(/\?&/, "?");
-    u += (u.includes("?") ? "&" : "?") + "raw=1";
-    return u;
-  }
-  const gd = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
-  if (gd) return `https://drive.google.com/uc?export=download&id=${gd[1]}`;
-  return url;
 }
 
 export function VideoPreview({ url }: { url: string }) {

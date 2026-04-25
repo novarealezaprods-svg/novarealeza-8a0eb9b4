@@ -8,6 +8,7 @@ import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, M
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { Link } from "react-router-dom";
+import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 const features = [
@@ -146,7 +147,7 @@ export default function IndexPage() {
                   >
                     <div className="relative w-full aspect-square">
                       <img
-                        src={src}
+                        src={normalizeDirectUrl(src)}
                         alt={`Prova social ${i + 1}`}
                         loading="lazy"
                         className="absolute inset-0 w-full h-full object-contain"
