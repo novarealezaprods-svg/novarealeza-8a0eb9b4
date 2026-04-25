@@ -143,7 +143,6 @@ export function VideoPreview({ url }: { url: string }) {
           src={directUrl}
           autoPlay
           muted
-          defaultMuted
           preload="auto"
           playsInline
           onEnded={() => setEnded(true)}
