@@ -1,0 +1,1 @@
+UPDATE public.beats SET key = 'C Menor', bpm = '150' WHERE id = '7b3022b0-77f3-4733-817a-10ed4dce4c4e';
