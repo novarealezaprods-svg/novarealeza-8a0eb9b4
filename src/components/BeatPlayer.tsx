@@ -55,11 +55,6 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
 
   return (
     <Card className="p-5 border-border/60 bg-card hover:border-primary/40 transition-colors flex flex-col items-center text-center relative overflow-hidden">
-      {/* progress ring background */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-1 bg-primary transition-all"
-        style={{ width: `${progress * 100}%` }}
-      />
         <button
           onClick={toggle}
           aria-label={playing ? "Pausar" : "Tocar"}
@@ -77,6 +72,14 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
       {!beat.bpm && !beat.key && (
         <div className="text-sm font-semibold truncate max-w-full">{beat.name}</div>
       )}
+
+      {/* progress bar centralizada abaixo do valor */}
+      <div className="mt-3 h-1 w-2/3 rounded-full bg-muted/40 overflow-hidden">
+        <div
+          className="h-full bg-primary transition-all"
+          style={{ width: `${progress * 100}%` }}
+        />
+      </div>
 
       <audio
         ref={audioRef}
