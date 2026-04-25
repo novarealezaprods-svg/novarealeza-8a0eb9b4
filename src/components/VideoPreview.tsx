@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Play, RotateCcw, VolumeX } from "lucide-react";
+import { RotateCcw, VolumeX } from "lucide-react";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -31,13 +31,6 @@ function normalizeDirectUrl(url: string): string {
   const gd = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
   if (gd) return `https://drive.google.com/uc?export=download&id=${gd[1]}`;
   return url;
-}
-
-function formatTime(s: number) {
-  if (!isFinite(s) || s < 0) return "0:00";
-  const m = Math.floor(s / 60);
-  const sec = Math.floor(s % 60);
-  return `${m}:${sec.toString().padStart(2, "0")}`;
 }
 
 export function VideoPreview({ url }: { url: string }) {
