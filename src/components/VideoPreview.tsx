@@ -36,11 +36,11 @@ function normalizeDirectUrl(url: string): string {
 export function VideoPreview({ url }: { url: string }) {
   const embed = getEmbedUrl(url);
   const directUrl = embed ? url : normalizeDirectUrl(url);
-  const [unmuted, setUnmuted] = useState(false);
   const [ended, setEnded] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [showNotice, setShowNotice] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
@@ -88,8 +88,10 @@ export function VideoPreview({ url }: { url: string }) {
     };
   }, [embed, reloadKey]);
 
-  const unmute = () => {
-    setUnmuted(true);
+  // Auto-unmute as soon as the video is ready (browser may keep it muted
+  // without a user gesture — the notice covers that case).
+  useEffect(() => {
+    if (loading || ended) return;
     if (embed?.provider === "youtube") {
       const post = (msg: object) =>
         iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
@@ -101,14 +103,23 @@ export function VideoPreview({ url }: { url: string }) {
         "*"
       );
     } else if (videoRef.current) {
-      videoRef.current.muted = false;
-      videoRef.current.volume = 1;
+      try {
+        videoRef.current.muted = false;
+        videoRef.current.volume = 1;
+      } catch {}
     }
-  };
+  }, [loading, ended, embed, reloadKey]);
+
+  // Show the "raise the volume" notice for ~3s when playback starts.
+  useEffect(() => {
+    if (loading || ended) return;
+    setShowNotice(true);
+    const t = window.setTimeout(() => setShowNotice(false), 3000);
+    return () => window.clearTimeout(t);
+  }, [loading, ended, reloadKey]);
 
   const replay = () => {
     setEnded(false);
-    setUnmuted(false);
     setProgress(0);
     setLoading(true);
     setReloadKey((k) => k + 1);
@@ -156,12 +167,11 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Unmute overlay — minimalista, só ícone */}
-      {!unmuted && !ended && !loading && (
-        <button
-          onClick={unmute}
-          aria-label="Ativar som"
-          className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 animate-fade-in"
+      {/* Volume notice — auto-dismiss after ~3s, não clicável */}
+      {showNotice && !ended && !loading && (
+        <div
+          aria-live="polite"
+          className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 animate-fade-in pointer-events-none"
         >
           <div
             className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm sm:text-base shadow-[var(--shadow-glow)] hover:scale-105 transition-transform"
@@ -177,7 +187,7 @@ export function VideoPreview({ url }: { url: string }) {
             <Volume2 className="h-4 w-4" />
             <span>O vídeo já começou — aumente o volume</span>
           </div>
-        </button>
+        </div>
       )}
 
       {/* Replay overlay */}
