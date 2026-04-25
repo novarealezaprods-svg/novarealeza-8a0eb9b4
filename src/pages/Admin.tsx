@@ -119,6 +119,20 @@ export default function Admin() {
       .update({ name: b.name, url: b.url, key: b.key, bpm: b.bpm }).eq("id", b.id);
     if (error) toast.error("Erro ao salvar"); else toast.success("Beat salvo");
   };
+  const saveAllBeats = async () => {
+    const toSave = beats.filter((b) => b.id);
+    if (toSave.length === 0) { toast.error("Nenhum beat para salvar"); return; }
+    const results = await Promise.all(
+      toSave.map((b) =>
+        supabase.from("beats")
+          .update({ name: b.name, url: b.url, key: b.key, bpm: b.bpm, position: b.position })
+          .eq("id", b.id!)
+      )
+    );
+    const errors = results.filter((r) => r.error);
+    if (errors.length) toast.error(`${errors.length} beat(s) falharam`);
+    else toast.success(`${toSave.length} beat(s) salvos!`);
+  };
   const removeBeat = async (i: number) => {
     const b = beats[i];
     if (b.id) await supabase.from("beats").delete().eq("id", b.id);
@@ -229,7 +243,12 @@ export default function Admin() {
               <Link2 className="h-4 w-4 text-primary" />
               <h2 className="font-bold tracking-wide uppercase text-sm">Beats (links externos)</h2>
             </div>
-            <Button onClick={addBeat} size="sm" variant="outline"><Plus className="h-3 w-3 mr-1" /> Adicionar beat</Button>
+            <div className="flex items-center gap-2">
+              <Button onClick={saveAllBeats} size="sm" disabled={beats.length === 0}>
+                <Save className="h-3 w-3 mr-1" /> Salvar todos
+              </Button>
+              <Button onClick={addBeat} size="sm" variant="outline"><Plus className="h-3 w-3 mr-1" /> Adicionar beat</Button>
+            </div>
           </div>
           <p className="text-xs text-muted-foreground">Link direto do .mp3 ou .wav. Para waveform, o link precisa permitir CORS.</p>
           {beats.length === 0 && <p className="mt-6 text-sm text-muted-foreground text-center py-8">Nenhum beat ainda.</p>}
