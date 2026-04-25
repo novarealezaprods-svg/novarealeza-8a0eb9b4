@@ -178,6 +178,13 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24 border-t border-border/50">
         <div className={CONTAINER}>
+          <div className="mb-12 flex flex-wrap items-center justify-center gap-2.5">
+            {genres.map((g, i) => (
+              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
+                {g}
+              </Badge>
+            ))}
+          </div>
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
               <span>Ouça antes de comprar</span>
@@ -207,13 +214,6 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24">
         <div className={CONTAINER}>
-          <div className="mb-12 flex flex-wrap items-center justify-center gap-2.5">
-            {genres.map((g, i) => (
-              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
-                {g}
-              </Badge>
-            ))}
-          </div>
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
             <div className="relative">
