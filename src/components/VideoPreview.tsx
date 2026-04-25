@@ -21,11 +21,16 @@ function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" 
 function normalizeDirectUrl(url: string): string {
   if (!url) return url;
   if (/dropbox\.com/.test(url)) {
-    let u = url.replace("www.dropbox.com", "dl.dropboxusercontent.com");
-    u = u.replace(/([?&])dl=0(&|$)/, "$1raw=1$2");
-    if (!/[?&](raw|dl)=1/.test(u)) {
-      u += (u.includes("?") ? "&" : "?") + "raw=1";
-    }
+    // Always serve from dl.dropboxusercontent.com (the binary host).
+    // www.dropbox.com returns an HTML preview page for ?dl=0, which makes
+    // <video> hang forever in production.
+    let u = url
+      .replace("https://www.dropbox.com", "https://dl.dropboxusercontent.com")
+      .replace("http://www.dropbox.com", "https://dl.dropboxusercontent.com");
+    // Strip dl=0 / dl=1 / raw=1 first, then force raw=1 once.
+    u = u.replace(/([?&])(dl|raw)=[01]/g, "$1");
+    u = u.replace(/[?&]+$/, "").replace(/&&+/g, "&").replace(/\?&/, "?");
+    u += (u.includes("?") ? "&" : "?") + "raw=1";
     return u;
   }
   const gd = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
