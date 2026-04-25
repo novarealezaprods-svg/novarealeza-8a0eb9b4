@@ -96,6 +96,9 @@ export function VideoPreview({ url }: { url: string }) {
       v.volume = 1;
       v.play().catch(() => {});
     }
+    if (embed) {
+      window.setTimeout(() => setLoading(false), 1200);
+    }
   };
 
   const replay = () => {
