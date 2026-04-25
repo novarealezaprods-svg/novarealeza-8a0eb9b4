@@ -1,33 +1,30 @@
-## Objetivo
-Restaurar a área `/admin` que sumiu no site publicado e garantir que ela volte a abrir normalmente.
+## Plano para restaurar o acesso ao /admin
 
-## O que vou fazer
-1. Remover ou corrigir os arquivos de integração de backend adicionados por último que estão quebrando o build:
-   - `src/integrations/supabase/auth-middleware.ts`
-   - `src/integrations/supabase/client.server.ts`
-2. Validar que o app volta a compilar sem erros.
-3. Confirmar que a rota `/admin` continua registrada em `src/main.tsx` e aponta para `src/pages/Admin.tsx`.
-4. Verificar novamente o comportamento de `/admin` no preview e no publicado.
-5. Se necessário, adicionar um acesso discreto para o admin na home para evitar que “desapareça” visualmente novamente.
+### O problema identificado
+O `/admin` não sumiu por ter sido removido da aplicação. A rota ainda existe em `src/main.tsx` e a página ainda existe em `src/pages/Admin.tsx`.
 
-## Diagnóstico confirmado
-- A rota `/admin` existe no código atual.
-- A página `src/pages/Admin.tsx` existe.
-- O problema principal não é a rota em si: o site publicado está falhando por erro de build.
-- O erro atual vem destes imports inexistentes:
-  - `@tanstack/react-start`
-  - `@tanstack/react-start/server`
-- Esses imports estão em `src/integrations/supabase/auth-middleware.ts` e impedem a publicação correta. Com o build quebrado, o domínio publicado responde apenas com `Not Found`.
+O bloqueio real é outro: o projeto está com erro de build por causa destes dois arquivos:
+- `src/integrations/supabase/auth-middleware.ts`
+- `src/integrations/supabase/client.server.ts`
 
-## Resultado esperado
-- `/admin` volta a carregar.
-- O build deixa de falhar.
-- O site publicado deixa de mostrar `Not Found` nessa rota.
+Hoje eles importam módulos que não existem nesse projeto (`@tanstack/react-start`), então a aplicação falha ao compilar. Quando o build quebra, o site publicado pode parar de refletir corretamente as rotas, incluindo `/admin`.
 
-## Detalhes técnicos
-- O projeto atual está estruturado com `react-router-dom` em `src/main.tsx`, não com `@tanstack/react-start`.
-- Como esse pacote nem está listado no `package.json`, qualquer import dele causa erro de compilação.
-- Como os arquivos problemáticos não fazem parte da rota `/admin` em si, a correção mais segura é remover a dependência inválida deles ou eliminar esses arquivos se estiverem sem uso.
-- Depois da correção, preciso validar a publicação porque hoje o preview e o publicado estão com comportamentos diferentes.
+### O que vou fazer
+1. Remover ou neutralizar os dois arquivos quebrados que sobraram no projeto e não estão sendo usados por nenhuma outra parte do código.
+2. Garantir que o build volte a passar sem mexer no conteúdo do seu admin.
+3. Confirmar que a rota `/admin` continua apontando para `src/pages/Admin.tsx`.
+4. Validar no preview que o painel abre novamente.
+5. Se necessário, orientar o republish para a versão publicada voltar a refletir o estado correto.
 
-Aprovando, eu aplico a correção agora.
+### Resultado esperado
+- `/admin` volta a abrir
+- seu painel continua com os campos de vídeo, checkout, beats e imagens
+- nenhum link salvo no banco é apagado
+
+### Detalhes técnicos
+- `src/main.tsx` já declara: `path="/admin" element={<AdminPage />}`
+- `src/pages/Admin.tsx` continua carregando os dados das tabelas `site_settings`, `proof_images` e `beats`
+- a falha atual vem de imports inválidos em arquivos órfãos, não de perda de dados nem remoção da rota
+
+### Observação
+Não vou alterar seus dados salvos. O foco é só restaurar a compilação e o acesso ao painel.
