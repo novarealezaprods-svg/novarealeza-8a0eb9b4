@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Play, RotateCcw } from "lucide-react";
+import { Play, RotateCcw, Loader2 } from "lucide-react";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -40,6 +40,7 @@ export function VideoPreview({ url }: { url: string }) {
   const [ended, setEnded] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
@@ -83,6 +84,7 @@ export function VideoPreview({ url }: { url: string }) {
 
   const start = () => {
     setStarted(true);
+    setLoading(true);
     if (embed?.provider === "vimeo") {
       iframeRef.current?.contentWindow?.postMessage(
         JSON.stringify({ method: "play" }),
@@ -100,6 +102,7 @@ export function VideoPreview({ url }: { url: string }) {
     setEnded(false);
     setStarted(false);
     setProgress(0);
+    setLoading(false);
     setReloadKey((k) => k + 1);
   };
 
@@ -122,12 +125,22 @@ export function VideoPreview({ url }: { url: string }) {
           src={directUrl}
           playsInline
           onEnded={() => setEnded(true)}
+          onPlaying={() => setLoading(false)}
+          onWaiting={() => setLoading(true)}
           onTimeUpdate={(e) => {
             const v = e.currentTarget;
+            if (loading) setLoading(false);
             if (v.duration > 0) setProgress((v.currentTime / v.duration) * 100);
           }}
           className="absolute inset-0 w-full h-full object-cover"
         />
+      )}
+
+      {/* Loading spinner */}
+      {started && loading && !ended && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/30 pointer-events-none animate-fade-in">
+          <Loader2 className="h-10 w-10 text-primary animate-spin" style={{ animationDuration: "0.6s" }} />
+        </div>
       )}
 
       {/* Play overlay */}
