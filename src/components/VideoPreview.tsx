@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, Volume2, Loader2 } from "lucide-react";
+import { RotateCcw, Volume2, VolumeX, Loader2 } from "lucide-react";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -45,8 +45,8 @@ export function VideoPreview({ url }: { url: string }) {
   const [reloadKey, setReloadKey] = useState(0);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [showNotice, setShowNotice] = useState(false);
   const [playbackFailed, setPlaybackFailed] = useState(false);
+  const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
@@ -94,17 +94,10 @@ export function VideoPreview({ url }: { url: string }) {
     };
   }, [embed, reloadKey]);
 
-  // Show the "raise the volume" notice for ~3s when playback starts.
-  useEffect(() => {
-    if (loading || ended) return;
-    setShowNotice(true);
-    const t = window.setTimeout(() => setShowNotice(false), 3000);
-    return () => window.clearTimeout(t);
-  }, [loading, ended, reloadKey]);
-
-  // Note: browsers block unmuting without a user gesture. We keep the video
-  // muted so autoplay works reliably; a tap/click on the player will unmute.
+  // Browsers block autoplay with sound. We start muted, then a click/tap
+  // anywhere on the player unmutes (counts as a user gesture).
   const unmute = () => {
+    setMuted(false);
     if (embed?.provider === "youtube") {
       const post = (msg: object) =>
         iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
@@ -206,27 +199,30 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Volume notice — auto-dismiss after ~3s, não clicável */}
-      {showNotice && !ended && !loading && (
-        <div
-          aria-live="polite"
-          className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 animate-fade-in pointer-events-none"
+      {/* Big "Ativar som" overlay — visible while muted */}
+      {muted && !ended && !loading && !playbackFailed && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            unmute();
+          }}
+          aria-label="Ativar som"
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-[2px] hover:bg-black/50 transition-colors group"
         >
           <div
-            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm sm:text-base shadow-[var(--shadow-glow)] hover:scale-105 transition-transform"
+            className="h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform"
             style={{
               boxShadow:
-                "0 0 20px var(--primary), 0 0 6px var(--primary), 0 4px 14px rgba(0,0,0,0.4)",
+                "0 0 24px var(--primary), 0 0 8px var(--primary), 0 6px 18px rgba(0,0,0,0.5)",
             }}
           >
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-primary-foreground opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary-foreground" />
-            </span>
-            <Volume2 className="h-4 w-4" />
-            <span>O vídeo já começou — aumente o volume</span>
+            <VolumeX className="h-9 w-9 text-primary-foreground" />
           </div>
-        </div>
+          <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-sm sm:text-base">
+            Toque para ativar o som
+          </span>
+        </button>
       )}
 
       {playbackFailed && !ended && (
