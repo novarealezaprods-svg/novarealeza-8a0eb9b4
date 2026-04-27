@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,14 +9,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { LogOut, Trash2, Plus, ArrowUp, ArrowDown, Save } from "lucide-react";
 
+// Senha pra acessar o painel — troque aqui pra algo só seu
+const ADMIN_PASSWORD = "admin123";
+const STORAGE_KEY = "admin_unlocked_v1";
+
 type Beat = { id: string; name: string; url: string; key: string | null; bpm: string | null; position: number };
 type Image = { id: string; url: string; position: number };
 
 export default function AdminPage() {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const [unlocked, setUnlocked] = useState(false);
+  const [pw, setPw] = useState("");
 
   // Settings
   const [checkoutUrl, setCheckoutUrl] = useState("");
@@ -30,36 +32,13 @@ export default function AdminPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [newImageUrl, setNewImageUrl] = useState("");
 
-  // Auth + role check
   useEffect(() => {
-    const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/auth", { replace: true });
-        return;
-      }
-      setUserEmail(session.user.email ?? "");
-      const { data: roles } = await supabase
-        .from("user_roles" as any)
-        .select("role")
-        .eq("user_id", session.user.id);
-      const admin = (roles ?? []).some((r: any) => r.role === "admin");
-      setIsAdmin(admin);
-      setLoading(false);
-    };
-    init();
+    if (sessionStorage.getItem(STORAGE_KEY) === "1") setUnlocked(true);
+  }, []);
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) navigate("/auth", { replace: true });
-    });
-    return () => sub.subscription.unsubscribe();
-  }, [navigate]);
-
-  // Load data when admin confirmed
   useEffect(() => {
-    if (!isAdmin) return;
-    loadAll();
-  }, [isAdmin]);
+    if (unlocked) loadAll();
+  }, [unlocked]);
 
   const loadAll = async () => {
     const [{ data: settings }, { data: bts }, { data: imgs }] = await Promise.all([
@@ -74,9 +53,21 @@ export default function AdminPage() {
     setImages((imgs ?? []) as Image[]);
   };
 
-  const logout = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth", { replace: true });
+  const tryUnlock = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pw === ADMIN_PASSWORD) {
+      sessionStorage.setItem(STORAGE_KEY, "1");
+      setUnlocked(true);
+      toast.success("Acesso liberado");
+    } else {
+      toast.error("Senha incorreta");
+    }
+  };
+
+  const lock = () => {
+    sessionStorage.removeItem(STORAGE_KEY);
+    setUnlocked(false);
+    setPw("");
   };
 
   // Settings
@@ -156,24 +147,21 @@ export default function AdminPage() {
     loadAll();
   };
 
-  if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-background">Carregando...</div>;
-  }
-
-  if (!isAdmin) {
+  // Senha
+  if (!unlocked) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
-        <Card className="max-w-md p-8 text-center space-y-4">
-          <h2 className="text-xl font-bold">Acesso negado</h2>
-          <p className="text-muted-foreground text-sm">
-            Você está logado como <b>{userEmail}</b>, mas não é admin.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Peça pra um admin existente te dar acesso, ou — se você é o dono — adicione seu user_id na tabela <code>user_roles</code> com role <code>admin</code> via Lovable Cloud.
-          </p>
-          <div className="flex gap-2 justify-center pt-2">
-            <Button variant="outline" onClick={logout}>Sair</Button>
-            <Link to="/"><Button variant="ghost">Voltar ao site</Button></Link>
+        <Card className="w-full max-w-sm p-8">
+          <h1 className="text-xl font-bold mb-4 text-center">Painel Admin</h1>
+          <form onSubmit={tryUnlock} className="space-y-4">
+            <div>
+              <Label htmlFor="pw">Senha</Label>
+              <Input id="pw" type="password" value={pw} onChange={(e) => setPw(e.target.value)} autoFocus />
+            </div>
+            <Button type="submit" className="w-full">Entrar</Button>
+          </form>
+          <div className="mt-4 text-center">
+            <Link to="/" className="text-sm text-muted-foreground hover:underline">← Voltar ao site</Link>
           </div>
         </Card>
       </div>
@@ -184,13 +172,10 @@ export default function AdminPage() {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-5xl mx-auto">
         <header className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Painel Admin</h1>
-            <p className="text-sm text-muted-foreground">{userEmail}</p>
-          </div>
+          <h1 className="text-3xl font-bold">Painel Admin</h1>
           <div className="flex gap-2">
             <Link to="/"><Button variant="outline">Ver site</Button></Link>
-            <Button variant="outline" onClick={logout}><LogOut className="w-4 h-4 mr-2" />Sair</Button>
+            <Button variant="outline" onClick={lock}><LogOut className="w-4 h-4 mr-2" />Sair</Button>
           </div>
         </header>
 
