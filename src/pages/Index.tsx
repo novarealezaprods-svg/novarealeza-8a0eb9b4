@@ -8,6 +8,7 @@ import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, M
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
+import logoNovaRealeza from "@/assets/logo-nova-realeza.png";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 const features = [
@@ -71,6 +72,11 @@ export default function IndexPage() {
     <div className="min-h-screen bg-background text-foreground">
       <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center`}>
+          <img
+            src={logoNovaRealeza}
+            alt="Nova Realeza"
+            className="mx-auto mb-10 h-20 sm:h-24 md:h-28 w-auto object-contain"
+          />
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
             PACK DE 100 BEATS
           </h1>
