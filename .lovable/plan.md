@@ -1,78 +1,71 @@
-# Checkout próprio estilo Pague-Certo
+# Painel Admin em `/admin`
 
-Criar uma página `/checkout` no seu próprio site com o mesmo layout da referência: dados do cliente à esquerda, resumo do pedido à direita, oferta especial (order bump) e seleção de forma de pagamento (Pix + Cartão).
+## Situação atual
 
-## Provedor de pagamento
+- A rota `/admin` **não existe** — por isso cai no 404.
+- O site só tem 2 rotas: `/` (página de vendas) e `*` (NotFound).
+- Todos os dados que a home consome já estão no backend:
+  - `site_settings` (chaves: `preview_video`, `checkout_url`)
+  - `proof_images` (prints de venda)
+  - `beats` (lista de beats com nome, url, key, bpm, posição)
+- Não existe sistema de login no projeto ainda.
 
-Vou usar o **Stripe (Pagamentos integrados da Lovable)** porque:
-- Não precisa criar conta nem chave de API para começar a testar
-- Suporta **Pix** e **cartão de crédito** no Brasil
-- Lovable já cuida de webhook, ambiente de teste e produção
+## O que vou criar
 
-> Observação: o Stripe Pix funciona nativo. Se você preferir Mercado Pago (mais comum no Brasil para Pix), me avise antes — ele exige conta própria e chave.
+### 1. Autenticação simples (email + senha)
 
-## Fluxo do usuário
+- Habilitar auth por email/senha no backend (sem confirmação de email, pra você logar direto).
+- Criar **1 usuário admin** com o email/senha que você me passar.
+- Tabela `user_roles` + função `has_role()` (padrão seguro de roles, separado do perfil).
+- Inserir você como `role = 'admin'`.
 
-```text
-Index (botão "GARANTIR MEU PACK")
-   │
-   ▼
-/checkout  (página nova)
-   ├─ Email
-   ├─ Order bump opcional (+R$ 6,90)
-   ├─ Pix  ou  Cartão
-   └─ [Comprar Agora]
-        │
-        ▼
-   Stripe Checkout Session  →  pagamento
-        │
-        ▼
-/obrigado?session_id=...
-   └─ Mostra link de download do pack + envia email
-```
+### 2. Página `/login`
 
-## O que vou construir
+- Formulário simples: email + senha.
+- Após login, redireciona pra `/admin`.
 
-### 1. Página de checkout (`/checkout`)
-Layout 2 colunas (mobile: empilha):
-- **Coluna esquerda**: Card "Dados Pessoais" (email), Card "Oferta Especial" (order bump clicável), Card "Forma de Pagamento" (Pix / Cartão), botão verde "Comprar Agora"
-- **Coluna direita** (sticky): "Resumo do Pedido" com produto, preço riscado R$ 119,90 → R$ 19,90, total dinâmico (atualiza se marcar o bump)
+### 3. Página `/admin` (protegida)
 
-### 2. Página de obrigado (`/obrigado`)
-- Confirma a compra consultando o `session_id`
-- Mostra link de download do pack
-- Mensagem "também enviamos por email"
+Só abre se você estiver logado **e** tiver role `admin`. Caso contrário, manda pra `/login`.
 
-### 3. Backend (Lovable Cloud)
-- **Tabela `products`**: pack principal + order bump (nome, preço, descrição, imagem, link de download)
-- **Tabela `orders`**: registra cada pedido (email, itens, status, stripe_session_id, link entregue)
-- **Edge function `create-checkout`**: cria a Stripe Checkout Session com os itens selecionados
-- **Edge function `stripe-webhook`**: recebe confirmação de pagamento, marca pedido como pago, envia email com link
-- **Edge function `verify-payment`**: usada pela página `/obrigado` para confirmar e mostrar link
+Painel com 4 seções (abas):
 
-### 4. Email automático
-Email transacional com o link de download do pack assim que o pagamento é confirmado (via Resend, já incluso no Lovable Cloud).
+**a) Configurações gerais**
+- Campo "Link do checkout" (Mercado Pago) → salva em `site_settings.checkout_url`
+- Campo "Vídeo de preview" (URL) → salva em `site_settings.preview_video`
 
-### 5. Atualização no Index
-O botão "GARANTIR MEU PACK" passa a redirecionar para `/checkout` em vez do link externo atual.
+**b) Beats** (CRUD)
+- Lista todos os beats com nome, BPM, key, posição
+- Adicionar / editar / remover
+- Reordenar (mudar posição)
+
+**c) Provas sociais** (imagens)
+- Lista as imagens com preview
+- Adicionar URL nova / remover / reordenar
+
+**d) Logout**
+- Botão pra sair.
+
+### 4. Pequeno ajuste de segurança
+
+Hoje as tabelas (`beats`, `proof_images`, `site_settings`) têm RLS aberto pra **qualquer um** escrever (`public write`). Isso é um risco — qualquer pessoa na internet pode apagar/alterar seus beats via API.
+
+Vou trocar as policies de escrita pra exigir role `admin`. Leitura continua pública (a home precisa ler).
+
+## O que preciso de você
+
+Quando aprovar, me responde com:
+1. **Email** que você quer usar pra logar
+2. **Senha** inicial (pode trocar depois)
 
 ## Detalhes técnicos
 
-- Página criada como rota React Router em `src/pages/Checkout.tsx` e `src/pages/Obrigado.tsx`, registradas em `src/main.tsx` (mantendo o padrão atual do projeto, sem TanStack Start)
-- Stripe Checkout Session com `payment_method_types: ['card', 'pix']`, `currency: 'brl'`
-- Order bump é um segundo line_item adicionado dinamicamente quando o checkbox está marcado
-- Tabela `orders` com RLS: insert público (criação do pedido), select só pelo próprio email/session_id
-- Webhook valida assinatura do Stripe antes de gravar
-- Email enviado via Resend com template simples (nome do produto + link)
-
-## O que vou pedir antes de implementar
-
-1. **Habilitar Pagamentos da Lovable (Stripe)** — clique único no botão de aprovação que vou disparar
-2. **Link de download do pack** (Google Drive, Dropbox, etc.) — para entregar ao cliente
-3. **Order bump**: quer manter "10 Beats de BOOMBAP por R$ 6,90" como na referência, ou outro produto/preço?
-
-## Fora do escopo (posso adicionar depois)
-- Boleto bancário
-- Cupons de desconto
-- Recuperação de carrinho abandonado
-- Upsell pós-compra
+- Stack: TanStack Router (rotas em `src/routes/`), Supabase Auth, RLS policies
+- Novas rotas: `src/routes/login.tsx`, `src/routes/admin.tsx` (com guard via `beforeLoad`)
+- Migration SQL:
+  - `create type app_role as enum ('admin')`
+  - `create table user_roles (user_id, role, unique(user_id, role))` + RLS
+  - `create function has_role(_user_id, _role) security definer`
+  - `drop policy "public write ..."` nas 3 tabelas, recriar com `using (has_role(auth.uid(), 'admin'))`
+- Migrar `src/main.tsx` (BrowserRouter atual) — adicionar as rotas novas mantendo `/` funcionando
+- Auth state: listener `onAuthStateChange` + `getSession` no guard
