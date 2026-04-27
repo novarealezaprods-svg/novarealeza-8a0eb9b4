@@ -1,71 +1,33 @@
-# Painel Admin em `/admin`
+## Problema
 
-## Situação atual
+A Vercel ainda mostra o logo antigo na aba do navegador. Dois motivos prováveis:
+1. O favicon que gerei antes era um desenho genérico (coroa + nota), não o logo real do leão "Nova Realeza" que aparece no site.
+2. Navegadores fazem cache agressivo de favicon — mesmo após republicar, o ícone antigo continua preso.
 
-- A rota `/admin` **não existe** — por isso cai no 404.
-- O site só tem 2 rotas: `/` (página de vendas) e `*` (NotFound).
-- Todos os dados que a home consome já estão no backend:
-  - `site_settings` (chaves: `preview_video`, `checkout_url`)
-  - `proof_images` (prints de venda)
-  - `beats` (lista de beats com nome, url, key, bpm, posição)
-- Não existe sistema de login no projeto ainda.
+## Solução
 
-## O que vou criar
+### 1. Usar o logo real da marca como favicon
+- Localizar a imagem do logo "Nova Realeza" (leão dourado) já usada no hero do site.
+- Gerar um novo `public/favicon.png` em 512x512 baseado nesse logo, com fundo transparente/escuro pra ficar nítido na aba.
+- Também gerar versões otimizadas: `favicon-32.png` e `favicon-16.png` pra tamanhos pequenos ficarem legíveis.
 
-### 1. Autenticação simples (email + senha)
+### 2. Cache busting no `index.html`
+Adicionar query string de versão nos links do favicon pra forçar o navegador a baixar o novo:
 
-- Habilitar auth por email/senha no backend (sem confirmação de email, pra você logar direto).
-- Criar **1 usuário admin** com o email/senha que você me passar.
-- Tabela `user_roles` + função `has_role()` (padrão seguro de roles, separado do perfil).
-- Inserir você como `role = 'admin'`.
+```html
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3" />
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon.png?v=3" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=3" />
+```
 
-### 2. Página `/login`
+### 3. Republicação
+Após aplicar, você precisa clicar em **Publish → Update** no Lovable pra mudança ir pro `novarealeza.lovable.app`. Se o domínio na Vercel é via deploy do GitHub, o push acontece automático.
 
-- Formulário simples: email + senha.
-- Após login, redireciona pra `/admin`.
+## O que NÃO vou fazer
 
-### 3. Página `/admin` (protegida)
+- Não vou mexer em nada do admin, beats ou banco.
+- Não vou trocar o logo do hero — só o favicon (ícone da aba).
 
-Só abre se você estiver logado **e** tiver role `admin`. Caso contrário, manda pra `/login`.
+## Resultado esperado
 
-Painel com 4 seções (abas):
-
-**a) Configurações gerais**
-- Campo "Link do checkout" (Mercado Pago) → salva em `site_settings.checkout_url`
-- Campo "Vídeo de preview" (URL) → salva em `site_settings.preview_video`
-
-**b) Beats** (CRUD)
-- Lista todos os beats com nome, BPM, key, posição
-- Adicionar / editar / remover
-- Reordenar (mudar posição)
-
-**c) Provas sociais** (imagens)
-- Lista as imagens com preview
-- Adicionar URL nova / remover / reordenar
-
-**d) Logout**
-- Botão pra sair.
-
-### 4. Pequeno ajuste de segurança
-
-Hoje as tabelas (`beats`, `proof_images`, `site_settings`) têm RLS aberto pra **qualquer um** escrever (`public write`). Isso é um risco — qualquer pessoa na internet pode apagar/alterar seus beats via API.
-
-Vou trocar as policies de escrita pra exigir role `admin`. Leitura continua pública (a home precisa ler).
-
-## O que preciso de você
-
-Quando aprovar, me responde com:
-1. **Email** que você quer usar pra logar
-2. **Senha** inicial (pode trocar depois)
-
-## Detalhes técnicos
-
-- Stack: TanStack Router (rotas em `src/routes/`), Supabase Auth, RLS policies
-- Novas rotas: `src/routes/login.tsx`, `src/routes/admin.tsx` (com guard via `beforeLoad`)
-- Migration SQL:
-  - `create type app_role as enum ('admin')`
-  - `create table user_roles (user_id, role, unique(user_id, role))` + RLS
-  - `create function has_role(_user_id, _role) security definer`
-  - `drop policy "public write ..."` nas 3 tabelas, recriar com `using (has_role(auth.uid(), 'admin'))`
-- Migrar `src/main.tsx` (BrowserRouter atual) — adicionar as rotas novas mantendo `/` funcionando
-- Auth state: listener `onAuthStateChange` + `getSession` no guard
+Aba do navegador mostra o leão dourado da Nova Realeza em vez do desenho genérico (ou do antigo placeholder do Lovable).
