@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -343,6 +344,16 @@ export default function IndexPage() {
           </p>
         </div>
       </footer>
+
+      <a
+        href="https://wa.me/5511978768141"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Fale conosco no WhatsApp"
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-110 active:scale-95"
+      >
+        <MessageCircle className="h-7 w-7 fill-current" />
+      </a>
     </div>
   );
 }
