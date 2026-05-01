@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -124,28 +124,35 @@ export default function IndexPage() {
             </Card>
           </div>
 
-          <div className="hero-checks flex flex-col md:flex-row items-center justify-center text-primary font-semibold">
+          <div className="hero-checks flex flex-col md:flex-row items-center justify-center">
             {["Sem copyright strike", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
-              <span
-                key={i}
-                className="hero-check inline-flex items-center gap-1.5"
-                style={{ animationDelay: `${i * 200}ms` }}
-              >
-                <span className="hero-check-icon" style={{ animationDelay: `${600 + i * 200}ms` }}>✓</span>
-                <span>{t}</span>
+              <span key={i} className="hero-check-wrap inline-flex items-center">
+                <span
+                  className="hero-check inline-flex items-center gap-1.5"
+                  style={{ animationDelay: `${i * 200}ms` }}
+                >
+                  <span className="hero-check-icon">✓</span>
+                  <span>{t}</span>
+                </span>
+                {i < 2 && <span className="hero-check-dot" aria-hidden="true">·</span>}
               </span>
             ))}
           </div>
 
           <div className="flex flex-col items-center gap-4 md:gap-6">
-            <button
-              onClick={handleCheckout}
-              className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
-            >
-              <Flame className="hero-cta-flame" />
-              <span>QUERO MEUS 100 BEATS AGORA</span>
-              <span className="hero-cta-arrow">→</span>
-            </button>
+            <div className="flex flex-col items-center gap-2">
+              <button
+                onClick={handleCheckout}
+                className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
+              >
+                <Lock className="hero-cta-lock" />
+                <span>QUERO MEUS 100 BEATS AGORA</span>
+                <span className="hero-cta-arrow">→</span>
+              </button>
+              <p className="hero-cta-sub">
+                🔒 Pagamento 100% seguro · Acesso imediato · 7 dias de garantia
+              </p>
+            </div>
 
             <a
               href="#avaliacoes"
