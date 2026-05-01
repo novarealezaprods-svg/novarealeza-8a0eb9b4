@@ -131,20 +131,18 @@ export default function IndexPage() {
             ))}
           </div>
 
-          <div className="flex flex-col items-center gap-4 md:gap-6">
-            <div className="flex flex-col items-center gap-2">
-              <button
-                onClick={handleCheckout}
-                className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
-              >
-                <Lock className="hero-cta-lock" />
-                <span>QUERO MEUS 100 BEATS AGORA</span>
-                <span className="hero-cta-arrow">→</span>
-              </button>
-              <p className="hero-cta-sub">
-                🔒 Pagamento 100% seguro · Acesso imediato · 7 dias de garantia
-              </p>
-            </div>
+          <div className="hero-cta-block flex flex-col items-center w-full">
+            <button
+              onClick={handleCheckout}
+              className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
+            >
+              <Lock className="hero-cta-lock" />
+              <span>QUERO MEUS 100 BEATS AGORA</span>
+              <span className="hero-cta-arrow">→</span>
+            </button>
+            <p className="hero-cta-sub">
+              🔒 Pagamento seguro · Acesso imediato · 7 dias de garantia
+            </p>
 
             <a
               href="#avaliacoes"
@@ -152,10 +150,10 @@ export default function IndexPage() {
                 e.preventDefault();
                 document.getElementById("avaliacoes")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="group flex flex-col items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="hero-reviews group flex flex-col items-center"
             >
-              <span className="font-medium tracking-wide">Veja as avaliações do pack</span>
-              <ChevronDown className="h-5 w-5 animate-bounce group-hover:text-primary" />
+              <span>Veja as avaliações do pack</span>
+              <ChevronDown className="hero-reviews-arrow h-5 w-5" />
             </a>
           </div>
 
