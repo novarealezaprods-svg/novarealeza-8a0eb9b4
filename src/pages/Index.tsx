@@ -95,7 +95,7 @@ export default function IndexPage() {
             em Beat <span className="text-accent">FREE</span>
           </h1>
 
-          <p className="hero-fade mx-auto max-w-xl text-muted-foreground leading-relaxed text-base md:text-lg" style={{ animationDelay: "200ms" }}>
+          <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed text-base md:text-lg" style={{ animationDelay: "200ms" }}>
             100 beats profissionais por menos que o valor de um lanche. Grave hoje. Poste amanhã. Estoure depois.
           </p>
 
