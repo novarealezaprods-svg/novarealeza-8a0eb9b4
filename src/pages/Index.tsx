@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -143,18 +143,6 @@ export default function IndexPage() {
             <p className="hero-cta-sub">
               🔒 Pagamento seguro · Acesso imediato · 7 dias de garantia
             </p>
-
-            <a
-              href="#avaliacoes"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("avaliacoes")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="hero-reviews group flex flex-col items-center"
-            >
-              <span>Veja as avaliações do pack</span>
-              <ChevronDown className="hero-reviews-arrow h-5 w-5" />
-            </a>
           </div>
 
         </div>
@@ -370,55 +358,6 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section id="avaliacoes" className="py-20 md:py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
-        <div className="container max-w-3xl mx-auto px-4 md:px-6">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
-            <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
-          </div>
-          {proofImages.length > 0 ? (
-            <div className="grid grid-cols-2">
-              {proofImages.map((src, i) => {
-                const isLastRow = i >= proofImages.length - (proofImages.length % 2 === 0 ? 2 : 1);
-                const isRightCol = i % 2 === 1;
-                return (
-                  <div
-                    key={i}
-                    className={`p-3 md:p-4 ${isRightCol ? "border-l border-border" : ""} ${!isLastRow ? "border-b border-border" : ""}`}
-                  >
-                    <div className="relative w-full aspect-square">
-                      <img
-                        src={normalizeDirectUrl(src)}
-                        alt={`Prova social ${i + 1}`}
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {testimonials.map((t, i) => (
-                  <Card key={i} className="p-6 border-border/60 bg-background flex flex-col">
-                    <div className="flex gap-0.5 mb-4">
-                      {[...Array(5)].map((_, j) => (
-                        <Star key={j} className="h-4 w-4 fill-primary text-primary" />
-                      ))}
-                    </div>
-                    <p className="text-sm leading-relaxed text-foreground/90 flex-1">{`"${t.text}"`}</p>
-                    <div className="mt-5 pt-4 border-t border-border/60">
-                      <div className="font-bold text-sm">{t.name}</div>
-                      <div className="text-xs text-muted-foreground">{t.role}</div>
-                    </div>
-                  </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
       <section className="py-20 md:py-24">
         <div className={CONTAINER}>
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
@@ -509,8 +448,67 @@ export default function IndexPage() {
         </div>
       </section>
 
+      <section id="avaliacoes" className="py-20 md:py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
+        <div className="container max-w-3xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
+            <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
+          </div>
+          {proofImages.length > 0 ? (
+            <div className="grid grid-cols-2">
+              {proofImages.map((src, i) => {
+                const isLastRow = i >= proofImages.length - (proofImages.length % 2 === 0 ? 2 : 1);
+                const isRightCol = i % 2 === 1;
+                return (
+                  <div
+                    key={i}
+                    className={`p-3 md:p-4 ${isRightCol ? "border-l border-border" : ""} ${!isLastRow ? "border-b border-border" : ""}`}
+                  >
+                    <div className="relative w-full aspect-square">
+                      <img
+                        src={normalizeDirectUrl(src)}
+                        alt={`Prova social ${i + 1}`}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {testimonials.map((t, i) => (
+                  <Card key={i} className="p-6 border-border/60 bg-background flex flex-col">
+                    <div className="flex gap-0.5 mb-4">
+                      {[...Array(5)].map((_, j) => (
+                        <Star key={j} className="h-4 w-4 fill-primary text-primary" />
+                      ))}
+                    </div>
+                    <p className="text-sm leading-relaxed text-foreground/90 flex-1">{`"${t.text}"`}</p>
+                    <div className="mt-5 pt-4 border-t border-border/60">
+                      <div className="font-bold text-sm">{t.name}</div>
+                      <div className="text-xs text-muted-foreground">{t.role}</div>
+                    </div>
+                  </Card>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-10 flex flex-col items-center text-white">
+            <span className="text-sm font-semibold">Veja as avaliações do pack</span>
+            <ChevronDown className="hero-reviews-arrow h-5 w-5 mt-1" />
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t border-border/50 py-12">
         <div className={`${CONTAINER} flex flex-col items-center gap-6`}>
+          <div className="flex items-center gap-2.5 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-sm">
+            <Shield className="h-4 w-4 text-primary" />
+            <span className="font-semibold text-foreground">Garantia incondicional de 7 dias</span>
+          </div>
+
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
             <a
               href="mailto:novarealezaprods@gmail.com"
