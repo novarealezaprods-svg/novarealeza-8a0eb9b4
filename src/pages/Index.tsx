@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, ArrowRight } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -121,6 +121,120 @@ export default function IndexPage() {
             </a>
           </div>
 
+        </div>
+      </section>
+
+      <section className="py-20 md:py-24 bg-background border-t border-border/50">
+        <div className={CONTAINER}>
+          {/* BLOCO 1 — Antes vs Depois */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight">
+              O que muda quando você para de usar beat free
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-4 items-center max-w-5xl mx-auto">
+            <Card className="p-6 md:p-8 border-destructive/40 bg-destructive/10">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-10 w-10 rounded-full bg-destructive/20 flex items-center justify-center">
+                  <Skull className="h-5 w-5 text-destructive" />
+                </div>
+                <h3 className="text-xl font-black text-destructive">Antes</h3>
+              </div>
+              <ul className="space-y-3 text-sm text-foreground/90">
+                <li>❌ Beat free que todo mundo já ouviu</li>
+                <li>❌ Risco de copyright strike no YouTube</li>
+                <li>❌ Som amador que entrega você antes de tocar</li>
+                <li>❌ Sem variedade, sem identidade</li>
+                <li>❌ Gastando tempo garimpando instrumental</li>
+              </ul>
+            </Card>
+
+            <div className="hidden md:flex items-center justify-center">
+              <div className="h-12 w-12 rounded-full bg-primary/15 flex items-center justify-center">
+                <ArrowRight className="h-6 w-6 text-primary" />
+              </div>
+            </div>
+
+            <Card className="p-6 md:p-8 border-primary/40 bg-primary/10">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Trophy className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-xl font-black text-primary">Depois</h3>
+              </div>
+              <ul className="space-y-3 text-sm text-foreground/90">
+                <li>✅ 100 beats exclusivos e profissionais</li>
+                <li>✅ 100% royalty free — Spotify, YouTube, sem medo</li>
+                <li>✅ Som que posiciona você como artista sério</li>
+                <li>✅ Funk, Trap, R&B, New Jazz e muito mais</li>
+                <li>✅ Grave quando quiser, sem depender de ninguém</li>
+              </ul>
+            </Card>
+          </div>
+
+          {/* BLOCO 2 — Métricas */}
+          <div className="mt-16 md:mt-20 rounded-2xl bg-card/60 border border-border/60 py-10 px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 text-center max-w-5xl mx-auto">
+              <div className="flex flex-col items-center">
+                <Music className="h-7 w-7 text-primary mb-3" />
+                <div className="text-4xl md:text-5xl font-black text-foreground">100 Beats</div>
+                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Prontos para gravar agora</div>
+              </div>
+              <div className="flex flex-col items-center md:border-x md:border-border/60">
+                <Globe className="h-7 w-7 text-primary mb-3" />
+                <div className="text-4xl md:text-5xl font-black text-foreground">6 Estilos</div>
+                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Funk, Trap, R&B, New Jazz, Hard, Sampled</div>
+              </div>
+              <div className="flex flex-col items-center">
+                <ShieldCheck className="h-7 w-7 text-primary mb-3" />
+                <div className="text-4xl md:text-5xl font-black text-foreground">100% Royalty Free</div>
+                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Spotify, YouTube e muito mais sem strike</div>
+              </div>
+            </div>
+          </div>
+
+          {/* BLOCO 3 — Depoimentos */}
+          <div className="mt-16 md:mt-20">
+            <h3 className="text-3xl md:text-4xl font-black tracking-tight text-center text-foreground mb-10">
+              Artistas que pararam de usar beat free
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[
+                { name: "Lucas M.", text: "Eu lançava música e ficava com vergonha de divulgar por causa do beat. Depois do pack gravei 4 músicas em uma semana. A qualidade mudou tudo.", seed: "lucas" },
+                { name: "Kauan R.", text: "Gastava horas procurando beat no YouTube e sempre tomava strike. Agora tenho 100 opções prontas e posto sem medo nenhum.", seed: "kauan" },
+                { name: "Thiago S.", text: "Por R$19,90 eu achei que ia ser furada. Errei feio. É o melhor investimento que fiz na minha carreira até agora.", seed: "thiago" },
+              ].map((t, i) => (
+                <Card key={i} className="p-6 border-border/60 bg-card flex flex-col items-center text-center">
+                  <img
+                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${t.seed}`}
+                    alt={t.name}
+                    className="h-20 w-20 rounded-full border-2 border-primary/40 bg-muted mb-4"
+                  />
+                  <div className="font-bold text-foreground">{t.name}</div>
+                  <div className="flex gap-0.5 my-2">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-2">{`"${t.text}"`}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* BLOCO 4 — CTA Final */}
+          <div className="mt-16 md:mt-20 text-center flex flex-col items-center gap-4">
+            <p className="text-lg md:text-xl font-semibold text-foreground">
+              Mais de 1.200 artistas já escolheram parar de usar beat free
+            </p>
+            <Button onClick={handleCheckout} size="lg" variant="cta" className="h-14 px-10 text-base font-bold tracking-wide">
+              <span>Quero meus 100 Beats por R$19,90 →</span>
+            </Button>
+            <p className="text-sm text-primary font-medium">
+              ✓ Acesso imediato ✓ 7 dias de garantia ✓ Sem copyright strike
+            </p>
+          </div>
         </div>
       </section>
 
