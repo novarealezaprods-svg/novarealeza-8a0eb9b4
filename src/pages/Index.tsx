@@ -160,6 +160,42 @@ export default function IndexPage() {
         </div>
       </section>
 
+      <section className="py-20 md:py-24 border-t border-border/50">
+        <div className={CONTAINER}>
+          <div className="mb-10 flex flex-wrap items-center justify-center gap-2.5">
+            {genres.map((g, i) => (
+              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
+                {g}
+              </Badge>
+            ))}
+          </div>
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
+              <span>Ouça antes de comprar</span>
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
+              10 beats em preview
+            </h2>
+            <p className="mt-3 text-muted-foreground text-sm">
+              1 minuto de prévia · No pack você recebe a versão completa
+            </p>
+          </div>
+
+          {beats.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 max-w-5xl mx-auto">
+              {beats.slice(0, 10).map((b, i) => (
+                <BeatPlayer key={`${b.name}-${i}`} beat={b} index={i} />
+              ))}
+            </div>
+          ) : (
+            <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
+              <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
+            </Card>
+          )}
+        </div>
+      </section>
+
       <section className="py-20 md:py-24 bg-background border-t border-border/50">
         <div className={CONTAINER}>
           {/* BLOCO 1 — Antes vs Depois */}
@@ -378,42 +414,6 @@ export default function IndexPage() {
                   </Card>
               ))}
             </div>
-          )}
-        </div>
-      </section>
-
-      <section className="py-20 md:py-24 border-t border-border/50">
-        <div className={CONTAINER}>
-          <div className="mb-10 flex flex-wrap items-center justify-center gap-2.5">
-            {genres.map((g, i) => (
-              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
-                {g}
-              </Badge>
-            ))}
-          </div>
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
-              <span>Ouça antes de comprar</span>
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-              10 beats em preview
-            </h2>
-            <p className="mt-3 text-muted-foreground text-sm">
-              1 minuto de prévia · No pack você recebe a versão completa
-            </p>
-          </div>
-
-          {beats.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 max-w-5xl mx-auto">
-              {beats.slice(0, 10).map((b, i) => (
-                <BeatPlayer key={`${b.name}-${i}`} beat={b} index={i} />
-              ))}
-            </div>
-          ) : (
-            <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
-              <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
-              <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
-            </Card>
           )}
         </div>
       </section>
