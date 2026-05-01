@@ -120,7 +120,7 @@ export default function IndexPage() {
             {["Sem copyright strike", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
               <span
                 key={i}
-                className="hero-check"
+                className={`hero-check hero-check-pyramid-${i + 1}`}
                 style={{ animationDelay: `${i * 150}ms` }}
               >
                 <span className="hero-check-badge">
