@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, ArrowRight } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -41,6 +41,24 @@ export default function IndexPage() {
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
+
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".ba-card");
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in-view");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -127,50 +145,89 @@ export default function IndexPage() {
       <section className="py-20 md:py-24 bg-background border-t border-border/50">
         <div className={CONTAINER}>
           {/* BLOCO 1 — Antes vs Depois */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight">
-              O que muda quando você para de usar beat free
+          <div className="text-center mb-14">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
+              O que muda quando você
+              <br />
+              <span>para de usar beat </span>
+              <span className="text-accent">FREE</span>
             </h2>
+            <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
           </div>
 
-          <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-4 items-center max-w-5xl mx-auto">
-            <Card className="p-6 md:p-8 border-destructive/40 bg-destructive/10">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-10 w-10 rounded-full bg-destructive/20 flex items-center justify-center">
-                  <Skull className="h-5 w-5 text-destructive" />
-                </div>
-                <h3 className="text-xl font-black text-destructive">Antes</h3>
+          <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-6 items-center max-w-5xl mx-auto">
+            {/* ANTES */}
+            <div
+              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a]"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <Skull className="h-6 w-6 text-destructive" />
+                <h3 className="text-2xl font-black uppercase tracking-wide text-destructive">
+                  Antes
+                </h3>
               </div>
-              <ul className="space-y-3 text-sm text-foreground/90">
-                <li>❌ Beat free que todo mundo já ouviu</li>
-                <li>❌ Risco de copyright strike no YouTube</li>
-                <li>❌ Som amador que entrega você antes de tocar</li>
-                <li>❌ Sem variedade, sem identidade</li>
-                <li>❌ Gastando tempo garimpando instrumental</li>
+              <ul className="flex flex-col" style={{ gap: "14px" }}>
+                {[
+                  "Beat free que todo mundo já ouviu",
+                  "Risco de copyright strike no YouTube",
+                  "Som amador que entrega você antes de tocar",
+                  "Sem variedade, sem identidade",
+                  "Gastando tempo garimpando instrumental",
+                ].map((t, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 font-medium leading-snug"
+                    style={{ fontSize: "15px", color: "#aaaaaa", animationDelay: `${300 + i * 100}ms` }}
+                  >
+                    <span className="text-destructive font-bold flex-shrink-0">❌</span>
+                    <span>{t}</span>
+                  </li>
+                ))}
               </ul>
-            </Card>
+            </div>
 
-            <div className="hidden md:flex items-center justify-center">
-              <div className="h-12 w-12 rounded-full bg-primary/15 flex items-center justify-center">
-                <ArrowRight className="h-6 w-6 text-primary" />
+            {/* DIVISOR CENTRAL */}
+            <div className="flex items-center justify-center my-2 md:my-0">
+              <div
+                className="ba-pulse h-16 w-16 rounded-full flex items-center justify-center"
+                style={{
+                  background:
+                    "linear-gradient(135deg, oklch(0.62 0.25 27), oklch(0.72 0.22 145))",
+                }}
+              >
+                <Zap className="h-7 w-7 text-white fill-white" />
               </div>
             </div>
 
-            <Card className="p-6 md:p-8 border-primary/40 bg-primary/10">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-                  <Trophy className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="text-xl font-black text-primary">Depois</h3>
+            {/* DEPOIS */}
+            <div
+              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a]"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <Trophy className="h-6 w-6 text-primary" />
+                <h3 className="text-2xl font-black uppercase tracking-wide text-primary">
+                  Depois
+                </h3>
               </div>
-              <ul className="space-y-3 text-sm text-foreground/90">
-                <li>✅ 100 beats exclusivos e profissionais</li>
-                <li>✅ 100% royalty free — Spotify, YouTube, sem medo</li>
-                <li>✅ Som que posiciona você como artista sério</li>
-                <li>✅ Funk, Trap, R&B, New Jazz e muito mais</li>
-                <li>✅ Grave quando quiser, sem depender de ninguém</li>
+              <ul className="flex flex-col" style={{ gap: "14px" }}>
+                {[
+                  "100 beats exclusivos e profissionais",
+                  "100% royalty free — Spotify, YouTube, sem medo",
+                  "Som que posiciona você como artista sério",
+                  "Funk, Trap, R&B, New Jazz e muito mais",
+                  "Grave quando quiser, sem depender de ninguém",
+                ].map((t, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 font-medium leading-snug text-white"
+                    style={{ fontSize: "15px", animationDelay: `${300 + i * 100}ms` }}
+                  >
+                    <span className="text-primary font-bold flex-shrink-0">✅</span>
+                    <span>{t}</span>
+                  </li>
+                ))}
               </ul>
-            </Card>
+            </div>
           </div>
 
           {/* BLOCO 2 — Métricas */}
