@@ -188,15 +188,35 @@ export default function IndexPage() {
 
             {/* DIVISOR CENTRAL */}
             <div className="flex items-center justify-center my-2 md:my-0">
-              <div
-                className="ba-pulse h-16 w-16 rounded-full flex items-center justify-center"
-                style={{
-                  background:
-                    "linear-gradient(135deg, oklch(0.62 0.25 27), oklch(0.72 0.22 145))",
-                }}
+              <svg
+                width="60"
+                height="60"
+                viewBox="0 0 60 60"
+                fill="none"
+                aria-hidden="true"
+                className="ba-x-svg"
               >
-                <Zap className="h-7 w-7 text-white fill-white" />
-              </div>
+                {/* Traço 1: cima-esquerda → baixo-direita (rabiscado, irregular) */}
+                <path
+                  d="M10 9 Q 18 17, 24 24 T 38 38 Q 45 46, 51 52"
+                  stroke="#ffffff"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  className="ba-x-stroke ba-x-stroke-1"
+                />
+                {/* Traço 2: cima-direita → baixo-esquerda */}
+                <path
+                  d="M51 8 Q 43 17, 36 23 T 22 37 Q 14 45, 9 52"
+                  stroke="#ffffff"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  className="ba-x-stroke ba-x-stroke-2"
+                />
+              </svg>
             </div>
 
             {/* DEPOIS */}
