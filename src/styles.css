@@ -232,12 +232,12 @@
 }
 .hero-checks {
   font-size: 13px;
-  font-weight: 600;
-  color: #00FF7F;
+  font-weight: 700;
+  color: #39FF14;
   gap: 6px;
 }
 @media (min-width: 768px) {
-  .hero-checks { font-size: 14px; gap: 0; }
+  .hero-checks { font-size: 14px; gap: 0; flex-wrap: nowrap; white-space: nowrap; }
 }
 .hero-check {
   opacity: 0;
@@ -247,7 +247,7 @@
 .hero-check-dot {
   display: none;
   margin: 0 12px;
-  color: #00FF7F;
+  color: #39FF14;
   opacity: 0.7;
 }
 @media (min-width: 768px) {
@@ -278,6 +278,8 @@
   text-transform: uppercase;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  width: 90%;
+  max-width: 380px;
   box-shadow: 0 0 30px oklch(0.72 0.22 145 / 0.6), 0 4px 16px rgba(0,0,0,0.4);
   cursor: pointer;
   opacity: 0;
@@ -288,7 +290,7 @@
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 @media (min-width: 768px) {
-  .hero-cta { padding: 20px 56px; font-size: 17px; }
+  .hero-cta { padding: 20px 56px; font-size: 17px; width: auto; }
 }
 .hero-cta-lock {
   width: 16px;
@@ -306,8 +308,40 @@
 .hero-cta:hover .hero-cta-arrow { transform: translateX(5px); }
 
 .hero-cta-sub {
-  font-size: 12px;
-  color: #888888;
+  font-size: 11px;
+  color: #666666;
+  font-weight: 400;
   text-align: center;
-  margin-top: 8px;
+  margin-top: 10px;
+  line-height: 1.4;
+}
+@media (min-width: 768px) {
+  .hero-cta-sub {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}
+
+/* Hero — bloco do CTA: 20px do que vem antes */
+.hero-cta-block { margin-top: 20px; }
+
+/* Hero — link "Veja as avaliações" */
+@keyframes hero-reviews-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+.hero-reviews {
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.2s ease;
+}
+.hero-reviews:hover { opacity: 0.8; }
+.hero-reviews-arrow {
+  animation: hero-reviews-bounce 1.2s ease-in-out infinite;
 }
