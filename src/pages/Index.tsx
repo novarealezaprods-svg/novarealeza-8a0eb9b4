@@ -88,8 +88,8 @@ export default function IndexPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
-        <div className={`${CONTAINER} text-center flex flex-col items-center`} style={{ gap: "24px" }}>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.05] max-h-[40vh]">
+        <div className={`${CONTAINER} text-center flex flex-col items-center gap-4 md:gap-6`}>
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.1] max-h-[35vh] md:max-h-[40vh]">
             Pare de Enterrar Sua Música em Beat <span className="text-accent">FREE</span>
           </h1>
 
@@ -124,10 +124,7 @@ export default function IndexPage() {
             </Card>
           </div>
 
-          <div
-            className="flex flex-wrap items-center justify-center text-primary"
-            style={{ fontSize: "15px", fontWeight: 600, gap: "20px" }}
-          >
+          <div className="hero-checks flex flex-col md:flex-row items-center justify-center text-primary font-semibold">
             {["Sem copyright strike", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
               <span
                 key={i}
@@ -140,12 +137,12 @@ export default function IndexPage() {
             ))}
           </div>
 
-          <div className="flex flex-col items-center" style={{ gap: "24px" }}>
+          <div className="flex flex-col items-center gap-4 md:gap-6">
             <button
               onClick={handleCheckout}
-              className="hero-cta inline-flex items-center gap-2"
+              className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
-              <Flame className="h-5 w-5" />
+              <Flame className="hero-cta-flame" />
               <span>QUERO MEUS 100 BEATS AGORA</span>
               <span className="hero-cta-arrow">→</span>
             </button>
