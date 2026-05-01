@@ -72,14 +72,13 @@ export default function IndexPage() {
       <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center`}>
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
-            PACK DE 100 BEATS
+            Pare de Enterrar Sua Música em Beat <span className="text-accent">FREE</span>
           </h1>
-          <p className="mt-4 text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-accent">
-            100% ROYALTY FREE
-          </p>
 
           <p className="mt-8 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Pack completo, profissional e pronto para uso. Funk, Trap, New Jazz, Hard, Sampled, R&B e muito mais.
+            100 beats profissionais por menos que o valor de um lanche.
+            <br />
+            <span className="font-bold text-foreground">Grave hoje. Poste amanhã. Estoure depois.</span>
           </p>
 
           <div className="mt-12 mx-auto max-w-2xl">
@@ -99,15 +98,14 @@ export default function IndexPage() {
             </Card>
           </div>
 
-          <p className="mt-6 text-sm">
-            <span className="text-primary font-bold">Uso liberado</span>
-            <span className="text-muted-foreground"> para Spotify, YouTube e etc...</span>
+          <p className="mt-6 text-sm text-primary font-medium">
+            ✓ Sem copyright strike ✓ Sem pagar produtor ✓ Sem desculpa pra não gravar
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4">
             <Button onClick={handleCheckout} size="lg" variant="cta" className="text-base h-14 px-10 font-bold tracking-wide">
               <Flame className="h-5 w-5 mr-2" />
-              <span>GARANTIR MEU PACK</span>
+              <span>Quero meus 100 Beats Agora →</span>
             </Button>
 
             <a
