@@ -257,10 +257,10 @@
 /* Hero — botão CTA */
 @keyframes hero-cta-breath {
   0%, 100% {
-    box-shadow: 0 0 30px rgba(0, 255, 127, 0.5), 0 4px 16px rgba(0,0,0,0.4);
+    box-shadow: 0 0 30px oklch(0.72 0.22 145 / 0.6), 0 4px 16px rgba(0,0,0,0.4);
   }
   50% {
-    box-shadow: 0 0 45px rgba(0, 255, 127, 0.7), 0 4px 16px rgba(0,0,0,0.4);
+    box-shadow: 0 0 45px oklch(0.72 0.22 145 / 0.85), 0 4px 16px rgba(0,0,0,0.4);
   }
 }
 @keyframes hero-cta-in {
