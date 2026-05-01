@@ -96,9 +96,7 @@ export default function IndexPage() {
           </h1>
 
           <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed text-base md:text-lg text-center" style={{ animationDelay: "200ms" }}>
-            100 beats profissionais por menos que um lanche.
-            <br />
-            Grave hoje. Poste amanhã. Estoure depois.
+            100 beats profissionais por menos<br />que um lanche. Grave e poste hoje.
           </p>
 
           <div className="mx-auto max-w-2xl w-full">
