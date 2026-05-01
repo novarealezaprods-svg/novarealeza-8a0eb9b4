@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -143,18 +143,6 @@ export default function IndexPage() {
             <p className="hero-cta-sub">
               🔒 Pagamento seguro · Acesso imediato · 7 dias de garantia
             </p>
-
-            <a
-              href="#avaliacoes"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("avaliacoes")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="hero-reviews group flex flex-col items-center"
-            >
-              <span>Veja as avaliações do pack</span>
-              <ChevronDown className="hero-reviews-arrow h-5 w-5" />
-            </a>
           </div>
 
         </div>
