@@ -148,3 +148,28 @@
     color: var(--color-foreground);
   }
 }
+
+/* Bloco "Antes vs Depois" — animações on-scroll */
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes item-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.72 0.22 145 / 0.6), 0 0 30px oklch(0.62 0.25 27 / 0.4); transform: scale(1); }
+  50%      { box-shadow: 0 0 0 12px oklch(0.72 0.22 145 / 0); transform: scale(1.05); }
+}
+
+.ba-card { opacity: 0; }
+.ba-card.in-view.left  { animation: slide-in-left 0.7s ease-out forwards; }
+.ba-card.in-view.right { animation: slide-in-right 0.7s ease-out forwards; }
+.ba-card li { opacity: 0; }
+.ba-card.in-view li { animation: item-fade-up 0.4s ease-out forwards; }
+.ba-pulse { animation: pulse-ring 2s ease-in-out infinite; }
