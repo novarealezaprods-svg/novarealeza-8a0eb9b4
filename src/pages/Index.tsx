@@ -116,17 +116,17 @@ export default function IndexPage() {
             </Card>
           </div>
 
-          <div className="hero-checks flex flex-col md:flex-row items-center justify-center">
+          <div className="hero-checks">
             {["Sem copyright strike", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
-              <span key={i} className="hero-check-wrap inline-flex items-center">
-                <span
-                  className="hero-check inline-flex items-center gap-1.5"
-                  style={{ animationDelay: `${i * 200}ms` }}
-                >
-                  <span className="hero-check-icon">✓</span>
-                  <span>{t}</span>
+              <span
+                key={i}
+                className="hero-check"
+                style={{ animationDelay: `${i * 150}ms` }}
+              >
+                <span className="hero-check-badge">
+                  <Check className="hero-check-icon" strokeWidth={3} />
                 </span>
-                {i < 2 && <span className="hero-check-dot" aria-hidden="true">·</span>}
+                <span className="hero-check-label">{t}</span>
               </span>
             ))}
           </div>
@@ -136,12 +136,18 @@ export default function IndexPage() {
               onClick={handleCheckout}
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
-              <Lock className="hero-cta-lock" />
-              <span>QUERO MEUS 100 BEATS AGORA</span>
+              <span className="hero-cta-shine" aria-hidden="true" />
+              <Lock className="hero-cta-lock" strokeWidth={2.75} />
+              <span className="hero-cta-text">QUERO MEUS 100 BEATS AGORA</span>
               <span className="hero-cta-arrow">→</span>
             </button>
             <p className="hero-cta-sub">
-              🔒 Pagamento seguro · Acesso imediato · 7 dias de garantia
+              <Lock className="hero-cta-sub-icon" strokeWidth={2.5} />
+              <span>Pagamento seguro</span>
+              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
+              <span>Acesso imediato</span>
+              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
+              <span>7 dias de garantia</span>
             </p>
           </div>
 
