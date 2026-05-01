@@ -119,7 +119,7 @@ export default function IndexPage() {
           </div>
 
           <div className="hero-checks">
-            {["Sem copyright strike", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
+            {["Sem desculpa pra não gravar", "Sem pagar produtor", "Sem copyright strike"].map((t, i) => (
               <span
                 key={i}
                 className={`hero-check hero-check-pyramid-${i + 1}`}
