@@ -137,9 +137,7 @@ export default function IndexPage() {
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
               <span className="hero-cta-shine" aria-hidden="true" />
-              <Lock className="hero-cta-lock" strokeWidth={2.75} />
               <span className="hero-cta-text">QUERO MEUS 100 BEATS AGORA</span>
-              <span className="hero-cta-arrow">→</span>
             </button>
             <p className="hero-cta-sub">
               <Lock className="hero-cta-sub-icon" strokeWidth={2.5} />
