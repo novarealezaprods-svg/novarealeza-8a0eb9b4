@@ -237,10 +237,10 @@
   justify-content: center;
   gap: 6px;
 }
-/* Pirâmide: cada chip um pouco maior que o anterior */
-.hero-check:nth-child(1) { width: auto; }
-.hero-check:nth-child(2) { width: auto; }
-.hero-check:nth-child(3) { width: auto; }
+/* Pirâmide: chips empilhados centralizados, larguras crescentes */
+.hero-check-pyramid-1 { min-width: 190px; }
+.hero-check-pyramid-2 { min-width: 220px; }
+.hero-check-pyramid-3 { min-width: 260px; }
 .hero-check {
   opacity: 0;
   display: inline-flex;
