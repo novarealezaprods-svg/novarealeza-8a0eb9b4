@@ -173,3 +173,24 @@
 .ba-card li { opacity: 0; }
 .ba-card.in-view li { animation: item-fade-up 0.4s ease-out forwards; }
 .ba-pulse { animation: pulse-ring 2s ease-in-out infinite; }
+
+/* X rabiscado central — anima stroke como caneta riscando, depois fade-out e loop */
+@keyframes ba-x-draw-1 {
+  0%       { stroke-dashoffset: 100; opacity: 1; }
+  14.81%   { stroke-dashoffset: 0;   opacity: 1; } /* 0.4s */
+  88.89%   { opacity: 1; }                          /* 2.4s */
+  100%     { stroke-dashoffset: 0;   opacity: 0; }  /* 2.7s */
+}
+@keyframes ba-x-draw-2 {
+  0%       { stroke-dashoffset: 100; opacity: 1; }
+  18.52%   { stroke-dashoffset: 100; opacity: 1; } /* delay 0.5s (0.4 + 0.1) */
+  33.33%   { stroke-dashoffset: 0;   opacity: 1; } /* 0.9s — termina */
+  88.89%   { opacity: 1; }
+  100%     { stroke-dashoffset: 0;   opacity: 0; }
+}
+.ba-x-stroke {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+.ba-x-stroke-1 { animation: ba-x-draw-1 2.7s ease-in-out infinite; }
+.ba-x-stroke-2 { animation: ba-x-draw-2 2.7s ease-in-out infinite; }
