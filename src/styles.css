@@ -235,11 +235,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
 }
-@media (min-width: 768px) {
-  .hero-checks { flex-direction: row; gap: 10px; flex-wrap: nowrap; }
-}
+/* Pirâmide: cada chip um pouco maior que o anterior */
+.hero-check:nth-child(1) { width: auto; }
+.hero-check:nth-child(2) { width: auto; }
+.hero-check:nth-child(3) { width: auto; }
 .hero-check {
   opacity: 0;
   display: inline-flex;
@@ -303,6 +304,10 @@
   0%   { transform: translateX(-120%) skewX(-20deg); }
   100% { transform: translateX(220%) skewX(-20deg); }
 }
+@keyframes hero-cta-pulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50%      { transform: scale(1.04); filter: brightness(1.12); }
+}
 .hero-cta {
   position: relative;
   overflow: hidden;
@@ -328,7 +333,8 @@
   transform: translateY(20px);
   animation:
     hero-cta-in 0.5s ease-out 600ms forwards,
-    hero-cta-breath 1.8s ease-in-out 1.1s infinite;
+    hero-cta-breath 1.8s ease-in-out 1.1s infinite,
+    hero-cta-pulse 2.4s ease-in-out 1.1s infinite;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 @media (min-width: 768px) {
@@ -348,6 +354,9 @@
   );
   transform: translateX(-120%) skewX(-20deg);
   pointer-events: none;
+}
+.hero-cta .hero-cta-shine {
+  animation: hero-cta-shine-sweep 2.4s ease-in-out 1.1s infinite;
 }
 .hero-cta:hover .hero-cta-shine {
   animation: hero-cta-shine-sweep 0.7s ease-out;
