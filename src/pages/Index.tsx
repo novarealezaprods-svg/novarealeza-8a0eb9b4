@@ -88,23 +88,15 @@ export default function IndexPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
-        <div className={`${CONTAINER} text-center flex flex-col items-center gap-4 md:gap-6`}>
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.1] max-h-[35vh] md:max-h-[40vh]">
-            Pare de Enterrar Sua Música em Beat <span className="text-accent">FREE</span>
+        <div className={`${CONTAINER} text-center flex flex-col items-center gap-6 md:gap-8`}>
+          <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
+            Pare de Enterrar Sua Música
+            <br />
+            em Beat <span className="text-accent">FREE</span>
           </h1>
 
-          <p className="mx-auto max-w-2xl leading-relaxed" style={{ fontSize: "18px", fontWeight: 500 }}>
-            <span className="hero-fade text-white" style={{ animationDelay: "0ms" }}>
-              100 beats profissionais por menos que o valor de um lanche.
-            </span>
-            <br />
-            <span className="hero-fade font-bold text-white" style={{ animationDelay: "300ms" }}>
-              Grave hoje. Poste amanhã.
-            </span>
-            <br />
-            <span className="hero-fade font-bold text-white" style={{ animationDelay: "600ms" }}>
-              Estoure depois.
-            </span>
+          <p className="hero-fade mx-auto max-w-xl text-muted-foreground leading-relaxed text-base md:text-lg" style={{ animationDelay: "200ms" }}>
+            100 beats profissionais por menos que o valor de um lanche. Grave hoje. Poste amanhã. Estoure depois.
           </p>
 
           <div className="mx-auto max-w-2xl w-full">
