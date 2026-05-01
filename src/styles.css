@@ -239,11 +239,12 @@
   color: oklch(0.1 0 0);
   border: 2px solid oklch(0.85 0.22 145);
   border-radius: 8px;
-  padding: 18px 48px;
-  font-size: 18px;
+  padding: 16px 28px;
+  font-size: 15px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  white-space: nowrap;
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
   cursor: pointer;
   opacity: 0;
@@ -253,13 +254,38 @@
     hero-cta-breath 1.5s ease-in-out 1.3s infinite;
   transition: transform 0.2s ease;
 }
+@media (min-width: 768px) {
+  .hero-cta {
+    padding: 18px 48px;
+    font-size: 18px;
+  }
+}
+.hero-cta-flame {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
 .hero-cta:hover {
   transform: scale(1.05);
 }
 .hero-cta-arrow {
   display: inline-block;
+  margin-left: 6px;
   transition: transform 0.2s ease;
 }
 .hero-cta:hover .hero-cta-arrow {
   transform: translateX(4px);
+}
+
+/* Hero — checks: empilhados no mobile, em linha no desktop */
+.hero-checks {
+  font-size: 13px;
+  gap: 8px;
+}
+@media (min-width: 768px) {
+  .hero-checks {
+    font-size: 15px;
+    gap: 20px;
+  }
 }
