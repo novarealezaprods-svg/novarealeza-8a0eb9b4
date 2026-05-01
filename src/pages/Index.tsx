@@ -88,18 +88,26 @@ export default function IndexPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
-        <div className={`${CONTAINER} text-center`}>
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight leading-[0.95]">
+        <div className={`${CONTAINER} text-center flex flex-col items-center`} style={{ gap: "24px" }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.05] max-h-[40vh]">
             Pare de Enterrar Sua Música em Beat <span className="text-accent">FREE</span>
           </h1>
 
-          <p className="mt-8 mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-            100 beats profissionais por menos que o valor de um lanche.
+          <p className="mx-auto max-w-2xl leading-relaxed" style={{ fontSize: "18px", fontWeight: 500 }}>
+            <span className="hero-fade text-white" style={{ animationDelay: "0ms" }}>
+              100 beats profissionais por menos que o valor de um lanche.
+            </span>
             <br />
-            <span className="font-bold text-foreground">Grave hoje. Poste amanhã. Estoure depois.</span>
+            <span className="hero-fade font-bold text-white" style={{ animationDelay: "300ms" }}>
+              Grave hoje. Poste amanhã.
+            </span>
+            <br />
+            <span className="hero-fade font-bold text-white" style={{ animationDelay: "600ms" }}>
+              Estoure depois.
+            </span>
           </p>
 
-          <div className="mt-12 mx-auto max-w-2xl">
+          <div className="mx-auto max-w-2xl w-full">
             <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
               {previewVideo ? (
                 <VideoPreview url={previewVideo} />
@@ -116,15 +124,31 @@ export default function IndexPage() {
             </Card>
           </div>
 
-          <p className="mt-6 text-sm text-primary font-medium">
-            ✓ Sem copyright strike ✓ Sem pagar produtor ✓ Sem desculpa pra não gravar
-          </p>
+          <div
+            className="flex flex-wrap items-center justify-center text-primary"
+            style={{ fontSize: "15px", fontWeight: 600, gap: "20px" }}
+          >
+            {["Sem copyright strike", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
+              <span
+                key={i}
+                className="hero-check inline-flex items-center gap-1.5"
+                style={{ animationDelay: `${i * 200}ms` }}
+              >
+                <span className="hero-check-icon" style={{ animationDelay: `${600 + i * 200}ms` }}>✓</span>
+                <span>{t}</span>
+              </span>
+            ))}
+          </div>
 
-          <div className="mt-10 flex flex-col items-center gap-4">
-            <Button onClick={handleCheckout} size="lg" variant="cta" className="text-base h-14 px-10 font-bold tracking-wide">
-              <Flame className="h-5 w-5 mr-2" />
-              <span>Quero meus 100 Beats Agora →</span>
-            </Button>
+          <div className="flex flex-col items-center" style={{ gap: "24px" }}>
+            <button
+              onClick={handleCheckout}
+              className="hero-cta inline-flex items-center gap-2"
+            >
+              <Flame className="h-5 w-5" />
+              <span>QUERO MEUS 100 BEATS AGORA</span>
+              <span className="hero-cta-arrow">→</span>
+            </button>
 
             <a
               href="#avaliacoes"
@@ -132,7 +156,7 @@ export default function IndexPage() {
                 e.preventDefault();
                 document.getElementById("avaliacoes")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="group mt-2 flex flex-col items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="group flex flex-col items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <span className="font-medium tracking-wide">Veja as avaliações do pack</span>
               <ChevronDown className="h-5 w-5 animate-bounce group-hover:text-primary" />
