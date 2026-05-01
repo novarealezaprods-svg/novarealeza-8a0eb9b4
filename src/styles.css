@@ -194,3 +194,72 @@
 }
 .ba-x-stroke-1 { animation: ba-x-draw-1 2.7s ease-in-out infinite; }
 .ba-x-stroke-2 { animation: ba-x-draw-2 2.7s ease-in-out infinite; }
+
+/* Hero — fade in sequencial dos textos */
+@keyframes hero-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-fade {
+  display: inline-block;
+  opacity: 0;
+  animation: hero-fade-in 0.5s ease-out forwards;
+}
+
+/* Hero — checks verdes deslizando da esquerda */
+@keyframes hero-check-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes hero-check-pulse {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 0 transparent; }
+  50%      { transform: scale(1.4); text-shadow: 0 0 12px oklch(0.82 0.24 145 / 0.9); }
+}
+.hero-check {
+  opacity: 0;
+  animation: hero-check-in 0.5s ease-out forwards;
+}
+.hero-check-icon {
+  display: inline-block;
+  animation: hero-check-pulse 0.8s ease-in-out 1;
+  animation-fill-mode: both;
+}
+
+/* Hero — botão CTA respirando */
+@keyframes hero-cta-breath {
+  0%, 100% { box-shadow: 0 0 14px rgba(0, 255, 0, 0.25); }
+  50%      { box-shadow: 0 0 32px rgba(0, 255, 0, 0.55); }
+}
+@keyframes hero-cta-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-cta {
+  background: oklch(0.72 0.22 145);
+  color: oklch(0.1 0 0);
+  border: 2px solid oklch(0.85 0.22 145);
+  border-radius: 8px;
+  padding: 18px 48px;
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  animation:
+    hero-cta-in 0.5s ease-out 800ms forwards,
+    hero-cta-breath 1.5s ease-in-out 1.3s infinite;
+  transition: transform 0.2s ease;
+}
+.hero-cta:hover {
+  transform: scale(1.05);
+}
+.hero-cta-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.hero-cta:hover .hero-cta-arrow {
+  transform: translateX(4px);
+}
