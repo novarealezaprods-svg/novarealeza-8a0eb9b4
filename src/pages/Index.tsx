@@ -120,7 +120,7 @@ export default function IndexPage() {
             {["Sem copyright strike", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
               <span
                 key={i}
-                className="hero-check"
+                className={`hero-check hero-check-pyramid-${i + 1}`}
                 style={{ animationDelay: `${i * 150}ms` }}
               >
                 <span className="hero-check-badge">
@@ -137,9 +137,7 @@ export default function IndexPage() {
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
               <span className="hero-cta-shine" aria-hidden="true" />
-              <Lock className="hero-cta-lock" strokeWidth={2.75} />
               <span className="hero-cta-text">QUERO MEUS 100 BEATS AGORA</span>
-              <span className="hero-cta-arrow">→</span>
             </button>
             <p className="hero-cta-sub">
               <Lock className="hero-cta-sub-icon" strokeWidth={2.5} />
