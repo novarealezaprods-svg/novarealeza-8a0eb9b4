@@ -206,6 +206,25 @@
   animation: hero-fade-in 0.5s ease-out forwards;
 }
 
+/* Hero — subtítulo branco com brilho sutil em loop */
+@keyframes hero-subtitle-shimmer {
+  0%, 100% {
+    text-shadow: 0 0 0 transparent;
+    color: #ffffff;
+  }
+  50% {
+    text-shadow: 0 0 14px rgba(255, 255, 255, 0.55), 0 0 28px rgba(0, 255, 127, 0.18);
+    color: #ffffff;
+  }
+}
+.hero-subtitle {
+  color: #ffffff;
+  font-weight: 500;
+  animation:
+    hero-fade-in 0.5s ease-out 200ms both,
+    hero-subtitle-shimmer 3.2s ease-in-out 800ms infinite;
+}
+
 /* Hero — checks verdes em linha única separados por · */
 @keyframes hero-check-in {
   from { opacity: 0; transform: translateX(-12px); }
