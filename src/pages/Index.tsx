@@ -162,13 +162,6 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24 border-t border-border/50">
         <div className={CONTAINER}>
-          <div className="mb-10 flex flex-wrap items-center justify-center gap-2.5">
-            {genres.map((g, i) => (
-              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
-                {g}
-              </Badge>
-            ))}
-          </div>
           <div className="text-center mb-12">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
               <span>Ouça antes de comprar</span>
@@ -193,6 +186,14 @@ export default function IndexPage() {
               <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
             </Card>
           )}
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5">
+            {genres.map((g, i) => (
+              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
+                {g}
+              </Badge>
+            ))}
+          </div>
         </div>
       </section>
 
