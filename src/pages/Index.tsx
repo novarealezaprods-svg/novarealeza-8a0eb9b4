@@ -89,14 +89,16 @@ export default function IndexPage() {
     <div className="min-h-screen bg-background text-foreground">
       <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-6 md:gap-8`}>
-          <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto">
             Pare de Enterrar Sua Música
             <br />
             em Beat <span className="text-accent">FREE</span>
           </h1>
 
-          <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed text-base md:text-lg" style={{ animationDelay: "200ms" }}>
-            100 beats profissionais por menos que o valor de um lanche. Grave hoje. Poste amanhã. Estoure depois.
+          <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed text-base md:text-lg text-center" style={{ animationDelay: "200ms" }}>
+            100 beats profissionais por menos que um lanche.
+            <br />
+            Grave hoje. Poste amanhã. Estoure depois.
           </p>
 
           <div className="mx-auto max-w-2xl w-full">
