@@ -209,32 +209,6 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Big "Ativar som" overlay — visible while muted */}
-      {muted && !ended && !loading && !playbackFailed && (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            unmute();
-          }}
-          aria-label="Ativar som"
-          className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-[2px] hover:bg-black/50 transition-colors group"
-        >
-          <div
-            className="h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform"
-            style={{
-              boxShadow:
-                "0 0 24px var(--primary), 0 0 8px var(--primary), 0 6px 18px rgba(0,0,0,0.5)",
-            }}
-          >
-            <VolumeX className="h-9 w-9 text-primary-foreground" />
-          </div>
-          <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-sm sm:text-base">
-            Toque para ativar o som
-          </span>
-        </button>
-      )}
-
       {playbackFailed && !ended && (
         <div className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 pointer-events-none">
           <div
@@ -297,9 +271,9 @@ export function VideoPreview({ url }: { url: string }) {
                     e.currentTarget.releasePointerCapture(e.pointerId);
                   }
                 }}
-                className="relative w-full h-11 px-4 flex items-center cursor-pointer touch-none group"
+                className="relative w-full h-11 px-3 flex items-center cursor-pointer touch-none group"
               >
-                <div className="relative w-full h-1.5 rounded-full bg-white/25 overflow-visible">
+                <div className="relative w-full h-2 rounded-full bg-white/25 overflow-visible">
                   <div
                     className="absolute inset-y-0 left-0 rounded-full bg-primary"
                     style={{
@@ -317,8 +291,8 @@ export function VideoPreview({ url }: { url: string }) {
                 </div>
               </div>
 
-              {/* Controls row — min 56px height, 16px side padding */}
-              <div className="flex items-center gap-3 px-4 pb-2 min-h-[56px]">
+              {/* Controls row — 56px height, 12px side padding */}
+              <div className="flex items-center gap-3 px-3 pb-2 h-14">
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); togglePlay(); }}
