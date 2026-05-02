@@ -160,11 +160,8 @@ export default function IndexPage() {
               <span>Ouça antes de comprar</span>
             </Badge>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-              10 beats em preview
+              1 minuto de prévia · No pack você recebe a versão completa COM 100 BEATS
             </h2>
-            <p className="mt-3 text-muted-foreground text-sm">
-              1 minuto de prévia · No pack você recebe a versão completa
-            </p>
           </div>
 
           {beats.length > 0 ? (
