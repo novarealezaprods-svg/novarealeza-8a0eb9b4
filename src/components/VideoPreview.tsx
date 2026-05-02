@@ -209,6 +209,32 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
+      {/* Big "Ativar som" overlay — visible while muted */}
+      {muted && !ended && !loading && !playbackFailed && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            unmute();
+          }}
+          aria-label="Ativar som"
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-[2px] hover:bg-black/50 transition-colors group"
+        >
+          <div
+            className="h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform"
+            style={{
+              boxShadow:
+                "0 0 24px var(--primary), 0 0 8px var(--primary), 0 6px 18px rgba(0,0,0,0.5)",
+            }}
+          >
+            <VolumeX className="h-9 w-9 text-primary-foreground" />
+          </div>
+          <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-sm sm:text-base">
+            Toque para ativar o som
+          </span>
+        </button>
+      )}
+
       {playbackFailed && !ended && (
         <div className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 pointer-events-none">
           <div
@@ -240,108 +266,65 @@ export function VideoPreview({ url }: { url: string }) {
       {/* Progress bar — verde fluorescente */}
       {!ended && !loading && (
         <>
-          {!embed ? (
-            // Full controls bar for direct <video>
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="absolute inset-x-0 bottom-0 z-30 flex flex-col bg-gradient-to-t from-black/85 via-black/60 to-transparent pt-3"
+          {/* Pause/Play button — bottom-left */}
+          {!embed && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              aria-label={paused ? "Reproduzir" : "Pausar"}
+              className="absolute bottom-2 left-2 z-40 h-6 w-6 rounded-full bg-black/55 hover:bg-black/75 backdrop-blur-sm flex items-center justify-center text-white transition-colors"
             >
-              {/* Seekable progress bar — touch area 44px, visual bar 6px */}
-              <div
-                ref={progressBarRef}
-                role="slider"
-                aria-label="Progresso do vídeo"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={Math.round(progress)}
-                tabIndex={0}
-                onClick={(e) => { e.stopPropagation(); seekFromEvent(e.clientX); }}
-                onPointerDown={(e) => {
-                  e.stopPropagation();
-                  e.currentTarget.setPointerCapture(e.pointerId);
+              {paused ? <Play className="h-3 w-3 fill-current ml-[1px]" /> : <Pause className="h-3 w-3 fill-current" />}
+            </button>
+          )}
+
+          {/* Seekable progress bar (only for direct <video>) */}
+          {!embed ? (
+            <div
+              ref={progressBarRef}
+              role="slider"
+              aria-label="Progresso do vídeo"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(progress)}
+              tabIndex={0}
+              onClick={(e) => { e.stopPropagation(); seekFromEvent(e.clientX); }}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                e.currentTarget.setPointerCapture(e.pointerId);
+                seekFromEvent(e.clientX);
+              }}
+              onPointerMove={(e) => {
+                if (e.currentTarget.hasPointerCapture(e.pointerId)) {
                   seekFromEvent(e.clientX);
-                }}
-                onPointerMove={(e) => {
-                  if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-                    seekFromEvent(e.clientX);
-                  }
-                }}
-                onPointerUp={(e) => {
-                  if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-                    e.currentTarget.releasePointerCapture(e.pointerId);
-                  }
-                }}
-                className="relative w-full h-11 px-3 flex items-center cursor-pointer touch-none group"
-              >
-                <div className="relative w-full h-2 rounded-full bg-white/25 overflow-visible">
-                  <div
-                    className="absolute inset-y-0 left-0 rounded-full bg-primary"
-                    style={{
-                      width: `${progress}%`,
-                      boxShadow: "0 0 10px var(--primary), 0 0 4px var(--primary)",
-                    }}
-                  />
-                  <div
-                    className="absolute top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-primary"
-                    style={{
-                      left: `calc(${progress}% - 8px)`,
-                      boxShadow: "0 0 10px var(--primary), 0 0 4px var(--primary)",
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Controls row — 56px height, 12px side padding */}
-              <div className="flex items-center gap-3 px-3 pb-2 h-14">
-                <button
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-                  aria-label={paused ? "Reproduzir" : "Pausar"}
-                  className="h-11 w-11 rounded-full bg-primary/90 hover:bg-primary flex items-center justify-center text-primary-foreground transition-colors flex-shrink-0"
-                  style={{ boxShadow: "0 0 12px rgba(0, 255, 65, 0.35)" }}
-                >
-                  {paused
-                    ? <Play className="h-5 w-5 fill-current ml-[2px]" />
-                    : <Pause className="h-5 w-5 fill-current" />}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); muted ? unmute() : (videoRef.current && (videoRef.current.muted = true), setMuted(true)); }}
-                  aria-label={muted ? "Ativar som" : "Mutar"}
-                  className="h-11 w-11 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-colors flex-shrink-0"
-                >
-                  {muted ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}
-                </button>
-
-                <div className="flex-1" />
-
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const v = videoRef.current;
-                    if (!v) return;
-                    if (document.fullscreenElement) {
-                      void document.exitFullscreen();
-                    } else {
-                      void v.requestFullscreen?.();
-                    }
+                }
+              }}
+              onPointerUp={(e) => {
+                if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+                  e.currentTarget.releasePointerCapture(e.pointerId);
+                }
+              }}
+              className="absolute inset-x-0 bottom-0 z-30 h-3 flex items-end cursor-pointer touch-none group"
+            >
+              <div className="relative w-full h-1 group-hover:h-1.5 transition-[height] bg-white/20">
+                <div
+                  className="absolute inset-y-0 left-0 bg-primary"
+                  style={{
+                    width: `${progress}%`,
+                    boxShadow: "0 0 10px var(--primary), 0 0 4px var(--primary)",
                   }}
-                  aria-label="Tela cheia"
-                  className="h-11 w-11 rounded-full hover:bg-white/10 flex items-center justify-center text-white transition-colors flex-shrink-0"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M8 3H5a2 2 0 0 0-2 2v3" />
-                    <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
-                    <path d="M3 16v3a2 2 0 0 0 2 2h3" />
-                    <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
-                  </svg>
-                </button>
+                />
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{
+                    left: `calc(${progress}% - 6px)`,
+                    boxShadow: "0 0 8px var(--primary)",
+                  }}
+                />
               </div>
             </div>
           ) : (
-            <div className="absolute inset-x-0 bottom-0 z-30 h-1.5 bg-white/15 pointer-events-none">
+            <div className="absolute inset-x-0 bottom-0 z-30 h-1 bg-white/15 pointer-events-none">
               <div
                 className="h-full bg-primary transition-[width] duration-150 ease-linear"
                 style={{
