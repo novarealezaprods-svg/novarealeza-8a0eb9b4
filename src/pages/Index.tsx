@@ -359,10 +359,10 @@ export default function IndexPage() {
                 <div className="text-4xl md:text-5xl font-black text-foreground">100 Beats</div>
                 <div className="mt-2 text-xs md:text-sm text-muted-foreground">Prontos para gravar agora</div>
               </div>
-              <div className="flex flex-col items-center md:border-x md:border-border/60">
+              <div className="flex flex-col items-center md:border-x md:border-border/60 px-4">
                 <Globe className="h-7 w-7 text-primary mb-3" />
-                <div className="text-4xl md:text-5xl font-black text-foreground">6 Estilos</div>
-                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Funk, Trap, R&B, New Jazz, Hard, Sampled</div>
+                <div className="text-xl md:text-2xl font-black text-foreground">100 beats profissionais . Grave e poste hoje.</div>
+                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Qualidade de estúdio para sua carreira</div>
               </div>
               <div className="flex flex-col items-center">
                 <ShieldCheck className="h-7 w-7 text-primary mb-3" />
