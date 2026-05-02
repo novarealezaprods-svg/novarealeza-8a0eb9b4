@@ -50,7 +50,6 @@ export function ScarcityBar() {
 
       <div className="scarcity-legenda">
         <span className="scarcity-leg-v">82% já garantiram</span>
-        <span className="scarcity-leg-r">18% restantes</span>
       </div>
     </div>
   );
