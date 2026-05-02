@@ -400,45 +400,6 @@ export default function IndexPage() {
               </div>
             </Card>
           </div>
-
-          {/* BLOCO 4 — CTA Final */}
-          <div className="mt-16 md:mt-20 text-center flex flex-col items-center gap-4">
-            <ScarcityBar />
-            <p className="text-lg md:text-xl font-semibold text-foreground">
-              Mais de 1.200 artistas já escolheram parar de usar beat free
-            </p>
-            <Button onClick={handleCheckout} size="lg" variant="cta" className="h-14 px-10 text-base font-bold tracking-wide">
-              <span>QUERO MEUS 100 BEATS POR 19,90 →</span>
-            </Button>
-            <p className="text-sm text-primary font-medium">
-              ✓ Acesso imediato ✓ 7 dias de garantia ✓ Sem copyright strike
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 md:py-24">
-        <div className={CONTAINER}>
-          {/* BLOCO Métricas (movido para cá, perto do rodapé) */}
-          <div className="rounded-2xl bg-card/60 border border-border/60 py-10 px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 text-center max-w-5xl mx-auto">
-              <div className="flex flex-col items-center">
-                <Music className="h-7 w-7 text-primary mb-3" />
-                <div className="text-4xl md:text-5xl font-black text-foreground">100 Beats</div>
-                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Prontos para gravar agora</div>
-              </div>
-              <div className="flex flex-col items-center md:border-x md:border-border/60 px-4">
-                <Globe className="h-7 w-7 text-primary mb-3" />
-                <div className="text-xl md:text-2xl font-black text-foreground">100 beats profissionais . Grave e poste hoje.</div>
-                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Qualidade de estúdio para sua carreira</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <ShieldCheck className="h-7 w-7 text-primary mb-3" />
-                <div className="text-4xl md:text-5xl font-black text-foreground">100% Royalty Free</div>
-                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Spotify, YouTube e muito mais sem strike</div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
