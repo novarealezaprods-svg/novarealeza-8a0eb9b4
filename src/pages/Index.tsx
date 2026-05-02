@@ -96,7 +96,7 @@ export default function IndexPage() {
             em Beat <span className="text-accent">FREE</span>
           </h1>
 
-          <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed text-base md:text-lg text-center" style={{ animationDelay: "200ms" }}>
+          <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed text-xs text-muted-foreground mb-3 tracking-wide text-stone-100 md:text-base text-center" style={{ animationDelay: "200ms" }}>
             100 beats profissionais por menos<br />que um lanche. Grave e poste hoje.
           </p>
 
@@ -118,7 +118,7 @@ export default function IndexPage() {
           </div>
 
           <div className="hero-checks">
-            {["Sem copyright strike", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
+            {["+2500", "Sem pagar produtor", "Sem desculpa pra não gravar"].map((t, i) => (
               <span
                 key={i}
                 className={`hero-check hero-check-pyramid-${i + 1}`}
