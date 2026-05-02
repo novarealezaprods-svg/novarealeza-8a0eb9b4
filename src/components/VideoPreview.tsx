@@ -271,9 +271,9 @@ export function VideoPreview({ url }: { url: string }) {
                     e.currentTarget.releasePointerCapture(e.pointerId);
                   }
                 }}
-                className="relative w-full h-11 px-4 flex items-center cursor-pointer touch-none group"
+                className="relative w-full h-11 px-3 flex items-center cursor-pointer touch-none group"
               >
-                <div className="relative w-full h-1.5 rounded-full bg-white/25 overflow-visible">
+                <div className="relative w-full h-2 rounded-full bg-white/25 overflow-visible">
                   <div
                     className="absolute inset-y-0 left-0 rounded-full bg-primary"
                     style={{
@@ -291,8 +291,8 @@ export function VideoPreview({ url }: { url: string }) {
                 </div>
               </div>
 
-              {/* Controls row — min 56px height, 16px side padding */}
-              <div className="flex items-center gap-3 px-4 pb-2 min-h-[56px]">
+              {/* Controls row — 56px height, 12px side padding */}
+              <div className="flex items-center gap-3 px-3 pb-2 h-14">
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); togglePlay(); }}
