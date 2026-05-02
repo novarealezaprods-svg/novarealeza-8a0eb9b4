@@ -141,7 +141,7 @@ export default function IndexPage() {
               <span className="hero-cta-text">QUERO MEUS 100 BEATS AGORA</span>
             </button>
             <p className="hero-cta-sub">
-              <Lock className="hero-cta-sub-icon" strokeWidth={2.5} />
+              <span aria-hidden="true">🔒</span>
               <span>Pagamento seguro</span>
               <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
               <span>Acesso imediato</span>
