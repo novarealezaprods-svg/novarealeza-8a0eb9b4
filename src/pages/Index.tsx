@@ -421,18 +421,6 @@ export default function IndexPage() {
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
             <div className="relative">
-              <div className="mb-6 rounded-xl border border-border/60 bg-[#0d0d0d] px-4 py-3 max-w-md mx-auto">
-                <p className="text-sm md:text-base font-semibold text-foreground flex items-center justify-center gap-2 flex-wrap">
-                  <span aria-hidden="true">🔥</span>
-                  <span style={{ color: "#00FF41", textShadow: "0 0 10px rgba(0, 255, 65, 0.4)" }} className="font-black">
-                    +500
-                  </span>
-                  <span>artistas já garantiram o pack</span>
-                </p>
-              </div>
-              <div className="mb-8">
-                <CountdownTimer />
-              </div>
               <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
                 <span>Oferta limitada</span>
               </Badge>
@@ -451,7 +439,21 @@ export default function IndexPage() {
                 ))}
               </div>
 
-              <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-10 w-full h-14 text-base font-bold tracking-wide">
+              <div className="mt-8 rounded-xl border border-border/60 bg-[#0d0d0d] px-4 py-3 max-w-md mx-auto">
+                <p className="text-sm md:text-base font-semibold text-foreground flex items-center justify-center gap-2 flex-wrap">
+                  <span aria-hidden="true">🔥</span>
+                  <span style={{ color: "#00FF41", textShadow: "0 0 10px rgba(0, 255, 65, 0.4)" }} className="font-black">
+                    +500
+                  </span>
+                  <span>artistas já garantiram o pack</span>
+                </p>
+              </div>
+
+              <div className="mt-6">
+                <CountdownTimer />
+              </div>
+
+              <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-8 w-full h-14 text-base font-bold tracking-wide">
                 <Download className="h-5 w-5 mr-2" />
                 <span>QUERO MEU PACK AGORA</span>
               </Button>
