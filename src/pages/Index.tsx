@@ -378,7 +378,7 @@ export default function IndexPage() {
                   <p className="text-sm md:text-base font-semibold text-foreground flex items-center justify-center gap-2 flex-wrap">
                     <span aria-hidden="true">🔥</span>
                     <span style={{ color: "#00FF41", textShadow: "0 0 10px rgba(0, 255, 65, 0.4)" }} className="font-black">
-                      +500
+                      +2.500
                     </span>
                     <span>artistas já garantiram o pack</span>
                   </p>
