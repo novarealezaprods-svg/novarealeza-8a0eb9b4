@@ -431,3 +431,121 @@
 .hero-reviews-arrow {
   animation: hero-reviews-bounce 1.2s ease-in-out infinite;
 }
+
+/* Scarcity bar */
+@keyframes scarcity-alert-border {
+  0%, 100% { border-color: rgba(255, 60, 60, 0.15); }
+  50%      { border-color: rgba(255, 60, 60, 0.4); }
+}
+@keyframes scarcity-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+@keyframes scarcity-shimmer {
+  0%   { left: -60%; }
+  100% { left: 120%; }
+}
+.scarcity-bar {
+  background: #0d0d0d;
+  border: 1px solid rgba(255, 60, 60, 0.15);
+  border-radius: 12px;
+  padding: 14px 18px;
+  max-width: 460px;
+  width: 100%;
+  margin: 0 auto;
+  animation: scarcity-alert-border 2s ease-in-out infinite;
+}
+.scarcity-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.scarcity-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.scarcity-dot {
+  width: 7px;
+  height: 7px;
+  background: #FF3C3C;
+  border-radius: 50%;
+  animation: scarcity-pulse 1.2s ease-in-out infinite;
+}
+.scarcity-badge > span:last-child {
+  font-size: 12px;
+  font-weight: 700;
+  color: #FF3C3C;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.scarcity-restantes {
+  font-size: 12px;
+  color: #555;
+}
+.scarcity-restantes strong {
+  color: #FF3C3C;
+  font-weight: 700;
+}
+.scarcity-barra-wrap {
+  position: relative;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+.scarcity-barra-fundo {
+  width: 100%;
+  height: 10px;
+  background: #1a1a1a;
+  border-radius: 100px;
+  overflow: hidden;
+}
+.scarcity-barra-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00cc33, #00FF41);
+  border-radius: 100px;
+  transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+.scarcity-barra-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: scarcity-shimmer 2.5s ease-in-out infinite;
+  animation-delay: 1.8s;
+}
+.scarcity-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background: #00FF41;
+  border-radius: 50%;
+  border: 2.5px solid #0d0d0d;
+  left: 0%;
+  transition: left 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+}
+.scarcity-legenda {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+.scarcity-leg-v {
+  font-size: 11px;
+  color: #00FF41;
+  font-weight: 600;
+}
+.scarcity-leg-r {
+  font-size: 11px;
+  color: #FF3C3C;
+  font-weight: 600;
+}
