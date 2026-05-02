@@ -384,10 +384,15 @@ export default function IndexPage() {
                   </p>
                 </div>
 
-                <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-8 w-full h-14 text-base font-bold tracking-wide">
-                  <Download className="h-5 w-5 mr-2" />
-                  <span>QUERO MEU PACK AGORA</span>
-                </Button>
+                <div className="hero-cta-block flex flex-col items-center w-full">
+                  <button
+                    onClick={handleCheckout}
+                    className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
+                  >
+                    <span className="hero-cta-shine" aria-hidden="true" />
+                    <span className="hero-cta-text">QUERO MEU PACK AGORA</span>
+                  </button>
+                </div>
                 <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1">
                   <ShieldCheck className="h-3 w-3" />
                   <span>Garantia incondicional de 7 dias</span>
