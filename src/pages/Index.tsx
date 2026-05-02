@@ -8,6 +8,7 @@ import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, M
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { ScarcityBar } from "@/components/ScarcityBar";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
@@ -402,6 +403,7 @@ export default function IndexPage() {
 
           {/* BLOCO 4 — CTA Final */}
           <div className="mt-16 md:mt-20 text-center flex flex-col items-center gap-4">
+            <ScarcityBar />
             <p className="text-lg md:text-xl font-semibold text-foreground">
               Mais de 1.200 artistas já escolheram parar de usar beat free
             </p>
