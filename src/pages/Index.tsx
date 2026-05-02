@@ -372,35 +372,6 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* BLOCO 3 — Depoimentos */}
-          <div className="mt-16 md:mt-20">
-            <h3 className="text-3xl md:text-4xl font-black tracking-tight text-center text-foreground mb-10">
-              Artistas que pararam de usar beat free
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {[
-                { name: "Lucas M.", text: "Eu lançava música e ficava com vergonha de divulgar por causa do beat. Depois do pack gravei 4 músicas em uma semana. A qualidade mudou tudo.", seed: "lucas" },
-                { name: "Kauan R.", text: "Gastava horas procurando beat no YouTube e sempre tomava strike. Agora tenho 100 opções prontas e posto sem medo nenhum.", seed: "kauan" },
-                { name: "Thiago S.", text: "Por R$19,90 eu achei que ia ser furada. Errei feio. É o melhor investimento que fiz na minha carreira até agora.", seed: "thiago" },
-              ].map((t, i) => (
-                <Card key={i} className="p-6 border-border/60 bg-card flex flex-col items-center text-center">
-                  <img
-                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${t.seed}`}
-                    alt={t.name}
-                    className="h-20 w-20 rounded-full border-2 border-primary/40 bg-muted mb-4"
-                  />
-                  <div className="font-bold text-foreground">{t.name}</div>
-                  <div className="flex gap-0.5 my-2">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed mt-2">{`"${t.text}"`}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-
           {/* BLOCO 4 — CTA Final */}
           <div className="mt-16 md:mt-20 text-center flex flex-col items-center gap-4">
             <p className="text-lg md:text-xl font-semibold text-foreground">
