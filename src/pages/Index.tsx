@@ -163,7 +163,7 @@ export default function IndexPage() {
               PRÉVIA DOS BEATS
             </h2>
             <p className="mt-3 text-muted-foreground text-sm">
-              1 minuto de prévia · No pack você recebe a versão completa
+              1 minuto de prévia · No pack você recebe a versão completa COM 100 BEATS
             </p>
           </div>
 
