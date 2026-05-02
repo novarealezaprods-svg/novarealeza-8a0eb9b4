@@ -81,10 +81,40 @@ export default function IndexPage() {
   }, []);
 
   const handleCheckout = () => {
-    if (checkoutUrl) {
+    if (!checkoutUrl) return;
+    // Track AddToCart
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq("track", "AddToCart");
+    }
+    // Forward all current URL params (utm_*, fbclid, gclid, etc.) to checkout
+    try {
+      const url = new URL(checkoutUrl);
+      const incoming = new URLSearchParams(window.location.search);
+      incoming.forEach((value, key) => {
+        if (!url.searchParams.has(key)) url.searchParams.set(key, value);
+      });
+      window.open(url.toString(), "_blank", "noopener,noreferrer");
+    } catch {
       window.open(checkoutUrl, "_blank", "noopener,noreferrer");
     }
   };
+
+  // ViewContent at 75% scroll
+  useEffect(() => {
+    let fired = false;
+    const onScroll = () => {
+      if (fired) return;
+      const scrolled = window.scrollY + window.innerHeight;
+      const total = document.documentElement.scrollHeight;
+      if (total > 0 && scrolled / total >= 0.75) {
+        fired = true;
+        if ((window as any).fbq) (window as any).fbq("track", "ViewContent");
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
