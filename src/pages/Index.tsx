@@ -132,6 +132,22 @@ export default function IndexPage() {
             ))}
           </div>
 
+          <div className="scarcity-block w-full max-w-md mx-auto mt-8">
+            <p className="scarcity-warning">
+              ⚠️ ATENÇÃO: Apenas 18 unidades restantes neste preço
+            </p>
+            <div className="scarcity-bar" role="progressbar" aria-valuenow={82} aria-valuemin={0} aria-valuemax={100}>
+              <div className="scarcity-bar-fill" />
+            </div>
+            <div className="scarcity-meta">
+              <span>82 vendidos</span>
+              <span>18 restantes</span>
+            </div>
+            <p className="scarcity-final">
+              🔴 Quando esgotar, o preço sobe para R$ 47,00
+            </p>
+          </div>
+
           <div className="hero-cta-block flex flex-col items-center w-full">
             <button
               onClick={handleCheckout}
