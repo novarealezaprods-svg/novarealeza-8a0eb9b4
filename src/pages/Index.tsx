@@ -406,7 +406,7 @@ export default function IndexPage() {
               Mais de 1.200 artistas já escolheram parar de usar beat free
             </p>
             <Button onClick={handleCheckout} size="lg" variant="cta" className="h-14 px-10 text-base font-bold tracking-wide">
-              <span>Quero meus 100 Beats por R$19,90 →</span>
+              <span>QUERO MEUS 100 BEATS POR 19,90 →</span>
             </Button>
             <p className="text-sm text-primary font-medium">
               ✓ Acesso imediato ✓ 7 dias de garantia ✓ Sem copyright strike
