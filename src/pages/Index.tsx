@@ -7,7 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
-import { CountdownTimer } from "@/components/CountdownTimer";
+
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
@@ -398,10 +398,6 @@ export default function IndexPage() {
                     </span>
                     <span>artistas já garantiram o pack</span>
                   </p>
-                </div>
-
-                <div className="mt-6">
-                  <CountdownTimer />
                 </div>
 
                 <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-8 w-full h-14 text-base font-bold tracking-wide">
