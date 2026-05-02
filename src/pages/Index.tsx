@@ -7,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield } from "lucide-react";
 import { BeatPlayer, type BeatItem } from "@/components/BeatPlayer";
 import { VideoPreview } from "@/components/VideoPreview";
+import { CountdownTimer } from "@/components/CountdownTimer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
@@ -420,6 +421,18 @@ export default function IndexPage() {
           <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
             <div className="relative">
+              <div className="mb-6 rounded-xl border border-border/60 bg-[#0d0d0d] px-4 py-3 max-w-md mx-auto">
+                <p className="text-sm md:text-base font-semibold text-foreground flex items-center justify-center gap-2 flex-wrap">
+                  <span aria-hidden="true">🔥</span>
+                  <span style={{ color: "#00FF41", textShadow: "0 0 10px rgba(0, 255, 65, 0.4)" }} className="font-black">
+                    +500
+                  </span>
+                  <span>artistas já garantiram o pack</span>
+                </p>
+              </div>
+              <div className="mb-8">
+                <CountdownTimer />
+              </div>
               <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
                 <span>Oferta limitada</span>
               </Badge>
