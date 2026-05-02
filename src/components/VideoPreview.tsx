@@ -209,32 +209,6 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Big "Ativar som" overlay — visible while muted */}
-      {muted && !ended && !loading && !playbackFailed && (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            unmute();
-          }}
-          aria-label="Ativar som"
-          className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-[2px] hover:bg-black/50 transition-colors group"
-        >
-          <div
-            className="h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform"
-            style={{
-              boxShadow:
-                "0 0 24px var(--primary), 0 0 8px var(--primary), 0 6px 18px rgba(0,0,0,0.5)",
-            }}
-          >
-            <VolumeX className="h-9 w-9 text-primary-foreground" />
-          </div>
-          <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-sm sm:text-base">
-            Toque para ativar o som
-          </span>
-        </button>
-      )}
-
       {playbackFailed && !ended && (
         <div className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 pointer-events-none">
           <div
