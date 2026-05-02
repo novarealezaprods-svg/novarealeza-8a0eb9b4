@@ -351,25 +351,53 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* BLOCO 2 — Métricas */}
-          <div className="mt-16 md:mt-20 rounded-2xl bg-card/60 border border-border/60 py-10 px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 text-center max-w-5xl mx-auto">
-              <div className="flex flex-col items-center">
-                <Music className="h-7 w-7 text-primary mb-3" />
-                <div className="text-4xl md:text-5xl font-black text-foreground">100 Beats</div>
-                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Prontos para gravar agora</div>
+          {/* BLOCO 2 — Card de Compra (movido para cá) */}
+          <div className="mt-16 md:mt-20">
+            <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
+              <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
+              <div className="relative">
+                <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
+                  <span>Oferta limitada</span>
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight">Pack de 100 Beats</h2>
+                <div className="mt-6 flex items-center justify-center">
+                  <span className="text-4xl md:text-5xl font-black text-primary">R$ 19,90</span>
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">Pagamento único · Acesso vitalício</p>
+
+                <div className="mt-8 space-y-2 text-left max-w-sm mx-auto">
+                  {features.slice(0, 4).map((f, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm">
+                      <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 rounded-xl border border-border/60 bg-[#0d0d0d] px-4 py-3 max-w-md mx-auto">
+                  <p className="text-sm md:text-base font-semibold text-foreground flex items-center justify-center gap-2 flex-wrap">
+                    <span aria-hidden="true">🔥</span>
+                    <span style={{ color: "#00FF41", textShadow: "0 0 10px rgba(0, 255, 65, 0.4)" }} className="font-black">
+                      +500
+                    </span>
+                    <span>artistas já garantiram o pack</span>
+                  </p>
+                </div>
+
+                <div className="mt-6">
+                  <CountdownTimer />
+                </div>
+
+                <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-8 w-full h-14 text-base font-bold tracking-wide">
+                  <Download className="h-5 w-5 mr-2" />
+                  <span>QUERO MEU PACK AGORA</span>
+                </Button>
+                <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Garantia incondicional de 7 dias</span>
+                </p>
               </div>
-              <div className="flex flex-col items-center md:border-x md:border-border/60 px-4">
-                <Globe className="h-7 w-7 text-primary mb-3" />
-                <div className="text-xl md:text-2xl font-black text-foreground">100 beats profissionais . Grave e poste hoje.</div>
-                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Qualidade de estúdio para sua carreira</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <ShieldCheck className="h-7 w-7 text-primary mb-3" />
-                <div className="text-4xl md:text-5xl font-black text-foreground">100% Royalty Free</div>
-                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Spotify, YouTube e muito mais sem strike</div>
-              </div>
-            </div>
+            </Card>
           </div>
 
           {/* BLOCO 4 — CTA Final */}
@@ -389,51 +417,26 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24">
         <div className={CONTAINER}>
-          <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
-            <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
-            <div className="relative">
-              <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
-                <span>Oferta limitada</span>
-              </Badge>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight">Pack de 100 Beats</h2>
-              <div className="mt-6 flex items-center justify-center">
-                <span className="text-4xl md:text-5xl font-black text-primary">R$ 19,90</span>
+          {/* BLOCO Métricas (movido para cá, perto do rodapé) */}
+          <div className="rounded-2xl bg-card/60 border border-border/60 py-10 px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 text-center max-w-5xl mx-auto">
+              <div className="flex flex-col items-center">
+                <Music className="h-7 w-7 text-primary mb-3" />
+                <div className="text-4xl md:text-5xl font-black text-foreground">100 Beats</div>
+                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Prontos para gravar agora</div>
               </div>
-              <p className="mt-2 text-sm text-muted-foreground">Pagamento único · Acesso vitalício</p>
-
-              <div className="mt-8 space-y-2 text-left max-w-sm mx-auto">
-                {features.slice(0, 4).map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm">
-                    <Check className="h-4 w-4 text-primary flex-shrink-0" />
-                    <span>{f}</span>
-                  </div>
-                ))}
+              <div className="flex flex-col items-center md:border-x md:border-border/60 px-4">
+                <Globe className="h-7 w-7 text-primary mb-3" />
+                <div className="text-xl md:text-2xl font-black text-foreground">100 beats profissionais . Grave e poste hoje.</div>
+                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Qualidade de estúdio para sua carreira</div>
               </div>
-
-              <div className="mt-8 rounded-xl border border-border/60 bg-[#0d0d0d] px-4 py-3 max-w-md mx-auto">
-                <p className="text-sm md:text-base font-semibold text-foreground flex items-center justify-center gap-2 flex-wrap">
-                  <span aria-hidden="true">🔥</span>
-                  <span style={{ color: "#00FF41", textShadow: "0 0 10px rgba(0, 255, 65, 0.4)" }} className="font-black">
-                    +500
-                  </span>
-                  <span>artistas já garantiram o pack</span>
-                </p>
+              <div className="flex flex-col items-center">
+                <ShieldCheck className="h-7 w-7 text-primary mb-3" />
+                <div className="text-4xl md:text-5xl font-black text-foreground">100% Royalty Free</div>
+                <div className="mt-2 text-xs md:text-sm text-muted-foreground">Spotify, YouTube e muito mais sem strike</div>
               </div>
-
-              <div className="mt-6">
-                <CountdownTimer />
-              </div>
-
-              <Button onClick={handleCheckout} size="lg" variant="cta" className="mt-8 w-full h-14 text-base font-bold tracking-wide">
-                <Download className="h-5 w-5 mr-2" />
-                <span>QUERO MEU PACK AGORA</span>
-              </Button>
-              <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1">
-                <ShieldCheck className="h-3 w-3" />
-                <span>Garantia incondicional de 7 dias</span>
-              </p>
             </div>
-          </Card>
+          </div>
         </div>
       </section>
 
