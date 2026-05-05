@@ -210,8 +210,12 @@ export default function IndexPage() {
 
           {beats.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
-              {beats.slice(0, 10).map((b, i) => {
-                const meta = BEAT_META[i] || { name: b.name, genre: "TRAP" };
+              {beats.slice(0, 10).map((b: any, i) => {
+                const fallback = BEAT_META[i] || { name: b.name, genre: "TRAP" };
+                const meta = {
+                  name: b.name || fallback.name,
+                  genre: b.genre || fallback.genre,
+                };
                 return (
                   <BeatPlayer
                     key={`${b.name}-${i}`}
