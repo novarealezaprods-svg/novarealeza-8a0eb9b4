@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Play, Pause } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -12,55 +12,139 @@ export type BeatItem = {
 
 const PREVIEW_SECONDS = 60;
 
-// Global registry of every BeatPlayer audio element on the page.
-// Ensures only one beat can play at a time — when one starts, all others pause and reset.
-const allAudios = new Set<HTMLAudioElement>();
-let currentAudio: HTMLAudioElement | null = null;
+type PlaybackSnapshot = {
+  activeUrl: string | null;
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+};
 
-function stopAllExcept(target: HTMLAudioElement | null) {
-  allAudios.forEach((a) => {
-    if (a !== target && !a.paused) {
-      try {
-        a.pause();
-        a.currentTime = 0;
-      } catch {}
+const listeners = new Set<() => void>();
+
+let globalAudio: HTMLAudioElement | null = null;
+let currentUrl: string | null = null;
+let playbackSnapshot: PlaybackSnapshot = {
+  activeUrl: null,
+  isPlaying: false,
+  currentTime: 0,
+  duration: 0,
+};
+
+function emitPlaybackChange() {
+  listeners.forEach((listener) => listener());
+}
+
+function updatePlaybackSnapshot(partial?: Partial<PlaybackSnapshot>) {
+  const audio = globalAudio;
+  playbackSnapshot = {
+    activeUrl: currentUrl,
+    isPlaying: audio ? !audio.paused && !!currentUrl : false,
+    currentTime: audio && currentUrl ? audio.currentTime : 0,
+    duration: audio && currentUrl ? audio.duration || 0 : 0,
+    ...partial,
+  };
+  emitPlaybackChange();
+}
+
+function getGlobalAudio() {
+  if (typeof window === "undefined") return null;
+  if (globalAudio) return globalAudio;
+
+  globalAudio = new Audio();
+  globalAudio.preload = "metadata";
+
+  globalAudio.addEventListener("play", () => {
+    updatePlaybackSnapshot({ isPlaying: true });
+  });
+
+  globalAudio.addEventListener("pause", () => {
+    updatePlaybackSnapshot({ isPlaying: false });
+  });
+
+  globalAudio.addEventListener("loadedmetadata", () => {
+    updatePlaybackSnapshot({ duration: globalAudio?.duration || 0 });
+  });
+
+  globalAudio.addEventListener("timeupdate", () => {
+    if (!globalAudio || !currentUrl) return;
+
+    if (globalAudio.currentTime >= PREVIEW_SECONDS) {
+      globalAudio.pause();
+      globalAudio.currentTime = PREVIEW_SECONDS;
+      updatePlaybackSnapshot({ currentTime: PREVIEW_SECONDS, isPlaying: false });
+      return;
     }
+
+    updatePlaybackSnapshot({ currentTime: globalAudio.currentTime });
+  });
+
+  globalAudio.addEventListener("ended", () => {
+    if (!globalAudio) return;
+    globalAudio.currentTime = 0;
+    updatePlaybackSnapshot({ currentTime: 0, isPlaying: false });
+  });
+
+  return globalAudio;
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+function playBeat(url: string) {
+  const audio = getGlobalAudio();
+  if (!audio) return;
+
+  const nextUrl = normalizeDirectUrl(url);
+  const shouldReplaceSource = currentUrl !== nextUrl || audio.src !== nextUrl;
+
+  audio.pause();
+
+  if (shouldReplaceSource) {
+    audio.src = nextUrl;
+  }
+
+  currentUrl = nextUrl;
+  audio.currentTime = 0;
+  updatePlaybackSnapshot({ activeUrl: currentUrl, currentTime: 0, duration: audio.duration || 0 });
+
+  audio.play().catch((err) => {
+    console.warn("Beat playback failed:", err);
+    updatePlaybackSnapshot({ isPlaying: false });
   });
 }
 
+function pauseBeat(url: string) {
+  const audio = getGlobalAudio();
+  const normalizedUrl = normalizeDirectUrl(url);
+  if (!audio || currentUrl !== normalizedUrl) return;
+  audio.pause();
+}
+
 export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [playing, setPlaying] = useState(false);
-  const [current, setCurrent] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const beatUrl = useMemo(() => normalizeDirectUrl(beat.url), [beat.url]);
+  const [snapshot, setSnapshot] = useState<PlaybackSnapshot>(playbackSnapshot);
+
+  useEffect(() => subscribe(() => setSnapshot({ ...playbackSnapshot })), []);
+
+  useEffect(() => {
+    getGlobalAudio();
+  }, []);
+
+  const playing = snapshot.activeUrl === beatUrl && snapshot.isPlaying;
+  const current = snapshot.activeUrl === beatUrl ? snapshot.currentTime : 0;
+  const duration = snapshot.activeUrl === beatUrl ? snapshot.duration : 0;
 
   const previewEnd = Math.min(PREVIEW_SECONDS, duration || PREVIEW_SECONDS);
   const progress = previewEnd ? Math.min(current / previewEnd, 1) : 0;
 
-  useEffect(() => {
-    const a = audioRef.current;
-    if (!a) return;
-    allAudios.add(a);
-    return () => {
-      allAudios.delete(a);
-      if (currentAudio === a) currentAudio = null;
-    };
-  }, []);
-
   const toggle = () => {
-    const a = audioRef.current;
-    if (!a) return;
     if (playing) {
-      a.pause();
+      pauseBeat(beatUrl);
       return;
     }
-    // Pause + reset every other beat before starting this one.
-    stopAllExcept(a);
-    if (a.currentTime >= previewEnd) a.currentTime = 0;
-    currentAudio = a;
-    a.play().catch((err) => {
-      console.warn("Beat playback failed:", err);
-    });
+    playBeat(beatUrl);
   };
 
   return (
@@ -88,30 +172,6 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
         <div className="text-sm font-semibold truncate max-w-full">{beat.name}</div>
       )}
 
-      <audio
-        ref={audioRef}
-        src={normalizeDirectUrl(beat.url)}
-        preload="metadata"
-        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-        onPlay={(e) => {
-          stopAllExcept(e.currentTarget);
-          currentAudio = e.currentTarget;
-          setPlaying(true);
-        }}
-        onPause={() => setPlaying(false)}
-        onEnded={(e) => {
-          if (currentAudio === e.currentTarget) currentAudio = null;
-          setPlaying(false);
-        }}
-        onTimeUpdate={(e) => {
-          const t = e.currentTarget.currentTime;
-          if (t >= PREVIEW_SECONDS) {
-            e.currentTarget.pause();
-            e.currentTarget.currentTime = PREVIEW_SECONDS;
-          }
-          setCurrent(t);
-        }}
-      />
     </Card>
   );
 }
