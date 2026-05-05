@@ -74,6 +74,25 @@ export default function IndexPage() {
     return () => io.disconnect();
   }, []);
 
+  // Scroll reveal animations
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            (e.target as HTMLElement).classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [beats.length, proofImages.length]);
+
   useEffect(() => {
     (async () => {
       const [{ data: settings }, { data: imgs }, { data: bts }] = await Promise.all([
@@ -198,7 +217,7 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24 border-t border-border/50">
         <div className={CONTAINER}>
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
               Ouça Antes de Comprar
             </h2>
@@ -234,7 +253,7 @@ export default function IndexPage() {
             </Card>
           )}
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5 reveal">
             {genres.map((g, i) => (
               <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
                 {g}
@@ -250,7 +269,7 @@ export default function IndexPage() {
             <span className="text-sm font-semibold">Veja as avaliações do pack</span>
             <ChevronDown className="hero-reviews-arrow h-5 w-5 mt-1" />
           </div>
-          <div className="text-center mb-8 md:mb-12">
+          <div className="text-center mb-8 md:mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
             <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
           </div>
@@ -300,7 +319,7 @@ export default function IndexPage() {
       <section className="py-20 md:py-24 bg-background border-t border-border/50">
         <div className={CONTAINER}>
           {/* BLOCO 1 — Antes vs Depois */}
-          <div className="text-center mb-14">
+          <div className="text-center mb-14 reveal">
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
               O que muda quando você
               <br />
@@ -313,7 +332,7 @@ export default function IndexPage() {
           <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-6 items-center max-w-5xl mx-auto">
             {/* ANTES */}
             <div
-              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a]"
+              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a] reveal reveal-left"
             >
               <div className="flex items-center gap-3 mb-6">
                 <Skull className="h-6 w-6 text-destructive" />
@@ -376,7 +395,7 @@ export default function IndexPage() {
 
             {/* DEPOIS */}
             <div
-              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a]"
+              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a] reveal reveal-right"
             >
               <div className="flex items-center gap-3 mb-6">
                 <Trophy className="h-6 w-6 text-primary" />
@@ -406,7 +425,7 @@ export default function IndexPage() {
           </div>
 
           {/* BLOCO 2 — Card de Compra (movido para cá) */}
-          <div className="mt-16 md:mt-20">
+          <div className="mt-16 md:mt-20 reveal reveal-zoom">
             <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
               <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
               <div className="relative">
@@ -473,7 +492,7 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24">
         <div className={CONTAINER}>
-          <div className="text-center mb-14">
+          <div className="text-center mb-14 reveal">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
               <span>O que vem no pack</span>
             </Badge>
@@ -483,7 +502,7 @@ export default function IndexPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {features.map((f, i) => (
-              <Card key={i} className="p-5 flex items-start gap-3 border-border/60 bg-card hover:border-primary/40 transition-colors">
+              <Card key={i} className="p-5 flex items-start gap-3 border-border/60 bg-card hover:border-primary/40 transition-colors reveal" style={{ transitionDelay: `${i * 80}ms` }}>
                 <div className="h-6 w-6 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="h-3.5 w-3.5 text-primary" />
                 </div>
@@ -496,7 +515,7 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24 border-t border-border/50">
         <div className={`${CONTAINER} max-w-3xl`}>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10 reveal">
             Perguntas frequentes
           </h2>
           <Accordion type="single" collapsible className="w-full">
