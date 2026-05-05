@@ -200,7 +200,7 @@ export function BeatPlayer({
 
   return (
     <div
-      className="beat-card-anim group relative flex flex-col text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 min-h-[180px] md:min-h-0 max-h-[180px] md:max-h-none"
+      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 h-[180px] md:h-auto md:min-h-0"
       style={{
         background: bgImage
           ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
@@ -216,7 +216,7 @@ export function BeatPlayer({
     >
       {genre && (
         <span
-          className="self-start text-[10px] absolute top-2 left-2 md:static z-10"
+          className="absolute top-2 left-2 z-10 text-[10px] md:self-start md:static"
           style={{
             background: "#0a2e0a",
             color: "#39FF14",
@@ -232,7 +232,7 @@ export function BeatPlayer({
       )}
 
       <div
-        className="text-center text-white truncate text-[12px] md:text-base mt-7 md:mt-3 px-2 py-1 rounded"
+        className="text-center text-white truncate text-[12px] md:text-base mt-0 md:mt-3 px-2 py-1 rounded self-stretch"
         style={{
           fontWeight: 800,
           textTransform: "uppercase",
@@ -243,7 +243,7 @@ export function BeatPlayer({
         {name}
       </div>
 
-      <div className="flex justify-center my-2 md:my-4">
+      <div className="flex justify-center my-1 md:my-4">
         <button
           onClick={toggle}
           aria-label={isPlaying ? "Pausar" : "Tocar"}
