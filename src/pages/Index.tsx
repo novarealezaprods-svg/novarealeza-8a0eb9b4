@@ -35,6 +35,19 @@ const faq = [
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
 
+const BEAT_META: { name: string; genre: string }[] = [
+  { name: "Type Trap", genre: "TRAP" },
+  { name: "Type Trap", genre: "TRAP" },
+  { name: "Type Alee", genre: "FUNK" },
+  { name: "Type Funk", genre: "FUNK" },
+  { name: "Type Hood Drill", genre: "DRILL" },
+  { name: "Type Skrilla", genre: "TRAP" },
+  { name: "Type Ambient Hood", genre: "HOOD" },
+  { name: "Type Don Toliver", genre: "TRAP" },
+  { name: "Nave Nova na Favela", genre: "FUNK" },
+  { name: "Type Florida", genre: "TRAP" },
+];
+
 export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
@@ -186,22 +199,29 @@ export default function IndexPage() {
       <section className="py-20 md:py-24 border-t border-border/50">
         <div className={CONTAINER}>
           <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-primary/40 text-primary">
-              <span>Ouça antes de comprar</span>
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-              PRÉVIA DOS BEATS
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
+              Ouça Antes de Comprar
             </h2>
-            <p className="mt-3 text-muted-foreground text-sm">
-              1 minuto de prévia · No pack você recebe a versão completa COM 100 BEATS
+            <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
+            <p className="mt-4 text-[15px]" style={{ color: "#888" }}>
+              10 beats exclusivos do pack — Trap, Funk, Drill, Hood e muito mais
             </p>
           </div>
 
           {beats.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 max-w-5xl mx-auto">
-              {beats.slice(0, 10).map((b, i) => (
-                <BeatPlayer key={`${b.name}-${i}`} beat={b} index={i} />
-              ))}
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 max-w-5xl mx-auto">
+              {beats.slice(0, 10).map((b, i) => {
+                const meta = BEAT_META[i] || { name: b.name, genre: "TRAP" };
+                return (
+                  <BeatPlayer
+                    key={`${b.name}-${i}`}
+                    beat={b}
+                    index={i}
+                    displayName={meta.name}
+                    genre={meta.genre}
+                  />
+                );
+              })}
             </div>
           ) : (
             <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
