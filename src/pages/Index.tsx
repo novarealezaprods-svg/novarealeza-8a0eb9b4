@@ -217,7 +217,7 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24 border-t border-border/50">
         <div className={CONTAINER}>
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
               Ouça Antes de Comprar
             </h2>
@@ -253,7 +253,7 @@ export default function IndexPage() {
             </Card>
           )}
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5 reveal">
             {genres.map((g, i) => (
               <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
                 {g}
