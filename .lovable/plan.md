@@ -1,31 +1,22 @@
-Vou corrigir o problema em duas frentes, porque o bug não está só no player:
+## Diagnóstico
 
-1. Refatorar o player para usar apenas um `Audio()` global compartilhado
-- Centralizar reprodução, pausa, progresso e estado ativo em um único controlador global.
-- Garantir a regra principal: ao tocar um beat, qualquer outro para imediatamente e volta para o início.
-- Manter exatamente o mesmo visual dos cards e botões.
-- Adicionar tratamento de erro por beat para evitar estado travado quando uma URL falhar.
+A rota `/admin` está configurada corretamente em `src/main.tsx` (BrowserRouter + React Router DOM). O problema é de **hospedagem**, não de código:
 
-2. Corrigir a origem das URLs dos beats
-- Remover a dependência do formato atual de links do Dropbox que hoje está retornando HTML/404 para vários beats.
-- Ajustar a normalização de URL para não gerar links inválidos.
-- Se necessário, trocar os beats problemáticos para URLs públicas estáveis do backend/storage do projeto, que são adequadas para reprodução direta.
+- `GET /` → 200 OK
+- `GET /admin` → **404** (no preview e no site publicado `novarealeza.lovable.app`)
 
-3. Validar os 10 beats cadastrados
-- Conferir os 10 registros atuais da tabela de beats.
-- Identificar quais URLs estão válidas e quais estão quebradas.
-- Atualizar os registros problemáticos para garantir que todos os 10 tenham um arquivo de áudio realmente reproduzível.
+Esta é uma SPA Vite pura (não TanStack Start, apesar do nome no `package.json`). Quando o usuário acessa `/admin` diretamente, o servidor procura um arquivo físico nesse caminho, não encontra e devolve 404 antes que o React Router possa atuar. O `vercel.json` existe, mas o Lovable hosting não o usa — precisa de um arquivo `_redirects` em `public/`.
 
-4. Testar o comportamento final
-- Verificar que qualquer um dos 10 beats consegue iniciar.
-- Verificar que clicar em outro beat pausa o anterior e zera o tempo.
-- Verificar que nenhum beat fica permanentemente mudo após outro tocar.
+## Correção
 
-Detalhes técnicos
-- Hoje os beats em `position` 0, 1, 6 e 9 usam URLs públicas do storage e tendem a responder com `audio/wav`.
-- Vários outros beats usam links do Dropbox que, no formato atual, não retornam o arquivo de áudio diretamente para o browser.
-- Então a solução correta é combinar:
-  - controlador global único de áudio
-  - URLs de mídia realmente reproduzíveis
+1. **Criar `public/_redirects`** com o fallback de SPA:
+   ```
+   /*    /index.html   200
+   ```
+   Isso faz o servidor entregar `index.html` para qualquer rota desconhecida, e o React Router assume o roteamento no cliente. `/admin` então renderiza o `AdminPage`, que mostra a tela de senha quando `sessionStorage` não está marcado.
 
-Assim que você aprovar, eu implemento a refatoração e corrijo os links problemáticos para deixar os 10 funcionando de verdade.
+2. **Validar** após o deploy:
+   - Acessar `/admin` direto → tela "Painel Admin / Senha" aparece
+   - O fluxo de autenticação local (senha `admin123` em `sessionStorage`) já funciona — sem alterações em `Admin.tsx`
+
+Nenhuma outra mudança no código é necessária.
