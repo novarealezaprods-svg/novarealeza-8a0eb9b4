@@ -200,14 +200,13 @@ export function BeatPlayer({
 
   return (
     <div
-      className="beat-card-anim group relative flex flex-col text-left transition-all duration-200 hover:-translate-y-1"
+      className="beat-card-anim group relative flex flex-col text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 max-h-[160px] md:max-h-none"
       style={{
         background: bgImage
           ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
           : "#111111",
         border: `1px solid ${isPlaying ? "#39FF14" : "#222222"}`,
         borderRadius: 16,
-        padding: 20,
         overflow: "hidden",
         boxShadow: isPlaying
           ? "0 0 0 1px #39FF14, 0 0 24px rgba(57,255,20,0.25), 0 4px 24px rgba(0,0,0,0.4)"
@@ -217,11 +216,10 @@ export function BeatPlayer({
     >
       {genre && (
         <span
-          className="self-start"
+          className="self-start text-[10px]"
           style={{
             background: "#0a2e0a",
             color: "#39FF14",
-            fontSize: 10,
             fontWeight: 700,
             textTransform: "uppercase",
             borderRadius: 4,
@@ -234,30 +232,30 @@ export function BeatPlayer({
       )}
 
       <div
-        className="text-center text-white truncate"
-        style={{ fontSize: 16, fontWeight: 800, textTransform: "uppercase", marginTop: 12 }}
+        className="text-center text-white truncate text-[13px] md:text-base mt-2 md:mt-3"
+        style={{ fontWeight: 800, textTransform: "uppercase", textShadow: "0 1px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)" }}
       >
         {name}
       </div>
 
-      <div className="flex justify-center my-4">
+      <div className="flex justify-center my-2 md:my-4">
         <button
           onClick={toggle}
           aria-label={isPlaying ? "Pausar" : "Tocar"}
           disabled={!resolvedUrl}
-          className={`h-16 w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${
+          className={`h-10 w-10 md:h-16 md:w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${
             isPlaying ? "beat-pulse" : ""
           }`}
         >
           {isPlaying ? (
-            <Pause className="h-7 w-7 fill-current" />
+            <Pause className="h-4 w-4 md:h-7 md:w-7 fill-current" />
           ) : (
-            <Play className="h-7 w-7 fill-current ml-0.5" />
+            <Play className="h-4 w-4 md:h-7 md:w-7 fill-current ml-0.5" />
           )}
         </button>
       </div>
 
-      <div className="text-center" style={{ fontSize: 13 }}>
+      <div className="text-center text-[11px] md:text-[13px]">
         {beat.bpm && (
           <span style={{ color: "#fff", fontWeight: 700 }}>{beat.bpm} BPM</span>
         )}
@@ -266,7 +264,7 @@ export function BeatPlayer({
       </div>
 
       <div
-        className="mt-3 w-full overflow-hidden"
+        className="mt-2 md:mt-3 w-full overflow-hidden"
         style={{ background: "#222222", height: 3, borderRadius: 4 }}
       >
         <div
