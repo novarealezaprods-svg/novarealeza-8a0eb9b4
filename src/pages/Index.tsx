@@ -395,7 +395,7 @@ export default function IndexPage() {
 
             {/* DEPOIS */}
             <div
-              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a]"
+              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a] reveal reveal-right"
             >
               <div className="flex items-center gap-3 mb-6">
                 <Trophy className="h-6 w-6 text-primary" />
