@@ -124,10 +124,18 @@ export default function AdminPage() {
 
   // Upload áudio direto para o storage e retorna URL pública
   const uploadAudio = async (file: File): Promise<string | null> => {
-    const ext = file.name.split(".").pop() || "mp3";
+    const ext = (file.name.split(".").pop() || "mp3").toLowerCase();
+    const mimeByExt: Record<string, string> = {
+      mp3: "audio/mpeg",
+      wav: "audio/wav",
+      ogg: "audio/ogg",
+      m4a: "audio/mp4",
+      aac: "audio/aac",
+      flac: "audio/flac",
+    };
     const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     const { error } = await supabase.storage.from("beats").upload(path, file, {
-      contentType: file.type || "audio/mpeg",
+      contentType: file.type || mimeByExt[ext] || "audio/mpeg",
       upsert: false,
     });
     if (error) {
@@ -251,7 +259,7 @@ export default function AdminPage() {
                 <div className="flex gap-2">
                   <Input placeholder="URL do áudio (ou faça upload)" value={newBeat.url} onChange={(e) => setNewBeat({ ...newBeat, url: e.target.value })} />
                   <label className="cursor-pointer">
-                    <input type="file" accept="audio/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleUploadForNew(e.target.files[0])} />
+                    <input type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac" className="hidden" onChange={(e) => e.target.files?.[0] && handleUploadForNew(e.target.files[0])} />
                     <Button type="button" variant="outline" size="icon" asChild disabled={uploadingNew}>
                       <span><Upload className="w-4 h-4" /></span>
                     </Button>
@@ -275,7 +283,7 @@ export default function AdminPage() {
                     <Input className="md:col-span-1" placeholder="BPM" value={b.bpm ?? ""} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, bpm: e.target.value } : x))} />
                     <div className="md:col-span-3 flex gap-1 justify-end">
                       <label className="cursor-pointer">
-                        <input type="file" accept="audio/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleUploadForBeat(b.id, e.target.files[0])} />
+                        <input type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac" className="hidden" onChange={(e) => e.target.files?.[0] && handleUploadForBeat(b.id, e.target.files[0])} />
                         <Button size="icon" variant="outline" asChild disabled={uploadingId === b.id} title="Substituir áudio (upload)">
                           <span><Upload className="w-4 h-4" /></span>
                         </Button>
