@@ -584,3 +584,69 @@
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+
+/* Beat player dialog — denser open/close animation */
+@keyframes beat-dialog-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7) rotateX(18deg) translateY(40px);
+    filter: blur(14px) brightness(0.7);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0) brightness(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotateX(0) translateY(0);
+    filter: blur(0) brightness(1);
+  }
+}
+@keyframes beat-dialog-out {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85) translateY(20px);
+    filter: blur(10px);
+  }
+}
+@keyframes beat-overlay-in {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to { opacity: 1; backdrop-filter: blur(8px); }
+}
+@keyframes beat-overlay-out {
+  from { opacity: 1; backdrop-filter: blur(8px); }
+  to { opacity: 0; backdrop-filter: blur(0px); }
+}
+@keyframes beat-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(57,255,20,0.35), 0 20px 60px -10px rgba(57,255,20,0.35), 0 0 80px rgba(57,255,20,0.15); }
+  50% { box-shadow: 0 0 0 1px rgba(57,255,20,0.6), 0 30px 80px -10px rgba(57,255,20,0.55), 0 0 120px rgba(57,255,20,0.3); }
+}
+.beat-dialog-content[data-state="open"] {
+  animation: beat-dialog-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+             beat-glow-pulse 3.2s ease-in-out 0.55s infinite !important;
+  transform-origin: center center;
+  perspective: 1200px;
+}
+.beat-dialog-content[data-state="closed"] {
+  animation: beat-dialog-out 0.32s cubic-bezier(0.5, 0, 0.75, 0) forwards !important;
+}
+.beat-dialog-overlay[data-state="open"] {
+  animation: beat-overlay-in 0.45s ease-out forwards !important;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.95) 100%) !important;
+}
+.beat-dialog-overlay[data-state="closed"] {
+  animation: beat-overlay-out 0.3s ease-in forwards !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .beat-dialog-content[data-state="open"],
+  .beat-dialog-content[data-state="closed"],
+  .beat-dialog-overlay[data-state="open"],
+  .beat-dialog-overlay[data-state="closed"] {
+    animation: none !important;
+  }
+}
