@@ -195,7 +195,7 @@ export function BeatPlayer({
 
   return (
     <div
-      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 h-[180px] md:h-auto md:min-h-0"
+      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square"
       style={{
         background: bgImage
           ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
