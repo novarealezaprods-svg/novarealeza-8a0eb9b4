@@ -208,7 +208,7 @@ export function BeatPlayer({ beat }: { beat: BeatItem; index?: number }) {
 
       {hasError && (
         <div className="mt-2 text-[10px] text-destructive leading-tight">
-          Áudio indisponível
+          Áudio indisponível — reenvie pelo /admin
         </div>
       )}
       {isLoading && !hasError && (
