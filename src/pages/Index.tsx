@@ -425,7 +425,7 @@ export default function IndexPage() {
           </div>
 
           {/* BLOCO 2 — Card de Compra (movido para cá) */}
-          <div className="mt-16 md:mt-20">
+          <div className="mt-16 md:mt-20 reveal reveal-zoom">
             <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
               <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
               <div className="relative">
@@ -492,7 +492,7 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24">
         <div className={CONTAINER}>
-          <div className="text-center mb-14">
+          <div className="text-center mb-14 reveal">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
               <span>O que vem no pack</span>
             </Badge>
@@ -502,7 +502,7 @@ export default function IndexPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {features.map((f, i) => (
-              <Card key={i} className="p-5 flex items-start gap-3 border-border/60 bg-card hover:border-primary/40 transition-colors">
+              <Card key={i} className="p-5 flex items-start gap-3 border-border/60 bg-card hover:border-primary/40 transition-colors reveal" style={{ transitionDelay: `${i * 80}ms` }}>
                 <div className="h-6 w-6 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="h-3.5 w-3.5 text-primary" />
                 </div>
@@ -515,7 +515,7 @@ export default function IndexPage() {
 
       <section className="py-20 md:py-24 border-t border-border/50">
         <div className={`${CONTAINER} max-w-3xl`}>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10 reveal">
             Perguntas frequentes
           </h2>
           <Accordion type="single" collapsible className="w-full">
