@@ -92,7 +92,6 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
         ref={audioRef}
         src={normalizeDirectUrl(beat.url)}
         preload="metadata"
-        crossOrigin="anonymous"
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
         onPlay={(e) => {
           stopAllExcept(e.currentTarget);
