@@ -35,6 +35,19 @@ const faq = [
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
 
+const BEAT_META: { name: string; genre: string }[] = [
+  { name: "Type Trap", genre: "TRAP" },
+  { name: "Type Trap", genre: "TRAP" },
+  { name: "Type Alee", genre: "FUNK" },
+  { name: "Type Funk", genre: "FUNK" },
+  { name: "Type Hood Drill", genre: "DRILL" },
+  { name: "Type Skrilla", genre: "TRAP" },
+  { name: "Type Ambient Hood", genre: "HOOD" },
+  { name: "Type Don Toliver", genre: "TRAP" },
+  { name: "Nave Nova na Favela", genre: "FUNK" },
+  { name: "Type Florida", genre: "TRAP" },
+];
+
 export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
