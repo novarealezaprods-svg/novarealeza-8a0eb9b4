@@ -12,8 +12,21 @@ export type BeatItem = {
 
 const PREVIEW_SECONDS = 60;
 
-// Global registry to ensure only one beat plays at a time
-const playingAudios = new Set<HTMLAudioElement>();
+// Global registry of every BeatPlayer audio element on the page.
+// Ensures only one beat can play at a time — when one starts, all others pause and reset.
+const allAudios = new Set<HTMLAudioElement>();
+let currentAudio: HTMLAudioElement | null = null;
+
+function stopAllExcept(target: HTMLAudioElement | null) {
+  allAudios.forEach((a) => {
+    if (a !== target && !a.paused) {
+      try {
+        a.pause();
+        a.currentTime = 0;
+      } catch {}
+    }
+  });
+}
 
 export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -24,18 +37,30 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
   const previewEnd = Math.min(PREVIEW_SECONDS, duration || PREVIEW_SECONDS);
   const progress = previewEnd ? Math.min(current / previewEnd, 1) : 0;
 
+  useEffect(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    allAudios.add(a);
+    return () => {
+      allAudios.delete(a);
+      if (currentAudio === a) currentAudio = null;
+    };
+  }, []);
+
   const toggle = () => {
     const a = audioRef.current;
     if (!a) return;
     if (playing) {
       a.pause();
-    } else {
-      if (a.currentTime >= previewEnd) a.currentTime = 0;
-      playingAudios.forEach((other) => {
-        if (other !== a) other.pause();
-      });
-      a.play().catch(() => {});
+      return;
     }
+    // Pause + reset every other beat before starting this one.
+    stopAllExcept(a);
+    if (a.currentTime >= previewEnd) a.currentTime = 0;
+    currentAudio = a;
+    a.play().catch((err) => {
+      console.warn("Beat playback failed:", err);
+    });
   };
 
   return (
@@ -69,18 +94,13 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
         preload="metadata"
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
         onPlay={(e) => {
-          playingAudios.forEach((other) => {
-            if (other !== e.currentTarget) other.pause();
-          });
-          playingAudios.add(e.currentTarget);
+          stopAllExcept(e.currentTarget);
+          currentAudio = e.currentTarget;
           setPlaying(true);
         }}
-        onPause={(e) => {
-          playingAudios.delete(e.currentTarget);
-          setPlaying(false);
-        }}
+        onPause={() => setPlaying(false)}
         onEnded={(e) => {
-          playingAudios.delete(e.currentTarget);
+          if (currentAudio === e.currentTarget) currentAudio = null;
           setPlaying(false);
         }}
         onTimeUpdate={(e) => {
