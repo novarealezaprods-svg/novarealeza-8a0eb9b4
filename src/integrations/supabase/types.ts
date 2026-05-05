@@ -19,6 +19,7 @@ export type Database = {
           bpm: string | null
           created_at: string
           id: string
+          image_url: string | null
           key: string | null
           name: string
           position: number
@@ -28,6 +29,7 @@ export type Database = {
           bpm?: string | null
           created_at?: string
           id?: string
+          image_url?: string | null
           key?: string | null
           name: string
           position?: number
@@ -37,6 +39,7 @@ export type Database = {
           bpm?: string | null
           created_at?: string
           id?: string
+          image_url?: string | null
           key?: string | null
           name?: string
           position?: number
