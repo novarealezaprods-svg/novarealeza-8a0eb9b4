@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { LogOut, Trash2, Plus, ArrowUp, ArrowDown, Save } from "lucide-react";
+import { Upload } from "lucide-react";
 
 // Senha pra acessar o painel — troque aqui pra algo só seu
 const ADMIN_PASSWORD = "admin123";
@@ -27,6 +28,8 @@ export default function AdminPage() {
   // Beats
   const [beats, setBeats] = useState<Beat[]>([]);
   const [newBeat, setNewBeat] = useState({ name: "", url: "", key: "", bpm: "" });
+  const [uploadingId, setUploadingId] = useState<string | null>(null);
+  const [uploadingNew, setUploadingNew] = useState(false);
 
   // Images
   const [images, setImages] = useState<Image[]>([]);
@@ -117,6 +120,39 @@ export default function AdminPage() {
     await supabase.from("beats").update({ position: swap.position }).eq("id", a.id);
     await supabase.from("beats").update({ position: a.position }).eq("id", swap.id);
     loadAll();
+  };
+
+  // Upload áudio direto para o storage e retorna URL pública
+  const uploadAudio = async (file: File): Promise<string | null> => {
+    const ext = file.name.split(".").pop() || "mp3";
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const { error } = await supabase.storage.from("beats").upload(path, file, {
+      contentType: file.type || "audio/mpeg",
+      upsert: false,
+    });
+    if (error) {
+      toast.error(error.message);
+      return null;
+    }
+    const { data } = supabase.storage.from("beats").getPublicUrl(path);
+    return data.publicUrl;
+  };
+
+  const handleUploadForBeat = async (id: string, file: File) => {
+    setUploadingId(id);
+    const url = await uploadAudio(file);
+    setUploadingId(null);
+    if (!url) return;
+    await updateBeat(id, { url });
+  };
+
+  const handleUploadForNew = async (file: File) => {
+    setUploadingNew(true);
+    const url = await uploadAudio(file);
+    setUploadingNew(false);
+    if (!url) return;
+    setNewBeat((b) => ({ ...b, url }));
+    toast.success("Áudio enviado — clique em Adicionar");
   };
 
   // Images
@@ -212,11 +248,21 @@ export default function AdminPage() {
               <h3 className="font-semibold mb-4">Adicionar beat</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <Input placeholder="Nome" value={newBeat.name} onChange={(e) => setNewBeat({ ...newBeat, name: e.target.value })} />
-                <Input placeholder="URL do áudio" value={newBeat.url} onChange={(e) => setNewBeat({ ...newBeat, url: e.target.value })} />
+                <div className="flex gap-2">
+                  <Input placeholder="URL do áudio (ou faça upload)" value={newBeat.url} onChange={(e) => setNewBeat({ ...newBeat, url: e.target.value })} />
+                  <label className="cursor-pointer">
+                    <input type="file" accept="audio/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleUploadForNew(e.target.files[0])} />
+                    <Button type="button" variant="outline" size="icon" asChild disabled={uploadingNew}>
+                      <span><Upload className="w-4 h-4" /></span>
+                    </Button>
+                  </label>
+                </div>
                 <Input placeholder="Key (ex: Cm)" value={newBeat.key} onChange={(e) => setNewBeat({ ...newBeat, key: e.target.value })} />
                 <Input placeholder="BPM (ex: 140)" value={newBeat.bpm} onChange={(e) => setNewBeat({ ...newBeat, bpm: e.target.value })} />
               </div>
-              <Button className="mt-4" onClick={addBeat}><Plus className="w-4 h-4 mr-2" />Adicionar</Button>
+              <Button className="mt-4" onClick={addBeat} disabled={uploadingNew}>
+                <Plus className="w-4 h-4 mr-2" />{uploadingNew ? "Enviando áudio..." : "Adicionar"}
+              </Button>
             </Card>
 
             <div className="space-y-2">
@@ -228,6 +274,12 @@ export default function AdminPage() {
                     <Input className="md:col-span-1" placeholder="Key" value={b.key ?? ""} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, key: e.target.value } : x))} />
                     <Input className="md:col-span-1" placeholder="BPM" value={b.bpm ?? ""} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, bpm: e.target.value } : x))} />
                     <div className="md:col-span-3 flex gap-1 justify-end">
+                      <label className="cursor-pointer">
+                        <input type="file" accept="audio/*" className="hidden" onChange={(e) => e.target.files?.[0] && handleUploadForBeat(b.id, e.target.files[0])} />
+                        <Button size="icon" variant="outline" asChild disabled={uploadingId === b.id} title="Substituir áudio (upload)">
+                          <span><Upload className="w-4 h-4" /></span>
+                        </Button>
+                      </label>
                       <Button size="icon" variant="ghost" onClick={() => moveBeat(b.id, -1)} disabled={i === 0}><ArrowUp className="w-4 h-4" /></Button>
                       <Button size="icon" variant="ghost" onClick={() => moveBeat(b.id, 1)} disabled={i === beats.length - 1}><ArrowDown className="w-4 h-4" /></Button>
                       <Button size="icon" variant="outline" onClick={() => updateBeat(b.id, { name: b.name, url: b.url, key: b.key, bpm: b.bpm })}><Save className="w-4 h-4" /></Button>
