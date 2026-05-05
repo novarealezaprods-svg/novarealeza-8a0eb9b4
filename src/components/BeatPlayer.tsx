@@ -1,7 +1,9 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Play, Pause } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { X } from "lucide-react";
+import { Dialog, DialogTitle } from "@/components/ui/dialog";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 export type BeatItem = {
@@ -272,9 +274,13 @@ export function BeatPlayer({
     </div>
 
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-w-md border-border bg-card p-0 overflow-hidden">
-        <DialogTitle className="sr-only">{name}</DialogTitle>
-        <div
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay className="beat-dialog-overlay fixed inset-0 z-50 bg-black/80" />
+        <DialogPrimitive.Content
+          className="beat-dialog-content fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] border border-border bg-card p-0 overflow-hidden rounded-lg shadow-2xl"
+        >
+          <DialogTitle className="sr-only">{name}</DialogTitle>
+          <div
           className="relative w-full aspect-square flex flex-col justify-between p-5"
           style={{
             background: bgImage
@@ -323,8 +329,13 @@ export function BeatPlayer({
               {beat.key && <span>{beat.key}</span>}
             </div>
           )}
-        </div>
-      </DialogContent>
+          </div>
+          <DialogPrimitive.Close className="absolute right-3 top-3 rounded-sm opacity-80 hover:opacity-100 transition bg-black/40 p-1.5 z-10">
+            <X className="h-4 w-4 text-white" />
+            <span className="sr-only">Fechar</span>
+          </DialogPrimitive.Close>
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
     </Dialog>
     </>
   );
