@@ -14,7 +14,7 @@ import { Upload } from "lucide-react";
 const ADMIN_PASSWORD = "admin123";
 const STORAGE_KEY = "admin_unlocked_v1";
 
-type Beat = { id: string; name: string; url: string; key: string | null; bpm: string | null; position: number };
+type Beat = { id: string; name: string; url: string; key: string | null; bpm: string | null; position: number; image_url: string | null };
 type Image = { id: string; url: string; position: number };
 
 export default function AdminPage() {
@@ -30,6 +30,7 @@ export default function AdminPage() {
   const [newBeat, setNewBeat] = useState({ name: "", url: "", key: "", bpm: "" });
   const [uploadingId, setUploadingId] = useState<string | null>(null);
   const [uploadingNew, setUploadingNew] = useState(false);
+  const [uploadingImageId, setUploadingImageId] = useState<string | null>(null);
 
   // Images
   const [images, setImages] = useState<Image[]>([]);
@@ -163,6 +164,30 @@ export default function AdminPage() {
     toast.success("Áudio enviado — clique em Adicionar");
   };
 
+  // Upload imagem do artista para o storage
+  const uploadImage = async (file: File): Promise<string | null> => {
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const { error } = await supabase.storage.from("beat-images").upload(path, file, {
+      contentType: file.type || "image/jpeg",
+      upsert: false,
+    });
+    if (error) {
+      toast.error(error.message);
+      return null;
+    }
+    const { data } = supabase.storage.from("beat-images").getPublicUrl(path);
+    return data.publicUrl;
+  };
+
+  const handleUploadImageForBeat = async (id: string, file: File) => {
+    setUploadingImageId(id);
+    const url = await uploadImage(file);
+    setUploadingImageId(null);
+    if (!url) return;
+    await updateBeat(id, { image_url: url });
+  };
+
   // Images
   const addImage = async () => {
     if (!newImageUrl) return;
@@ -292,6 +317,39 @@ export default function AdminPage() {
                       <Button size="icon" variant="ghost" onClick={() => moveBeat(b.id, 1)} disabled={i === beats.length - 1}><ArrowDown className="w-4 h-4" /></Button>
                       <Button size="icon" variant="outline" onClick={() => updateBeat(b.id, { name: b.name, url: b.url, key: b.key, bpm: b.bpm })}><Save className="w-4 h-4" /></Button>
                       <Button size="icon" variant="destructive" onClick={() => deleteBeat(b.id)}><Trash2 className="w-4 h-4" /></Button>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-border/50 flex items-center gap-3">
+                    <div className="flex-shrink-0">
+                      {b.image_url ? (
+                        <img src={b.image_url} alt="Foto do artista" className="w-20 h-20 rounded object-cover border border-border" />
+                      ) : (
+                        <div className="w-20 h-20 rounded bg-muted flex items-center justify-center text-[10px] text-muted-foreground text-center px-1">sem foto</div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <Label className="text-xs">Foto do Artista (JPG, PNG, WEBP)</Label>
+                      <div className="flex gap-2 mt-1">
+                        <label className="cursor-pointer">
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                            className="hidden"
+                            onChange={(e) => e.target.files?.[0] && handleUploadImageForBeat(b.id, e.target.files[0])}
+                          />
+                          <Button type="button" variant="outline" size="sm" asChild disabled={uploadingImageId === b.id}>
+                            <span>
+                              <Upload className="w-3 h-3 mr-1" />
+                              {uploadingImageId === b.id ? "Enviando..." : b.image_url ? "Trocar foto" : "Enviar foto"}
+                            </span>
+                          </Button>
+                        </label>
+                        {b.image_url && (
+                          <Button type="button" variant="ghost" size="sm" onClick={() => updateBeat(b.id, { image_url: null })}>
+                            Remover
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </Card>

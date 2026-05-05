@@ -8,6 +8,7 @@ export type BeatItem = {
   url: string;
   key?: string;
   bpm?: number | string;
+  image_url?: string | null;
 };
 
 const PREVIEW_SECONDS = 60;
@@ -195,15 +196,19 @@ export function BeatPlayer({
   };
 
   const name = displayName || beat.name;
+  const bgImage = beat.image_url || null;
 
   return (
     <div
       className="beat-card-anim group relative flex flex-col text-left transition-all duration-200 hover:-translate-y-1"
       style={{
-        background: "#111111",
+        background: bgImage
+          ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
+          : "#111111",
         border: `1px solid ${isPlaying ? "#39FF14" : "#222222"}`,
         borderRadius: 16,
         padding: 20,
+        overflow: "hidden",
         boxShadow: isPlaying
           ? "0 0 0 1px #39FF14, 0 0 24px rgba(57,255,20,0.25), 0 4px 24px rgba(0,0,0,0.4)"
           : "0 4px 24px rgba(0,0,0,0.4)",
