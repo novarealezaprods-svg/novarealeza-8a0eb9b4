@@ -58,7 +58,6 @@ function getAudio(): HTMLAudioElement | null {
 
   const el = new Audio();
   el.preload = "none";
-  el.crossOrigin = "anonymous";
 
   el.addEventListener("playing", () => {
     setState({ isPlaying: true, loadingUrl: null });
