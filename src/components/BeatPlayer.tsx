@@ -262,11 +262,6 @@ export function BeatPlayer({
           Áudio indisponível — reenvie pelo /admin
         </div>
       )}
-      {isLoading && !hasError && (
-        <div className="mt-2 text-[10px] text-muted-foreground leading-tight text-center">
-          Carregando…
-        </div>
-      )}
     </div>
   );
 }
