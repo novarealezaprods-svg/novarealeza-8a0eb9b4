@@ -126,7 +126,11 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
   const beatUrl = useMemo(() => normalizeDirectUrl(beat.url), [beat.url]);
   const [snapshot, setSnapshot] = useState<PlaybackSnapshot>(playbackSnapshot);
 
-  useEffect(() => subscribe(() => setSnapshot({ ...playbackSnapshot })), []);
+  useEffect(() => {
+    return subscribe(() => {
+      setSnapshot({ ...playbackSnapshot });
+    });
+  }, []);
 
   useEffect(() => {
     getGlobalAudio();
