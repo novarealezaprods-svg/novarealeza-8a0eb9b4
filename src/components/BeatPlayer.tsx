@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Play, Pause } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -12,161 +12,190 @@ export type BeatItem = {
 
 const PREVIEW_SECONDS = 60;
 
-type PlaybackSnapshot = {
+// ---------------------------------------------------------------------------
+// Single global audio controller shared by every BeatPlayer on the page.
+// All 10 (or N) players read/write through this — there is only ever ONE
+// HTMLAudioElement instance in the document, which avoids browser limits on
+// concurrent media elements and guarantees only one beat plays at a time.
+// ---------------------------------------------------------------------------
+
+type ControllerState = {
   activeUrl: string | null;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  loadingUrl: string | null;
+  errorUrl: string | null;
 };
 
-const listeners = new Set<() => void>();
-
-let globalAudio: HTMLAudioElement | null = null;
-let currentUrl: string | null = null;
-let playbackSnapshot: PlaybackSnapshot = {
+let state: ControllerState = {
   activeUrl: null,
   isPlaying: false,
   currentTime: 0,
   duration: 0,
+  loadingUrl: null,
+  errorUrl: null,
 };
 
-function emitPlaybackChange() {
-  listeners.forEach((listener) => listener());
-}
-
-function updatePlaybackSnapshot(partial?: Partial<PlaybackSnapshot>) {
-  const audio = globalAudio;
-  playbackSnapshot = {
-    activeUrl: currentUrl,
-    isPlaying: audio ? !audio.paused && !!currentUrl : false,
-    currentTime: audio && currentUrl ? audio.currentTime : 0,
-    duration: audio && currentUrl ? audio.duration || 0 : 0,
-    ...partial,
+const listeners = new Set<() => void>();
+const subscribe = (cb: () => void) => {
+  listeners.add(cb);
+  return () => {
+    listeners.delete(cb);
   };
-  emitPlaybackChange();
-}
+};
+const getSnapshot = () => state;
+const setState = (patch: Partial<ControllerState>) => {
+  state = { ...state, ...patch };
+  listeners.forEach((cb) => cb());
+};
 
-function getGlobalAudio() {
+let audio: HTMLAudioElement | null = null;
+
+function getAudio(): HTMLAudioElement | null {
   if (typeof window === "undefined") return null;
-  if (globalAudio) return globalAudio;
+  if (audio) return audio;
 
-  globalAudio = new Audio();
-  globalAudio.preload = "metadata";
+  const el = new Audio();
+  el.preload = "none";
+  el.crossOrigin = "anonymous";
 
-  globalAudio.addEventListener("play", () => {
-    updatePlaybackSnapshot({ isPlaying: true });
+  el.addEventListener("playing", () => {
+    setState({ isPlaying: true, loadingUrl: null });
   });
-
-  globalAudio.addEventListener("pause", () => {
-    updatePlaybackSnapshot({ isPlaying: false });
+  el.addEventListener("pause", () => {
+    setState({ isPlaying: false });
   });
-
-  globalAudio.addEventListener("loadedmetadata", () => {
-    updatePlaybackSnapshot({ duration: globalAudio?.duration || 0 });
+  el.addEventListener("loadedmetadata", () => {
+    setState({ duration: el.duration || 0 });
   });
-
-  globalAudio.addEventListener("timeupdate", () => {
-    if (!globalAudio || !currentUrl) return;
-
-    if (globalAudio.currentTime >= PREVIEW_SECONDS) {
-      globalAudio.pause();
-      globalAudio.currentTime = PREVIEW_SECONDS;
-      updatePlaybackSnapshot({ currentTime: PREVIEW_SECONDS, isPlaying: false });
+  el.addEventListener("timeupdate", () => {
+    if (el.currentTime >= PREVIEW_SECONDS) {
+      el.pause();
+      el.currentTime = 0;
+      setState({ currentTime: 0, isPlaying: false, activeUrl: null });
       return;
     }
-
-    updatePlaybackSnapshot({ currentTime: globalAudio.currentTime });
+    setState({ currentTime: el.currentTime });
+  });
+  el.addEventListener("ended", () => {
+    el.currentTime = 0;
+    setState({ currentTime: 0, isPlaying: false, activeUrl: null });
+  });
+  el.addEventListener("error", () => {
+    const failed = state.activeUrl;
+    console.warn("[BeatPlayer] Falha ao carregar áudio:", failed, el.error);
+    setState({
+      isPlaying: false,
+      loadingUrl: null,
+      errorUrl: failed,
+      activeUrl: null,
+      currentTime: 0,
+      duration: 0,
+    });
   });
 
-  globalAudio.addEventListener("ended", () => {
-    if (!globalAudio) return;
-    globalAudio.currentTime = 0;
-    updatePlaybackSnapshot({ currentTime: 0, isPlaying: false });
-  });
-
-  return globalAudio;
+  audio = el;
+  return audio;
 }
 
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-  };
-}
+function playUrl(url: string) {
+  const el = getAudio();
+  if (!el) return;
 
-function playBeat(url: string) {
-  const audio = getGlobalAudio();
-  if (!audio) return;
-
-  const nextUrl = normalizeDirectUrl(url);
-  const shouldReplaceSource = currentUrl !== nextUrl || audio.src !== nextUrl;
-
-  audio.pause();
-
-  if (shouldReplaceSource) {
-    audio.src = nextUrl;
+  // If this beat is already the active source, just resume.
+  if (state.activeUrl === url && el.src) {
+    setState({ loadingUrl: url, errorUrl: null });
+    el.play().catch((err) => {
+      console.warn("[BeatPlayer] play() rejeitado:", err);
+      setState({ loadingUrl: null, isPlaying: false });
+    });
+    return;
   }
 
-  currentUrl = nextUrl;
-  audio.currentTime = 0;
-  updatePlaybackSnapshot({ activeUrl: currentUrl, currentTime: 0, duration: audio.duration || 0 });
+  // Switching beat: hard reset of the single global element.
+  try {
+    el.pause();
+  } catch {}
+  el.removeAttribute("src");
+  try {
+    el.load();
+  } catch {}
 
-  audio.play().catch((err) => {
-    console.warn("Beat playback failed:", err);
-    updatePlaybackSnapshot({ isPlaying: false });
+  el.src = url;
+  el.currentTime = 0;
+  setState({
+    activeUrl: url,
+    loadingUrl: url,
+    errorUrl: null,
+    currentTime: 0,
+    duration: 0,
+    isPlaying: false,
+  });
+
+  el.play().catch((err) => {
+    console.warn("[BeatPlayer] play() rejeitado:", err);
+    setState({ loadingUrl: null, isPlaying: false });
   });
 }
 
-function pauseBeat(url: string) {
-  const audio = getGlobalAudio();
-  const normalizedUrl = normalizeDirectUrl(url);
-  if (!audio || currentUrl !== normalizedUrl) return;
-  audio.pause();
+function pauseCurrent() {
+  const el = audio;
+  if (!el) return;
+  try {
+    el.pause();
+  } catch {}
 }
 
-export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
-  const beatUrl = useMemo(() => normalizeDirectUrl(beat.url), [beat.url]);
-  const [snapshot, setSnapshot] = useState<PlaybackSnapshot>(playbackSnapshot);
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+export function BeatPlayer({ beat }: { beat: BeatItem; index?: number }) {
+  const snap = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  const [resolvedUrl, setResolvedUrl] = useState<string>("");
 
   useEffect(() => {
-    return subscribe(() => {
-      setSnapshot({ ...playbackSnapshot });
-    });
-  }, []);
+    setResolvedUrl(normalizeDirectUrl(beat.url));
+  }, [beat.url]);
 
-  useEffect(() => {
-    getGlobalAudio();
-  }, []);
+  const isActive = snap.activeUrl === resolvedUrl;
+  const isLoading = snap.loadingUrl === resolvedUrl && !snap.isPlaying;
+  const isPlaying = isActive && snap.isPlaying;
+  const hasError = snap.errorUrl === resolvedUrl;
 
-  const playing = snapshot.activeUrl === beatUrl && snapshot.isPlaying;
-  const current = snapshot.activeUrl === beatUrl ? snapshot.currentTime : 0;
-  const duration = snapshot.activeUrl === beatUrl ? snapshot.duration : 0;
-
+  const current = isActive ? snap.currentTime : 0;
+  const duration = isActive ? snap.duration : 0;
   const previewEnd = Math.min(PREVIEW_SECONDS, duration || PREVIEW_SECONDS);
   const progress = previewEnd ? Math.min(current / previewEnd, 1) : 0;
 
   const toggle = () => {
-    if (playing) {
-      pauseBeat(beatUrl);
+    if (!resolvedUrl) return;
+    if (isPlaying) {
+      pauseCurrent();
       return;
     }
-    playBeat(beatUrl);
+    playUrl(resolvedUrl);
   };
 
   return (
     <Card className="p-5 border-border/60 bg-card hover:border-primary/40 transition-colors flex flex-col items-center text-center relative overflow-hidden">
-      {/* progress ring background */}
       <div
         className="absolute inset-x-0 bottom-0 h-1 bg-primary transition-all"
         style={{ width: `${progress * 100}%` }}
       />
-        <button
-          onClick={toggle}
-          aria-label={playing ? "Pausar" : "Tocar"}
-        className="h-14 w-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition mb-3"
-        >
-        {playing ? <Pause className="h-6 w-6 fill-current" /> : <Play className="h-6 w-6 fill-current ml-0.5" />}
-        </button>
+      <button
+        onClick={toggle}
+        aria-label={isPlaying ? "Pausar" : "Tocar"}
+        className="h-14 w-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition mb-3 disabled:opacity-60"
+        disabled={!resolvedUrl}
+      >
+        {isPlaying ? (
+          <Pause className="h-6 w-6 fill-current" />
+        ) : (
+          <Play className="h-6 w-6 fill-current ml-0.5" />
+        )}
+      </button>
 
       {beat.bpm && (
         <div className="text-base font-bold leading-tight">{beat.bpm} BPM</div>
@@ -178,6 +207,16 @@ export function BeatPlayer({ beat, index }: { beat: BeatItem; index: number }) {
         <div className="text-sm font-semibold truncate max-w-full">{beat.name}</div>
       )}
 
+      {hasError && (
+        <div className="mt-2 text-[10px] text-destructive leading-tight">
+          Áudio indisponível
+        </div>
+      )}
+      {isLoading && !hasError && (
+        <div className="mt-2 text-[10px] text-muted-foreground leading-tight">
+          Carregando…
+        </div>
+      )}
     </Card>
   );
 }
