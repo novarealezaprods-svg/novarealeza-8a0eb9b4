@@ -79,7 +79,7 @@ export default function IndexPage() {
       const [{ data: settings }, { data: imgs }, { data: bts }] = await Promise.all([
         supabase.from("site_settings").select("key,value"),
         supabase.from("proof_images").select("url").order("position", { ascending: true }),
-        supabase.from("beats").select("name,url,key,bpm,image_url").order("position", { ascending: true }),
+        supabase.from("beats").select("name,url,key,bpm,image_url,genre,active").eq("active", true).order("position", { ascending: true }),
       ]);
       const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
       setPreviewVideo(map["preview_video"] ?? null);
