@@ -269,7 +269,7 @@ export default function IndexPage() {
             <span className="text-sm font-semibold">Veja as avaliações do pack</span>
             <ChevronDown className="hero-reviews-arrow h-5 w-5 mt-1" />
           </div>
-          <div className="text-center mb-8 md:mb-12">
+          <div className="text-center mb-8 md:mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
             <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
           </div>
@@ -319,7 +319,7 @@ export default function IndexPage() {
       <section className="py-20 md:py-24 bg-background border-t border-border/50">
         <div className={CONTAINER}>
           {/* BLOCO 1 — Antes vs Depois */}
-          <div className="text-center mb-14">
+          <div className="text-center mb-14 reveal">
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
               O que muda quando você
               <br />
@@ -332,7 +332,7 @@ export default function IndexPage() {
           <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-6 items-center max-w-5xl mx-auto">
             {/* ANTES */}
             <div
-              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a]"
+              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a] reveal reveal-left"
             >
               <div className="flex items-center gap-3 mb-6">
                 <Skull className="h-6 w-6 text-destructive" />
