@@ -16,8 +16,10 @@ export type Database = {
     Tables: {
       beats: {
         Row: {
+          active: boolean
           bpm: string | null
           created_at: string
+          genre: string | null
           id: string
           image_url: string | null
           key: string | null
@@ -26,8 +28,10 @@ export type Database = {
           url: string
         }
         Insert: {
+          active?: boolean
           bpm?: string | null
           created_at?: string
+          genre?: string | null
           id?: string
           image_url?: string | null
           key?: string | null
@@ -36,8 +40,10 @@ export type Database = {
           url?: string
         }
         Update: {
+          active?: boolean
           bpm?: string | null
           created_at?: string
+          genre?: string | null
           id?: string
           image_url?: string | null
           key?: string | null

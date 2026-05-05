@@ -79,7 +79,7 @@ export default function IndexPage() {
       const [{ data: settings }, { data: imgs }, { data: bts }] = await Promise.all([
         supabase.from("site_settings").select("key,value"),
         supabase.from("proof_images").select("url").order("position", { ascending: true }),
-        supabase.from("beats").select("name,url,key,bpm,image_url").order("position", { ascending: true }),
+        supabase.from("beats").select("name,url,key,bpm,image_url,genre,active").eq("active", true).order("position", { ascending: true }),
       ]);
       const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
       setPreviewVideo(map["preview_video"] ?? null);
@@ -210,8 +210,12 @@ export default function IndexPage() {
 
           {beats.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
-              {beats.slice(0, 10).map((b, i) => {
-                const meta = BEAT_META[i] || { name: b.name, genre: "TRAP" };
+              {beats.slice(0, 10).map((b: any, i) => {
+                const fallback = BEAT_META[i] || { name: b.name, genre: "TRAP" };
+                const meta = {
+                  name: b.name || fallback.name,
+                  genre: b.genre || fallback.genre,
+                };
                 return (
                   <BeatPlayer
                     key={`${b.name}-${i}`}

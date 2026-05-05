@@ -7,14 +7,14 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { LogOut, Trash2, Plus, ArrowUp, ArrowDown, Save } from "lucide-react";
+import { LogOut, Trash2, Plus, ArrowUp, ArrowDown, Save, Eye, EyeOff } from "lucide-react";
 import { Upload } from "lucide-react";
 
 // Senha pra acessar o painel — troque aqui pra algo só seu
 const ADMIN_PASSWORD = "admin123";
 const STORAGE_KEY = "admin_unlocked_v1";
 
-type Beat = { id: string; name: string; url: string; key: string | null; bpm: string | null; position: number; image_url: string | null };
+type Beat = { id: string; name: string; url: string; key: string | null; bpm: string | null; position: number; image_url: string | null; genre: string | null; active: boolean };
 type Image = { id: string; url: string; position: number };
 
 export default function AdminPage() {
@@ -27,7 +27,7 @@ export default function AdminPage() {
 
   // Beats
   const [beats, setBeats] = useState<Beat[]>([]);
-  const [newBeat, setNewBeat] = useState({ name: "", url: "", key: "", bpm: "" });
+  const [newBeat, setNewBeat] = useState({ name: "", url: "", key: "", bpm: "", genre: "" });
   const [uploadingId, setUploadingId] = useState<string | null>(null);
   const [uploadingNew, setUploadingNew] = useState(false);
   const [uploadingImageId, setUploadingImageId] = useState<string | null>(null);
@@ -90,10 +90,11 @@ export default function AdminPage() {
       url: newBeat.url,
       key: newBeat.key || null,
       bpm: newBeat.bpm || null,
+      genre: newBeat.genre || null,
       position: maxPos + 1,
     });
     if (error) return toast.error(error.message);
-    setNewBeat({ name: "", url: "", key: "", bpm: "" });
+    setNewBeat({ name: "", url: "", key: "", bpm: "", genre: "" });
     toast.success("Beat adicionado");
     loadAll();
   };
@@ -292,6 +293,7 @@ export default function AdminPage() {
                 </div>
                 <Input placeholder="Key (ex: Cm)" value={newBeat.key} onChange={(e) => setNewBeat({ ...newBeat, key: e.target.value })} />
                 <Input placeholder="BPM (ex: 140)" value={newBeat.bpm} onChange={(e) => setNewBeat({ ...newBeat, bpm: e.target.value })} />
+                <Input placeholder="Estilo (ex: TRAP)" value={newBeat.genre} onChange={(e) => setNewBeat({ ...newBeat, genre: e.target.value })} />
               </div>
               <Button className="mt-4" onClick={addBeat} disabled={uploadingNew}>
                 <Plus className="w-4 h-4 mr-2" />{uploadingNew ? "Enviando áudio..." : "Adicionar"}
@@ -303,7 +305,8 @@ export default function AdminPage() {
                 <Card key={b.id} className="p-4">
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
                     <Input className="md:col-span-3" value={b.name} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, name: e.target.value } : x))} />
-                    <Input className="md:col-span-4" value={b.url} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, url: e.target.value } : x))} />
+                    <Input className="md:col-span-3" value={b.url} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, url: e.target.value } : x))} />
+                    <Input className="md:col-span-1" placeholder="Estilo" value={b.genre ?? ""} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, genre: e.target.value } : x))} />
                     <Input className="md:col-span-1" placeholder="Key" value={b.key ?? ""} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, key: e.target.value } : x))} />
                     <Input className="md:col-span-1" placeholder="BPM" value={b.bpm ?? ""} onChange={(e) => setBeats(beats.map((x) => x.id === b.id ? { ...x, bpm: e.target.value } : x))} />
                     <div className="md:col-span-3 flex gap-1 justify-end">
@@ -315,7 +318,10 @@ export default function AdminPage() {
                       </label>
                       <Button size="icon" variant="ghost" onClick={() => moveBeat(b.id, -1)} disabled={i === 0}><ArrowUp className="w-4 h-4" /></Button>
                       <Button size="icon" variant="ghost" onClick={() => moveBeat(b.id, 1)} disabled={i === beats.length - 1}><ArrowDown className="w-4 h-4" /></Button>
-                      <Button size="icon" variant="outline" onClick={() => updateBeat(b.id, { name: b.name, url: b.url, key: b.key, bpm: b.bpm })}><Save className="w-4 h-4" /></Button>
+                      <Button size="icon" variant="outline" onClick={() => updateBeat(b.id, { name: b.name, url: b.url, key: b.key, bpm: b.bpm, genre: b.genre })}><Save className="w-4 h-4" /></Button>
+                      <Button size="icon" variant={b.active ? "outline" : "secondary"} title={b.active ? "Desativar" : "Ativar"} onClick={() => updateBeat(b.id, { active: !b.active })}>
+                        {b.active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                      </Button>
                       <Button size="icon" variant="destructive" onClick={() => deleteBeat(b.id)}><Trash2 className="w-4 h-4" /></Button>
                     </div>
                   </div>
