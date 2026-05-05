@@ -181,11 +181,6 @@ export function BeatPlayer({
   const isPlaying = isActive && snap.isPlaying;
   const hasError = snap.errorUrl === resolvedUrl;
 
-  const current = isActive ? snap.currentTime : 0;
-  const duration = isActive ? snap.duration : 0;
-  const previewEnd = Math.min(PREVIEW_SECONDS, duration || PREVIEW_SECONDS);
-  const progress = previewEnd ? Math.min(current / previewEnd, 1) : 0;
-
   const toggle = () => {
     if (!resolvedUrl) return;
     if (isPlaying) {
@@ -206,7 +201,7 @@ export function BeatPlayer({
           ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
           : "#111111",
         border: `1px solid ${isPlaying ? "#39FF14" : "#222222"}`,
-        borderRadius: 16,
+        borderRadius: 10,
         overflow: "hidden",
         boxShadow: isPlaying
           ? "0 0 0 1px #39FF14, 0 0 24px rgba(57,255,20,0.25), 0 4px 24px rgba(0,0,0,0.4)"
@@ -214,30 +209,16 @@ export function BeatPlayer({
         animationDelay: `${index * 80}ms`,
       }}
     >
-      {genre && (
-        <span
-          className="absolute top-2 left-2 z-10 text-[10px] md:self-start md:static"
-          style={{
-            background: "#0a2e0a",
-            color: "#39FF14",
-            fontWeight: 700,
-            textTransform: "uppercase",
-            borderRadius: 4,
-            padding: "3px 8px",
-            letterSpacing: "0.05em",
-          }}
-        >
-          {genre}
-        </span>
-      )}
-
       <div
-        className="text-center text-white truncate text-[12px] md:text-base mt-0 md:mt-3 px-2 py-1 rounded self-stretch"
+        className="text-center text-white truncate text-[12px] md:text-base self-center"
         style={{
-          fontWeight: 800,
+          fontWeight: 700,
           textTransform: "uppercase",
-          textShadow: "0 1px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)",
-          background: "rgba(0,0,0,0.6)",
+          textShadow: "0 1px 4px rgba(0,0,0,0.9)",
+          background: "rgba(0,0,0,0.5)",
+          padding: "4px 8px",
+          borderRadius: 6,
+          maxWidth: "100%",
         }}
       >
         {name}
@@ -260,33 +241,21 @@ export function BeatPlayer({
         </button>
       </div>
 
-      <div className="text-center text-[11px] md:text-[13px] inline-block self-center px-2 py-0.5 rounded" style={{ background: "rgba(0,0,0,0.6)" }}>
-        {beat.bpm && (
-          <span style={{ color: "#fff", fontWeight: 700 }}>{beat.bpm} BPM</span>
-        )}
-        {beat.bpm && beat.key && <span style={{ color: "#bbb", margin: "0 6px" }}>·</span>}
-        {beat.key && <span style={{ color: "#bbb", fontWeight: 400 }}>{beat.key}</span>}
-      </div>
-
-      <div
-        className="mt-2 md:mt-3 w-full overflow-hidden"
-        style={{ background: "#222222", height: 3, borderRadius: 4 }}
-      >
+      {(beat.bpm || beat.key) && (
         <div
+          className="text-center self-center text-white"
           style={{
-            width: `${progress * 100}%`,
-            height: "100%",
-            background: "#39FF14",
+            fontSize: 10,
+            background: "rgba(0,0,0,0.45)",
+            padding: "3px 8px",
             borderRadius: 4,
-            transition: "width 0.15s linear",
           }}
-        />
-      </div>
-
-      <div className="flex justify-between mt-1.5" style={{ fontSize: 11, color: "#666" }}>
-        <span>{formatTime(current)}</span>
-        <span>{formatTime(previewEnd)}</span>
-      </div>
+        >
+          {beat.bpm && <span style={{ fontWeight: 700 }}>{beat.bpm} BPM</span>}
+          {beat.bpm && beat.key && <span style={{ margin: "0 6px", opacity: 0.7 }}>·</span>}
+          {beat.key && <span>{beat.key}</span>}
+        </div>
+      )}
 
       {hasError && (
         <div className="mt-2 text-[10px] text-destructive leading-tight text-center">
