@@ -10,7 +10,7 @@ import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
-const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
+const genres = ["PLUGG", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 const features = [
   "100 beats profissionais prontos para uso",
   "100% royalty free — você fica com tudo",
