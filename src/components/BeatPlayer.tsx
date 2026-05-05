@@ -1,6 +1,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Play, Pause } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 export type BeatItem = {
@@ -171,6 +172,7 @@ export function BeatPlayer({
 }) {
   const snap = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   const [resolvedUrl, setResolvedUrl] = useState<string>("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setResolvedUrl(normalizeDirectUrl(beat.url));
@@ -194,8 +196,13 @@ export function BeatPlayer({
   const bgImage = beat.image_url || null;
 
   return (
+    <>
     <div
-      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square"
+      onClick={() => setOpen(true)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(true); } }}
+      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square cursor-pointer"
       style={{
         background: bgImage
           ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
@@ -226,7 +233,7 @@ export function BeatPlayer({
 
       <div className="flex justify-center my-1 md:my-4">
         <button
-          onClick={toggle}
+          onClick={(e) => { e.stopPropagation(); toggle(); }}
           aria-label={isPlaying ? "Pausar" : "Tocar"}
           disabled={!resolvedUrl}
           className={`h-11 w-11 md:h-16 md:w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${
@@ -263,5 +270,62 @@ export function BeatPlayer({
         </div>
       )}
     </div>
+
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="max-w-md border-border bg-card p-0 overflow-hidden">
+        <DialogTitle className="sr-only">{name}</DialogTitle>
+        <div
+          className="relative w-full aspect-square flex flex-col justify-between p-5"
+          style={{
+            background: bgImage
+              ? `linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
+              : "#111111",
+          }}
+        >
+          <div
+            className="text-center text-white self-center text-sm md:text-lg"
+            style={{
+              fontWeight: 700,
+              textTransform: "uppercase",
+              background: "rgba(0,0,0,0.5)",
+              padding: "6px 12px",
+              borderRadius: 6,
+            }}
+          >
+            {name}
+          </div>
+
+          <div className="flex justify-center">
+            <button
+              onClick={toggle}
+              aria-label={isPlaying ? "Pausar" : "Tocar"}
+              disabled={!resolvedUrl}
+              className={`h-20 w-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${
+                isPlaying ? "beat-pulse" : ""
+              }`}
+            >
+              {isPlaying ? <Pause className="h-9 w-9 fill-current" /> : <Play className="h-9 w-9 fill-current ml-1" />}
+            </button>
+          </div>
+
+          {(beat.bpm || beat.key) && (
+            <div
+              className="text-center self-center text-white"
+              style={{
+                fontSize: 12,
+                background: "rgba(0,0,0,0.45)",
+                padding: "4px 10px",
+                borderRadius: 4,
+              }}
+            >
+              {beat.bpm && <span style={{ fontWeight: 700 }}>{beat.bpm} BPM</span>}
+              {beat.bpm && beat.key && <span style={{ margin: "0 6px", opacity: 0.7 }}>·</span>}
+              {beat.key && <span>{beat.key}</span>}
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
