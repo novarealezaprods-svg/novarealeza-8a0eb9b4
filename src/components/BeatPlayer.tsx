@@ -58,7 +58,7 @@ function getAudio(): HTMLAudioElement | null {
   if (audio) return audio;
 
   const el = new Audio();
-  el.preload = "none";
+  el.preload = "auto";
 
   el.addEventListener("playing", () => {
     setState({ isPlaying: true, loadingUrl: null });
@@ -260,11 +260,6 @@ export function BeatPlayer({
       {hasError && (
         <div className="mt-2 text-[10px] text-destructive leading-tight text-center">
           Áudio indisponível — reenvie pelo /admin
-        </div>
-      )}
-      {isLoading && !hasError && (
-        <div className="mt-2 text-[10px] text-muted-foreground leading-tight text-center">
-          Carregando…
         </div>
       )}
     </div>
