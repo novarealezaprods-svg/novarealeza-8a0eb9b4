@@ -150,7 +150,24 @@ function pauseCurrent() {
 // Component
 // ---------------------------------------------------------------------------
 
-export function BeatPlayer({ beat }: { beat: BeatItem; index?: number }) {
+function formatTime(s: number) {
+  if (!isFinite(s) || s < 0) s = 0;
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, "0")}`;
+}
+
+export function BeatPlayer({
+  beat,
+  index = 0,
+  displayName,
+  genre,
+}: {
+  beat: BeatItem;
+  index?: number;
+  displayName?: string;
+  genre?: string;
+}) {
   const snap = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   const [resolvedUrl, setResolvedUrl] = useState<string>("");
 
@@ -177,45 +194,102 @@ export function BeatPlayer({ beat }: { beat: BeatItem; index?: number }) {
     playUrl(resolvedUrl);
   };
 
-  return (
-    <Card className="p-5 border-border/60 bg-card hover:border-primary/40 transition-colors flex flex-col items-center text-center relative overflow-hidden">
-      <div
-        className="absolute inset-x-0 bottom-0 h-1 bg-primary transition-all"
-        style={{ width: `${progress * 100}%` }}
-      />
-      <button
-        onClick={toggle}
-        aria-label={isPlaying ? "Pausar" : "Tocar"}
-        className="h-14 w-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition mb-3 disabled:opacity-60"
-        disabled={!resolvedUrl}
-      >
-        {isPlaying ? (
-          <Pause className="h-6 w-6 fill-current" />
-        ) : (
-          <Play className="h-6 w-6 fill-current ml-0.5" />
-        )}
-      </button>
+  const name = displayName || beat.name;
 
-      {beat.bpm && (
-        <div className="text-base font-bold leading-tight">{beat.bpm} BPM</div>
+  return (
+    <div
+      className="beat-card-anim group relative flex flex-col text-left transition-all duration-200 hover:-translate-y-1"
+      style={{
+        background: "#111111",
+        border: `1px solid ${isPlaying ? "#39FF14" : "#222222"}`,
+        borderRadius: 16,
+        padding: 20,
+        boxShadow: isPlaying
+          ? "0 0 0 1px #39FF14, 0 0 24px rgba(57,255,20,0.25), 0 4px 24px rgba(0,0,0,0.4)"
+          : "0 4px 24px rgba(0,0,0,0.4)",
+        animationDelay: `${index * 80}ms`,
+      }}
+    >
+      {genre && (
+        <span
+          className="self-start"
+          style={{
+            background: "#0a2e0a",
+            color: "#39FF14",
+            fontSize: 10,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            borderRadius: 4,
+            padding: "3px 8px",
+            letterSpacing: "0.05em",
+          }}
+        >
+          {genre}
+        </span>
       )}
-      {beat.key && (
-        <div className="text-xs text-muted-foreground mt-0.5">{beat.key}</div>
-      )}
-      {!beat.bpm && !beat.key && (
-        <div className="text-sm font-semibold truncate max-w-full">{beat.name}</div>
-      )}
+
+      <div
+        className="text-center text-white truncate"
+        style={{ fontSize: 16, fontWeight: 800, textTransform: "uppercase", marginTop: 12 }}
+      >
+        {name}
+      </div>
+
+      <div className="flex justify-center my-4">
+        <button
+          onClick={toggle}
+          aria-label={isPlaying ? "Pausar" : "Tocar"}
+          disabled={!resolvedUrl}
+          className={`h-16 w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${
+            isPlaying ? "beat-pulse" : ""
+          }`}
+        >
+          {isPlaying ? (
+            <Pause className="h-7 w-7 fill-current" />
+          ) : (
+            <Play className="h-7 w-7 fill-current ml-0.5" />
+          )}
+        </button>
+      </div>
+
+      <div className="text-center" style={{ fontSize: 13 }}>
+        {beat.bpm && (
+          <span style={{ color: "#fff", fontWeight: 700 }}>{beat.bpm} BPM</span>
+        )}
+        {beat.bpm && beat.key && <span style={{ color: "#888", margin: "0 6px" }}>·</span>}
+        {beat.key && <span style={{ color: "#888", fontWeight: 400 }}>{beat.key}</span>}
+      </div>
+
+      <div
+        className="mt-3 w-full overflow-hidden"
+        style={{ background: "#222222", height: 3, borderRadius: 4 }}
+      >
+        <div
+          style={{
+            width: `${progress * 100}%`,
+            height: "100%",
+            background: "#39FF14",
+            borderRadius: 4,
+            transition: "width 0.15s linear",
+          }}
+        />
+      </div>
+
+      <div className="flex justify-between mt-1.5" style={{ fontSize: 11, color: "#666" }}>
+        <span>{formatTime(current)}</span>
+        <span>{formatTime(previewEnd)}</span>
+      </div>
 
       {hasError && (
-        <div className="mt-2 text-[10px] text-destructive leading-tight">
+        <div className="mt-2 text-[10px] text-destructive leading-tight text-center">
           Áudio indisponível — reenvie pelo /admin
         </div>
       )}
       {isLoading && !hasError && (
-        <div className="mt-2 text-[10px] text-muted-foreground leading-tight">
+        <div className="mt-2 text-[10px] text-muted-foreground leading-tight text-center">
           Carregando…
         </div>
       )}
-    </Card>
+    </div>
   );
 }
