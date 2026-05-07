@@ -25,6 +25,7 @@ export default function AdminPage() {
   const [checkoutUrl, setCheckoutUrl] = useState("");
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState("");
   const [previewVideo, setPreviewVideo] = useState("");
+  const [uploadingVideo, setUploadingVideo] = useState(false);
 
   // Beats
   const [beats, setBeats] = useState<Beat[]>([]);
