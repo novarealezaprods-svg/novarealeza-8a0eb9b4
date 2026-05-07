@@ -576,7 +576,7 @@ export default function IndexPage() {
                     "+200 Beats Adicionados",
                     "TODOS estilos musicais ",
                     "Drum kit profissional (808, kicks, hats)",
-                    "Presets de mixagem e mastering",
+                    "Presets de mixagem",
                     "Curso bônus: como lançar no Spotify",
                     "Atualizações mensais por 1 ano",
                     "Suporte prioritário no WhatsApp",
