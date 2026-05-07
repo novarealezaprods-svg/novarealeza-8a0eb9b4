@@ -17,6 +17,9 @@ import { ScarcityBar } from "@/components/ScarcityBar";
 const genres = ["BOOMBAP/RAP", "FUNK", "NEW JAZZ", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
 const features = [
   "100 beats profissionais prontos para uso",
+  "40 beats funk",
+  "40 beats trap",
+  "20 beats variados (boombap, edm, drill, new jazz)",
   "100% royalty free — você fica com tudo",
   "Liberado para Spotify, YouTube, TikTok",
   "Mixados e masterizados em alta qualidade",
