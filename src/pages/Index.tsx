@@ -578,7 +578,7 @@ export default function IndexPage() {
                     "Drum kit profissional (808, kicks, hats)",
                     "Presets de mixagem",
                     "Curso bônus: como lançar no Spotify",
-                    "Atualizações mensais por 1 ano",
+                    "Acesso a comunidade do Whatsapp com artistas de todo Brasil",
                     "Suporte prioritário no WhatsApp",
                   ].map((f, i) => (
                     <div key={i} className="supreme-feature">
