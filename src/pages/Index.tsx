@@ -462,33 +462,48 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* BLOCO 2 — Card de Compra (movido para cá) */}
-          <div className="mt-16 md:mt-20 reveal reveal-zoom">
-            <Card className="relative overflow-hidden border-primary/40 bg-card p-8 md:p-12 text-center max-w-2xl mx-auto" style={{ boxShadow: "var(--shadow-glow)" }}>
-              <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "var(--gradient-hero)" }} />
-              <div className="relative">
-                <Badge className="mb-6 bg-accent text-accent-foreground border-0 tracking-widest uppercase text-xs">
+          {/* BLOCO 2 — Card de Compra (Plano Base) */}
+          <div className="mt-16 md:mt-20 reveal reveal-zoom max-w-2xl mx-auto">
+            <div className="basic-card">
+              <div className="basic-card-inner text-center">
+                <span className="basic-badge">
+                  <Flame className="h-3 w-3" />
                   <span>Oferta limitada</span>
-                </Badge>
-                <h2 className="text-4xl md:text-5xl font-black tracking-tight">Pack de 100 Beats</h2>
-                <div className="mt-6 flex items-center justify-center">
-                  <span className="text-4xl md:text-5xl font-black text-primary">R$ 19,90</span>
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">Pagamento único · Acesso vitalício</p>
+                </span>
+                <h2 className="mt-5 text-3xl md:text-4xl font-black tracking-tight">
+                  <span className="basic-title">Pack de 100 Beats</span>
+                </h2>
+                <p className="mt-2 text-sm md:text-base text-[#9ad9a4] font-semibold tracking-wide">
+                  Pagamento único · Acesso vitalício
+                </p>
 
-                <div className="mt-8 space-y-3 text-left max-w-sm mx-auto">
+                <div className="mt-6 flex flex-col items-center gap-1">
+                  <span className="basic-price text-5xl md:text-6xl font-black leading-none">
+                    R$ 19,90
+                  </span>
+                </div>
+
+                <div className="mt-8 space-y-3.5 text-left max-w-md mx-auto">
                   {features.map((f, i) => (
-                    <div key={i} className="flex items-center gap-2.5 text-base font-semibold text-white">
-                      <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                    <div key={i} className="basic-feature">
+                      <span className="basic-feature-check">
+                        <Check />
+                      </span>
                       <span>{f}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-8 rounded-xl border border-border/60 bg-[#0d0d0d] px-4 py-3 max-w-md mx-auto">
-                  <p className="text-sm md:text-base font-semibold text-foreground flex items-center justify-center gap-2 flex-wrap">
-                    <span aria-hidden="true">🔥</span>
-                    <span style={{ color: "#00FF41", textShadow: "0 0 10px rgba(0, 255, 65, 0.4)" }} className="font-black">
+                <div
+                  className="mt-8 rounded-xl px-4 py-3 max-w-md mx-auto"
+                  style={{
+                    background: "rgba(0, 255, 95, 0.08)",
+                    border: "1px solid rgba(0, 255, 95, 0.28)",
+                  }}
+                >
+                  <p className="text-sm md:text-base font-semibold text-[#e6ffe9] flex items-center justify-center gap-2 flex-wrap">
+                    <Flame className="h-4 w-4 text-[#5dff8a]" />
+                    <span className="font-black text-[#5dff8a]" style={{ textShadow: "0 0 10px rgba(0, 255, 95, 0.5)" }}>
                       +2.500
                     </span>
                     <span>artistas já garantiram o pack</span>
@@ -504,7 +519,7 @@ export default function IndexPage() {
                     <span className="hero-cta-text">QUERO MEU PACK AGORA</span>
                   </button>
                 </div>
-                <p className="mt-4 text-xs text-muted-foreground flex items-center justify-center gap-1">
+                <p className="mt-4 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
                   <ShieldCheck className="h-3 w-3" />
                   <span>Garantia incondicional de 7 dias</span>
                 </p>
@@ -512,7 +527,7 @@ export default function IndexPage() {
                   <ScarcityBar />
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </section>
