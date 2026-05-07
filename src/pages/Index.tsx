@@ -557,7 +557,7 @@ export default function IndexPage() {
                   Pacote completo · Acesso vitalício VIP
                 </p>
 
-                <div className="mt-6 flex items-end justify-center gap-2">
+                <div className="mt-6 flex flex-col items-center gap-1">
                   <span className="supreme-strike">R$ 197,00</span>
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
                     R$ 47,90
