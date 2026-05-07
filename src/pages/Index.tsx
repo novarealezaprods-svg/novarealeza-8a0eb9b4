@@ -780,7 +780,7 @@ export default function IndexPage() {
               </span>
             </div>
             <AlertDialogTitle className="text-center text-2xl md:text-3xl font-black">
-              <span className="supreme-title">Você viu o Pack Suprema?</span>
+              <span className="supreme-title">Você viu o Pack Supremo?</span>
             </AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[#d9c98e] text-base pt-2">
               Antes de fechar, dá uma olhada na <strong className="text-[#ffd86b]">Oferta Suprema</strong>:
