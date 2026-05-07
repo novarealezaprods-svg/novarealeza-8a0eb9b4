@@ -801,7 +801,7 @@ export default function IndexPage() {
             </AlertDialogAction>
             <AlertDialogCancel
               onClick={handleContinueBasic}
-              className="w-full mt-0 bg-transparent border-border/60 text-muted-foreground hover:text-white hover:bg-white/5 text-xs font-medium"
+              className="w-full mt-0 h-12 bg-green-600 hover:bg-green-500 border-green-500 text-white text-base font-bold shadow-lg"
             >
               Não, prefiro o pack básico de R$ 19,90
             </AlertDialogCancel>
