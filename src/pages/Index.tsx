@@ -549,7 +549,7 @@ export default function IndexPage() {
               <Star className="h-3 w-3 fill-current" />
             </span>
             <h2 className="mt-5 text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
-              <span className="supreme-title">Vire Artista de Verdade</span>
+              <span className="supreme-title">Seja Um Artista Completo</span>
             </h2>
             <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
               Tudo do pack base + bônus exclusivos pra você sair do amador e dominar o jogo.
