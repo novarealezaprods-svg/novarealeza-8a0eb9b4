@@ -228,7 +228,7 @@ export default function IndexPage() {
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
             <p className="mt-4 text-[15px]" style={{ color: "#888" }}>
-              Ouça alguns beats do pack — FUNK, BOOMBAP/RAP, Boombap, Drill, Hood, Reggaeton e muito mais
+              Ouça alguns beats do pack — Trap, Funk, Boombap, Drill, Hood, Reggaeton e muito mais
             </p>
           </div>
 
