@@ -14,7 +14,7 @@ import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 
-const genres = ["BOOMBAP/RAP", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
+const genres = ["BOOMBAP/RAP", "FUNK", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 const features = [
   "100 beats profissionais prontos para uso",
   "100% royalty free — você fica com tudo",
@@ -40,16 +40,16 @@ const faq = [
 ];
 
 const BEAT_META: { name: string; genre: string }[] = [
-  { name: "Type Trap", genre: "TRAP" },
-  { name: "Type Trap", genre: "TRAP" },
+  { name: "Type Trap", genre: "FUNK" },
+  { name: "Type Trap", genre: "FUNK" },
   { name: "Type Alee", genre: "BOOMBAP/RAP" },
   { name: "Type BOOMBAP/RAP", genre: "BOOMBAP/RAP" },
   { name: "Type Hood Drill", genre: "DRILL" },
-  { name: "Type Skrilla", genre: "TRAP" },
+  { name: "Type Skrilla", genre: "FUNK" },
   { name: "Type Ambient Hood", genre: "HOOD" },
-  { name: "Type Don Toliver", genre: "TRAP" },
+  { name: "Type Don Toliver", genre: "FUNK" },
   { name: "Nave Nova na Favela", genre: "BOOMBAP/RAP" },
-  { name: "Type Florida", genre: "TRAP" },
+  { name: "Type Florida", genre: "FUNK" },
 ];
 
 export default function IndexPage() {
@@ -228,14 +228,14 @@ export default function IndexPage() {
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
             <p className="mt-4 text-[15px]" style={{ color: "#888" }}>
-              Ouça alguns beats do pack — Trap, BOOMBAP/RAP, Boombap, Drill, Hood, Reggaeton e muito mais
+              Ouça alguns beats do pack — FUNK, BOOMBAP/RAP, Boombap, Drill, Hood, Reggaeton e muito mais
             </p>
           </div>
 
           {beats.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
               {beats.slice(0, 10).map((b: any, i) => {
-                const fallback = BEAT_META[i] || { name: b.name, genre: "TRAP" };
+                const fallback = BEAT_META[i] || { name: b.name, genre: "FUNK" };
                 const meta = {
                   name: b.name || fallback.name,
                   genre: b.genre || fallback.genre,
@@ -414,7 +414,7 @@ export default function IndexPage() {
                   "100 beats exclusivos e profissionais",
                   "100% royalty free — Spotify, YouTube, sem medo",
                   "Som que posiciona você como artista sério",
-                  "BOOMBAP/RAP, Trap, R&B, New Jazz e muito mais",
+                  "BOOMBAP/RAP, FUNK, R&B, New Jazz e muito mais",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
                   <li
