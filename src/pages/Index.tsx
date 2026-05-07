@@ -488,6 +488,116 @@ export default function IndexPage() {
         </div>
       </section>
 
+      {/* OFERTA SUPREMA — Gold Edition */}
+      <section className="py-20 md:py-24 border-t border-border/50 relative overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none opacity-60"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(255, 196, 0, 0.12) 0%, transparent 60%)",
+          }}
+        />
+        <div className={`${CONTAINER} relative`}>
+          <div className="text-center mb-10 reveal">
+            <span className="supreme-badge">
+              <Star className="h-3 w-3 fill-current" />
+              <span>Oferta Suprema · Vip</span>
+              <Star className="h-3 w-3 fill-current" />
+            </span>
+            <h2 className="mt-5 text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
+              <span className="supreme-title">Vire Artista de Verdade</span>
+            </h2>
+            <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
+              Tudo do pack base + bônus exclusivos pra você sair do amador e dominar o jogo.
+            </p>
+          </div>
+
+          <div className="reveal reveal-zoom max-w-2xl mx-auto">
+            <div className="supreme-card">
+              <div className="supreme-card-inner text-center">
+                {/* sparkles decorativos */}
+                <span className="supreme-sparkle" style={{ top: "8%", left: "6%", animationDelay: "0s" }} />
+                <span className="supreme-sparkle" style={{ top: "12%", right: "8%", animationDelay: "0.6s" }} />
+                <span className="supreme-sparkle" style={{ bottom: "10%", left: "10%", animationDelay: "1.2s" }} />
+                <span className="supreme-sparkle" style={{ bottom: "14%", right: "12%", animationDelay: "1.8s" }} />
+
+                <h3 className="text-3xl md:text-4xl font-black tracking-tight">
+                  <span className="supreme-title">Pack Suprema 300+</span>
+                </h3>
+                <p className="mt-2 text-sm md:text-base text-[#d9c98e] font-semibold tracking-wide">
+                  Pacote completo · Acesso vitalício VIP
+                </p>
+
+                <div className="mt-6 flex items-end justify-center gap-2">
+                  <span className="supreme-strike">R$ 197,00</span>
+                  <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
+                    R$ 47,90
+                  </span>
+                </div>
+                <div className="flex justify-center">
+                  <span className="supreme-savings">
+                    <Flame className="h-3 w-3" />
+                    Economize 75% hoje
+                  </span>
+                </div>
+
+                <div className="mt-8 space-y-3.5 text-left max-w-md mx-auto">
+                  {[
+                    "TUDO do pack base (100 beats prontos)",
+                    "+200 beats premium exclusivos VIP",
+                    "Stems & loops separados pra customizar",
+                    "Drum kit profissional (808, kicks, hats)",
+                    "Presets de mixagem e mastering",
+                    "Curso bônus: como lançar no Spotify",
+                    "Atualizações mensais por 1 ano",
+                    "Suporte prioritário no WhatsApp",
+                  ].map((f, i) => (
+                    <div key={i} className="supreme-feature">
+                      <span className="supreme-feature-check">
+                        <Check />
+                      </span>
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  className="mt-8 rounded-xl px-4 py-3 max-w-md mx-auto"
+                  style={{
+                    background: "rgba(255, 196, 0, 0.08)",
+                    border: "1px solid rgba(255, 196, 0, 0.28)",
+                  }}
+                >
+                  <p className="text-sm md:text-base font-semibold text-[#fff8e0] flex items-center justify-center gap-2 flex-wrap">
+                    <Trophy className="h-4 w-4 text-[#ffd86b]" />
+                    <span>Apenas</span>
+                    <span className="font-black text-[#ffd86b]" style={{ textShadow: "0 0 12px rgba(255, 215, 0, 0.6)" }}>
+                      30 vagas
+                    </span>
+                    <span>nesse preço</span>
+                  </p>
+                </div>
+
+                <div className="mt-8 flex flex-col items-center w-full">
+                  <button
+                    onClick={handleCheckout}
+                    className="supreme-cta inline-flex items-center justify-center"
+                  >
+                    <span className="supreme-cta-shine" aria-hidden="true" />
+                    <Lock className="h-4 w-4 mr-2 relative z-10" />
+                    <span className="relative z-10">QUERO O PACK SUPREMA AGORA</span>
+                  </button>
+                </div>
+                <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Garantia incondicional de 7 dias · Pagamento 100% seguro</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="border-y border-border/50 bg-card/30">
         <div className={`${CONTAINER} py-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center`}>
           {stats.map((s) => (
