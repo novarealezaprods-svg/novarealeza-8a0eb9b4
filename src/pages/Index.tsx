@@ -8,6 +8,16 @@ import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, M
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Dialog, DialogTitle } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import useEmblaCarousel from "embla-carousel-react";
 import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon, Loader2 } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -61,6 +71,7 @@ export default function IndexPage() {
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
+  const [showUpsell, setShowUpsell] = useState(false);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -139,6 +150,21 @@ export default function IndexPage() {
     }
   };
 
+  const handleBasicCheckoutClick = () => {
+    setShowUpsell(true);
+  };
+
+  const handleContinueBasic = () => {
+    setShowUpsell(false);
+    handleCheckout();
+  };
+
+  const handleGoSupreme = () => {
+    setShowUpsell(false);
+    const el = document.getElementById("oferta-suprema");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   // ViewContent at 75% scroll
   useEffect(() => {
     let fired = false;
@@ -204,7 +230,7 @@ export default function IndexPage() {
 
           <div className="hero-cta-block flex flex-col items-center w-full">
             <button
-              onClick={handleCheckout}
+              onClick={handleBasicCheckoutClick}
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
               <span className="hero-cta-shine" aria-hidden="true" />
@@ -468,7 +494,7 @@ export default function IndexPage() {
 
                 <div className="hero-cta-block flex flex-col items-center w-full">
                   <button
-                    onClick={handleCheckout}
+                    onClick={handleBasicCheckoutClick}
                     className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
                   >
                     <span className="hero-cta-shine" aria-hidden="true" />
@@ -489,7 +515,7 @@ export default function IndexPage() {
       </section>
 
       {/* OFERTA SUPREMA — Gold Edition */}
-      <section className="py-20 md:py-24 border-t border-border/50 relative overflow-hidden">
+      <section id="oferta-suprema" className="py-20 md:py-24 border-t border-border/50 relative overflow-hidden scroll-mt-20">
         <div
           className="absolute inset-0 pointer-events-none opacity-60"
           style={{
@@ -718,6 +744,46 @@ export default function IndexPage() {
         onClose={() => { setOpenBeatIndex(null); pauseCurrent(); }}
         meta={BEAT_META}
       />
+
+      <AlertDialog open={showUpsell} onOpenChange={setShowUpsell}>
+        <AlertDialogContent className="border-2 max-w-md" style={{ borderImage: "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a) 1", background: "linear-gradient(180deg, #14100a 0%, #0a0805 100%)" }}>
+          <AlertDialogHeader>
+            <div className="flex justify-center mb-2">
+              <span className="supreme-badge">
+                <Star className="h-3 w-3 fill-current" />
+                <span>Espera!</span>
+                <Star className="h-3 w-3 fill-current" />
+              </span>
+            </div>
+            <AlertDialogTitle className="text-center text-2xl md:text-3xl font-black">
+              <span className="supreme-title">Você viu o Pack Suprema?</span>
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-center text-[#d9c98e] text-base pt-2">
+              Antes de fechar, dá uma olhada na <strong className="text-[#ffd86b]">Oferta Suprema</strong>:
+              <br />
+              <span className="text-white">+200 beats VIP, stems, drum kit e curso bônus</span>
+              <br />
+              por apenas <strong className="text-[#ffd86b]">R$ 47,90</strong> — economia de 75%.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col gap-2 sm:flex-col sm:space-x-0">
+            <AlertDialogAction
+              onClick={handleGoSupreme}
+              className="supreme-cta inline-flex items-center justify-center w-full"
+            >
+              <span className="supreme-cta-shine" aria-hidden="true" />
+              <Trophy className="h-4 w-4 mr-2 relative z-10" />
+              <span className="relative z-10">VER PACK SUPREMA</span>
+            </AlertDialogAction>
+            <AlertDialogCancel
+              onClick={handleContinueBasic}
+              className="w-full mt-0 bg-transparent border-border/60 text-muted-foreground hover:text-white hover:bg-white/5 text-xs font-medium"
+            >
+              Não, prefiro o pack básico de R$ 19,90
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
