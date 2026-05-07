@@ -9,7 +9,7 @@ import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Dialog, DialogTitle } from "@/components/ui/dialog";
 import useEmblaCarousel from "embla-carousel-react";
-import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon, Loader2 } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
@@ -747,7 +747,13 @@ function BeatSlide({ beat, name, active }: { beat: BeatItem; name: string; activ
           disabled={!resolvedUrl}
           className={`h-20 w-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${isPlaying ? "beat-pulse" : ""}`}
         >
-          {isPlaying ? <PauseIcon className="h-9 w-9 fill-current" /> : <PlayIcon className="h-9 w-9 fill-current ml-1" />}
+          {isPlaying ? (
+            <PauseIcon className="h-9 w-9 fill-current" />
+          ) : isLoading ? (
+            <Loader2 className="h-9 w-9 animate-spin" />
+          ) : (
+            <PlayIcon className="h-9 w-9 fill-current ml-1" />
+          )}
         </button>
       </div>
 
