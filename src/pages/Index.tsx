@@ -57,6 +57,7 @@ export default function IndexPage() {
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
+  const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
