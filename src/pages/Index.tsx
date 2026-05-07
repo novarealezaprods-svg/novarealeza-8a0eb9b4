@@ -13,7 +13,6 @@ import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon } fr
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
-import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 const features = [
