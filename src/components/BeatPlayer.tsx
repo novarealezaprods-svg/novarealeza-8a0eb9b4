@@ -54,6 +54,10 @@ let audio: HTMLAudioElement | null = null;
 
 export { playUrl, pauseCurrent };
 
+export function useBeatSnap() {
+  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+}
+
 function getAudio(): HTMLAudioElement | null {
   if (typeof window === "undefined") return null;
   if (audio) return audio;
