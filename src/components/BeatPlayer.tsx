@@ -1,8 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Play, Pause } from "lucide-react";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
-import { Dialog, DialogTitle } from "@/components/ui/dialog";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 export type BeatItem = {
@@ -54,6 +51,8 @@ const setState = (patch: Partial<ControllerState>) => {
 };
 
 let audio: HTMLAudioElement | null = null;
+
+export { playUrl, pauseCurrent };
 
 function getAudio(): HTMLAudioElement | null {
   if (typeof window === "undefined") return null;
@@ -165,15 +164,16 @@ export function BeatPlayer({
   index = 0,
   displayName,
   genre,
+  onOpen,
 }: {
   beat: BeatItem;
   index?: number;
   displayName?: string;
   genre?: string;
+  onOpen?: (index: number) => void;
 }) {
   const snap = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   const [resolvedUrl, setResolvedUrl] = useState<string>("");
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setResolvedUrl(normalizeDirectUrl(beat.url));
@@ -197,12 +197,11 @@ export function BeatPlayer({
   const bgImage = beat.image_url || null;
 
   return (
-    <>
     <div
-      onClick={() => setOpen(true)}
+      onClick={() => onOpen?.(index)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(true); } }}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen?.(index); } }}
       className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square cursor-pointer"
       style={{
         background: bgImage
