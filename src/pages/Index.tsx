@@ -43,7 +43,7 @@ const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Trap", genre: "TRAP" },
   { name: "Type Trap", genre: "TRAP" },
   { name: "Type Alee", genre: "BOOMBAP/RAP" },
-  { name: "Type Funk", genre: "BOOMBAP/RAP" },
+  { name: "Type BOOMBAP/RAP", genre: "BOOMBAP/RAP" },
   { name: "Type Hood Drill", genre: "DRILL" },
   { name: "Type Skrilla", genre: "TRAP" },
   { name: "Type Ambient Hood", genre: "HOOD" },
@@ -414,7 +414,7 @@ export default function IndexPage() {
                   "100 beats exclusivos e profissionais",
                   "100% royalty free — Spotify, YouTube, sem medo",
                   "Som que posiciona você como artista sério",
-                  "Funk, Trap, R&B, New Jazz e muito mais",
+                  "BOOMBAP/RAP, Trap, R&B, New Jazz e muito mais",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
                   <li
