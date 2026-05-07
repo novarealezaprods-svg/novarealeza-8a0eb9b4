@@ -650,3 +650,250 @@
     animation: none !important;
   }
 }
+
+/* =======================================================
+   OFERTA SUPREMA — Gold Edition (upsell card)
+   ======================================================= */
+@keyframes gold-border-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(255, 215, 0, 0.45),
+      0 0 40px rgba(255, 196, 0, 0.35),
+      0 0 90px rgba(255, 170, 0, 0.18),
+      inset 0 0 30px rgba(255, 215, 0, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(255, 230, 120, 0.85),
+      0 0 70px rgba(255, 196, 0, 0.65),
+      0 0 140px rgba(255, 170, 0, 0.35),
+      inset 0 0 50px rgba(255, 215, 0, 0.18);
+  }
+}
+@keyframes gold-shine-sweep {
+  0%   { transform: translateX(-150%) skewX(-20deg); }
+  100% { transform: translateX(250%) skewX(-20deg); }
+}
+@keyframes gold-shimmer-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+@keyframes gold-text-shine {
+  0%, 100% { background-position: 0% center; }
+  50%      { background-position: 200% center; }
+}
+@keyframes gold-cta-breath {
+  0%, 100% {
+    box-shadow:
+      0 0 30px rgba(255, 196, 0, 0.65),
+      0 8px 24px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -2px 0 rgba(120, 80, 0, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 60px rgba(255, 215, 0, 0.95),
+      0 8px 28px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      inset 0 -2px 0 rgba(120, 80, 0, 0.35);
+  }
+}
+@keyframes gold-sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.6) rotate(0deg); }
+  50%      { opacity: 1; transform: scale(1.1) rotate(180deg); }
+}
+
+.supreme-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    #c98b1a 0%,
+    #ffd86b 18%,
+    #fff5b8 32%,
+    #ffcc33 50%,
+    #fff5b8 68%,
+    #ffd86b 82%,
+    #c98b1a 100%
+  );
+  background-size: 300% 300%;
+  animation: gold-border-glow 2.6s ease-in-out infinite, gold-shimmer-bg 6s ease-in-out infinite;
+}
+.supreme-card-inner {
+  position: relative;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at top, rgba(255, 200, 60, 0.18), transparent 65%),
+    linear-gradient(180deg, #14100a 0%, #0a0805 100%);
+  padding: 2.5rem 2rem;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .supreme-card-inner { padding: 3.5rem 3rem; }
+}
+.supreme-card-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 235, 150, 0.18) 50%,
+    transparent 100%
+  );
+  transform: translateX(-150%) skewX(-20deg);
+  animation: gold-shine-sweep 4.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+.supreme-card-inner > * { position: relative; z-index: 2; }
+
+.supreme-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #b8860b, #ffd700, #b8860b);
+  background-size: 200% 100%;
+  color: #1a0f00;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba(255, 196, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  animation: gold-text-shine 3s linear infinite;
+}
+
+.supreme-title {
+  background: linear-gradient(
+    90deg,
+    #c98b1a 0%,
+    #ffd86b 25%,
+    #fff5b8 50%,
+    #ffd86b 75%,
+    #c98b1a 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: gold-text-shine 3.5s linear infinite;
+  filter: drop-shadow(0 0 18px rgba(255, 196, 0, 0.35));
+}
+
+.supreme-price {
+  background: linear-gradient(180deg, #fff5b8 0%, #ffd86b 50%, #c98b1a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(255, 196, 0, 0.55));
+}
+
+.supreme-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff8e0;
+  line-height: 1.35;
+}
+.supreme-feature-check {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffd86b, #c98b1a);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(255, 196, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.supreme-feature-check svg {
+  width: 13px;
+  height: 13px;
+  color: #1a0f00;
+  stroke-width: 3.5;
+}
+
+.supreme-cta {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffe27a 0%, #ffc022 50%, #b8860b 100%);
+  color: #1a0f00;
+  border: none;
+  border-radius: 14px;
+  padding: 18px 28px;
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  width: 100%;
+  max-width: 420px;
+  cursor: pointer;
+  animation: gold-cta-breath 1.8s ease-in-out infinite, hero-cta-pulse 2.4s ease-in-out infinite;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+@media (min-width: 768px) {
+  .supreme-cta { padding: 22px 56px; font-size: 18px; }
+}
+.supreme-cta:hover { transform: scale(1.04); filter: brightness(1.1); }
+.supreme-cta-shine {
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-20deg);
+  animation: hero-cta-shine-sweep 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.supreme-sparkle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, #fff8e0 0%, #ffd700 40%, transparent 70%);
+  border-radius: 50%;
+  animation: gold-sparkle 2.4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.supreme-strike {
+  color: #888;
+  text-decoration: line-through;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.supreme-savings {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: rgba(255, 196, 0, 0.12);
+  border: 1px solid rgba(255, 196, 0, 0.35);
+  color: #ffd86b;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
