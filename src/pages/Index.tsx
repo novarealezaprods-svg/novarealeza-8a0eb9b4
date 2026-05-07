@@ -247,6 +247,7 @@ export default function IndexPage() {
                     index={i}
                     displayName={meta.name}
                     genre={meta.genre}
+                    onOpen={(idx) => setOpenBeatIndex(idx)}
                   />
                 );
               })}
