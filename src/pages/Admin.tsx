@@ -280,8 +280,35 @@ export default function AdminPage() {
                 <Label htmlFor="video">URL do vídeo de preview</Label>
                 <div className="flex gap-2 mt-1">
                   <Input id="video" value={previewVideo} onChange={(e) => setPreviewVideo(e.target.value)} placeholder="https://..." />
+                  <label className="cursor-pointer">
+                    <input
+                      type="file"
+                      accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        setUploadingVideo(true);
+                        const ext = (file.name.split(".").pop() || "mp4").toLowerCase();
+                        const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+                        const { error } = await supabase.storage.from("videos").upload(path, file, {
+                          contentType: file.type || "video/mp4",
+                          upsert: false,
+                        });
+                        setUploadingVideo(false);
+                        if (error) return toast.error(error.message);
+                        const { data } = supabase.storage.from("videos").getPublicUrl(path);
+                        setPreviewVideo(data.publicUrl);
+                        await saveSetting("preview_video", data.publicUrl);
+                      }}
+                    />
+                    <Button type="button" variant="outline" size="icon" asChild disabled={uploadingVideo} title="Enviar MP4">
+                      <span><Upload className="w-4 h-4" /></span>
+                    </Button>
+                  </label>
                   <Button onClick={() => saveSetting("preview_video", previewVideo)}><Save className="w-4 h-4" /></Button>
                 </div>
+                {uploadingVideo && <p className="text-xs text-muted-foreground mt-1">Enviando vídeo...</p>}
               </div>
             </Card>
           </TabsContent>
