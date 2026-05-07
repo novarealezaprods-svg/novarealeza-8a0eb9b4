@@ -447,10 +447,10 @@ export default function IndexPage() {
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">Pagamento único · Acesso vitalício</p>
 
-                <div className="mt-8 space-y-2 text-left max-w-sm mx-auto">
-                  {features.slice(0, 4).map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm">
-                      <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                <div className="mt-8 space-y-3 text-left max-w-sm mx-auto">
+                  {features.map((f, i) => (
+                    <div key={i} className="flex items-center gap-2.5 text-base font-semibold text-white">
+                      <Check className="h-5 w-5 text-primary flex-shrink-0" />
                       <span>{f}</span>
                     </div>
                   ))}
