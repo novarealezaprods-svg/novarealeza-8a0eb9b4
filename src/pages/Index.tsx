@@ -744,6 +744,46 @@ export default function IndexPage() {
         onClose={() => { setOpenBeatIndex(null); pauseCurrent(); }}
         meta={BEAT_META}
       />
+
+      <AlertDialog open={showUpsell} onOpenChange={setShowUpsell}>
+        <AlertDialogContent className="border-2 max-w-md" style={{ borderImage: "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a) 1", background: "linear-gradient(180deg, #14100a 0%, #0a0805 100%)" }}>
+          <AlertDialogHeader>
+            <div className="flex justify-center mb-2">
+              <span className="supreme-badge">
+                <Star className="h-3 w-3 fill-current" />
+                <span>Espera!</span>
+                <Star className="h-3 w-3 fill-current" />
+              </span>
+            </div>
+            <AlertDialogTitle className="text-center text-2xl md:text-3xl font-black">
+              <span className="supreme-title">Você viu o Pack Suprema?</span>
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-center text-[#d9c98e] text-base pt-2">
+              Antes de fechar, dá uma olhada na <strong className="text-[#ffd86b]">Oferta Suprema</strong>:
+              <br />
+              <span className="text-white">+200 beats VIP, stems, drum kit e curso bônus</span>
+              <br />
+              por apenas <strong className="text-[#ffd86b]">R$ 47,90</strong> — economia de 75%.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col gap-2 sm:flex-col sm:space-x-0">
+            <AlertDialogAction
+              onClick={handleGoSupreme}
+              className="supreme-cta inline-flex items-center justify-center w-full"
+            >
+              <span className="supreme-cta-shine" aria-hidden="true" />
+              <Trophy className="h-4 w-4 mr-2 relative z-10" />
+              <span className="relative z-10">VER PACK SUPREMA</span>
+            </AlertDialogAction>
+            <AlertDialogCancel
+              onClick={handleContinueBasic}
+              className="w-full mt-0 bg-transparent border-border/60 text-muted-foreground hover:text-white hover:bg-white/5 text-xs font-medium"
+            >
+              Não, prefiro o pack básico de R$ 19,90
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
