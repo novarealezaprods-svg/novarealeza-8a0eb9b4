@@ -1,5 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause, Loader2 } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 export type BeatItem = {
@@ -246,6 +246,8 @@ export function BeatPlayer({
         >
           {isPlaying ? (
             <Pause className="h-5 w-5 md:h-7 md:w-7 fill-current" />
+          ) : isLoading ? (
+            <Loader2 className="h-5 w-5 md:h-7 md:w-7 animate-spin" />
           ) : (
             <Play className="h-5 w-5 md:h-7 md:w-7 fill-current ml-0.5" />
           )}
