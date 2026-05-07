@@ -164,8 +164,14 @@ export default function IndexPage() {
 
   const handleGoSupreme = () => {
     setShowUpsell(false);
-    const el = document.getElementById("oferta-suprema");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Aguarda o fechamento do dialog (Radix trava o scroll do body) antes de rolar.
+    // No mobile, scrollIntoView dispara antes do unlock e não funciona.
+    setTimeout(() => {
+      const el = document.getElementById("oferta-suprema");
+      if (!el) return;
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 16;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }, 350);
   };
 
   // ViewContent at 75% scroll
