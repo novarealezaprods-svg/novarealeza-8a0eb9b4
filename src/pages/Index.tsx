@@ -14,7 +14,7 @@ import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 
-const genres = ["BOOMBAP/RAP", "FUNK", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
+const genres = ["BOOMBAP/RAP", "FUNK", "NEW JAZZ", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 const features = [
   "100 beats profissionais prontos para uso",
   "100% royalty free — você fica com tudo",
@@ -414,7 +414,7 @@ export default function IndexPage() {
                   "100 beats exclusivos e profissionais",
                   "100% royalty free — Spotify, YouTube, sem medo",
                   "Som que posiciona você como artista sério",
-                  "BOOMBAP/RAP, FUNK, R&B, New Jazz e muito mais",
+                  "BOOMBAP/RAP, FUNK, R&B, NEW JAZZ e muito mais",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
                   <li
