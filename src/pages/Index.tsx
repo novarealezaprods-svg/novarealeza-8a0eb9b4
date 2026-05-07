@@ -573,7 +573,7 @@ export default function IndexPage() {
                 <div className="mt-8 space-y-3.5 text-left max-w-md mx-auto">
                   {[
                     "TUDO do pack base (100 beats prontos)",
-                    "+200 beats premium exclusivos VIP",
+                    "+200 Beats Adicionados",
                     "TODOS estilos musicais ",
                     "Drum kit profissional (808, kicks, hats)",
                     "Presets de mixagem e mastering",
