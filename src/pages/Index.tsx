@@ -574,7 +574,7 @@ export default function IndexPage() {
                   {[
                     "TUDO do pack base (100 beats prontos)",
                     "+200 beats premium exclusivos VIP",
-                    "Stems & loops separados pra customizar",
+                    "TODOS estilos musicais ",
                     "Drum kit profissional (808, kicks, hats)",
                     "Presets de mixagem e mastering",
                     "Curso bônus: como lançar no Spotify",
