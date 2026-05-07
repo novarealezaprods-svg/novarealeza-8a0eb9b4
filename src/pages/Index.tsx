@@ -70,6 +70,7 @@ export default function IndexPage() {
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
+  const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>("");
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [showUpsell, setShowUpsell] = useState(false);
 
@@ -122,6 +123,7 @@ export default function IndexPage() {
       const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
       setPreviewVideo(map["preview_video"] ?? null);
       setCheckoutUrl(map["checkout_url"] ?? "");
+      setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
       setProofImages(
         (imgs ?? []).map((r: any) =>
           String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
@@ -131,22 +133,23 @@ export default function IndexPage() {
     })();
   }, []);
 
-  const handleCheckout = () => {
-    if (!checkoutUrl) return;
+  const handleCheckout = (urlOverride?: string) => {
+    const target = urlOverride || checkoutUrl;
+    if (!target) return;
     // Track AddToCart
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "AddToCart");
     }
     // Forward all current URL params (utm_*, fbclid, gclid, etc.) to checkout
     try {
-      const url = new URL(checkoutUrl);
+      const url = new URL(target);
       const incoming = new URLSearchParams(window.location.search);
       incoming.forEach((value, key) => {
         if (!url.searchParams.has(key)) url.searchParams.set(key, value);
       });
       window.open(url.toString(), "_blank", "noopener,noreferrer");
     } catch {
-      window.open(checkoutUrl, "_blank", "noopener,noreferrer");
+      window.open(target, "_blank", "noopener,noreferrer");
     }
   };
 
