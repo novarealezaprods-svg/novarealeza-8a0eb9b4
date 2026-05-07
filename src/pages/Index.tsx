@@ -609,7 +609,7 @@ export default function IndexPage() {
 
                 <div className="mt-8 flex flex-col items-center w-full">
                   <button
-                    onClick={handleCheckout}
+                    onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl)}
                     className="supreme-cta inline-flex items-center justify-center"
                   >
                     <span className="supreme-cta-shine" aria-hidden="true" />
