@@ -747,6 +747,13 @@ export default function IndexPage() {
 
       <AlertDialog open={showUpsell} onOpenChange={setShowUpsell}>
         <AlertDialogContent className="border-2 max-w-md" style={{ borderImage: "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a) 1", background: "linear-gradient(180deg, #14100a 0%, #0a0805 100%)" }}>
+          <button
+            onClick={() => setShowUpsell(false)}
+            aria-label="Fechar"
+            className="absolute right-3 top-3 rounded-full bg-black/60 hover:bg-black/80 text-white p-1.5 transition z-10"
+          >
+            <X className="h-4 w-4" />
+          </button>
           <AlertDialogHeader>
             <div className="flex justify-center mb-2">
               <span className="supreme-badge">
