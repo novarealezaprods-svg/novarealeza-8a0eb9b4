@@ -627,8 +627,8 @@ export default function IndexPage() {
                     className="supreme-cta inline-flex items-center justify-center"
                   >
                     <span className="supreme-cta-shine" aria-hidden="true" />
-                    <Lock className="h-4 w-4 mr-2 relative z-10" />
-                    <span className="relative z-10">QUERO O PACK SUPREMA AGORA</span>
+                    <Download className="h-4 w-4 mr-2 relative z-10" />
+                    <span className="relative z-10">300 BEATS POR 47,90</span>
                   </button>
                 </div>
                 <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
