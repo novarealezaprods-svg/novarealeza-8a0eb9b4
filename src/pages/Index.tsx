@@ -710,6 +710,7 @@ function BeatSlide({ beat, name, active }: { beat: BeatItem; name: string; activ
 
   const isActive = snap.activeUrl === resolvedUrl;
   const isPlaying = isActive && snap.isPlaying;
+  const isLoading = snap.loadingUrl === resolvedUrl && !snap.isPlaying;
   const bgImage = beat.image_url || null;
 
   const toggle = () => {
