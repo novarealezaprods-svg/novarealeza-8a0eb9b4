@@ -23,6 +23,7 @@ export default function AdminPage() {
 
   // Settings
   const [checkoutUrl, setCheckoutUrl] = useState("");
+  const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState("");
   const [previewVideo, setPreviewVideo] = useState("");
 
   // Beats
@@ -52,6 +53,7 @@ export default function AdminPage() {
     ]);
     const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
     setCheckoutUrl(map["checkout_url"] ?? "");
+    setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
     setPreviewVideo(map["preview_video"] ?? "");
     setBeats((bts ?? []) as Beat[]);
     setImages((imgs ?? []) as Image[]);
@@ -260,10 +262,17 @@ export default function AdminPage() {
           <TabsContent value="settings" className="space-y-4">
             <Card className="p-6 space-y-4">
               <div>
-                <Label htmlFor="checkout">Link do Checkout (Mercado Pago)</Label>
+                <Label htmlFor="checkout">Link do Checkout — Pack Básico (R$ 19,90)</Label>
                 <div className="flex gap-2 mt-1">
                   <Input id="checkout" value={checkoutUrl} onChange={(e) => setCheckoutUrl(e.target.value)} placeholder="https://mpago.la/..." />
                   <Button onClick={() => saveSetting("checkout_url", checkoutUrl)}><Save className="w-4 h-4" /></Button>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="checkout-supreme">Link do Checkout — Pack Suprema (R$ 47,90)</Label>
+                <div className="flex gap-2 mt-1">
+                  <Input id="checkout-supreme" value={checkoutUrlSupreme} onChange={(e) => setCheckoutUrlSupreme(e.target.value)} placeholder="https://mpago.la/..." />
+                  <Button onClick={() => saveSetting("checkout_url_supreme", checkoutUrlSupreme)}><Save className="w-4 h-4" /></Button>
                 </div>
               </div>
               <div>
