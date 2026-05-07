@@ -8,6 +8,16 @@ import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, M
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Dialog, DialogTitle } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import useEmblaCarousel from "embla-carousel-react";
 import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon, Loader2 } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -61,6 +71,7 @@ export default function IndexPage() {
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
+  const [showUpsell, setShowUpsell] = useState(false);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -139,6 +150,21 @@ export default function IndexPage() {
     }
   };
 
+  const handleBasicCheckoutClick = () => {
+    setShowUpsell(true);
+  };
+
+  const handleContinueBasic = () => {
+    setShowUpsell(false);
+    handleCheckout();
+  };
+
+  const handleGoSupreme = () => {
+    setShowUpsell(false);
+    const el = document.getElementById("oferta-suprema");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   // ViewContent at 75% scroll
   useEffect(() => {
     let fired = false;
@@ -204,7 +230,7 @@ export default function IndexPage() {
 
           <div className="hero-cta-block flex flex-col items-center w-full">
             <button
-              onClick={handleCheckout}
+              onClick={handleBasicCheckoutClick}
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
               <span className="hero-cta-shine" aria-hidden="true" />
@@ -468,7 +494,7 @@ export default function IndexPage() {
 
                 <div className="hero-cta-block flex flex-col items-center w-full">
                   <button
-                    onClick={handleCheckout}
+                    onClick={handleBasicCheckoutClick}
                     className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
                   >
                     <span className="hero-cta-shine" aria-hidden="true" />
@@ -489,7 +515,7 @@ export default function IndexPage() {
       </section>
 
       {/* OFERTA SUPREMA — Gold Edition */}
-      <section className="py-20 md:py-24 border-t border-border/50 relative overflow-hidden">
+      <section id="oferta-suprema" className="py-20 md:py-24 border-t border-border/50 relative overflow-hidden scroll-mt-20">
         <div
           className="absolute inset-0 pointer-events-none opacity-60"
           style={{
