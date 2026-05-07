@@ -14,7 +14,7 @@ import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 
-const genres = ["Funk", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
+const genres = ["BOOMBAP/RAP", "Trap", "New Jazz", "Hard", "Sampled", "R&B", "Drill", "Boom Bap"];
 const features = [
   "100 beats profissionais prontos para uso",
   "100% royalty free — você fica com tudo",
@@ -42,13 +42,13 @@ const faq = [
 const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Trap", genre: "TRAP" },
   { name: "Type Trap", genre: "TRAP" },
-  { name: "Type Alee", genre: "FUNK" },
-  { name: "Type Funk", genre: "FUNK" },
+  { name: "Type Alee", genre: "BOOMBAP/RAP" },
+  { name: "Type Funk", genre: "BOOMBAP/RAP" },
   { name: "Type Hood Drill", genre: "DRILL" },
   { name: "Type Skrilla", genre: "TRAP" },
   { name: "Type Ambient Hood", genre: "HOOD" },
   { name: "Type Don Toliver", genre: "TRAP" },
-  { name: "Nave Nova na Favela", genre: "FUNK" },
+  { name: "Nave Nova na Favela", genre: "BOOMBAP/RAP" },
   { name: "Type Florida", genre: "TRAP" },
 ];
 
@@ -228,7 +228,7 @@ export default function IndexPage() {
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
             <p className="mt-4 text-[15px]" style={{ color: "#888" }}>
-              Ouça alguns beats do pack — Trap, Funk, Boombap, Drill, Hood, Reggaeton e muito mais
+              Ouça alguns beats do pack — Trap, BOOMBAP/RAP, Boombap, Drill, Hood, Reggaeton e muito mais
             </p>
           </div>
 
