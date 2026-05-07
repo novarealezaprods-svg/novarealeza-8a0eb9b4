@@ -293,7 +293,7 @@ export default function IndexPage() {
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5 reveal">
             {genres.map((g, i) => (
-              <Badge key={i} variant="secondary" className="polish-genre-badge rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
+              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
                 {g}
               </Badge>
             ))}
@@ -664,7 +664,7 @@ export default function IndexPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {features.map((f, i) => (
-              <Card key={i} className="polish-feature-card p-5 flex items-start gap-3 reveal" style={{ transitionDelay: `${i * 80}ms` }}>
+              <Card key={i} className="p-5 flex items-start gap-3 border-border/60 bg-card hover:border-primary/40 transition-colors reveal" style={{ transitionDelay: `${i * 80}ms` }}>
                 <div className="h-6 w-6 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="h-3.5 w-3.5 text-primary" />
                 </div>
@@ -680,7 +680,7 @@ export default function IndexPage() {
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10 reveal">
             Perguntas frequentes
           </h2>
-          <Accordion type="single" collapsible className="polish-faq w-full">
+          <Accordion type="single" collapsible className="w-full">
             {faq.map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`}>
                 <AccordionTrigger className="text-left font-semibold">
@@ -697,7 +697,7 @@ export default function IndexPage() {
 
       <footer className="border-t border-border/50 py-12">
         <div className={`${CONTAINER} flex flex-col items-center gap-6`}>
-          <div className="polish-footer-badge flex items-center gap-2.5 rounded-full px-4 py-2 text-sm">
+          <div className="flex items-center gap-2.5 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-sm">
             <Shield className="h-4 w-4 text-primary" />
             <span className="font-semibold text-foreground">Garantia incondicional de 7 dias</span>
           </div>
@@ -707,7 +707,7 @@ export default function IndexPage() {
               href="mailto:novarealezaprods@gmail.com"
               className="group flex items-center gap-2.5 text-sm text-foreground/90 hover:text-primary transition-colors"
             >
-              <span className="polish-contact-icon h-9 w-9 rounded-full flex items-center justify-center transition-colors">
+              <span className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                 <Mail className="h-4 w-4 text-primary" />
               </span>
               <span className="font-medium">novarealezaprods@gmail.com</span>
@@ -718,7 +718,7 @@ export default function IndexPage() {
               rel="noopener noreferrer"
               className="group flex items-center gap-2.5 text-sm text-foreground/90 hover:text-primary transition-colors"
             >
-              <span className="polish-contact-icon h-9 w-9 rounded-full flex items-center justify-center transition-colors">
+              <span className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                 <Phone className="h-4 w-4 text-primary" />
               </span>
               <span className="font-medium">(11) 97876-8141</span>
