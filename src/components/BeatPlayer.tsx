@@ -1,6 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Play, Pause } from "lucide-react";
-import { Card } from "@/components/ui/card";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { Dialog, DialogTitle } from "@/components/ui/dialog";
@@ -276,8 +275,9 @@ export function BeatPlayer({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="beat-dialog-overlay fixed inset-0 z-50 bg-black/90 backdrop-blur-md" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
         <DialogPrimitive.Content
-          className="beat-dialog-content fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 border border-border bg-card p-0 overflow-hidden rounded-lg shadow-2xl"
+          className="beat-dialog-content pointer-events-auto relative w-full max-w-md border border-border bg-card p-0 overflow-hidden rounded-lg shadow-2xl"
         >
           <DialogTitle className="sr-only">{name}</DialogTitle>
           <div
@@ -335,6 +335,7 @@ export function BeatPlayer({
             <span className="sr-only">Fechar</span>
           </DialogPrimitive.Close>
         </DialogPrimitive.Content>
+        </div>
       </DialogPrimitive.Portal>
     </Dialog>
     </>
