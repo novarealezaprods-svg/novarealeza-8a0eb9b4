@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle } from "lucide-react";
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Dialog, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogTitle, DialogContent, DialogHeader, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -73,6 +73,7 @@ export default function IndexPage() {
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>("");
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [showUpsell, setShowUpsell] = useState(false);
+  const [deliveryModal, setDeliveryModal] = useState<{ open: boolean; url: string }>({ open: false, url: "" });
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -135,6 +136,11 @@ export default function IndexPage() {
 
   const handleCheckout = (urlOverride?: string) => {
     const target = urlOverride || checkoutUrl;
+    if (!target) return;
+    setDeliveryModal({ open: true, url: target });
+  };
+
+  const executeCheckout = (target: string) => {
     if (!target) return;
     // Track AddToCart via GTM dataLayer
     if (typeof window !== "undefined") {
@@ -816,6 +822,63 @@ export default function IndexPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog open={deliveryModal.open} onOpenChange={(open) => setDeliveryModal((s) => ({ ...s, open }))}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl md:text-2xl leading-tight">
+              Acesso instantâneo no seu WhatsApp e Gmail
+            </DialogTitle>
+            <DialogDescription className="text-base">
+              Assim que o pagamento for aprovado, você recebe o pack na hora.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="rounded-md border-2 border-amber-400 bg-amber-50 dark:bg-amber-950/30 p-3 flex gap-2 items-start">
+            <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+            <p className="text-sm text-amber-900 dark:text-amber-100 leading-snug">
+              Informe seu <strong>WhatsApp</strong> e <strong>e-mail Gmail</strong> corretamente no checkout. A entrega é automática — dados errados = você não recebe o pack.
+            </p>
+          </div>
+
+          <ul className="space-y-2 text-sm">
+            <li className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4 text-green-600 shrink-0" />
+              <span>WhatsApp com DDD correto</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Mail className="h-4 w-4 text-primary shrink-0" />
+              <span>E-mail Gmail ativo</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Zap className="h-4 w-4 text-amber-500 shrink-0" />
+              <span>Entrega em segundos após aprovação</span>
+            </li>
+          </ul>
+
+          <DialogFooter className="flex-col gap-2 sm:flex-col sm:space-x-0">
+            <Button
+              onClick={() => {
+                const url = deliveryModal.url;
+                setDeliveryModal({ open: false, url: "" });
+                executeCheckout(url);
+              }}
+              className="w-full h-12 bg-green-600 hover:bg-green-500 text-white text-base font-bold shadow-lg"
+              aria-label="Continuar para o pagamento"
+            >
+              Continuar para o pagamento
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setDeliveryModal({ open: false, url: "" })}
+              className="w-full"
+              aria-label="Voltar"
+            >
+              Voltar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

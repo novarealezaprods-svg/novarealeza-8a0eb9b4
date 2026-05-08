@@ -1,35 +1,44 @@
-Vou corrigir isso em duas frentes, porque hoje existem dois problemas separados travando o resultado final.
+## Objetivo
+Adicionar um pop-up que aparece quando o cliente clica em qualquer botão de checkout (Pack Suprema R$19,90 e Pack Supremo R$27,90), avisando que o acesso é entregue **instantaneamente no WhatsApp e no Gmail**, e pedindo que ele informe os dados corretamente antes de prosseguir para o pagamento.
 
-Problema identificado
-- O player está tentando tocar URLs do Dropbox reescritas para `dl.dropboxusercontent.com`.
-- Para os links atuais no formato `/scl/fi/...`, essa reescrita está errada: ela retorna 404/HTML em vez do arquivo de áudio.
-- Por isso o navegador recebe uma página/erro no lugar da mídia e dispara `NotSupportedError: Failed to load because no supported source was found`.
-- Além disso, o build publicado está quebrado por dois arquivos órfãos de autenticação que importam `@tanstack/react-start`, pacote que nem existe neste projeto atual.
+## Comportamento
 
-Plano
-1. Remover o bloqueio de build
-- Excluir ou neutralizar `src/integrations/supabase/auth-middleware.ts` e `src/integrations/supabase/client.server.ts`.
-- Confirmar que não existe nenhum import ativo apontando para esses arquivos.
-- Manter o atalho `/admin` via `public/admin/index.html`, sem depender desses arquivos quebrados.
+1. Ao clicar em "Comprar / Quero meu pack", em vez de redirecionar direto pro checkout:
+   - Abre um modal centralizado (Dialog do shadcn).
+   - Cliente lê o aviso e clica em "Continuar para o pagamento" → redireciona ao link do checkout original.
+   - Botão secundário "Cancelar" fecha o modal.
+2. O modal funciona tanto para o Pack 19,90 quanto para o Pack 27,90 (mesma lógica, mesmo componente — só muda a URL de destino guardada em estado).
+3. Mantém os eventos `dataLayer` (AddToCart) que já existem em `handleCheckout`.
 
-2. Corrigir a normalização dos links do Dropbox
-- Ajustar `src/lib/normalize-url.ts` para parar de trocar o host `www.dropbox.com` por `dl.dropboxusercontent.com` nos links `scl/fi`.
-- Centralizar a regra correta: preservar o domínio original do Dropbox e apenas normalizar os parâmetros (`raw=1`/`dl=1`) quando necessário.
-- Remover o tratamento duplicado em `src/pages/Index.tsx` para não haver duas reescritas diferentes do mesmo link.
+## Conteúdo do pop-up (copy curto + SEO)
 
-3. Tornar o player mais resiliente
-- Manter o `BeatPlayer` usando a URL normalizada correta.
-- Melhorar o fallback visual quando um link externo realmente estiver inválido, para diferenciar erro de formato inválido de erro temporário do provedor.
-- Se necessário, deixar o log mais claro para identificar rapidamente qual URL falhou.
+- **Título (h2):** "Acesso instantâneo no seu WhatsApp e Gmail"
+- **Subtítulo:** "Assim que o pagamento for aprovado, você recebe o pack na hora."
+- **Bloco de atenção (destaque amarelo/âmbar):**
+  - Ícone de alerta + texto:
+  - "⚠️ Informe seu **WhatsApp** e **e-mail Gmail** corretamente no checkout. A entrega é automática — dados errados = você não recebe o pack."
+- **Lista rápida (3 itens com ícones):**
+  - 📱 WhatsApp com DDD correto
+  - 📧 E-mail Gmail ativo
+  - ⚡ Entrega em segundos após aprovação
+- **CTA primário (verde, grande):** "Continuar para o pagamento"
+- **CTA secundário (ghost):** "Voltar"
 
-4. Validar o comportamento final
-- Testar os beats afetados do Dropbox no preview.
-- Verificar que o build volta a compilar sem os arquivos órfãos.
-- Confirmar que o atalho `/admin` continua abrindo corretamente.
+## SEO / Acessibilidade
 
-Detalhes técnicos
-- Arquivos principais: `src/lib/normalize-url.ts`, `src/components/BeatPlayer.tsx`, `src/pages/Index.tsx`.
-- Arquivos quebrando o build: `src/integrations/supabase/auth-middleware.ts`, `src/integrations/supabase/client.server.ts`.
-- Causa raiz do áudio: a URL final usada pelo player hoje é `https://dl.dropboxusercontent.com/...&raw=1`, e ela está falhando; a própria documentação do Dropbox para links compartilhados atuais indica ajuste por querystring, não troca manual de host nesse formato de link.
+- `<DialogTitle>` semântico para o título.
+- `<DialogDescription>` com a frase do subtítulo (descrição acessível, lida por screen readers e indexada).
+- Botões com `aria-label` claros.
+- Texto em português, palavras-chave naturais: "acesso instantâneo", "pack de beats", "entrega automática", "WhatsApp", "Gmail".
+- Sem alterar o `<head>` da página — apenas conteúdo do modal.
 
-Assim que você aprovar, eu aplico a correção e valido se o beat volta a tocar de fato.
+## Arquivos afetados
+
+- **`src/pages/Index.tsx`** (único arquivo):
+  - Importar `Dialog`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter` de `@/components/ui/dialog`.
+  - Importar ícones `MessageCircle`, `Mail`, `Zap`, `AlertTriangle` de `lucide-react`.
+  - Novo estado: `const [deliveryModal, setDeliveryModal] = useState<{open: boolean; url: string}>({open:false, url:""})`.
+  - Refatorar `handleCheckout(url)` para abrir o modal em vez de redirecionar direto. Criar `confirmCheckout()` que dispara o `dataLayer.push` e faz `window.location.href = deliveryModal.url`.
+  - Renderizar o `<Dialog>` no fim do JSX.
+
+Sem mudanças em backend, banco ou rotas.
