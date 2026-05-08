@@ -824,59 +824,106 @@ export default function IndexPage() {
       </AlertDialog>
 
       <Dialog open={deliveryModal.open} onOpenChange={(open) => setDeliveryModal((s) => ({ ...s, open }))}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-xl md:text-2xl leading-tight">
-              Acesso instantâneo no seu WhatsApp e Gmail
-            </DialogTitle>
-            <DialogDescription className="text-base">
-              Assim que o pagamento for aprovado, você recebe o pack na hora.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="rounded-md border-2 border-amber-400 bg-amber-50 dark:bg-amber-950/30 p-3 flex gap-2 items-start">
-            <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
-            <p className="text-sm text-amber-900 dark:text-amber-100 leading-snug">
-              Informe seu <strong>WhatsApp</strong> e <strong>e-mail Gmail</strong> corretamente no checkout. A entrega é automática — dados errados = você não recebe o pack.
-            </p>
+        <DialogContent
+          className="max-w-[420px] p-0 overflow-hidden border-2 gap-0"
+          style={{
+            borderImage: "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a) 1",
+            background: "linear-gradient(180deg, #14100a 0%, #0a0805 100%)",
+          }}
+        >
+          {/* Topo com selo */}
+          <div className="relative px-6 pt-7 pb-4 text-center">
+            <div
+              className="mx-auto mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider"
+              style={{
+                background: "linear-gradient(135deg, #c98b1a, #ffd86b, #c98b1a)",
+                color: "#1a1208",
+              }}
+            >
+              <Zap className="h-3 w-3" />
+              Entrega imediata
+            </div>
+            <DialogHeader className="space-y-2">
+              <DialogTitle
+                className="text-center text-xl md:text-2xl font-black leading-tight"
+                style={{
+                  background: "linear-gradient(135deg, #fff5b8, #ffd86b, #c98b1a)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Você recebe o pack na hora no seu WhatsApp e Gmail
+              </DialogTitle>
+              <DialogDescription className="text-center text-[#d9c98e] text-sm">
+                Assim que o pagamento for aprovado, a entrega é automática — em segundos.
+              </DialogDescription>
+            </DialogHeader>
           </div>
 
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2">
-              <MessageCircle className="h-4 w-4 text-green-600 shrink-0" />
-              <span>WhatsApp com DDD correto</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-primary shrink-0" />
-              <span>E-mail Gmail ativo</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Zap className="h-4 w-4 text-amber-500 shrink-0" />
-              <span>Entrega em segundos após aprovação</span>
-            </li>
-          </ul>
+          {/* Corpo */}
+          <div className="px-6 pb-5 space-y-3">
+            <div
+              className="rounded-lg p-3 flex gap-2.5 items-start"
+              style={{
+                background: "rgba(255, 184, 0, 0.08)",
+                border: "1px solid rgba(255, 216, 107, 0.35)",
+              }}
+            >
+              <AlertTriangle className="h-5 w-5 text-[#ffd86b] shrink-0 mt-0.5" />
+              <p className="text-[13px] text-[#f0e6c8] leading-snug">
+                Informe seu <strong className="text-white">WhatsApp</strong> e <strong className="text-white">e-mail</strong> corretamente no checkout. Dados errados = você não recebe o pack.
+              </p>
+            </div>
 
-          <DialogFooter className="flex-col gap-2 sm:flex-col sm:space-x-0">
+            <ul className="space-y-2.5">
+              <li className="flex items-center gap-3 text-sm text-[#e8dcb0]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366]/15 ring-1 ring-[#25D366]/40 shrink-0">
+                  <MessageCircle className="h-4 w-4 text-[#25D366]" />
+                </span>
+                WhatsApp com <strong className="text-white">DDD correto</strong>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-[#e8dcb0]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ea4335]/15 ring-1 ring-[#ea4335]/40 shrink-0">
+                  <Mail className="h-4 w-4 text-[#ea4335]" />
+                </span>
+                E-mail <strong className="text-white">ativo</strong> (de preferência Gmail)
+              </li>
+              <li className="flex items-center gap-3 text-sm text-[#e8dcb0]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ffd86b]/15 ring-1 ring-[#ffd86b]/40 shrink-0">
+                  <Zap className="h-4 w-4 text-[#ffd86b]" />
+                </span>
+                Entrega em <strong className="text-white">segundos</strong> após aprovação
+              </li>
+            </ul>
+          </div>
+
+          {/* Rodapé */}
+          <div className="px-6 pb-6 pt-1 space-y-2">
             <Button
               onClick={() => {
                 const url = deliveryModal.url;
                 setDeliveryModal({ open: false, url: "" });
                 executeCheckout(url);
               }}
-              className="w-full h-12 bg-green-600 hover:bg-green-500 text-white text-base font-bold shadow-lg"
+              className="w-full h-12 text-base font-black shadow-lg border-0"
+              style={{
+                background: "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a)",
+                color: "#1a1208",
+              }}
               aria-label="Continuar para o pagamento"
             >
-              Continuar para o pagamento
+              Continuar para o pagamento →
             </Button>
-            <Button
-              variant="ghost"
+            <button
+              type="button"
               onClick={() => setDeliveryModal({ open: false, url: "" })}
-              className="w-full"
+              className="w-full text-xs text-[#9a8d68] hover:text-[#d9c98e] transition py-1"
               aria-label="Voltar"
             >
               Voltar
-            </Button>
-          </DialogFooter>
+            </button>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
