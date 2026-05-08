@@ -73,7 +73,7 @@ export default function IndexPage() {
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>("");
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [showUpsell, setShowUpsell] = useState(false);
-  const [deliveryModal, setDeliveryModal] = useState<{ open: boolean; url: string }>({ open: false, url: "" });
+  const [deliveryModal, setDeliveryModal] = useState<{ open: boolean; url: string; variant: "green" | "gold" }>({ open: false, url: "", variant: "green" });
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -134,10 +134,10 @@ export default function IndexPage() {
     })();
   }, []);
 
-  const handleCheckout = (urlOverride?: string) => {
+  const handleCheckout = (urlOverride?: string, variant: "green" | "gold" = "green") => {
     const target = urlOverride || checkoutUrl;
     if (!target) return;
-    setDeliveryModal({ open: true, url: target });
+    setDeliveryModal({ open: true, url: target, variant });
   };
 
   const executeCheckout = (target: string) => {
@@ -637,7 +637,7 @@ export default function IndexPage() {
 
                 <div className="mt-8 flex flex-col items-center w-full">
                   <button
-                    onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl)}
+                    onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
                     className="supreme-cta inline-flex items-center justify-center"
                   >
                     <span className="supreme-cta-shine" aria-hidden="true" />
