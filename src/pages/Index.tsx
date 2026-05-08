@@ -136,9 +136,10 @@ export default function IndexPage() {
   const handleCheckout = (urlOverride?: string) => {
     const target = urlOverride || checkoutUrl;
     if (!target) return;
-    // Track AddToCart
-    if (typeof window !== "undefined" && (window as any).fbq) {
-      (window as any).fbq("track", "AddToCart");
+    // Track AddToCart via GTM dataLayer
+    if (typeof window !== "undefined") {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({ event: "AddToCart" });
     }
     // Forward all current URL params (utm_*, fbclid, gclid, etc.) to checkout
     try {
@@ -183,7 +184,8 @@ export default function IndexPage() {
       const total = document.documentElement.scrollHeight;
       if (total > 0 && scrolled / total >= 0.75) {
         fired = true;
-        if ((window as any).fbq) (window as any).fbq("track", "ViewContent");
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({ event: "ViewContent" });
         window.removeEventListener("scroll", onScroll);
       }
     };
