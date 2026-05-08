@@ -824,107 +824,61 @@ export default function IndexPage() {
       </AlertDialog>
 
       <Dialog open={deliveryModal.open} onOpenChange={(open) => setDeliveryModal((s) => ({ ...s, open }))}>
-        <DialogContent
-          className="max-w-[420px] p-0 overflow-hidden border-2 gap-0"
-          style={{
-            borderImage: "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a) 1",
-            background: "linear-gradient(180deg, #14100a 0%, #0a0805 100%)",
-          }}
-        >
-          {/* Topo com selo */}
-          <div className="relative px-6 pt-7 pb-4 text-center">
-            <div
-              className="mx-auto mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider"
+        {(() => {
+          const isGold = deliveryModal.variant === "gold";
+          const accent = isGold ? "#ffd86b" : "#22c55e";
+          const accentSoft = isGold ? "#d9c98e" : "#86efac";
+          const btnBg = isGold
+            ? "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a)"
+            : "linear-gradient(135deg, #16a34a, #22c55e, #4ade80, #22c55e, #16a34a)";
+          const btnColor = isGold ? "#1a1208" : "#03140a";
+          const borderImg = isGold
+            ? "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a) 1"
+            : "linear-gradient(135deg, #14532d, #22c55e, #4ade80, #22c55e, #14532d) 1";
+          return (
+            <DialogContent
+              className="max-w-[400px] p-0 overflow-hidden border-2 gap-0"
               style={{
-                background: "linear-gradient(135deg, #c98b1a, #ffd86b, #c98b1a)",
-                color: "#1a1208",
+                borderImage: borderImg,
+                background: "linear-gradient(180deg, #0d0d0d 0%, #050505 100%)",
               }}
             >
-              <Zap className="h-3 w-3" />
-              Entrega imediata
-            </div>
-            <DialogHeader className="space-y-2">
-              <DialogTitle
-                className="text-center text-xl md:text-2xl font-black leading-tight"
-                style={{
-                  background: "linear-gradient(135deg, #fff5b8, #ffd86b, #c98b1a)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Você recebe o pack na hora no seu WhatsApp e Gmail
-              </DialogTitle>
-              <DialogDescription className="text-center text-[#d9c98e] text-sm">
-                Assim que o pagamento for aprovado, a entrega é automática — em segundos.
-              </DialogDescription>
-            </DialogHeader>
-          </div>
+              <div className="px-6 pt-7 pb-5 text-center">
+                <DialogHeader className="space-y-2">
+                  <DialogTitle className="text-center text-xl md:text-[22px] font-black leading-tight text-white">
+                    Confirme seu WhatsApp e e-mail no checkout
+                  </DialogTitle>
+                  <DialogDescription className="text-center text-sm leading-relaxed" style={{ color: accentSoft }}>
+                    A entrega é <strong style={{ color: accent }}>automática e instantânea</strong>. Se os dados estiverem errados, você não recebe o pack.
+                  </DialogDescription>
+                </DialogHeader>
+              </div>
 
-          {/* Corpo */}
-          <div className="px-6 pb-5 space-y-3">
-            <div
-              className="rounded-lg p-3 flex gap-2.5 items-start"
-              style={{
-                background: "rgba(255, 184, 0, 0.08)",
-                border: "1px solid rgba(255, 216, 107, 0.35)",
-              }}
-            >
-              <AlertTriangle className="h-5 w-5 text-[#ffd86b] shrink-0 mt-0.5" />
-              <p className="text-[13px] text-[#f0e6c8] leading-snug">
-                Informe seu <strong className="text-white">WhatsApp</strong> e <strong className="text-white">e-mail</strong> corretamente no checkout. Dados errados = você não recebe o pack.
-              </p>
-            </div>
-
-            <ul className="space-y-2.5">
-              <li className="flex items-center gap-3 text-sm text-[#e8dcb0]">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366]/15 ring-1 ring-[#25D366]/40 shrink-0">
-                  <MessageCircle className="h-4 w-4 text-[#25D366]" />
-                </span>
-                WhatsApp com <strong className="text-white">DDD correto</strong>
-              </li>
-              <li className="flex items-center gap-3 text-sm text-[#e8dcb0]">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ea4335]/15 ring-1 ring-[#ea4335]/40 shrink-0">
-                  <Mail className="h-4 w-4 text-[#ea4335]" />
-                </span>
-                E-mail <strong className="text-white">ativo</strong> (de preferência Gmail)
-              </li>
-              <li className="flex items-center gap-3 text-sm text-[#e8dcb0]">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ffd86b]/15 ring-1 ring-[#ffd86b]/40 shrink-0">
-                  <Zap className="h-4 w-4 text-[#ffd86b]" />
-                </span>
-                Entrega em <strong className="text-white">segundos</strong> após aprovação
-              </li>
-            </ul>
-          </div>
-
-          {/* Rodapé */}
-          <div className="px-6 pb-6 pt-1 space-y-2">
-            <Button
-              onClick={() => {
-                const url = deliveryModal.url;
-                setDeliveryModal({ open: false, url: "" });
-                executeCheckout(url);
-              }}
-              className="w-full h-12 text-base font-black shadow-lg border-0"
-              style={{
-                background: "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a)",
-                color: "#1a1208",
-              }}
-              aria-label="Continuar para o pagamento"
-            >
-              Continuar para o pagamento →
-            </Button>
-            <button
-              type="button"
-              onClick={() => setDeliveryModal({ open: false, url: "" })}
-              className="w-full text-xs text-[#9a8d68] hover:text-[#d9c98e] transition py-1"
-              aria-label="Voltar"
-            >
-              Voltar
-            </button>
-          </div>
-        </DialogContent>
+              <div className="px-6 pb-6 space-y-2">
+                <Button
+                  onClick={() => {
+                    const url = deliveryModal.url;
+                    setDeliveryModal({ open: false, url: "", variant: "green" });
+                    executeCheckout(url);
+                  }}
+                  className="w-full h-12 text-base font-black shadow-lg border-0"
+                  style={{ background: btnBg, color: btnColor }}
+                  aria-label="Continuar para o pagamento"
+                >
+                  Continuar para o pagamento →
+                </Button>
+                <button
+                  type="button"
+                  onClick={() => setDeliveryModal({ open: false, url: "", variant: "green" })}
+                  className="w-full text-xs text-[#777] hover:text-white transition py-1"
+                  aria-label="Voltar"
+                >
+                  Voltar
+                </button>
+              </div>
+            </DialogContent>
+          );
+        })()}
       </Dialog>
     </div>
   );
