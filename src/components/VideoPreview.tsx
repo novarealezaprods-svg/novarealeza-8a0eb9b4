@@ -106,6 +106,15 @@ export function VideoPreview({ url }: { url: string }) {
         videoRef.current.volume = 1;
         void videoRef.current.play();
       } catch {}
+      // Se a reprodução falhou antes (autoplay bloqueado no mobile),
+      // este toque conta como gesto do usuário — tenta tocar de novo.
+      if (playbackFailed) {
+        setPlaybackFailed(false);
+        setLoading(true);
+        try {
+          void videoRef.current.play();
+        } catch {}
+      }
     }
   };
 
@@ -209,8 +218,8 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Big "Ativar som" overlay — visible while muted */}
-      {muted && !ended && !loading && !playbackFailed && (
+      {/* Big "Ativar som" overlay — visible while muted (ou quando autoplay falha no mobile) */}
+      {muted && !ended && !loading && (
         <button
           type="button"
           onClick={(e) => {
