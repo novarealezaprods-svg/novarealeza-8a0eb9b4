@@ -235,20 +235,7 @@ export function VideoPreview({ url }: { url: string }) {
         </button>
       )}
 
-      {playbackFailed && !ended && (
-        <div className="absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 pointer-events-none">
-          <div
-            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm sm:text-base shadow-[var(--shadow-glow)]"
-            style={{
-              boxShadow:
-                "0 0 20px var(--primary), 0 0 6px var(--primary), 0 4px 14px rgba(0,0,0,0.4)",
-            }}
-          >
-            <Volume2 className="h-4 w-4" />
-            <span>O vídeo não carregou direito — recarregue a página</span>
-          </div>
-        </div>
-      )}
+      {/* aviso de falha removido a pedido do usuário */}
 
       {/* Replay overlay */}
       {ended && (
