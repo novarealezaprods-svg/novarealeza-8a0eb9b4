@@ -252,6 +252,32 @@ export default function AdminPage() {
           </div>
         </header>
 
+        <Card className="p-4 mb-6 border-primary/40 bg-primary/5">
+          <h2 className="font-semibold mb-2">Está vendo "Unauthorized" na preview da Lovable?</h2>
+          <p className="text-sm text-muted-foreground mb-2">
+            Esse aviso vem da própria Lovable, não do seu site. A URL <code>id-preview--*.lovable.app</code> só
+            abre pra quem está logado no projeto. Pra liberar pra outras pessoas, use uma das opções abaixo:
+          </p>
+          <ul className="text-sm list-disc pl-5 space-y-1">
+            <li>
+              <strong>Share preview</strong> (link temporário, 7 dias): no editor da Lovable, clique em{" "}
+              <em>Share → Share preview</em> e copie o link gerado.
+            </li>
+            <li>
+              <strong>URL publicada</strong> (definitiva, sem login):{" "}
+              <a
+                href="https://novarealeza.lovable.app"
+                target="_blank"
+                rel="noreferrer"
+                className="text-primary underline"
+              >
+                novarealeza.lovable.app
+              </a>
+              . Sempre que fizer mudanças no front, clique em <em>Publish → Update</em> pra atualizar.
+            </li>
+          </ul>
+        </Card>
+
         <Tabs defaultValue="settings">
           <TabsList className="grid w-full grid-cols-3 mb-6">
             <TabsTrigger value="settings">Configurações</TabsTrigger>
