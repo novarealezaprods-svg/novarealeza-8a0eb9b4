@@ -29,7 +29,6 @@ const genres = ["BOOMBAP/RAP", "FUNK", "NEW JAZZ", "Hard", "Sampled", "R&B", "Dr
 const features = [
   "100 beats profissionais prontos para uso",
   "40 beats funk",
-  "40 beats trap",
   "20 beats variados (boombap, edm, drill, new jazz)",
   "100% royalty free — você fica com tudo",
   "Liberado para Spotify, YouTube, TikTok",
