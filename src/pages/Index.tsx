@@ -23,6 +23,7 @@ import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon, Loa
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
+import garantiaBadge from "@/assets/7-dias-garantia.png";
 
 const genres = ["BOOMBAP/RAP", "FUNK", "NEW JAZZ", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
 const features = [
@@ -714,9 +715,17 @@ export default function IndexPage() {
 
       <footer className="border-t border-border/50 py-12">
         <div className={`${CONTAINER} flex flex-col items-center gap-6`}>
-          <div className="flex items-center gap-2.5 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-sm">
-            <Shield className="h-4 w-4 text-primary" />
-            <span className="font-semibold text-foreground">Garantia incondicional de 7 dias</span>
+          <div className="flex flex-col items-center gap-3">
+            <img
+              src={garantiaBadge}
+              alt="Selo 7 dias de garantia — satisfação garantida 100%"
+              loading="lazy"
+              decoding="async"
+              width="180"
+              height="180"
+              className="h-32 w-32 md:h-40 md:w-40 object-contain"
+            />
+            <span className="text-sm font-semibold text-foreground">Garantia incondicional de 7 dias</span>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
