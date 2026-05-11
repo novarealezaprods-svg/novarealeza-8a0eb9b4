@@ -340,6 +340,9 @@ export default function IndexPage() {
                         src={normalizeDirectUrl(src)}
                         alt={`Prova social ${i + 1}`}
                         loading="lazy"
+                        decoding="async"
+                        width="600"
+                        height="600"
                         className="absolute inset-0 w-full h-full object-contain"
                       />
                     </div>
