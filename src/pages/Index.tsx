@@ -34,7 +34,6 @@ const features = [
   "100% royalty free — você fica com tudo",
   "Liberado para Spotify, YouTube, TikTok",
   "Mixados e masterizados em alta qualidade",
-  "Acesso vitalício + atualizações futuras",
 ];
 const testimonials = [
   { name: "MC Vinny", text: "Lancei 3 sons em 1 semana com o pack. Qualidade absurda.", role: "Artista independente" },
