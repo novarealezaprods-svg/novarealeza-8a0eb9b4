@@ -63,7 +63,10 @@ function getAudio(): HTMLAudioElement | null {
   if (audio) return audio;
 
   const el = new Audio();
-  el.preload = "auto";
+  // Não pré-carrega nada até o usuário clicar em play.
+  // O elemento <audio> é único e compartilhado por todos os players,
+  // então só baixa bytes quando playUrl() seta src + chama play().
+  el.preload = "none";
 
   el.addEventListener("playing", () => {
     setState({ isPlaying: true, loadingUrl: null });
@@ -89,7 +92,6 @@ function getAudio(): HTMLAudioElement | null {
   });
   el.addEventListener("error", () => {
     const failed = state.activeUrl;
-    console.warn("[BeatPlayer] Falha ao carregar áudio:", failed, el.error);
     setState({
       isPlaying: false,
       loadingUrl: null,
@@ -111,8 +113,7 @@ function playUrl(url: string) {
   // If this beat is already the active source, just resume.
   if (state.activeUrl === url && el.src) {
     setState({ loadingUrl: url, errorUrl: null });
-    el.play().catch((err) => {
-      console.warn("[BeatPlayer] play() rejeitado:", err);
+    el.play().catch(() => {
       setState({ loadingUrl: null, isPlaying: false });
     });
     return;
@@ -138,8 +139,7 @@ function playUrl(url: string) {
     isPlaying: false,
   });
 
-  el.play().catch((err) => {
-    console.warn("[BeatPlayer] play() rejeitado:", err);
+  el.play().catch(() => {
     setState({ loadingUrl: null, isPlaying: false });
   });
 }
