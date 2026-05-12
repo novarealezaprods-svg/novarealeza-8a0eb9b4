@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle } from "lucide-react";
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
+import { GenrePlaylists } from "@/components/GenrePlaylists";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Dialog, DialogTitle, DialogContent, DialogHeader, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import {
@@ -277,25 +278,7 @@ export default function IndexPage() {
           </div>
 
           {beats.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
-              {beats.map((b: any, i) => {
-                const fallback = BEAT_META[i] || { name: b.name, genre: "FUNK" };
-                const meta = {
-                  name: b.name || fallback.name,
-                  genre: b.genre || fallback.genre,
-                };
-                return (
-                  <BeatPlayer
-                    key={`${b.name}-${i}`}
-                    beat={b}
-                    index={i}
-                    displayName={meta.name}
-                    genre={meta.genre}
-                    onOpen={(idx) => setOpenBeatIndex(idx)}
-                  />
-                );
-              })}
-            </div>
+            <GenrePlaylists beats={beats} />
           ) : (
             <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
               <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
