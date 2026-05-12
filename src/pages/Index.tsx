@@ -51,8 +51,8 @@ const faq = [
 ];
 
 const BEAT_META: { name: string; genre: string }[] = [
-  { name: "Type Trap", genre: "FUNK" },
-  { name: "Type Trap", genre: "FUNK" },
+  { name: "TRAP", genre: "FUNK" },
+  { name: "TRAP", genre: "FUNK" },
   { name: "Type Alee", genre: "BOOMBAP/RAP" },
   { name: "Type BOOMBAP/RAP", genre: "BOOMBAP/RAP" },
   { name: "Type Hood Drill", genre: "DRILL" },
