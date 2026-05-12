@@ -315,8 +315,8 @@
   color: #000000;
   border: none;
   border-radius: 12px;
-  padding: 16px 28px;
-  font-size: 15px;
+  padding: 16px 16px;
+  font-size: 14px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -339,6 +339,9 @@
 }
 @media (min-width: 768px) {
   .hero-cta { padding: 20px 56px; font-size: 17px; width: auto; }
+}
+@media (max-width: 380px) {
+  .hero-cta { font-size: 12.5px; padding: 14px 10px; letter-spacing: 0.01em; }
 }
 .hero-cta-shine {
   position: absolute;
