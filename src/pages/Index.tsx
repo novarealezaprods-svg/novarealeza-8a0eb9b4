@@ -273,7 +273,7 @@ export default function IndexPage() {
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
             <p className="mt-4 text-[15px] text-center text-white/70">
-              Escolha seu estilo e ouça agora — o beat certo tá aqui
+              Escolha seu estilo e ouça algumas prévias — o beat certo tá aqui
             </p>
           </div>
 
