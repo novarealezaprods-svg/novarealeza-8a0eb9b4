@@ -160,7 +160,7 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto" style={{ gap: 12 }}>
+      <div className="grid grid-cols-2 max-w-4xl mx-auto px-4 md:px-0 gap-[10px] md:gap-3">
         {GENRES.map((g) => {
           const cover = covers[g.key];
           return (
