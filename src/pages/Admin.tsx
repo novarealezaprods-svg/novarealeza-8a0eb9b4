@@ -227,7 +227,7 @@ export default function AdminPage() {
   // Upload imagem do artista para o storage
   const uploadImage = async (file: File): Promise<string | null> => {
     const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const path = `beat-covers/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     const { error } = await supabase.storage.from("beat-images").upload(path, file, {
       contentType: file.type || "image/jpeg",
       upsert: false,
