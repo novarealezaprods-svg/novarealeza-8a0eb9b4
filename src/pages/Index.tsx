@@ -443,7 +443,22 @@ export default function IndexPage() {
             {/* DIVISOR CENTRAL */}
             <div className="flex items-center justify-center my-2 md:my-0">
               <div className="ba-arrow" aria-hidden="true">
-                <MoveRight size={48} strokeWidth={2.5} />
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <defs>
+                    <linearGradient id="ba-arrow-grad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#E24B4A" />
+                      <stop offset="100%" stopColor="#39FF14" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M4 24 H40 M28 12 L40 24 L28 36"
+                    stroke="url(#ba-arrow-grad)"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
+                </svg>
               </div>
             </div>
 
