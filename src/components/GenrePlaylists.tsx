@@ -177,22 +177,12 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
             >
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200" />
               <div
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%)" }}
-              />
-              <div className="absolute inset-0 flex flex-col justify-end items-start p-5 text-left">
-                <h3 className="font-bold text-white uppercase" style={{ fontSize: 22, lineHeight: 1.1 }}>
+                className="absolute left-0 right-0 bottom-0 text-left"
+                style={{ background: "rgba(0,0,0,0.85)", padding: "10px 12px" }}
+              >
+                <h3 className="font-bold text-white uppercase truncate" style={{ fontSize: 22, lineHeight: 1.1 }}>
                   {g.label}
                 </h3>
-                <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                  <span style={{ background: "rgba(0,255,65,0.15)", color: "#5dff8a", border: "1px solid rgba(0,255,65,0.35)", borderRadius: 100, padding: "3px 9px", fontSize: 11, fontWeight: 600 }}>
-                    {g.pack100} no Pack 100
-                  </span>
-                  <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 11 }}>·</span>
-                  <span style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 100, padding: "3px 9px", fontSize: 11, fontWeight: 600 }}>
-                    {g.pack300} no Pack 300
-                  </span>
-                </div>
               </div>
             </button>
           );
