@@ -160,7 +160,7 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-4 max-w-6xl mx-auto" style={{ gap: 12 }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto" style={{ gap: 12 }}>
         {GENRES.map((g) => {
           const cover = covers[g.key];
           return (
@@ -170,8 +170,6 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
               className="group relative aspect-square w-full overflow-hidden cursor-pointer transition-transform duration-200 hover:scale-[1.02]"
               style={{
                 borderRadius: 12,
-                border: "none",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.6)",
                 background: cover
                   ? `url("${cover}") center/cover no-repeat`
                   : "#111",
