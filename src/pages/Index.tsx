@@ -564,7 +564,7 @@ export default function IndexPage() {
             </p>
           </div>
 
-          <div className="reveal reveal-zoom max-w-2xl mx-auto">
+          <div className="max-w-2xl mx-auto">
             <div className="supreme-card">
               <div className="supreme-card-inner text-center">
                 {/* sparkles decorativos */}
