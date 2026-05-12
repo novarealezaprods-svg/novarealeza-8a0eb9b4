@@ -59,6 +59,24 @@ export type Database = {
         }
         Relationships: []
       }
+      generos: {
+        Row: {
+          capa_url: string | null
+          key: string
+          updated_at: string
+        }
+        Insert: {
+          capa_url?: string | null
+          key: string
+          updated_at?: string
+        }
+        Update: {
+          capa_url?: string | null
+          key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       proof_images: {
         Row: {
           created_at: string
