@@ -201,7 +201,7 @@ export default function IndexPage() {
     <div className="min-h-screen bg-background text-foreground">
       <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-6 md:gap-8`}>
-          <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl lg:text-8xl text-center mx-auto md:text-7xl">
+          <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl text-center mx-auto md:text-7xl lg:text-6xl">
             Pare de Enterrar Sua Música
             <br />
             em Beat <span className="text-accent">"FREE"</span>
