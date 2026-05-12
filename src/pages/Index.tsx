@@ -271,8 +271,8 @@ export default function IndexPage() {
               Ouça Antes de Comprar
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
-            <p className="mt-4 text-[15px]" style={{ color: "#888" }}>
-              Ouça alguns beats do pack — Trap, Funk, Boombap, Drill, Hood, Reggaeton e muito mais
+            <p className="mt-4 text-[15px] text-center text-white/70">
+              Escolha seu estilo e ouça agora — o beat certo tá aqui
             </p>
           </div>
 
@@ -309,6 +309,16 @@ export default function IndexPage() {
                 {g}
               </Badge>
             ))}
+          </div>
+
+          <div className="flex justify-center" style={{ marginTop: 32 }}>
+            <button
+              onClick={handleBasicCheckoutClick}
+              className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
+            >
+              <span className="hero-cta-shine" aria-hidden="true" />
+              <span className="hero-cta-text">QUERO MEUS 100 BEATS POR R$19,90</span>
+            </button>
           </div>
         </div>
       </section>
