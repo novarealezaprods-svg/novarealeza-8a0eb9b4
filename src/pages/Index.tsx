@@ -286,9 +286,9 @@ export default function IndexPage() {
             </Card>
           )}
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5 reveal">
+          <div className="mt-10 px-4 flex flex-wrap items-center justify-center gap-2 md:gap-2.5 reveal">
             {genres.map((g, i) => (
-              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
+              <Badge key={i} variant="secondary" className="rounded-full px-[10px] py-1 md:px-4 md:py-1.5 text-[11px] md:text-xs tracking-wider uppercase">
                 {g}
               </Badge>
             ))}
