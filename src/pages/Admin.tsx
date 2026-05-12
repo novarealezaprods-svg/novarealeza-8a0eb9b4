@@ -16,6 +16,7 @@ const STORAGE_KEY = "admin_unlocked_v1";
 
 type Beat = { id: string; name: string; url: string; key: string | null; bpm: string | null; position: number; image_url: string | null; genre: string | null; active: boolean; no_pack_100: boolean; no_pack_300: boolean };
 type Image = { id: string; url: string; position: number };
+type Genero = { key: string; capa_url: string | null };
 
 const GENRES = ["TRAP", "FUNK", "DRILL", "BOOMBAP"] as const;
 type GenreFilter = "ALL" | (typeof GENRES)[number];
@@ -46,6 +47,10 @@ export default function AdminPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [newImageUrl, setNewImageUrl] = useState("");
 
+  // Genre covers
+  const [generos, setGeneros] = useState<Genero[]>([]);
+  const [uploadingGeneroKey, setUploadingGeneroKey] = useState<string | null>(null);
+
   useEffect(() => {
     if (sessionStorage.getItem(STORAGE_KEY) === "1") setUnlocked(true);
   }, []);
@@ -55,10 +60,11 @@ export default function AdminPage() {
   }, [unlocked]);
 
   const loadAll = async () => {
-    const [{ data: settings }, { data: bts }, { data: imgs }] = await Promise.all([
+    const [{ data: settings }, { data: bts }, { data: imgs }, { data: gns }] = await Promise.all([
       supabase.from("site_settings").select("key,value"),
       supabase.from("beats").select("*").order("position", { ascending: true }),
       supabase.from("proof_images").select("*").order("position", { ascending: true }),
+      supabase.from("generos").select("key,capa_url"),
     ]);
     const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
     setCheckoutUrl(map["checkout_url"] ?? "");
@@ -66,6 +72,9 @@ export default function AdminPage() {
     setPreviewVideo(map["preview_video"] ?? "");
     setBeats((bts ?? []) as Beat[]);
     setImages((imgs ?? []) as Image[]);
+    // Garante 4 entradas mesmo se algum gênero estiver faltando
+    const gnMap = Object.fromEntries(((gns ?? []) as Genero[]).map((g) => [g.key, g.capa_url]));
+    setGeneros(GENRES.map((k) => ({ key: k, capa_url: gnMap[k] ?? null })));
   };
 
   const tryUnlock = (e: React.FormEvent) => {
@@ -218,7 +227,7 @@ export default function AdminPage() {
   // Upload imagem do artista para o storage
   const uploadImage = async (file: File): Promise<string | null> => {
     const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const path = `beat-covers/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     const { error } = await supabase.storage.from("beat-images").upload(path, file, {
       contentType: file.type || "image/jpeg",
       upsert: false,
@@ -229,6 +238,47 @@ export default function AdminPage() {
     }
     const { data } = supabase.storage.from("beat-images").getPublicUrl(path);
     return data.publicUrl;
+  };
+
+  // Upload de capa de playlist por gênero
+  const handleUploadGeneroCover = async (key: string, file: File) => {
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Arquivo maior que 5MB");
+      return;
+    }
+    if (!/(jpg|jpeg|png|webp)$/i.test(file.name)) {
+      toast.error("Use JPG, PNG ou WEBP");
+      return;
+    }
+    setUploadingGeneroKey(key);
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+    const path = `playlist-covers/${key.toLowerCase()}-${Date.now()}.${ext}`;
+    const { error: upErr } = await supabase.storage.from("beat-images").upload(path, file, {
+      contentType: file.type || "image/jpeg",
+      upsert: false,
+    });
+    if (upErr) {
+      setUploadingGeneroKey(null);
+      return toast.error(upErr.message);
+    }
+    const { data } = supabase.storage.from("beat-images").getPublicUrl(path);
+    const url = data.publicUrl;
+    const { error: dbErr } = await supabase
+      .from("generos")
+      .upsert({ key, capa_url: url }, { onConflict: "key" });
+    setUploadingGeneroKey(null);
+    if (dbErr) return toast.error(dbErr.message);
+    setGeneros((prev) => prev.map((g) => (g.key === key ? { ...g, capa_url: url } : g)));
+    toast.success(`Capa de ${key} atualizada`);
+  };
+
+  const removeGeneroCover = async (key: string) => {
+    const { error } = await supabase
+      .from("generos")
+      .upsert({ key, capa_url: null }, { onConflict: "key" });
+    if (error) return toast.error(error.message);
+    setGeneros((prev) => prev.map((g) => (g.key === key ? { ...g, capa_url: null } : g)));
+    toast.success("Capa removida");
   };
 
   const handleUploadImageForBeat = async (id: string, file: File) => {
@@ -326,8 +376,9 @@ export default function AdminPage() {
         </Card>
 
         <Tabs defaultValue="settings">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
             <TabsTrigger value="settings">Configurações</TabsTrigger>
+            <TabsTrigger value="covers">Capas</TabsTrigger>
             <TabsTrigger value="beats">Beats ({beats.length})</TabsTrigger>
             <TabsTrigger value="images">Imagens ({images.length})</TabsTrigger>
           </TabsList>
@@ -382,6 +433,63 @@ export default function AdminPage() {
                   <Button onClick={() => saveSetting("preview_video", previewVideo)}><Save className="w-4 h-4" /></Button>
                 </div>
                 {uploadingVideo && <p className="text-xs text-muted-foreground mt-1">Enviando vídeo...</p>}
+              </div>
+            </Card>
+          </TabsContent>
+
+          {/* GENRE COVERS */}
+          <TabsContent value="covers" className="space-y-4">
+            <Card className="p-6">
+              <h3 className="font-semibold mb-1">Capas das Playlists</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Foto que aparece como fundo de cada card de gênero na home. Use 1000x1000 (JPG/PNG/WEBP, até 5MB).
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {generos.map((g) => (
+                  <div key={g.key} className="flex items-center gap-4 p-3 rounded-lg border border-border bg-card/40">
+                    <div className="flex-shrink-0">
+                      {g.capa_url ? (
+                        <img
+                          src={g.capa_url}
+                          alt={`Capa ${g.key}`}
+                          className="rounded-lg object-cover border border-border"
+                          style={{ width: 200, height: 200 }}
+                        />
+                      ) : (
+                        <div
+                          className="rounded-lg bg-muted flex items-center justify-center text-xs text-muted-foreground border border-border"
+                          style={{ width: 200, height: 200 }}
+                        >
+                          sem capa
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-bold text-lg">{g.key}</div>
+                      <div className="mt-3 flex flex-col gap-2">
+                        <label className="cursor-pointer">
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                            className="hidden"
+                            onChange={(e) => e.target.files?.[0] && handleUploadGeneroCover(g.key, e.target.files[0])}
+                          />
+                          <Button type="button" variant="outline" size="sm" asChild disabled={uploadingGeneroKey === g.key}>
+                            <span>
+                              <Upload className="w-3 h-3 mr-1" />
+                              {uploadingGeneroKey === g.key ? "Enviando..." : g.capa_url ? "Trocar foto" : "Enviar foto"}
+                            </span>
+                          </Button>
+                        </label>
+                        {g.capa_url && (
+                          <Button type="button" variant="ghost" size="sm" onClick={() => removeGeneroCover(g.key)}>
+                            Remover
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </Card>
           </TabsContent>
@@ -556,13 +664,13 @@ export default function AdminPage() {
                   <div className="mt-3 pt-3 border-t border-border/50 flex items-center gap-3">
                     <div className="flex-shrink-0">
                       {b.image_url ? (
-                        <img src={b.image_url} alt="Foto do artista" className="w-20 h-20 rounded object-cover border border-border" />
+                        <img src={b.image_url} alt="Capa do beat" className="rounded-lg object-cover border border-border" style={{ width: 120, height: 120 }} />
                       ) : (
-                        <div className="w-20 h-20 rounded bg-muted flex items-center justify-center text-[10px] text-muted-foreground text-center px-1">sem foto</div>
+                        <div className="rounded-lg bg-muted flex items-center justify-center text-[10px] text-muted-foreground text-center px-1 border border-border" style={{ width: 120, height: 120 }}>sem foto</div>
                       )}
                     </div>
                     <div className="flex-1">
-                      <Label className="text-xs">Foto do Artista (JPG, PNG, WEBP)</Label>
+                      <Label className="text-xs">Capa do beat (JPG, PNG, WEBP)</Label>
                       <div className="flex gap-2 mt-1">
                         <label className="cursor-pointer">
                           <input
