@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle, MoveRight } from "lucide-react";
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
 import { GenrePlaylists } from "@/components/GenrePlaylists";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -362,31 +362,60 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-24 bg-background border-t border-border/50">
+      <section
+        className="border-t border-border/50"
+        style={{
+          background: "linear-gradient(135deg, #0a0a0a 0%, #111111 100%)",
+          paddingTop: "80px",
+          paddingBottom: "80px",
+        }}
+      >
         <div className={CONTAINER}>
           {/* BLOCO 1 — Antes vs Depois */}
-          <div className="text-center mb-14 reveal">
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
+          <div className="text-center reveal" style={{ marginBottom: "48px" }}>
+            <h2
+              className="font-black tracking-tight text-white leading-[1.1] ba-title"
+            >
               O que muda quando você
               <br />
               <span>para de usar beat </span>
-              <span className="text-accent free-riscado">"FREE"</span>
+              <span style={{ color: "#E24B4A" }}>"FREE"</span>
             </h2>
-            <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
+            <div
+              className="mx-auto"
+              style={{
+                marginTop: "20px",
+                width: "60px",
+                height: "3px",
+                borderRadius: "2px",
+                background: "#E24B4A",
+              }}
+            />
           </div>
 
           <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-6 items-center max-w-5xl mx-auto">
             {/* ANTES */}
             <div
-              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a] reveal reveal-left"
+              className="ba-card left rounded-lg reveal reveal-left"
+              style={{
+                padding: "32px",
+                background: "#0d0d0d",
+                borderLeft: "3px solid #E24B4A",
+              }}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <Skull className="h-6 w-6 text-destructive" />
-                <h3 className="text-2xl font-black uppercase tracking-wide text-destructive">
+              <div
+                className="flex items-center gap-3"
+                style={{ marginBottom: "24px" }}
+              >
+                <Skull className="h-6 w-6" style={{ color: "#E24B4A" }} />
+                <h3
+                  className="font-black uppercase tracking-wide"
+                  style={{ fontSize: "20px", color: "#E24B4A" }}
+                >
                   Antes
                 </h3>
               </div>
-              <ul className="flex flex-col" style={{ gap: "14px" }}>
+              <ul className="flex flex-col" style={{ gap: "16px" }}>
                 {[
                   "Beat free que todo mundo já ouviu",
                   "Risco de copyright strike no YouTube",
@@ -396,10 +425,15 @@ export default function IndexPage() {
                 ].map((t, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-3 font-medium leading-snug"
-                    style={{ fontSize: "15px", color: "#aaaaaa", animationDelay: `${300 + i * 100}ms` }}
+                    className="flex items-start gap-3 leading-snug ba-item"
+                    style={{
+                      fontSize: "15px",
+                      color: "#aaaaaa",
+                      fontWeight: 500,
+                      animationDelay: `${i * 80}ms`,
+                    }}
                   >
-                    <span className="text-destructive font-bold flex-shrink-0">❌</span>
+                    <span style={{ color: "#E24B4A" }} className="font-bold flex-shrink-0">❌</span>
                     <span>{t}</span>
                   </li>
                 ))}
@@ -408,48 +442,33 @@ export default function IndexPage() {
 
             {/* DIVISOR CENTRAL */}
             <div className="flex items-center justify-center my-2 md:my-0">
-              <svg
-                width="60"
-                height="60"
-                viewBox="0 0 60 60"
-                fill="none"
-                aria-hidden="true"
-                className="ba-x-svg"
-              >
-                {/* Traço 1: cima-esquerda → baixo-direita (rabiscado, irregular) */}
-                <path
-                  d="M10 9 Q 18 17, 24 24 T 38 38 Q 45 46, 51 52"
-                  stroke="#ffffff"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                  className="ba-x-stroke ba-x-stroke-1"
-                />
-                {/* Traço 2: cima-direita → baixo-esquerda */}
-                <path
-                  d="M51 8 Q 43 17, 36 23 T 22 37 Q 14 45, 9 52"
-                  stroke="#ffffff"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                  className="ba-x-stroke ba-x-stroke-2"
-                />
-              </svg>
+              <div className="ba-arrow" aria-hidden="true">
+                <MoveRight size={48} strokeWidth={2.5} />
+              </div>
             </div>
 
             {/* DEPOIS */}
             <div
-              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a] reveal reveal-right"
+              className="ba-card right rounded-lg reveal reveal-right"
+              style={{
+                padding: "32px",
+                background: "#0d0d0d",
+                borderLeft: "3px solid #39FF14",
+              }}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <Trophy className="h-6 w-6 text-primary" />
-                <h3 className="text-2xl font-black uppercase tracking-wide text-primary">
+              <div
+                className="flex items-center gap-3"
+                style={{ marginBottom: "24px" }}
+              >
+                <Trophy className="h-6 w-6" style={{ color: "#39FF14" }} />
+                <h3
+                  className="font-black uppercase tracking-wide"
+                  style={{ fontSize: "20px", color: "#39FF14" }}
+                >
                   Depois
                 </h3>
               </div>
-              <ul className="flex flex-col" style={{ gap: "14px" }}>
+              <ul className="flex flex-col" style={{ gap: "16px" }}>
                 {[
                   "100 beats exclusivos e profissionais",
                   "100% royalty free — Spotify, YouTube, sem medo",
@@ -459,16 +478,33 @@ export default function IndexPage() {
                 ].map((t, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-3 font-medium leading-snug text-white"
-                    style={{ fontSize: "15px", animationDelay: `${300 + i * 100}ms` }}
+                    className="flex items-start gap-3 leading-snug ba-item"
+                    style={{
+                      fontSize: "15px",
+                      color: "#ffffff",
+                      fontWeight: 500,
+                      animationDelay: `${i * 80}ms`,
+                    }}
                   >
-                    <span className="text-primary font-bold flex-shrink-0">✅</span>
+                    <span style={{ color: "#39FF14" }} className="font-bold flex-shrink-0">✅</span>
                     <span>{t}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
+
+          <p
+            className="text-center"
+            style={{
+              marginTop: "32px",
+              fontSize: "14px",
+              color: "#555555",
+              fontWeight: 500,
+            }}
+          >
+            Mais de 1.200 artistas já fizeram essa troca
+          </p>
 
           {/* BLOCO 2 — Card de Compra (Plano Base) */}
           <div className="mt-16 md:mt-20 reveal reveal-zoom max-w-2xl mx-auto">
