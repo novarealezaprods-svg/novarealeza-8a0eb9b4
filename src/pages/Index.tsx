@@ -208,7 +208,7 @@ export default function IndexPage() {
           </h1>
 
           <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed text-xs text-muted-foreground mb-3 tracking-wide text-stone-100 md:text-base text-center" style={{ animationDelay: "200ms" }}>
-            100 beats profissionais por menos<br />que um lanche. Grave e poste hoje.
+            R$0,19 por beat. Royalty Free. Acesso vitalício
           </p>
 
           <div className="mx-auto max-w-2xl w-full">
