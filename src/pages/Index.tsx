@@ -313,7 +313,7 @@ export default function IndexPage() {
             <span className="text-sm font-semibold">Veja as avaliações do pack</span>
             <ChevronDown className="hero-reviews-arrow h-5 w-5 mt-1" />
           </div>
-          <div className="text-center mb-8 md:mb-12 reveal">
+          <div className="text-center mb-8 md:mb-12">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
             <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
           </div>
@@ -331,7 +331,8 @@ export default function IndexPage() {
                       <img
                         src={normalizeDirectUrl(src)}
                         alt={`Prova social ${i + 1}`}
-                        loading="lazy"
+                       loading="eager"
+                       fetchPriority="high"
                         decoding="async"
                         width="600"
                         height="600"
