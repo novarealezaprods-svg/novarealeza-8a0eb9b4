@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Play, Pause, Loader2, X, MousePointerClick, Headphones, ListMusic } from "lucide-react";
 import { playUrl, pauseCurrent, useBeatSnap, type BeatItem } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
@@ -143,14 +143,33 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [covers, setCovers] = useState<Record<string, string | null>>({});
   const [showTutorial, setShowTutorial] = useState(false);
+  const gridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       if (window.localStorage.getItem("playlist_tutorial_seen_v1") === "1") return;
     } catch {}
-    const t = window.setTimeout(() => setShowTutorial(true), 1200);
-    return () => window.clearTimeout(t);
+    const el = gridRef.current;
+    if (!el) return;
+    let timer: number | null = null;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries[0]?.isIntersecting;
+        if (visible && timer === null) {
+          timer = window.setTimeout(() => setShowTutorial(true), 1300);
+        } else if (!visible && timer !== null) {
+          window.clearTimeout(timer);
+          timer = null;
+        }
+      },
+      { threshold: 0.4 }
+    );
+    obs.observe(el);
+    return () => {
+      obs.disconnect();
+      if (timer !== null) window.clearTimeout(timer);
+    };
   }, []);
 
   const closeTutorial = () => {
@@ -180,7 +199,7 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 max-w-4xl mx-auto px-4 md:px-0 gap-[10px] md:gap-3">
+      <div ref={gridRef} className="grid grid-cols-2 max-w-4xl mx-auto px-4 md:px-0 gap-[10px] md:gap-3">
         {GENRES.map((g, idx) => {
           const cover = covers[g.key];
           return (
