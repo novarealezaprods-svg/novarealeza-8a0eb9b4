@@ -1117,14 +1117,11 @@
   stroke-dasharray: 34;
   stroke-dashoffset: 34;
   transform-origin: center;
-  animation: ba-x-draw 2.4s ease-in-out infinite;
+  animation: ba-x-draw 0.7s ease-out forwards;
 }
-.ba-x-line-2 { animation-delay: 0.35s; }
+.ba-x-line-2 { animation-delay: 0.4s; }
 @keyframes ba-x-draw {
-  0% { stroke-dashoffset: 34; }
-  35% { stroke-dashoffset: 0; }
-  75% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: -34; }
+  to { stroke-dashoffset: 0; }
 }
 
 /* Beat card click hint */
