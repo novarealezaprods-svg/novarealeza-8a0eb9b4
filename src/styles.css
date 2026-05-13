@@ -1106,25 +1106,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, #E24B4A 0%, #39FF14 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: ba-arrow-pulse 2s ease-in-out infinite;
+  animation: ba-arrow-pulse 2.4s ease-in-out infinite;
 }
+.ba-arrow svg { display: block; overflow: visible; }
 @keyframes ba-arrow-pulse {
   0%, 100% { transform: scale(1); opacity: 0.95; }
   50% { transform: scale(1.1); opacity: 1; }
 }
 .ba-x-line {
-  stroke-dasharray: 36;
-  stroke-dashoffset: 36;
+  stroke-dasharray: 34;
+  stroke-dashoffset: 34;
   transform-origin: center;
-  animation: ba-x-draw 0.6s ease-out forwards;
+  animation: ba-x-draw 2.4s ease-in-out infinite;
 }
-.ba-x-line-2 { animation-delay: 0.3s; }
+.ba-x-line-2 { animation-delay: 0.35s; }
 @keyframes ba-x-draw {
-  to { stroke-dashoffset: 0; }
+  0% { stroke-dashoffset: 34; }
+  35% { stroke-dashoffset: 0; }
+  75% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -34; }
 }
 
 /* Beat card click hint */
