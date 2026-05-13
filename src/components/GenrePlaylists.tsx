@@ -58,12 +58,17 @@ function BeatRow({
 
   return (
     <div
+      onClick={toggle}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } }}
       className="gp-row group flex items-center gap-3 px-3 py-2 rounded-lg transition-colors"
       style={
         {
           animationDelay: `${delayMs}ms`,
           background: isActive ? "rgba(0,255,65,0.10)" : "transparent",
           boxShadow: isActive ? "inset 3px 0 0 #19C63C" : "none",
+          cursor: "pointer",
         } as React.CSSProperties
       }
     >
@@ -116,7 +121,7 @@ function BeatRow({
       </span>
 
       <button
-        onClick={toggle}
+        onClick={(e) => { e.stopPropagation(); toggle(); }}
         aria-label={isPlaying ? "Pausar" : "Tocar"}
         className="relative h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 transition-transform hover:scale-105"
         style={{ background: isPlaying ? "#19C63C" : color, color: "#000" }}
