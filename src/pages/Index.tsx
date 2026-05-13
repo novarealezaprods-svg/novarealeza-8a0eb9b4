@@ -275,6 +275,14 @@ export default function IndexPage() {
             </p>
           </div>
 
+          <div className="mb-8 px-4 flex flex-wrap items-center justify-center gap-2 md:gap-2.5 reveal">
+            {genres.map((g, i) => (
+              <Badge key={i} variant="secondary" className="rounded-full px-[10px] py-1 md:px-4 md:py-1.5 text-[11px] md:text-xs tracking-wider uppercase">
+                {g}
+              </Badge>
+            ))}
+          </div>
+
           {beats.length > 0 ? (
             <GenrePlaylists beats={beats} />
           ) : (
@@ -283,14 +291,6 @@ export default function IndexPage() {
               <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
             </Card>
           )}
-
-          <div className="mt-10 px-4 flex flex-wrap items-center justify-center gap-2 md:gap-2.5 reveal">
-            {genres.map((g, i) => (
-              <Badge key={i} variant="secondary" className="rounded-full px-[10px] py-1 md:px-4 md:py-1.5 text-[11px] md:text-xs tracking-wider uppercase">
-                {g}
-              </Badge>
-            ))}
-          </div>
 
           <div className="flex justify-center" style={{ marginTop: 32 }}>
             <button
