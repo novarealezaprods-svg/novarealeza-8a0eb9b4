@@ -26,7 +26,7 @@ import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 import garantiaBadge from "@/assets/7-dias-garantia.png";
 
-const genres = ["BOOMBAP/RAP", "FUNK", "TRAP", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
+const genres = ["TRAP", "FUNK", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
 const features = [
   "100 beats profissionais prontos para uso",
   "Liberado para Spotify, YouTube, TikTok",
@@ -52,13 +52,13 @@ const faq = [
 const BEAT_META: { name: string; genre: string }[] = [
   { name: "TRAP", genre: "FUNK" },
   { name: "TRAP", genre: "FUNK" },
-  { name: "Type Alee", genre: "BOOMBAP/RAP" },
-  { name: "Type BOOMBAP/RAP", genre: "BOOMBAP/RAP" },
+  { name: "Type Alee", genre: "TRAP" },
+  { name: "Type TRAP", genre: "TRAP" },
   { name: "Type Hood Drill", genre: "DRILL" },
   { name: "Type Skrilla", genre: "FUNK" },
   { name: "Type Ambient Hood", genre: "HOOD" },
   { name: "Type Don Toliver", genre: "FUNK" },
-  { name: "Nave Nova na Favela", genre: "BOOMBAP/RAP" },
+  { name: "Nave Nova na Favela", genre: "TRAP" },
   { name: "Type Florida", genre: "FUNK" },
 ];
 
@@ -490,7 +490,7 @@ export default function IndexPage() {
                   "100 beats exclusivos e profissionais",
                   "100% royalty free — Spotify, YouTube, sem medo",
                   "Som que posiciona você como artista sério",
-                  "BOOMBAP/RAP, FUNK, R&B, TRAP e muito mais",
+                  "TRAP, FUNK, R&B e muito mais",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
                   <li
