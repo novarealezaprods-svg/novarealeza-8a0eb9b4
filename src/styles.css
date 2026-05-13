@@ -1044,9 +1044,9 @@
 }
 
 /* ===== GenrePlaylists modal & rows ===== */
-@keyframes gp-slide-up {
-  from { opacity: 0; transform: translate(-50%, calc(-50% + 24px)) scale(0.98); }
-  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+@keyframes gp-fade-only {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 @keyframes gp-row-in {
   from { opacity: 0; transform: translateY(20px); }
@@ -1062,7 +1062,7 @@
 }
 
 .gp-modal[data-state="open"] {
-  animation: gp-slide-up 0.4s ease-out;
+  animation: gp-fade-only 0.25s ease-out;
 }
 .gp-row {
   opacity: 0;
