@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Play, Pause, Loader2, X, MousePointerClick, Headphones, ListMusic } from "lucide-react";
+import { Play, Pause, Loader2, X, Hand } from "lucide-react";
 import { playUrl, pauseCurrent, useBeatSnap, type BeatItem } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { supabase } from "@/integrations/supabase/client";
@@ -142,22 +142,27 @@ function BeatRow({
 export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [covers, setCovers] = useState<Record<string, string | null>>({});
-  const [showTutorial, setShowTutorial] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const gridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
-      if (window.localStorage.getItem("playlist_tutorial_seen_v1") === "1") return;
+      if (window.localStorage.getItem("playlist_hint_seen_v1") === "1") return;
     } catch {}
     const el = gridRef.current;
     if (!el) return;
     let timer: number | null = null;
+    let hideTimer: number | null = null;
     const obs = new IntersectionObserver(
       (entries) => {
         const visible = entries[0]?.isIntersecting;
         if (visible && timer === null) {
-          timer = window.setTimeout(() => setShowTutorial(true), 1300);
+          timer = window.setTimeout(() => {
+            setShowHint(true);
+            try { window.localStorage.setItem("playlist_hint_seen_v1", "1"); } catch {}
+            hideTimer = window.setTimeout(() => setShowHint(false), 4500);
+          }, 1300);
         } else if (!visible && timer !== null) {
           window.clearTimeout(timer);
           timer = null;
@@ -169,18 +174,9 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
     return () => {
       obs.disconnect();
       if (timer !== null) window.clearTimeout(timer);
+      if (hideTimer !== null) window.clearTimeout(hideTimer);
     };
   }, []);
-
-  const closeTutorial = () => {
-    setShowTutorial(false);
-    try { window.localStorage.setItem("playlist_tutorial_seen_v1", "1"); } catch {}
-  };
-
-  const tryFirstPlaylist = () => {
-    closeTutorial();
-    setOpenKey(GENRES[0].key);
-  };
 
   useEffect(() => {
     (async () => {
@@ -205,8 +201,8 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
           return (
             <button
               key={g.key}
-              onClick={() => setOpenKey(g.key)}
-              className={`group relative aspect-square w-full overflow-hidden cursor-pointer transition-transform duration-200 hover:scale-[1.02] ${idx === 0 && showTutorial ? "playlist-tutorial-pulse" : ""}`}
+              onClick={() => { setShowHint(false); setOpenKey(g.key); }}
+              className={`group relative aspect-square w-full overflow-hidden cursor-pointer transition-transform duration-200 hover:scale-[1.02] ${idx === 0 && showHint ? "playlist-tutorial-pulse" : ""}`}
               style={{
                 borderRadius: 12,
                 background: cover
@@ -223,81 +219,26 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
                   {g.label}
                 </h3>
               </div>
+
+              {/* Spotify-style play button */}
+              <span
+                className={`gp-play-fab ${idx === 0 && showHint ? "gp-play-fab-bounce" : ""}`}
+                aria-hidden="true"
+              >
+                <Play className="h-5 w-5 fill-black text-black ml-0.5" />
+              </span>
+
+              {/* First-card tap hint */}
+              {idx === 0 && showHint && (
+                <span className="gp-tap-hint" aria-hidden="true">
+                  <Hand className="h-3.5 w-3.5" />
+                  Toque para ouvir
+                </span>
+              )}
             </button>
           );
         })}
       </div>
-
-      <Dialog open={showTutorial} onOpenChange={(v) => { if (!v) closeTutorial(); }}>
-        <DialogContent
-          className="max-w-md p-0 gap-0 border-white/10 overflow-hidden"
-          style={{ background: "#0d0d0d", borderRadius: 16 }}
-        >
-          <div
-            className="relative px-6 pt-6 pb-5"
-            style={{ background: "linear-gradient(135deg, rgba(0,255,65,0.18), rgba(0,0,0,0))" }}
-          >
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider mb-3"
-              style={{ background: "rgba(0,255,65,0.15)", color: "#00FF41" }}
-            >
-              <ListMusic className="h-3 w-3" /> Como ouvir os beats
-            </div>
-            <DialogTitle className="text-white font-black tracking-tight" style={{ fontSize: 24, lineHeight: 1.15 }}>
-              Escute antes de comprar
-            </DialogTitle>
-            <DialogDescription className="text-white/70 text-sm mt-2">
-              Cada bloco abaixo é uma playlist por gênero. Toque pra abrir e dar play em qualquer beat.
-            </DialogDescription>
-          </div>
-
-          <div className="px-6 pb-6 flex flex-col gap-3">
-            <div className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.04)" }}>
-              <div className="h-9 w-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#00FF41", color: "#000" }}>
-                <MousePointerClick className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="text-white text-sm font-semibold">1. Escolha um gênero</div>
-                <div className="text-white/60 text-xs mt-0.5">Toque em TRAP, FUNK, DRILL ou BOOMBAP.</div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.04)" }}>
-              <div className="h-9 w-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#00FF41", color: "#000" }}>
-                <Play className="h-4 w-4 fill-current ml-0.5" />
-              </div>
-              <div>
-                <div className="text-white text-sm font-semibold">2. Dê play em qualquer beat</div>
-                <div className="text-white/60 text-xs mt-0.5">Preview de 60s grátis, direto no navegador.</div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.04)" }}>
-              <div className="h-9 w-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#00FF41", color: "#000" }}>
-                <Headphones className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="text-white text-sm font-semibold">3. Curtiu? Garanta o pack</div>
-                <div className="text-white/60 text-xs mt-0.5">Centenas de beats prontos pra você usar.</div>
-              </div>
-            </div>
-
-            <button
-              onClick={tryFirstPlaylist}
-              className="mt-2 w-full h-12 rounded-xl font-bold uppercase tracking-wide text-sm transition-transform hover:scale-[1.02]"
-              style={{ background: "#00FF41", color: "#000" }}
-            >
-              Ouvir a primeira playlist
-            </button>
-            <button
-              onClick={closeTutorial}
-              className="text-white/50 text-xs hover:text-white/80 transition-colors"
-            >
-              Pular tutorial
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={!!openKey} onOpenChange={(v) => !v && setOpenKey(null)}>
         <DialogContent
