@@ -447,14 +447,14 @@ export default function IndexPage() {
                   <path
                     className="ba-x-line ba-x-line-1"
                     d="M12 12 L36 36"
-                    stroke="#E24B4A"
+                    stroke="#ffffff"
                     strokeWidth="4"
                     strokeLinecap="round"
                   />
                   <path
                     className="ba-x-line ba-x-line-2"
                     d="M36 12 L12 36"
-                    stroke="#E24B4A"
+                    stroke="#ffffff"
                     strokeWidth="4"
                     strokeLinecap="round"
                   />
