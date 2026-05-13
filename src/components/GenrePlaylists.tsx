@@ -20,7 +20,7 @@ type GenreDef = {
 };
 
 const GENRES: GenreDef[] = [
-  { key: "TRAP", label: "TRAP", color: "#00FF41", pack100: 40, pack300: 121, match: (g) => /trap/i.test(g || "") },
+  { key: "TRAP", label: "TRAP", color: "#19C63C", pack100: 40, pack300: 121, match: (g) => /trap/i.test(g || "") },
   { key: "FUNK", label: "FUNK", color: "#FF6B00", pack100: 40, pack300: 118, match: (g) => /funk/i.test(g || "") },
   { key: "DRILL", label: "DRILL", color: "#FF3C3C", pack100: 3, pack300: 23, match: (g) => /drill/i.test(g || "") },
   { key: "BOOMBAP", label: "BOOMBAP", color: "#3C9EFF", pack100: 9, pack300: 20, match: (g) => /boom\s*bap|boombap|rap/i.test(g || "") },
@@ -63,13 +63,13 @@ function BeatRow({
         {
           animationDelay: `${delayMs}ms`,
           background: isActive ? "rgba(0,255,65,0.10)" : "transparent",
-          boxShadow: isActive ? "inset 3px 0 0 #00FF41" : "none",
+          boxShadow: isActive ? "inset 3px 0 0 #19C63C" : "none",
         } as React.CSSProperties
       }
     >
       <span
         className="text-xs tabular-nums w-5 text-right flex-shrink-0"
-        style={{ color: isActive ? "#00FF41" : "rgba(255,255,255,0.4)" }}
+        style={{ color: isActive ? "#19C63C" : "rgba(255,255,255,0.4)" }}
       >
         {String(index + 1).padStart(2, "0")}
       </span>
@@ -119,7 +119,7 @@ function BeatRow({
         onClick={toggle}
         aria-label={isPlaying ? "Pausar" : "Tocar"}
         className="relative h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 transition-transform hover:scale-105"
-        style={{ background: isPlaying ? "#00FF41" : color, color: "#000" }}
+        style={{ background: isPlaying ? "#19C63C" : color, color: "#000" }}
       >
         {isPlaying && (
           <>
