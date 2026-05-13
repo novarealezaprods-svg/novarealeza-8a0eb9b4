@@ -26,7 +26,7 @@ import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 import garantiaBadge from "@/assets/7-dias-garantia.png";
 
-const genres = ["TRAP", "FUNK", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
+const genres = ["TRAP", "FUNK", "HOOD", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
 const features = [
   "100 beats profissionais prontos para uso",
   "Liberado para Spotify, YouTube, TikTok",
