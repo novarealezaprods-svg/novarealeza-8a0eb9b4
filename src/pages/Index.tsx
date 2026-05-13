@@ -586,7 +586,7 @@ export default function IndexPage() {
           <div className="text-center mb-10 reveal">
             <span className="supreme-badge">
               <Star className="h-3 w-3 fill-current" />
-              <span>Oferta Suprema · Vip</span>
+              <span>Pack Supremo · Vip</span>
               <Star className="h-3 w-3 fill-current" />
             </span>
             <h2 className="mt-5 text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
@@ -847,7 +847,7 @@ export default function IndexPage() {
               <span className="supreme-title">Você viu o Pack Supremo?</span>
             </AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[#d9c98e] text-base pt-2">
-              Antes de fechar, dá uma olhada no <strong className="text-[#ffd86b]">Oferta Suprema</strong>:
+              Antes de fechar, dá uma olhada no <strong className="text-[#ffd86b]">Pack Supremo</strong>:
               <br />
               <span className="text-white">+200 beats VIP, stems, drum kit e curso bônus</span>
               <br />
