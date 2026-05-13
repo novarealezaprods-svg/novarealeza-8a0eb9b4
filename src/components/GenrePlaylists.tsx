@@ -22,7 +22,7 @@ type GenreDef = {
 const GENRES: GenreDef[] = [
   { key: "TRAP", label: "TRAP", color: "#19C63C", pack100: 40, pack300: 121, match: (g) => /trap/i.test(g || "") },
   { key: "FUNK", label: "FUNK", color: "#FF6B00", pack100: 40, pack300: 118, match: (g) => /funk/i.test(g || "") },
-  { key: "DRILL", label: "DRILL", color: "#FF3C3C", pack100: 3, pack300: 23, match: (g) => /drill/i.test(g || "") },
+  { key: "DRILL", label: "DRILL", color: "#F90A1F", pack100: 3, pack300: 23, match: (g) => /drill/i.test(g || "") },
   { key: "BOOMBAP", label: "BOOMBAP", color: "#3C9EFF", pack100: 9, pack300: 20, match: (g) => /boom\s*bap|boombap|rap/i.test(g || "") },
 ];
 

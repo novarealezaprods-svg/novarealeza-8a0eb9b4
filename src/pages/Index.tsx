@@ -380,7 +380,7 @@ export default function IndexPage() {
               O que muda quando você
               <br />
               <span>para de usar beat </span>
-              <span style={{ color: "#FF3C3C" }}>"FREE"</span>
+              <span style={{ color: "#F90A1F" }}>"FREE"</span>
             </h2>
             <div
               className="mx-auto"
@@ -389,7 +389,7 @@ export default function IndexPage() {
                 width: "60px",
                 height: "3px",
                 borderRadius: "2px",
-                background: "#FF3C3C",
+                background: "#F90A1F",
               }}
             />
           </div>
@@ -401,17 +401,17 @@ export default function IndexPage() {
               style={{
                 padding: "32px",
                 background: "#0d0d0d",
-                borderLeft: "3px solid #FF3C3C",
+                borderLeft: "3px solid #F90A1F",
               }}
             >
               <div
                 className="flex items-center gap-3"
                 style={{ marginBottom: "24px" }}
               >
-                <Skull className="h-6 w-6" style={{ color: "#FF3C3C" }} />
+                <Skull className="h-6 w-6" style={{ color: "#F90A1F" }} />
                 <h3
                   className="font-black uppercase tracking-wide"
-                  style={{ fontSize: "20px", color: "#FF3C3C" }}
+                  style={{ fontSize: "20px", color: "#F90A1F" }}
                 >
                   Antes
                 </h3>
@@ -434,7 +434,7 @@ export default function IndexPage() {
                       animationDelay: `${i * 80}ms`,
                     }}
                   >
-                    <span style={{ color: "#FF3C3C" }} className="font-bold flex-shrink-0">❌</span>
+                    <span style={{ color: "#F90A1F" }} className="font-bold flex-shrink-0">❌</span>
                     <span>{t}</span>
                   </li>
                 ))}

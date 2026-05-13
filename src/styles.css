@@ -472,14 +472,14 @@
 .scarcity-dot {
   width: 7px;
   height: 7px;
-  background: #FF3C3C;
+  background: #F90A1F;
   border-radius: 50%;
   animation: scarcity-pulse 1.2s ease-in-out infinite;
 }
 .scarcity-badge > span:last-child {
   font-size: 12px;
   font-weight: 700;
-  color: #FF3C3C;
+  color: #F90A1F;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -488,7 +488,7 @@
   color: #555;
 }
 .scarcity-restantes strong {
-  color: #FF3C3C;
+  color: #F90A1F;
   font-weight: 700;
 }
 .scarcity-barra-wrap {
@@ -549,7 +549,7 @@
 }
 .scarcity-leg-r {
   font-size: 11px;
-  color: #FF3C3C;
+  color: #F90A1F;
   font-weight: 600;
 }
 
@@ -1030,7 +1030,7 @@
   left: 0;
   top: 50%;
   height: 4px;
-  background: #FF3C3C;
+  background: #F90A1F;
   width: 0%;
   animation: riscar 0.6s ease-out 0.5s forwards;
   pointer-events: none;
