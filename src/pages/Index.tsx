@@ -526,11 +526,7 @@ export default function IndexPage() {
           <div className="mt-16 md:mt-20 reveal reveal-zoom max-w-2xl mx-auto">
             <div className="basic-card">
               <div className="basic-card-inner text-center">
-                <span className="basic-badge">
-                  <Flame className="h-3 w-3" />
-                  <span>Oferta limitada</span>
-                </span>
-                <h2 className="mt-5 text-3xl md:text-4xl font-black tracking-tight">
+                <h2 className="text-3xl md:text-4xl font-black tracking-tight">
                   <span className="basic-title">Pack de 100 Beats</span>
                 </h2>
                 <p className="mt-2 text-sm md:text-base text-[#9ad9a4] font-semibold tracking-wide">
