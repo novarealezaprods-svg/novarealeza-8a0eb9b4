@@ -270,13 +270,6 @@ export function GenrePlaylists({ beats }: { beats: BeatItem[] }) {
                   className="absolute inset-0 pointer-events-none"
                   style={{ background: "linear-gradient(to bottom, rgba(13,13,13,0) 30%, rgba(13,13,13,0.95) 100%)" }}
                 />
-                <button
-                  onClick={() => setOpenKey(null)}
-                  aria-label="Fechar"
-                  className="absolute top-3 right-3 h-9 w-9 rounded-full flex items-center justify-center text-white/90 bg-black/40 backdrop-blur-sm hover:bg-black/60 transition gp-fade"
-                >
-                  <X className="h-4 w-4" />
-                </button>
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <DialogTitle className="text-white font-black tracking-tight" style={{ fontSize: 28, lineHeight: 1 }}>
                     {active.label}
