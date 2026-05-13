@@ -366,7 +366,7 @@ export default function IndexPage() {
       <section
         className="border-t border-border/50"
         style={{
-          background: "linear-gradient(135deg, #0a0a0a 0%, #111111 100%)",
+          background: "#000000",
           paddingTop: "80px",
           paddingBottom: "80px",
         }}
