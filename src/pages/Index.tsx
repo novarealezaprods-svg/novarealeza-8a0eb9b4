@@ -198,7 +198,7 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <section className="relative overflow-hidden pt-4 md:pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
+      <section className="relative overflow-hidden pt-4 md:pt-32 pb-8 md:pb-12" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-6 md:gap-8`}>
           <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl text-center mx-auto md:text-7xl lg:text-6xl my-[11px]">
             Pare de Enterrar Sua Música
@@ -251,19 +251,14 @@ export default function IndexPage() {
               <span className="hero-cta-text">QUERO MEUS 100 BEATS POR 19,90</span>
             </button>
             <p className="hero-cta-sub">
-              <span aria-hidden="true">🔒</span>
-              <span>Pagamento seguro</span>
-              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
-              <span>Acesso imediato</span>
-              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
-              <span>7 dias de garantia</span>
+              🔒 Pagamento seguro · Acesso imediato · 7 dias de garantia
             </p>
           </div>
 
         </div>
       </section>
 
-      <section className="py-20 md:py-24 border-t border-border/50">
+      <section className="py-8 md:py-12 border-t border-border/50">
         <div className={CONTAINER}>
           <div className="text-center mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
@@ -307,7 +302,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section id="avaliacoes" className="py-20 md:py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
+      <section id="avaliacoes" className="py-8 md:py-12 bg-card/30 border-y border-border/50 scroll-mt-20">
         <div className="container max-w-3xl mx-auto px-4 md:px-6">
           <div className="mb-8 flex flex-col items-center text-white">
             <span className="text-sm font-semibold">Veja as avaliações do pack</span>
@@ -368,8 +363,8 @@ export default function IndexPage() {
         className="border-t border-border/50"
         style={{
           background: "#000000",
-          paddingTop: "80px",
-          paddingBottom: "80px",
+          paddingTop: "32px",
+          paddingBottom: "32px",
         }}
       >
         <div className={CONTAINER}>
@@ -571,7 +566,7 @@ export default function IndexPage() {
       </section>
 
       {/* OFERTA SUPREMA — Gold Edition */}
-      <section id="oferta-suprema" className="py-20 md:py-24 border-t border-border/50 relative overflow-hidden scroll-mt-20">
+      <section id="oferta-suprema" className="py-8 md:py-12 border-t border-border/50 relative overflow-hidden scroll-mt-20">
         <div
           className="absolute inset-0 pointer-events-none opacity-60"
           style={{
@@ -690,7 +685,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-24">
+      <section className="py-8 md:py-12">
         <div className={CONTAINER}>
           <div className="text-center mb-14 reveal">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
@@ -713,7 +708,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-24 border-t border-border/50">
+      <section className="py-8 md:py-12 border-t border-border/50">
         <div className={`${CONTAINER} max-w-3xl`}>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10 reveal">
             Perguntas frequentes
