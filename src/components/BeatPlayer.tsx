@@ -54,6 +54,40 @@ let audio: HTMLAudioElement | null = null;
 
 export { playUrl, pauseCurrent };
 
+// ---------------------------------------------------------------------------
+// Hint controller — shows a one-time "tap to listen" cue 3s after page load.
+// Dismissed permanently once any card is clicked.
+// ---------------------------------------------------------------------------
+
+const HINT_KEY = "beat_hint_dismissed_v1";
+let hintShown = false;
+let hintDismissed =
+  typeof window !== "undefined" && window.localStorage?.getItem(HINT_KEY) === "1";
+const hintListeners = new Set<() => void>();
+const subscribeHint = (cb: () => void) => {
+  hintListeners.add(cb);
+  return () => { hintListeners.delete(cb); };
+};
+const getHintSnap = () => hintShown && !hintDismissed;
+function setHintShown(v: boolean) {
+  hintShown = v;
+  hintListeners.forEach((cb) => cb());
+}
+export function dismissBeatHint() {
+  if (hintDismissed) return;
+  hintDismissed = true;
+  hintShown = false;
+  try { window.localStorage?.setItem(HINT_KEY, "1"); } catch {}
+  hintListeners.forEach((cb) => cb());
+}
+if (typeof window !== "undefined" && !hintDismissed) {
+  window.setTimeout(() => {
+    if (hintDismissed) return;
+    setHintShown(true);
+    window.setTimeout(() => setHintShown(false), 1500);
+  }, 3000);
+}
+
 export function useBeatSnap() {
   return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 }
@@ -177,7 +211,16 @@ export function BeatPlayer({
   onOpen?: (index: number) => void;
 }) {
   const snap = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  const showHintGlobal = useSyncExternalStore(subscribeHint, getHintSnap, getHintSnap);
   const [resolvedUrl, setResolvedUrl] = useState<string>("");
+  const [isMobile, setIsMobile] = useState<boolean>(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false
+  );
+  useEffect(() => {
+    const onR = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onR);
+    return () => window.removeEventListener("resize", onR);
+  }, []);
 
   useEffect(() => {
     setResolvedUrl(normalizeDirectUrl(beat.url));
@@ -199,14 +242,15 @@ export function BeatPlayer({
 
   const name = displayName || beat.name;
   const bgImage = beat.image_url || null;
+  const showHint = showHintGlobal && (!isMobile || index === 0);
 
   return (
     <div
-      onClick={() => onOpen?.(index)}
+      onClick={() => { dismissBeatHint(); onOpen?.(index); }}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen?.(index); } }}
-      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square cursor-pointer"
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); dismissBeatHint(); onOpen?.(index); } }}
+      className={`beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square cursor-pointer ${showHint ? "beat-hint-pulse" : ""}`}
       style={{
         background: bgImage
           ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
@@ -273,6 +317,13 @@ export function BeatPlayer({
       {hasError && (
         <div className="mt-2 text-[10px] text-destructive leading-tight text-center">
           Áudio indisponível — reenvie pelo /admin
+        </div>
+      )}
+
+      {showHint && (
+        <div className="beat-hint" aria-hidden="true">
+          <span className="beat-hint-cursor">👆</span>
+          <span className="beat-hint-tip">Toque para ouvir</span>
         </div>
       )}
     </div>
