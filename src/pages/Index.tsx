@@ -380,7 +380,7 @@ export default function IndexPage() {
               O que muda quando você
               <br />
               <span>para de usar beat </span>
-               <span className="text-[#f90b1f]">FREE</span>
+               <span className="free-strike" style={{ color: "#E24B4A" }}>FREE</span>
             </h2>
             <div
               className="mx-auto"
