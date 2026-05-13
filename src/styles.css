@@ -588,6 +588,35 @@
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
+/* FREE strikethrough animation — triggered when parent .reveal becomes visible */
+.free-strike {
+  position: relative;
+  display: inline-block;
+}
+.free-strike::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 3px;
+  width: 0;
+  background: #ffffff;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.reveal.is-visible .free-strike::after {
+  animation: free-strike-draw 0.6s ease-out forwards;
+  animation-delay: 0.2s;
+}
+@keyframes free-strike-draw {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .free-strike::after { width: 100% !important; animation: none !important; }
+}
+
 /* Beat player dialog — denser open/close animation */
 @keyframes beat-dialog-in {
   0% {
