@@ -849,7 +849,7 @@ export default function IndexPage() {
             <AlertDialogDescription className="text-center text-[#d9c98e] text-base pt-2">
               Antes de fechar, dá uma olhada no <strong className="text-[#ffd86b]">Pack Supremo</strong>:
               <br />
-              <span className="text-white">+200 beats VIP, stems, drum kit e curso bônus</span>
+              <span className="text-white">São 300 beats + Presets Vocais e outros Bonus</span>
               <br />
               por apenas <strong className="text-[#ffd86b]">R$ 47,90</strong> — economia de 75%.
             </AlertDialogDescription>
