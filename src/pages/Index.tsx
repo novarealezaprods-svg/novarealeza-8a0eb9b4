@@ -674,6 +674,21 @@ export default function IndexPage() {
                     <span className="relative z-10">300 BEATS POR 47,90</span>
                   </button>
                 </div>
+                <div
+                  className="mt-6 rounded-xl px-4 py-3 max-w-md mx-auto"
+                  style={{
+                    background: "rgba(255, 216, 107, 0.08)",
+                    border: "1px solid rgba(255, 216, 107, 0.32)",
+                  }}
+                >
+                  <p className="text-sm md:text-base font-semibold text-[#fff5d6] flex items-center justify-center gap-2 flex-wrap">
+                    <Flame className="h-4 w-4 text-[#ffd86b]" />
+                    <span className="font-black text-[#ffd86b]" style={{ textShadow: "0 0 10px rgba(255, 216, 107, 0.5)" }}>
+                      +2.500
+                    </span>
+                    <span>artistas já garantiram o pack supremo</span>
+                  </p>
+                </div>
                 <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
                   <ShieldCheck className="h-3 w-3" />
                   <span>Garantia incondicional de 7 dias · Pagamento 100% seguro</span>
