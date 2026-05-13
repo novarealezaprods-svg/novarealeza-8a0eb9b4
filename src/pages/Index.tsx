@@ -847,7 +847,7 @@ export default function IndexPage() {
               <span className="supreme-title">Você viu o Pack Supremo?</span>
             </AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[#d9c98e] text-base pt-2">
-              Antes de fechar, dá uma olhada na <strong className="text-[#ffd86b]">Oferta Suprema</strong>:
+              Antes de fechar, dá uma olhada no <strong className="text-[#ffd86b]">Oferta Suprema</strong>:
               <br />
               <span className="text-white">+200 beats VIP, stems, drum kit e curso bônus</span>
               <br />
