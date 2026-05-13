@@ -303,6 +303,9 @@ export default function IndexPage() {
               <span className="hero-cta-text">QUERO MEUS 100 BEATS POR R$19,90</span>
             </button>
           </div>
+          <div className="mt-6 max-w-md mx-auto">
+            <ScarcityBar />
+          </div>
         </div>
       </section>
 
@@ -582,9 +585,6 @@ export default function IndexPage() {
                   <ShieldCheck className="h-3 w-3" />
                   <span>Garantia incondicional de 7 dias</span>
                 </p>
-                <div className="mt-6">
-                  <ScarcityBar />
-                </div>
               </div>
             </div>
           </div>
