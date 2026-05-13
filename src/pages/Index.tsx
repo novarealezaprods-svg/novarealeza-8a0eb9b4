@@ -29,7 +29,6 @@ import garantiaBadge from "@/assets/7-dias-garantia.png";
 const genres = ["BOOMBAP/RAP", "FUNK", "TRAP", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
 const features = [
   "100 beats profissionais prontos para uso",
-  "20 beats variados (boombap, edm, drill, trap)",
   "Liberado para Spotify, YouTube, TikTok",
   "Mixados e masterizados em alta qualidade",
 ];
