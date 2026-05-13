@@ -507,7 +507,7 @@
 .scarcity-barra-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00cc33, #00FF41);
+  background: linear-gradient(90deg, #0FA02F, #19C63C);
   border-radius: 100px;
   transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
@@ -530,7 +530,7 @@
   transform: translate(-50%, -50%);
   width: 16px;
   height: 16px;
-  background: #00FF41;
+  background: #19C63C;
   border-radius: 50%;
   border: 2.5px solid #0d0d0d;
   left: 0%;
@@ -544,7 +544,7 @@
 }
 .scarcity-leg-v {
   font-size: 11px;
-  color: #00FF41;
+  color: #19C63C;
   font-weight: 600;
 }
 .scarcity-leg-r {
@@ -1083,7 +1083,7 @@
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  border: 2px solid #00FF41;
+  border: 2px solid #19C63C;
   animation: gp-wave 1.2s ease-out infinite;
   pointer-events: none;
 }
@@ -1187,7 +1187,7 @@
   width: 44px;
   height: 44px;
   border-radius: 9999px;
-  background: #00FF41;
+  background: #19C63C;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1223,7 +1223,7 @@
   gap: 6px;
   padding: 6px 10px;
   border-radius: 9999px;
-  background: #00FF41;
+  background: #19C63C;
   color: #000;
   font-size: 11px;
   font-weight: 800;
