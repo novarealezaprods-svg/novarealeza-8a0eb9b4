@@ -1168,3 +1168,13 @@
   80% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+/* Playlist tutorial highlight pulse */
+.playlist-tutorial-pulse {
+  animation: playlist-tutorial-pulse 1.4s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.7);
+}
+@keyframes playlist-tutorial-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.6), 0 0 24px rgba(0, 255, 65, 0.35); transform: scale(1); }
+  50% { box-shadow: 0 0 0 12px rgba(0, 255, 65, 0), 0 0 32px rgba(0, 255, 65, 0.5); transform: scale(1.03); }
+}
