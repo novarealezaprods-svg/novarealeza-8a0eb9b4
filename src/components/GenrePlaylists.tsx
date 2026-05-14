@@ -124,7 +124,7 @@ function BeatRow({
         onClick={(e) => { e.stopPropagation(); toggle(); }}
         aria-label={isPlaying ? "Pausar" : "Tocar"}
         className="relative h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 transition-transform hover:scale-105"
-        style={{ background: isPlaying ? "#19C63C" : color, color: "#000" }}
+        style={{ background: "#19C63C", color: "#000" }}
       >
         {isPlaying && (
           <>
