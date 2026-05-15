@@ -16,6 +16,7 @@ const STORAGE_KEY = "admin_unlocked_v1";
 
 type Beat = { id: string; name: string; url: string; key: string | null; bpm: string | null; position: number; image_url: string | null; genre: string | null; active: boolean };
 type Image = { id: string; url: string; position: number };
+type Playlist = { id: string; name: string; url: string; position: number };
 
 export default function AdminPage() {
   const [unlocked, setUnlocked] = useState(false);
@@ -38,6 +39,10 @@ export default function AdminPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [newImageUrl, setNewImageUrl] = useState("");
 
+  // Playlists
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [newPlaylist, setNewPlaylist] = useState({ name: "", url: "" });
+
   useEffect(() => {
     if (sessionStorage.getItem(STORAGE_KEY) === "1") setUnlocked(true);
   }, []);
@@ -47,10 +52,11 @@ export default function AdminPage() {
   }, [unlocked]);
 
   const loadAll = async () => {
-    const [{ data: settings }, { data: bts }, { data: imgs }] = await Promise.all([
+    const [{ data: settings }, { data: bts }, { data: imgs }, { data: pls }] = await Promise.all([
       supabase.from("site_settings").select("key,value"),
       supabase.from("beats").select("*").order("position", { ascending: true }),
       supabase.from("proof_images").select("*").order("position", { ascending: true }),
+      supabase.from("playlists" as any).select("*").order("position", { ascending: true }),
     ]);
     const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
     setCheckoutUrl(map["checkout_url"] ?? "");
@@ -58,6 +64,7 @@ export default function AdminPage() {
     setPreviewVideo(map["preview_video"] ?? "");
     setBeats((bts ?? []) as Beat[]);
     setImages((imgs ?? []) as Image[]);
+    setPlaylists((pls ?? []) as unknown as Playlist[]);
   };
 
   const tryUnlock = (e: React.FormEvent) => {
@@ -220,6 +227,41 @@ export default function AdminPage() {
     loadAll();
   };
 
+  // Playlists
+  const addPlaylist = async () => {
+    if (!newPlaylist.name || !newPlaylist.url) return toast.error("Nome e URL obrigatórios");
+    const maxPos = playlists.length ? Math.max(...playlists.map((p) => p.position)) : -1;
+    const { error } = await supabase.from("playlists" as any).insert({ name: newPlaylist.name, url: newPlaylist.url, position: maxPos + 1 });
+    if (error) return toast.error(error.message);
+    setNewPlaylist({ name: "", url: "" });
+    toast.success("Playlist adicionada");
+    loadAll();
+  };
+
+  const updatePlaylist = async (id: string, patch: Partial<Playlist>) => {
+    const { error } = await supabase.from("playlists" as any).update(patch).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("Atualizado");
+    loadAll();
+  };
+
+  const deletePlaylist = async (id: string) => {
+    if (!confirm("Apagar esta playlist?")) return;
+    const { error } = await supabase.from("playlists" as any).delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    loadAll();
+  };
+
+  const movePlaylist = async (id: string, dir: -1 | 1) => {
+    const idx = playlists.findIndex((p) => p.id === id);
+    const swap = playlists[idx + dir];
+    if (!swap) return;
+    const a = playlists[idx];
+    await supabase.from("playlists" as any).update({ position: swap.position }).eq("id", a.id);
+    await supabase.from("playlists" as any).update({ position: a.position }).eq("id", swap.id);
+    loadAll();
+  };
+
   // Senha
   if (!unlocked) {
     return (
@@ -253,10 +295,11 @@ export default function AdminPage() {
         </header>
 
         <Tabs defaultValue="settings">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
             <TabsTrigger value="settings">Configurações</TabsTrigger>
             <TabsTrigger value="beats">Beats ({beats.length})</TabsTrigger>
             <TabsTrigger value="images">Imagens ({images.length})</TabsTrigger>
+            <TabsTrigger value="playlists">Playlists ({playlists.length})</TabsTrigger>
           </TabsList>
 
           {/* SETTINGS */}
@@ -425,6 +468,38 @@ export default function AdminPage() {
                 </Card>
               ))}
               {images.length === 0 && <p className="col-span-full text-center text-muted-foreground py-8">Nenhuma imagem ainda.</p>}
+            </div>
+          </TabsContent>
+
+          {/* PLAYLISTS */}
+          <TabsContent value="playlists" className="space-y-4">
+            <Card className="p-6">
+              <h3 className="font-semibold mb-4">Adicionar playlist</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <Input placeholder="Nome (ex: Trap 2024)" value={newPlaylist.name} onChange={(e) => setNewPlaylist({ ...newPlaylist, name: e.target.value })} />
+                <Input placeholder="URL (Spotify, YouTube, Drive...)" value={newPlaylist.url} onChange={(e) => setNewPlaylist({ ...newPlaylist, url: e.target.value })} />
+              </div>
+              <Button className="mt-4" onClick={addPlaylist}>
+                <Plus className="w-4 h-4 mr-2" />Adicionar
+              </Button>
+            </Card>
+
+            <div className="space-y-2">
+              {playlists.map((p, i) => (
+                <Card key={p.id} className="p-4">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+                    <Input className="md:col-span-4" value={p.name} onChange={(e) => setPlaylists(playlists.map((x) => x.id === p.id ? { ...x, name: e.target.value } : x))} />
+                    <Input className="md:col-span-5" value={p.url} onChange={(e) => setPlaylists(playlists.map((x) => x.id === p.id ? { ...x, url: e.target.value } : x))} />
+                    <div className="md:col-span-3 flex gap-1 justify-end">
+                      <Button size="icon" variant="ghost" onClick={() => movePlaylist(p.id, -1)} disabled={i === 0}><ArrowUp className="w-4 h-4" /></Button>
+                      <Button size="icon" variant="ghost" onClick={() => movePlaylist(p.id, 1)} disabled={i === playlists.length - 1}><ArrowDown className="w-4 h-4" /></Button>
+                      <Button size="icon" variant="outline" onClick={() => updatePlaylist(p.id, { name: p.name, url: p.url })}><Save className="w-4 h-4" /></Button>
+                      <Button size="icon" variant="destructive" onClick={() => deletePlaylist(p.id)}><Trash2 className="w-4 h-4" /></Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+              {playlists.length === 0 && <p className="text-center text-muted-foreground py-8">Nenhuma playlist ainda.</p>}
             </div>
           </TabsContent>
         </Tabs>
