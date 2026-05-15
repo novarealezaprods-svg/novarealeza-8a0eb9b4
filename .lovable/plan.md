@@ -1,29 +1,44 @@
-## Diagnóstico
+## Objetivo
+Adicionar um pop-up que aparece quando o cliente clica em qualquer botão de checkout (Pack Suprema R$19,90 e Pack Supremo R$27,90), avisando que o acesso é entregue **instantaneamente no WhatsApp e no Gmail**, e pedindo que ele informe os dados corretamente antes de prosseguir para o pagamento.
 
-A mensagem que aparece no preview:
+## Comportamento
 
-> Não foi possível encontrar o endereço IP do servidor de `35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovableproject.com`
+1. Ao clicar em "Comprar / Quero meu pack", em vez de redirecionar direto pro checkout:
+   - Abre um modal centralizado (Dialog do shadcn).
+   - Cliente lê o aviso e clica em "Continuar para o pagamento" → redireciona ao link do checkout original.
+   - Botão secundário "Cancelar" fecha o modal.
+2. O modal funciona tanto para o Pack 19,90 quanto para o Pack 27,90 (mesma lógica, mesmo componente — só muda a URL de destino guardada em estado).
+3. Mantém os eventos `dataLayer` (AddToCart) que já existem em `handleCheckout`.
 
-é um **erro de DNS do navegador**, não um erro gerado pelo seu app. Procurei em todo o código do projeto pela string `lovableproject` e **não há nenhuma referência** — ou seja, o app não está mandando ninguém para esse domínio.
+## Conteúdo do pop-up (copy curto + SEO)
 
-O domínio `lovableproject.com` é uma URL **antiga/legada** da infraestrutura da Lovable. Os domínios atuais e válidos do seu projeto são:
+- **Título (h2):** "Acesso instantâneo no seu WhatsApp e Gmail"
+- **Subtítulo:** "Assim que o pagamento for aprovado, você recebe o pack na hora."
+- **Bloco de atenção (destaque amarelo/âmbar):**
+  - Ícone de alerta + texto:
+  - "⚠️ Informe seu **WhatsApp** e **e-mail Gmail** corretamente no checkout. A entrega é automática — dados errados = você não recebe o pack."
+- **Lista rápida (3 itens com ícones):**
+  - 📱 WhatsApp com DDD correto
+  - 📧 E-mail Gmail ativo
+  - ⚡ Entrega em segundos após aprovação
+- **CTA primário (verde, grande):** "Continuar para o pagamento"
+- **CTA secundário (ghost):** "Voltar"
 
-- Preview: `https://id-preview--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app`
-- Publicado: `https://novarealeza.lovable.app`
+## SEO / Acessibilidade
 
-Como não existe nada no código apontando para `lovableproject.com`, **não há correção possível dentro do projeto**. O erro vem de uma aba/janela aberta na URL antiga (provavelmente um link salvo nos favoritos, histórico do navegador, ou uma aba que ficou aberta de uma sessão anterior da Lovable).
+- `<DialogTitle>` semântico para o título.
+- `<DialogDescription>` com a frase do subtítulo (descrição acessível, lida por screen readers e indexada).
+- Botões com `aria-label` claros.
+- Texto em português, palavras-chave naturais: "acesso instantâneo", "pack de beats", "entrega automática", "WhatsApp", "Gmail".
+- Sem alterar o `<head>` da página — apenas conteúdo do modal.
 
-## O que fazer
+## Arquivos afetados
 
-1. **Feche a aba** que está mostrando o erro de DNS.
-2. Volte para o **editor da Lovable** e clique no botão de **Preview** novamente — ele vai abrir no domínio correto `.lovable.app`.
-3. Se você tinha o link antigo salvo nos favoritos/atalhos, **substitua** por:
-   - `https://id-preview--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app` (preview, exige login na Lovable)
-   - `https://novarealeza.lovable.app` (publicado, público)
-4. Se quiser compartilhar o preview com alguém sem login, use **Share → Share preview** no editor (gera link público válido por 7 dias).
+- **`src/pages/Index.tsx`** (único arquivo):
+  - Importar `Dialog`, `DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter` de `@/components/ui/dialog`.
+  - Importar ícones `MessageCircle`, `Mail`, `Zap`, `AlertTriangle` de `lucide-react`.
+  - Novo estado: `const [deliveryModal, setDeliveryModal] = useState<{open: boolean; url: string}>({open:false, url:""})`.
+  - Refatorar `handleCheckout(url)` para abrir o modal em vez de redirecionar direto. Criar `confirmCheckout()` que dispara o `dataLayer.push` e faz `window.location.href = deliveryModal.url`.
+  - Renderizar o `<Dialog>` no fim do JSX.
 
-## Por que não dá pra "consertar no código"
-
-O erro acontece **antes** do seu app carregar — o navegador tenta resolver o DNS de `lovableproject.com` e falha porque esse domínio não existe mais (ou não está respondendo) na infra da Lovable. Nenhuma alteração de HTML, JS, rota ou redirecionamento dentro do projeto vai mudar isso, porque o app nem chega a ser baixado pelo navegador nessa URL.
-
-Se mesmo abrindo pelo botão de Preview do editor o erro continuar, é instabilidade da infra da Lovable — nesse caso use a URL publicada (`novarealeza.lovable.app`) enquanto isso.
+Sem mudanças em backend, banco ou rotas.

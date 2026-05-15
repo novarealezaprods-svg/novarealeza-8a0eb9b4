@@ -1,3 +1,0 @@
-ALTER TABLE public.beats
-  ADD COLUMN IF NOT EXISTS no_pack_100 boolean NOT NULL DEFAULT false,
-  ADD COLUMN IF NOT EXISTS no_pack_300 boolean NOT NULL DEFAULT true;

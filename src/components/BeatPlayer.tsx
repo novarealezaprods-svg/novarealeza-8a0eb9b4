@@ -54,40 +54,6 @@ let audio: HTMLAudioElement | null = null;
 
 export { playUrl, pauseCurrent };
 
-// ---------------------------------------------------------------------------
-// Hint controller — shows a one-time "tap to listen" cue 3s after page load.
-// Dismissed permanently once any card is clicked.
-// ---------------------------------------------------------------------------
-
-const HINT_KEY = "beat_hint_dismissed_v1";
-let hintShown = false;
-let hintDismissed =
-  typeof window !== "undefined" && window.localStorage?.getItem(HINT_KEY) === "1";
-const hintListeners = new Set<() => void>();
-const subscribeHint = (cb: () => void) => {
-  hintListeners.add(cb);
-  return () => { hintListeners.delete(cb); };
-};
-const getHintSnap = () => hintShown && !hintDismissed;
-function setHintShown(v: boolean) {
-  hintShown = v;
-  hintListeners.forEach((cb) => cb());
-}
-export function dismissBeatHint() {
-  if (hintDismissed) return;
-  hintDismissed = true;
-  hintShown = false;
-  try { window.localStorage?.setItem(HINT_KEY, "1"); } catch {}
-  hintListeners.forEach((cb) => cb());
-}
-if (typeof window !== "undefined" && !hintDismissed) {
-  window.setTimeout(() => {
-    if (hintDismissed) return;
-    setHintShown(true);
-    window.setTimeout(() => setHintShown(false), 1500);
-  }, 3000);
-}
-
 export function useBeatSnap() {
   return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 }
@@ -97,10 +63,7 @@ function getAudio(): HTMLAudioElement | null {
   if (audio) return audio;
 
   const el = new Audio();
-  // Não pré-carrega nada até o usuário clicar em play.
-  // O elemento <audio> é único e compartilhado por todos os players,
-  // então só baixa bytes quando playUrl() seta src + chama play().
-  el.preload = "none";
+  el.preload = "auto";
 
   el.addEventListener("playing", () => {
     setState({ isPlaying: true, loadingUrl: null });
@@ -126,6 +89,7 @@ function getAudio(): HTMLAudioElement | null {
   });
   el.addEventListener("error", () => {
     const failed = state.activeUrl;
+    console.warn("[BeatPlayer] Falha ao carregar áudio:", failed, el.error);
     setState({
       isPlaying: false,
       loadingUrl: null,
@@ -147,7 +111,8 @@ function playUrl(url: string) {
   // If this beat is already the active source, just resume.
   if (state.activeUrl === url && el.src) {
     setState({ loadingUrl: url, errorUrl: null });
-    el.play().catch(() => {
+    el.play().catch((err) => {
+      console.warn("[BeatPlayer] play() rejeitado:", err);
       setState({ loadingUrl: null, isPlaying: false });
     });
     return;
@@ -173,7 +138,8 @@ function playUrl(url: string) {
     isPlaying: false,
   });
 
-  el.play().catch(() => {
+  el.play().catch((err) => {
+    console.warn("[BeatPlayer] play() rejeitado:", err);
     setState({ loadingUrl: null, isPlaying: false });
   });
 }
@@ -211,16 +177,7 @@ export function BeatPlayer({
   onOpen?: (index: number) => void;
 }) {
   const snap = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
-  const showHintGlobal = useSyncExternalStore(subscribeHint, getHintSnap, getHintSnap);
   const [resolvedUrl, setResolvedUrl] = useState<string>("");
-  const [isMobile, setIsMobile] = useState<boolean>(
-    typeof window !== "undefined" ? window.innerWidth < 768 : false
-  );
-  useEffect(() => {
-    const onR = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", onR);
-    return () => window.removeEventListener("resize", onR);
-  }, []);
 
   useEffect(() => {
     setResolvedUrl(normalizeDirectUrl(beat.url));
@@ -242,15 +199,14 @@ export function BeatPlayer({
 
   const name = displayName || beat.name;
   const bgImage = beat.image_url || null;
-  const showHint = showHintGlobal && (!isMobile || index === 0);
 
   return (
     <div
-      onClick={() => { dismissBeatHint(); onOpen?.(index); }}
+      onClick={() => onOpen?.(index)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); dismissBeatHint(); onOpen?.(index); } }}
-      className={`beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square cursor-pointer ${showHint ? "beat-hint-pulse" : ""}`}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen?.(index); } }}
+      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square cursor-pointer"
       style={{
         background: bgImage
           ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
@@ -317,13 +273,6 @@ export function BeatPlayer({
       {hasError && (
         <div className="mt-2 text-[10px] text-destructive leading-tight text-center">
           Áudio indisponível — reenvie pelo /admin
-        </div>
-      )}
-
-      {showHint && (
-        <div className="beat-hint" aria-hidden="true">
-          <span className="beat-hint-cursor">👆</span>
-          <span className="beat-hint-tip">Toque para ouvir</span>
         </div>
       )}
     </div>

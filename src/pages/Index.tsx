@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle } from "lucide-react";
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
-import { GenrePlaylists } from "@/components/GenrePlaylists";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Dialog, DialogTitle, DialogContent, DialogHeader, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import {
@@ -24,13 +23,17 @@ import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon, Loa
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
-import garantiaBadge from "@/assets/7-dias-garantia.png";
 
-const genres = ["TRAP", "FUNK", "HOOD", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
+const genres = ["BOOMBAP/RAP", "FUNK", "NEW JAZZ", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
 const features = [
   "100 beats profissionais prontos para uso",
+  "40 beats funk",
+  "40 beats trap",
+  "20 beats variados (boombap, edm, drill, new jazz)",
+  "100% royalty free — você fica com tudo",
   "Liberado para Spotify, YouTube, TikTok",
   "Mixados e masterizados em alta qualidade",
+  "Acesso vitalício + atualizações futuras",
 ];
 const testimonials = [
   { name: "MC Vinny", text: "Lancei 3 sons em 1 semana com o pack. Qualidade absurda.", role: "Artista independente" },
@@ -50,15 +53,15 @@ const faq = [
 ];
 
 const BEAT_META: { name: string; genre: string }[] = [
-  { name: "TRAP", genre: "FUNK" },
-  { name: "TRAP", genre: "FUNK" },
-  { name: "Type Alee", genre: "TRAP" },
-  { name: "Type TRAP", genre: "TRAP" },
+  { name: "Type Trap", genre: "FUNK" },
+  { name: "Type Trap", genre: "FUNK" },
+  { name: "Type Alee", genre: "BOOMBAP/RAP" },
+  { name: "Type BOOMBAP/RAP", genre: "BOOMBAP/RAP" },
   { name: "Type Hood Drill", genre: "DRILL" },
   { name: "Type Skrilla", genre: "FUNK" },
   { name: "Type Ambient Hood", genre: "HOOD" },
   { name: "Type Don Toliver", genre: "FUNK" },
-  { name: "Nave Nova na Favela", genre: "TRAP" },
+  { name: "Nave Nova na Favela", genre: "BOOMBAP/RAP" },
   { name: "Type Florida", genre: "FUNK" },
 ];
 
@@ -198,16 +201,16 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <section className="relative overflow-hidden pt-4 md:pt-32 pb-8 md:pb-12" style={{ backgroundImage: "var(--gradient-hero)" }}>
+      <section className="relative overflow-hidden pt-32 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-6 md:gap-8`}>
-          <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl text-center mx-auto md:text-7xl lg:text-6xl my-[11px]">
+          <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto">
             Pare de Enterrar Sua Música
             <br />
-            em Beat <span style={{ color: "#f90b1f", fontWeight: 900 }}>FREE</span>
+            em Beat <span className="text-accent">FREE</span>
           </h1>
 
           <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed text-xs text-muted-foreground mb-3 tracking-wide text-stone-100 md:text-base text-center" style={{ animationDelay: "200ms" }}>
-            R$0,19 por beat. Royalty Free. Acesso vitalício
+            100 beats profissionais por menos<br />que um lanche. Grave e poste hoje.
           </p>
 
           <div className="mx-auto max-w-2xl w-full">
@@ -251,35 +254,50 @@ export default function IndexPage() {
               <span className="hero-cta-text">QUERO MEUS 100 BEATS POR 19,90</span>
             </button>
             <p className="hero-cta-sub">
-              🔒 Pagamento seguro · Acesso imediato · 7 dias de garantia
+              <span aria-hidden="true">🔒</span>
+              <span>Pagamento seguro</span>
+              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
+              <span>Acesso imediato</span>
+              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
+              <span>7 dias de garantia</span>
             </p>
           </div>
 
         </div>
       </section>
 
-      <section className="py-8 md:py-12 border-t border-border/50">
+      <section className="py-20 md:py-24 border-t border-border/50">
         <div className={CONTAINER}>
           <div className="text-center mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
               Ouça Antes de Comprar
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
-            <p className="mt-4 text-[15px] text-center text-white/70">
-              Escolha seu estilo e ouça algumas prévias — o beat certo tá aqui
+            <p className="mt-4 text-[15px]" style={{ color: "#888" }}>
+              Ouça alguns beats do pack — Trap, Funk, Boombap, Drill, Hood, Reggaeton e muito mais
             </p>
           </div>
 
-          <div className="mb-8 px-4 flex flex-wrap items-center justify-center gap-2 md:gap-2.5 reveal">
-            {genres.map((g, i) => (
-              <Badge key={i} variant="secondary" className="rounded-full px-[10px] py-1 md:px-4 md:py-1.5 text-[11px] md:text-xs tracking-wider uppercase">
-                {g}
-              </Badge>
-            ))}
-          </div>
-
           {beats.length > 0 ? (
-            <GenrePlaylists beats={beats} />
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
+              {beats.slice(0, 10).map((b: any, i) => {
+                const fallback = BEAT_META[i] || { name: b.name, genre: "FUNK" };
+                const meta = {
+                  name: b.name || fallback.name,
+                  genre: b.genre || fallback.genre,
+                };
+                return (
+                  <BeatPlayer
+                    key={`${b.name}-${i}`}
+                    beat={b}
+                    index={i}
+                    displayName={meta.name}
+                    genre={meta.genre}
+                    onOpen={(idx) => setOpenBeatIndex(idx)}
+                  />
+                );
+              })}
+            </div>
           ) : (
             <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
               <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
@@ -287,28 +305,23 @@ export default function IndexPage() {
             </Card>
           )}
 
-          <div className="flex justify-center" style={{ marginTop: 32 }}>
-            <button
-              onClick={handleBasicCheckoutClick}
-              className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
-            >
-              <span className="hero-cta-shine" aria-hidden="true" />
-              <span className="hero-cta-text">QUERO MEUS 100 BEATS POR R$19,90</span>
-            </button>
-          </div>
-          <div className="mt-6 max-w-md mx-auto">
-            <ScarcityBar />
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5 reveal">
+            {genres.map((g, i) => (
+              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
+                {g}
+              </Badge>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="avaliacoes" className="py-8 md:py-12 bg-card/30 border-y border-border/50 scroll-mt-20">
+      <section id="avaliacoes" className="py-20 md:py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
         <div className="container max-w-3xl mx-auto px-4 md:px-6">
           <div className="mb-8 flex flex-col items-center text-white">
             <span className="text-sm font-semibold">Veja as avaliações do pack</span>
             <ChevronDown className="hero-reviews-arrow h-5 w-5 mt-1" />
           </div>
-          <div className="text-center mb-8 md:mb-12">
+          <div className="text-center mb-8 md:mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
             <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
           </div>
@@ -326,11 +339,7 @@ export default function IndexPage() {
                       <img
                         src={normalizeDirectUrl(src)}
                         alt={`Prova social ${i + 1}`}
-                       loading="eager"
-                       fetchPriority="high"
-                        decoding="async"
-                        width="600"
-                        height="600"
+                        loading="lazy"
                         className="absolute inset-0 w-full h-full object-contain"
                       />
                     </div>
@@ -359,60 +368,31 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section
-        className="border-t border-border/50"
-        style={{
-          background: "#000000",
-          paddingTop: "32px",
-          paddingBottom: "32px",
-        }}
-      >
+      <section className="py-20 md:py-24 bg-background border-t border-border/50">
         <div className={CONTAINER}>
           {/* BLOCO 1 — Antes vs Depois */}
-          <div className="text-center reveal" style={{ marginBottom: "48px" }}>
-            <h2
-              className="font-black tracking-tight text-white leading-[1.1] ba-title"
-            >
+          <div className="text-center mb-14 reveal">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
               O que muda quando você
               <br />
               <span>para de usar beat </span>
-               <span className="free-strike" style={{ color: "#E24B4A" }}>FREE</span>
+              <span className="text-accent">FREE</span>
             </h2>
-            <div
-              className="mx-auto"
-              style={{
-                marginTop: "20px",
-                width: "60px",
-                height: "3px",
-                borderRadius: "2px",
-                background: "#F90A1F",
-              }}
-            />
+            <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
           </div>
 
           <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-6 items-center max-w-5xl mx-auto">
             {/* ANTES */}
             <div
-              className="ba-card left rounded-lg reveal reveal-left"
-              style={{
-                padding: "32px",
-                background: "#0d0d0d",
-                borderLeft: "3px solid #F90A1F",
-              }}
+              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a] reveal reveal-left"
             >
-              <div
-                className="flex items-center gap-3"
-                style={{ marginBottom: "24px" }}
-              >
-                <Skull className="h-6 w-6" style={{ color: "#F90A1F" }} />
-                <h3
-                  className="font-black uppercase tracking-wide"
-                  style={{ fontSize: "20px", color: "#F90A1F" }}
-                >
+              <div className="flex items-center gap-3 mb-6">
+                <Skull className="h-6 w-6 text-destructive" />
+                <h3 className="text-2xl font-black uppercase tracking-wide text-destructive">
                   Antes
                 </h3>
               </div>
-              <ul className="flex flex-col" style={{ gap: "16px" }}>
+              <ul className="flex flex-col" style={{ gap: "14px" }}>
                 {[
                   "Beat free que todo mundo já ouviu",
                   "Risco de copyright strike no YouTube",
@@ -422,15 +402,10 @@ export default function IndexPage() {
                 ].map((t, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-3 leading-snug ba-item"
-                    style={{
-                      fontSize: "15px",
-                      color: "#aaaaaa",
-                      fontWeight: 500,
-                      animationDelay: `${i * 80}ms`,
-                    }}
+                    className="flex items-start gap-3 font-medium leading-snug"
+                    style={{ fontSize: "15px", color: "#aaaaaa", animationDelay: `${300 + i * 100}ms` }}
                   >
-                    <span style={{ color: "#F90A1F" }} className="font-bold flex-shrink-0">❌</span>
+                    <span className="text-destructive font-bold flex-shrink-0">❌</span>
                     <span>{t}</span>
                   </li>
                 ))}
@@ -439,66 +414,61 @@ export default function IndexPage() {
 
             {/* DIVISOR CENTRAL */}
             <div className="flex items-center justify-center my-2 md:my-0">
-              <div className="ba-arrow" aria-hidden="true">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <path
-                    className="ba-x-line ba-x-line-1"
-                    d="M12 12 L36 36"
-                    stroke="#ffffff"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    className="ba-x-line ba-x-line-2"
-                    d="M36 12 L12 36"
-                    stroke="#ffffff"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
+              <svg
+                width="60"
+                height="60"
+                viewBox="0 0 60 60"
+                fill="none"
+                aria-hidden="true"
+                className="ba-x-svg"
+              >
+                {/* Traço 1: cima-esquerda → baixo-direita (rabiscado, irregular) */}
+                <path
+                  d="M10 9 Q 18 17, 24 24 T 38 38 Q 45 46, 51 52"
+                  stroke="#ffffff"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  className="ba-x-stroke ba-x-stroke-1"
+                />
+                {/* Traço 2: cima-direita → baixo-esquerda */}
+                <path
+                  d="M51 8 Q 43 17, 36 23 T 22 37 Q 14 45, 9 52"
+                  stroke="#ffffff"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  className="ba-x-stroke ba-x-stroke-2"
+                />
+              </svg>
             </div>
 
             {/* DEPOIS */}
             <div
-              className="ba-card right rounded-lg reveal reveal-right"
-              style={{
-                padding: "32px",
-                background: "#0d0d0d",
-                borderLeft: "3px solid #39FF14",
-              }}
+              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a] reveal reveal-right"
             >
-              <div
-                className="flex items-center gap-3"
-                style={{ marginBottom: "24px" }}
-              >
-                <Trophy className="h-6 w-6" style={{ color: "#39FF14" }} />
-                <h3
-                  className="font-black uppercase tracking-wide"
-                  style={{ fontSize: "20px", color: "#39FF14" }}
-                >
+              <div className="flex items-center gap-3 mb-6">
+                <Trophy className="h-6 w-6 text-primary" />
+                <h3 className="text-2xl font-black uppercase tracking-wide text-primary">
                   Depois
                 </h3>
               </div>
-              <ul className="flex flex-col" style={{ gap: "16px" }}>
+              <ul className="flex flex-col" style={{ gap: "14px" }}>
                 {[
                   "100 beats exclusivos e profissionais",
                   "100% royalty free — Spotify, YouTube, sem medo",
                   "Som que posiciona você como artista sério",
-                  "TRAP, FUNK, R&B e muito mais",
+                  "BOOMBAP/RAP, FUNK, R&B, NEW JAZZ e muito mais",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-3 leading-snug ba-item"
-                    style={{
-                      fontSize: "15px",
-                      color: "#ffffff",
-                      fontWeight: 500,
-                      animationDelay: `${i * 80}ms`,
-                    }}
+                    className="flex items-start gap-3 font-medium leading-snug text-white"
+                    style={{ fontSize: "15px", animationDelay: `${300 + i * 100}ms` }}
                   >
-                    <span style={{ color: "#39FF14" }} className="font-bold flex-shrink-0">✅</span>
+                    <span className="text-primary font-bold flex-shrink-0">✅</span>
                     <span>{t}</span>
                   </li>
                 ))}
@@ -506,23 +476,15 @@ export default function IndexPage() {
             </div>
           </div>
 
-          <p
-            className="text-center"
-            style={{
-              marginTop: "32px",
-              fontSize: "14px",
-              color: "#555555",
-              fontWeight: 500,
-            }}
-          >
-            Mais de 1.200 artistas já fizeram essa troca
-          </p>
-
           {/* BLOCO 2 — Card de Compra (Plano Base) */}
           <div className="mt-16 md:mt-20 reveal reveal-zoom max-w-2xl mx-auto">
             <div className="basic-card">
               <div className="basic-card-inner text-center">
-                <h2 className="text-3xl md:text-4xl font-black tracking-tight">
+                <span className="basic-badge">
+                  <Flame className="h-3 w-3" />
+                  <span>Oferta limitada</span>
+                </span>
+                <h2 className="mt-5 text-3xl md:text-4xl font-black tracking-tight">
                   <span className="basic-title">Pack de 100 Beats</span>
                 </h2>
                 <p className="mt-2 text-sm md:text-base text-[#9ad9a4] font-semibold tracking-wide">
@@ -546,6 +508,22 @@ export default function IndexPage() {
                   ))}
                 </div>
 
+                <div
+                  className="mt-8 rounded-xl px-4 py-3 max-w-md mx-auto"
+                  style={{
+                    background: "rgba(0, 255, 95, 0.08)",
+                    border: "1px solid rgba(0, 255, 95, 0.28)",
+                  }}
+                >
+                  <p className="text-sm md:text-base font-semibold text-[#e6ffe9] flex items-center justify-center gap-2 flex-wrap">
+                    <Flame className="h-4 w-4 text-[#5dff8a]" />
+                    <span className="font-black text-[#5dff8a]" style={{ textShadow: "0 0 10px rgba(0, 255, 95, 0.5)" }}>
+                      +2.500
+                    </span>
+                    <span>artistas já garantiram o pack</span>
+                  </p>
+                </div>
+
                 <div className="hero-cta-block flex flex-col items-center w-full">
                   <button
                     onClick={handleBasicCheckoutClick}
@@ -559,6 +537,9 @@ export default function IndexPage() {
                   <ShieldCheck className="h-3 w-3" />
                   <span>Garantia incondicional de 7 dias</span>
                 </p>
+                <div className="mt-6">
+                  <ScarcityBar />
+                </div>
               </div>
             </div>
           </div>
@@ -566,7 +547,7 @@ export default function IndexPage() {
       </section>
 
       {/* OFERTA SUPREMA — Gold Edition */}
-      <section id="oferta-suprema" className="py-8 md:py-12 border-t border-border/50 relative overflow-hidden scroll-mt-20">
+      <section id="oferta-suprema" className="py-20 md:py-24 border-t border-border/50 relative overflow-hidden scroll-mt-20">
         <div
           className="absolute inset-0 pointer-events-none opacity-60"
           style={{
@@ -578,7 +559,7 @@ export default function IndexPage() {
           <div className="text-center mb-10 reveal">
             <span className="supreme-badge">
               <Star className="h-3 w-3 fill-current" />
-              <span>Pack Supremo · Vip</span>
+              <span>Oferta Suprema · Vip</span>
               <Star className="h-3 w-3 fill-current" />
             </span>
             <h2 className="mt-5 text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
@@ -589,7 +570,7 @@ export default function IndexPage() {
             </p>
           </div>
 
-          <div className="max-w-2xl mx-auto">
+          <div className="reveal reveal-zoom max-w-2xl mx-auto">
             <div className="supreme-card">
               <div className="supreme-card-inner text-center">
                 {/* sparkles decorativos */}
@@ -685,7 +666,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-8 md:py-12">
+      <section className="py-20 md:py-24">
         <div className={CONTAINER}>
           <div className="text-center mb-14 reveal">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
@@ -708,7 +689,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-8 md:py-12 border-t border-border/50">
+      <section className="py-20 md:py-24 border-t border-border/50">
         <div className={`${CONTAINER} max-w-3xl`}>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10 reveal">
             Perguntas frequentes
@@ -730,17 +711,9 @@ export default function IndexPage() {
 
       <footer className="border-t border-border/50 py-12">
         <div className={`${CONTAINER} flex flex-col items-center gap-6`}>
-          <div className="flex flex-col items-center gap-3">
-            <img
-              src={garantiaBadge}
-              alt="Selo 7 dias de garantia — satisfação garantida 100%"
-              loading="lazy"
-              decoding="async"
-              width="180"
-              height="180"
-              className="h-32 w-32 md:h-40 md:w-40 object-contain"
-            />
-            <span className="text-sm font-semibold text-foreground">Garantia incondicional de 7 dias</span>
+          <div className="flex items-center gap-2.5 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-sm">
+            <Shield className="h-4 w-4 text-primary" />
+            <span className="font-semibold text-foreground">Garantia incondicional de 7 dias</span>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
@@ -789,13 +762,15 @@ export default function IndexPage() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Fale conosco no WhatsApp"
-        className="fixed bottom-5 right-5 z-50 bg-[#25D366] hover:bg-[#1ebe57] text-white rounded-full p-3 shadow-lg hover:scale-110 transition-transform"
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-110 active:scale-95"
       >
-        <MessageCircle className="h-7 w-7" />
+        <svg viewBox="0 0 32 32" className="h-8 w-8 fill-current" aria-hidden="true">
+          <path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.158-.673.158-1.017 0-.502-1.69-1.063-2.122-1.205zm-3.137 7.945c-5.05 0-9.146-4.094-9.146-9.144 0-5.05 4.096-9.144 9.146-9.144 5.05 0 9.144 4.094 9.144 9.144 0 5.05-4.094 9.144-9.144 9.144zm0-20.176C9.974 4.974 4.97 9.978 4.97 16.006c0 2.2.65 4.226 1.752 5.954L4 28.002l6.198-2.71a11.012 11.012 0 0 0 5.775 1.624c6.03 0 11.034-5.005 11.034-11.034 0-6.03-5.005-11.034-11.034-11.034z"/>
+        </svg>
       </a>
 
       <BeatCarouselDialog
-        beats={beats}
+        beats={beats.slice(0, 10)}
         openIndex={openBeatIndex}
         onClose={() => { setOpenBeatIndex(null); pauseCurrent(); }}
         meta={BEAT_META}
@@ -822,9 +797,9 @@ export default function IndexPage() {
               <span className="supreme-title">Você viu o Pack Supremo?</span>
             </AlertDialogTitle>
             <AlertDialogDescription className="text-center text-[#d9c98e] text-base pt-2">
-              Antes de fechar, dá uma olhada no <strong className="text-[#ffd86b]">Pack Supremo</strong>:
+              Antes de fechar, dá uma olhada na <strong className="text-[#ffd86b]">Oferta Suprema</strong>:
               <br />
-              <span className="text-white">São 300 beats + Presets Vocais e outros Bonus</span>
+              <span className="text-white">+200 beats VIP, stems, drum kit e curso bônus</span>
               <br />
               por apenas <strong className="text-[#ffd86b]">R$ 47,90</strong> — economia de 75%.
             </AlertDialogDescription>
@@ -836,7 +811,7 @@ export default function IndexPage() {
             >
               <span className="supreme-cta-shine" aria-hidden="true" />
               <Trophy className="h-4 w-4 mr-2 relative z-10" />
-              <span className="relative z-10">VER PACK SUPREMO</span>
+              <span className="relative z-10">VER PACK SUPREMA</span>
             </AlertDialogAction>
             <AlertDialogCancel
               onClick={handleContinueBasic}
