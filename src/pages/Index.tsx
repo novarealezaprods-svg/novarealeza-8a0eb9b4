@@ -846,7 +846,7 @@ export default function IndexPage() {
             >
               <span className="supreme-cta-shine" aria-hidden="true" />
               <Trophy className="h-4 w-4 mr-2 relative z-10" />
-              <span className="relative z-10">VER PACK SUPREMA</span>
+               <span className="relative z-10">VER PACK SUPREMO</span>
             </AlertDialogAction>
             <AlertDialogCancel
               onClick={handleContinueBasic}
