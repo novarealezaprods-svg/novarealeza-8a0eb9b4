@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle } from "lucide-react";
+import { ListMusic, ExternalLink } from "lucide-react";
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Dialog, DialogTitle, DialogContent, DialogHeader, DialogDescription, DialogFooter } from "@/components/ui/dialog";
@@ -74,6 +75,8 @@ export default function IndexPage() {
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [showUpsell, setShowUpsell] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState<{ open: boolean; url: string; variant: "green" | "gold" }>({ open: false, url: "", variant: "green" });
+  const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
+  const [playlistsOpen, setPlaylistsOpen] = useState(false);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -116,10 +119,11 @@ export default function IndexPage() {
 
   useEffect(() => {
     (async () => {
-      const [{ data: settings }, { data: imgs }, { data: bts }] = await Promise.all([
+      const [{ data: settings }, { data: imgs }, { data: bts }, { data: pls }] = await Promise.all([
         supabase.from("site_settings").select("key,value"),
         supabase.from("proof_images").select("url").order("position", { ascending: true }),
         supabase.from("beats").select("name,url,key,bpm,image_url,genre,active").eq("active", true).order("position", { ascending: true }),
+        supabase.from("playlists" as any).select("id,name,url").order("position", { ascending: true }),
       ]);
       const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
       setPreviewVideo(map["preview_video"] ?? null);
@@ -131,6 +135,7 @@ export default function IndexPage() {
         )
       );
       setBeats((bts ?? []) as BeatItem[]);
+      setPlaylists((pls ?? []) as any);
     })();
   }, []);
 
