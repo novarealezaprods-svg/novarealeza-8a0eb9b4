@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { LogOut, Trash2, Plus, ArrowUp, ArrowDown, Save, Eye, EyeOff } from "lucide-react";
 import { Upload } from "lucide-react";
+import { compressImage } from "@/lib/compress-image";
 
 // Senha pra acessar o painel — troque aqui pra algo só seu
 const ADMIN_PASSWORD = "admin123";
@@ -177,10 +178,10 @@ export default function AdminPage() {
 
   // Upload imagem do artista para o storage
   const uploadImage = async (file: File): Promise<string | null> => {
-    const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const { error } = await supabase.storage.from("beat-images").upload(path, file, {
-      contentType: file.type || "image/jpeg",
+    const compressed = await compressImage(file, 0.75, 800);
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+    const { error } = await supabase.storage.from("beat-images").upload(path, compressed, {
+      contentType: compressed.type || "image/webp",
       upsert: false,
     });
     if (error) {
