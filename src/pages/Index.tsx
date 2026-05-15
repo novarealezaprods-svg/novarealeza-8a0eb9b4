@@ -310,6 +310,18 @@ export default function IndexPage() {
             </Card>
           )}
 
+          {playlists.length > 0 && (
+            <div className="mt-8 flex justify-center reveal">
+              <button
+                onClick={() => setPlaylistsOpen(true)}
+                className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-6 py-3 text-sm font-semibold text-primary hover:bg-primary/20 transition-colors"
+              >
+                <ListMusic className="w-4 h-4" />
+                Abrir Playlists
+              </button>
+            </div>
+          )}
+
           <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5 reveal">
             {genres.map((g, i) => (
               <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
