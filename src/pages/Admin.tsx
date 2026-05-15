@@ -64,7 +64,7 @@ export default function AdminPage() {
     setPreviewVideo(map["preview_video"] ?? "");
     setBeats((bts ?? []) as Beat[]);
     setImages((imgs ?? []) as Image[]);
-    setPlaylists((pls ?? []) as Playlist[]);
+    setPlaylists((pls ?? []) as unknown as Playlist[]);
   };
 
   const tryUnlock = (e: React.FormEvent) => {
