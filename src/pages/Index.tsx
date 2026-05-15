@@ -311,14 +311,33 @@ export default function IndexPage() {
           )}
 
           {playlists.length > 0 && (
-            <div className="mt-8 flex justify-center reveal">
-              <button
-                onClick={() => setPlaylistsOpen(true)}
-                className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-6 py-3 text-sm font-semibold text-primary hover:bg-primary/20 transition-colors"
-              >
-                <ListMusic className="w-4 h-4" />
-                Abrir Playlists
-              </button>
+            <div className="mt-12 max-w-5xl mx-auto reveal">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl md:text-3xl font-black tracking-tight text-white inline-flex items-center gap-2">
+                  <ListMusic className="w-6 h-6 text-primary" />
+                  Playlists
+                </h3>
+                <div className="mx-auto mt-3 h-[3px] w-16 bg-accent rounded-full" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {playlists.map((p) => (
+                  <a
+                    key={p.id}
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between gap-3 rounded-lg border border-border bg-card/50 px-4 py-3 hover:border-primary/60 hover:bg-primary/5 transition-colors"
+                  >
+                    <span className="flex items-center gap-3 min-w-0">
+                      <span className="flex-shrink-0 w-9 h-9 rounded-md bg-primary/15 text-primary flex items-center justify-center">
+                        <ListMusic className="w-4 h-4" />
+                      </span>
+                      <span className="font-medium text-sm text-white truncate">{p.name}</span>
+                    </span>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary flex-shrink-0" />
+                  </a>
+                ))}
+              </div>
             </div>
           )}
 
