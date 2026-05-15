@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, Volume2, VolumeX, Loader2, Play, Pause } from "lucide-react";
+import { RotateCcw, Volume2, VolumeX, Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
@@ -30,6 +30,9 @@ export function VideoPreview({ url }: { url: string }) {
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
   const [duration, setDuration] = useState(0);
+  const [loadProgress, setLoadProgress] = useState(0);
+  const [loadFading, setLoadFading] = useState(false);
+  const [loadHidden, setLoadHidden] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
@@ -143,6 +146,9 @@ export function VideoPreview({ url }: { url: string }) {
     setProgress(0);
     setLoading(true);
     setPaused(false);
+    setLoadProgress(0);
+    setLoadFading(false);
+    setLoadHidden(false);
     setReloadKey((k) => k + 1);
   };
 
@@ -166,6 +172,42 @@ export function VideoPreview({ url }: { url: string }) {
     const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
     v.currentTime = ratio * v.duration;
     setProgress(ratio * 100);
+  };
+
+  // Loading overlay progress simulation (caps at 90% if no real progress)
+  useEffect(() => {
+    if (loadHidden) return;
+    setLoadProgress(0);
+    const start = Date.now();
+    const id = window.setInterval(() => {
+      const elapsed = Date.now() - start;
+      const simulated = Math.min(90, (elapsed / 3000) * 90);
+      setLoadProgress((p) => (p < simulated ? simulated : p));
+      if (elapsed >= 3000) window.clearInterval(id);
+    }, 60);
+    return () => window.clearInterval(id);
+  }, [reloadKey, loadHidden]);
+
+  // When video becomes ready, complete the bar and fade out
+  useEffect(() => {
+    if (loading || ended || loadHidden) return;
+    setLoadProgress(100);
+    const t1 = window.setTimeout(() => setLoadFading(true), 80);
+    const t2 = window.setTimeout(() => setLoadHidden(true), 80 + 500);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [loading, ended, loadHidden]);
+
+  // Real buffered progress for direct <video>
+  const handleVideoProgress = () => {
+    const v = videoRef.current;
+    if (!v || !v.duration || !isFinite(v.duration)) return;
+    if (v.buffered.length === 0) return;
+    const buffered = v.buffered.end(v.buffered.length - 1);
+    const pct = Math.min(99, (buffered / v.duration) * 100);
+    setLoadProgress((p) => (p < pct ? pct : p));
   };
 
   return (
@@ -196,6 +238,7 @@ export function VideoPreview({ url }: { url: string }) {
           onLoadedMetadata={(e) => setDuration(e.currentTarget.duration || 0)}
           onWaiting={() => setLoading(true)}
           onCanPlay={() => setLoading(false)}
+          onProgress={handleVideoProgress}
           onError={() => {
             setPlaybackFailed(true);
             setLoading(false);
@@ -208,13 +251,74 @@ export function VideoPreview({ url }: { url: string }) {
         />
       )}
 
-      {/* Loading spinner — Netflix-style rápido */}
-      {loading && !ended && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black pointer-events-none">
-          <Loader2
-            className="h-10 w-10 text-primary animate-spin"
-            style={{ animationDuration: "0.6s" }}
-          />
+      {/* Loading overlay — VSL */}
+      {!loadHidden && !ended && (
+        <div
+          className="absolute inset-0 z-30 flex flex-col items-center justify-between pointer-events-none rounded-[inherit] overflow-hidden"
+          style={{
+            background: "#0d0d0d",
+            opacity: loadFading ? 0 : 1,
+            transition: "opacity 0.5s ease-out",
+          }}
+        >
+          <div
+            style={{
+              marginTop: "18px",
+              color: "#00FF41",
+              fontSize: "14px",
+              letterSpacing: "3px",
+              fontWeight: 700,
+            }}
+          >
+            NOVA REALEZA
+          </div>
+
+          <div className="flex flex-col items-center gap-3">
+            <div className="relative" style={{ width: 96, height: 96 }}>
+              <svg
+                width="96"
+                height="96"
+                viewBox="0 0 96 96"
+                style={{ animation: "vsl-spin 2s linear infinite" }}
+              >
+                <circle cx="48" cy="48" r="42" stroke="#1a1a1a" strokeWidth="4" fill="none" />
+                <circle
+                  cx="48"
+                  cy="48"
+                  r="42"
+                  stroke="#00FF41"
+                  strokeWidth="4"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 42}
+                  strokeDashoffset={2 * Math.PI * 42 * (1 - loadProgress / 100)}
+                  transform="rotate(-90 48 48)"
+                  style={{ transition: "stroke-dashoffset 0.3s ease-out" }}
+                />
+              </svg>
+              <div
+                className="absolute inset-0 flex items-center justify-center"
+                style={{ color: "#fff", fontWeight: 700, fontSize: "24px" }}
+              >
+                {Math.round(loadProgress)}%
+              </div>
+            </div>
+            <div style={{ color: "#555", fontSize: "13px" }}>Carregando seus beats...</div>
+          </div>
+
+          <div style={{ width: "100%", height: "4px", background: "#1a1a1a" }}>
+            <div
+              style={{
+                height: "100%",
+                width: `${loadProgress}%`,
+                background: "#00FF41",
+                transition: "width 0.3s ease-out",
+                boxShadow: "0 0 8px #00FF41",
+              }}
+            />
+          </div>
+
+          <style>{`@keyframes vsl-spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
 
