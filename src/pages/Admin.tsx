@@ -470,6 +470,38 @@ export default function AdminPage() {
               {images.length === 0 && <p className="col-span-full text-center text-muted-foreground py-8">Nenhuma imagem ainda.</p>}
             </div>
           </TabsContent>
+
+          {/* PLAYLISTS */}
+          <TabsContent value="playlists" className="space-y-4">
+            <Card className="p-6">
+              <h3 className="font-semibold mb-4">Adicionar playlist</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <Input placeholder="Nome (ex: Trap 2024)" value={newPlaylist.name} onChange={(e) => setNewPlaylist({ ...newPlaylist, name: e.target.value })} />
+                <Input placeholder="URL (Spotify, YouTube, Drive...)" value={newPlaylist.url} onChange={(e) => setNewPlaylist({ ...newPlaylist, url: e.target.value })} />
+              </div>
+              <Button className="mt-4" onClick={addPlaylist}>
+                <Plus className="w-4 h-4 mr-2" />Adicionar
+              </Button>
+            </Card>
+
+            <div className="space-y-2">
+              {playlists.map((p, i) => (
+                <Card key={p.id} className="p-4">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+                    <Input className="md:col-span-4" value={p.name} onChange={(e) => setPlaylists(playlists.map((x) => x.id === p.id ? { ...x, name: e.target.value } : x))} />
+                    <Input className="md:col-span-5" value={p.url} onChange={(e) => setPlaylists(playlists.map((x) => x.id === p.id ? { ...x, url: e.target.value } : x))} />
+                    <div className="md:col-span-3 flex gap-1 justify-end">
+                      <Button size="icon" variant="ghost" onClick={() => movePlaylist(p.id, -1)} disabled={i === 0}><ArrowUp className="w-4 h-4" /></Button>
+                      <Button size="icon" variant="ghost" onClick={() => movePlaylist(p.id, 1)} disabled={i === playlists.length - 1}><ArrowDown className="w-4 h-4" /></Button>
+                      <Button size="icon" variant="outline" onClick={() => updatePlaylist(p.id, { name: p.name, url: p.url })}><Save className="w-4 h-4" /></Button>
+                      <Button size="icon" variant="destructive" onClick={() => deletePlaylist(p.id)}><Trash2 className="w-4 h-4" /></Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+              {playlists.length === 0 && <p className="text-center text-muted-foreground py-8">Nenhuma playlist ainda.</p>}
+            </div>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
