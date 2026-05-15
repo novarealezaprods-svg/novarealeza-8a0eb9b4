@@ -24,6 +24,8 @@ export type Database = {
           image_url: string | null
           key: string | null
           name: string
+          no_pack_100: boolean
+          no_pack_300: boolean
           position: number
           url: string
         }
@@ -36,6 +38,8 @@ export type Database = {
           image_url?: string | null
           key?: string | null
           name: string
+          no_pack_100?: boolean
+          no_pack_300?: boolean
           position?: number
           url?: string
         }
@@ -48,8 +52,28 @@ export type Database = {
           image_url?: string | null
           key?: string | null
           name?: string
+          no_pack_100?: boolean
+          no_pack_300?: boolean
           position?: number
           url?: string
+        }
+        Relationships: []
+      }
+      generos: {
+        Row: {
+          capa_url: string | null
+          key: string
+          updated_at: string
+        }
+        Insert: {
+          capa_url?: string | null
+          key: string
+          updated_at?: string
+        }
+        Update: {
+          capa_url?: string | null
+          key?: string
+          updated_at?: string
         }
         Relationships: []
       }

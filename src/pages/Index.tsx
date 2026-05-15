@@ -280,7 +280,7 @@ export default function IndexPage() {
 
           {beats.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
-              {beats.slice(0, 10).map((b: any, i) => {
+              {beats.slice(0, 12).map((b: any, i) => {
                 const fallback = BEAT_META[i] || { name: b.name, genre: "FUNK" };
                 const meta = {
                   name: b.name || fallback.name,
@@ -770,7 +770,7 @@ export default function IndexPage() {
       </a>
 
       <BeatCarouselDialog
-        beats={beats.slice(0, 10)}
+        beats={beats.slice(0, 12)}
         openIndex={openBeatIndex}
         onClose={() => { setOpenBeatIndex(null); pauseCurrent(); }}
         meta={BEAT_META}
