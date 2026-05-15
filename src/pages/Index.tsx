@@ -256,12 +256,19 @@ export default function IndexPage() {
               <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
               <span>7 dias de garantia</span>
             </p>
+            <button
+              type="button"
+              onClick={() => document.getElementById("ouca-antes")?.scrollIntoView({ behavior: "smooth" })}
+              className="mt-3 text-[13px] text-white/60 hover:text-white transition-colors duration-200 bg-transparent border-0 cursor-pointer no-underline"
+            >
+              🎧 Veja Alguns Beats →
+            </button>
           </div>
 
         </div>
       </section>
 
-      <section className="py-20 md:py-24 border-t border-border/50">
+      <section id="ouca-antes" className="py-20 md:py-24 border-t border-border/50 scroll-mt-20">
         <div className={CONTAINER}>
           <div className="text-center mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
