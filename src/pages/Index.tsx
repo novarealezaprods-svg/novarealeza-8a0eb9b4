@@ -240,21 +240,6 @@ export default function IndexPage() {
             </Card>
           </div>
 
-          <div className="hero-checks">
-            {["Liberado P/ Lançar", "Cada Beat por Centavos", "Sem Desculpas pra Não Gravar"].map((t, i) => (
-              <span
-                key={i}
-                className={`hero-check hero-check-pyramid-${i + 1}`}
-                style={{ animationDelay: `${i * 150}ms` }}
-              >
-                <span className="hero-check-badge">
-                  <Check className="hero-check-icon" strokeWidth={3} />
-                </span>
-                <span className="hero-check-label">{t}</span>
-              </span>
-            ))}
-          </div>
-
           <div className="hero-cta-block flex flex-col items-center w-full">
             <button
               onClick={handleBasicCheckoutClick}
