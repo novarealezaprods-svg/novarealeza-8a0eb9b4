@@ -526,7 +526,7 @@ export default function IndexPage() {
                   <span>Oferta limitada</span>
                 </span>
                 <h2 className="mt-5 text-3xl md:text-4xl font-black tracking-tight">
-                  <span className="basic-title">Pack de 100 Beats</span>
+                  <span className="basic-title">Pack 100 Beats</span>
                 </h2>
                 <p className="mt-2 text-sm md:text-base text-[#9ad9a4] font-semibold tracking-wide">
                   Pagamento único · Acesso vitalício
