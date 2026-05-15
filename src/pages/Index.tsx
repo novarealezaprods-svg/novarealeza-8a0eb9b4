@@ -248,14 +248,6 @@ export default function IndexPage() {
               <span className="hero-cta-shine" aria-hidden="true" />
               <span className="hero-cta-text">QUERO MEUS 100 BEATS POR 19,90</span>
             </button>
-            <p className="hero-cta-sub">
-              <span aria-hidden="true">🔒</span>
-              <span>Pagamento seguro</span>
-              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
-              <span>Acesso imediato</span>
-              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
-              <span>7 dias de garantia</span>
-            </p>
             <button
               type="button"
               onClick={() => document.getElementById("ouca-antes")?.scrollIntoView({ behavior: "smooth" })}
