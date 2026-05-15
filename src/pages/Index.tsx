@@ -517,9 +517,9 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* BLOCO 2 — Card de Compra (Plano Base) */}
-          <div className="mt-16 md:mt-20 reveal reveal-zoom max-w-2xl mx-auto">
-            <div className="basic-card">
+          {/* BLOCO 2 — Cards de Compra (Pack 100 + Pack 300 lado a lado) */}
+          <div className="mt-16 md:mt-20 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto items-start">
+            <div className="basic-card reveal reveal-zoom">
               <div className="basic-card-inner text-center">
                 <span className="basic-badge">
                   <Flame className="h-3 w-3" />
@@ -583,36 +583,29 @@ export default function IndexPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* OFERTA SUPREMA — Gold Edition */}
-      <section id="oferta-suprema" className="py-20 md:py-24 border-t border-border/50 relative overflow-hidden scroll-mt-20">
-        <div
-          className="absolute inset-0 pointer-events-none opacity-60"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(255, 196, 0, 0.12) 0%, transparent 60%)",
-          }}
-        />
-        <div className={`${CONTAINER} relative`}>
-          <div className="text-center mb-10 reveal">
-            <span className="supreme-badge">
-              <Star className="h-3 w-3 fill-current" />
-              <span>Oferta Suprema · Vip</span>
-              <Star className="h-3 w-3 fill-current" />
-            </span>
-            <h2 className="mt-5 text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
-              <span className="supreme-title">Seja Um Artista Completo</span>
-            </h2>
-            <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
-              Tudo do pack base + bônus exclusivos pra você sair do amador e dominar o jogo.
-            </p>
-          </div>
-
-          <div className="reveal reveal-zoom max-w-2xl mx-auto">
-            <div className="supreme-card">
+            {/* Pack 300 — destaque verde */}
+            <div
+              id="oferta-suprema"
+              className="reveal reveal-zoom relative scroll-mt-20 rounded-2xl"
+              style={{
+                border: "2px solid rgba(0, 255, 95, 0.55)",
+                boxShadow:
+                  "0 0 24px rgba(0, 255, 95, 0.35), 0 0 60px rgba(0, 255, 95, 0.15), inset 0 0 18px rgba(0, 255, 95, 0.08)",
+              }}
+            >
+              <span
+                className="absolute left-1/2 -translate-x-1/2 -top-3 z-10 inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider whitespace-nowrap"
+                style={{
+                  background: "linear-gradient(90deg, #00ff5f, #5dff8a)",
+                  color: "#003314",
+                  boxShadow: "0 0 18px rgba(0, 255, 95, 0.6)",
+                }}
+              >
+                <Star className="h-3 w-3 fill-current" />
+                Melhor custo-benefício
+              </span>
+              <div className="supreme-card">
               <div className="supreme-card-inner text-center">
                 {/* sparkles decorativos */}
                 <span className="supreme-sparkle" style={{ top: "8%", left: "6%", animationDelay: "0s" }} />
@@ -690,6 +683,7 @@ export default function IndexPage() {
                   <ShieldCheck className="h-3 w-3" />
                   <span>Garantia incondicional de 7 dias · Pagamento 100% seguro</span>
                 </p>
+              </div>
               </div>
             </div>
           </div>
