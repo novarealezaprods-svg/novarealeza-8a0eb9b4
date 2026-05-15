@@ -77,6 +77,30 @@ export type Database = {
         }
         Relationships: []
       }
+      playlists: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          position: number
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          position?: number
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          position?: number
+          url?: string
+        }
+        Relationships: []
+      }
       proof_images: {
         Row: {
           created_at: string
