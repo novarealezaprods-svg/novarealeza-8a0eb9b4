@@ -569,20 +569,17 @@
 
 /* Scroll reveal animations */
 .reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
-  will-change: opacity, transform;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  transition: none !important;
 }
-.reveal.reveal-left { transform: translateX(-40px); }
-.reveal.reveal-right { transform: translateX(40px); }
-.reveal.reveal-zoom { transform: scale(0.92); }
+.reveal.reveal-left,
+.reveal.reveal-right,
+.reveal.reveal-zoom,
 .reveal.is-visible {
-  opacity: 1;
-  transform: translate(0,0) scale(1);
-}
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 /* Beat player dialog — denser open/close animation */
