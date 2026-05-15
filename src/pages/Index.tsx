@@ -36,6 +36,12 @@ const features = [
   "Mixados e masterizados em alta qualidade",
   "Acesso vitalício + atualizações futuras",
 ];
+const packFeatures = [
+  "100 beats profissionais (40 Funk · 40 Trap · 20 Variados)",
+  "100% Royalty Free — Spotify, YouTube, TikTok",
+  "Mixados e masterizados em alta qualidade",
+  "Acesso vitalício + atualizações futuras",
+];
 const testimonials = [
   { name: "MC Vinny", text: "Lancei 3 sons em 1 semana com o pack. Qualidade absurda.", role: "Artista independente" },
   { name: "Lucas Prod", text: "Os stems salvaram minha vida. Consigo customizar tudo.", role: "Beatmaker" },
@@ -532,9 +538,9 @@ export default function IndexPage() {
                   </span>
                 </div>
 
-                <div className="mt-8 space-y-3.5 text-left max-w-md mx-auto">
-                  {features.map((f, i) => (
-                    <div key={i} className="basic-feature">
+                <div className="mt-8 text-left max-w-md mx-auto flex flex-col" style={{ gap: "6px" }}>
+                  {packFeatures.map((f, i) => (
+                    <div key={i} className="basic-feature" style={{ fontSize: "13px" }}>
                       <span className="basic-feature-check">
                         <Check />
                       </span>
