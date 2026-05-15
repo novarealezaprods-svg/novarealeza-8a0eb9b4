@@ -259,9 +259,16 @@ export default function IndexPage() {
             <button
               type="button"
               onClick={() => document.getElementById("ouca-antes")?.scrollIntoView({ behavior: "smooth" })}
-              className="mt-3 text-[13px] text-white/60 hover:text-white transition-colors duration-200 bg-transparent border-0 cursor-pointer no-underline"
+              className="group mt-4 flex flex-col items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
             >
-              🎧 Veja Alguns Beats →
+              <span className="text-[13px] text-white/60 group-hover:text-white transition-opacity duration-200 no-underline">
+                Ouça antes de comprar
+              </span>
+              <ChevronDown
+                className="h-4 w-4 text-white/60 group-hover:text-white transition-opacity duration-200"
+                style={{ animation: "hook-bounce 1.2s ease-in-out infinite" }}
+              />
+              <style>{`@keyframes hook-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }`}</style>
             </button>
           </div>
 
