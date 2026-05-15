@@ -595,7 +595,7 @@ export default function IndexPage() {
               }}
             >
               <span
-                className="absolute left-1/2 -translate-x-1/2 -top-3 z-10 inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider whitespace-nowrap"
+                className="absolute left-1/2 -translate-x-1/2 -top-3 z-10 inline-flex items-center justify-center gap-1 px-3 py-1 rounded-full text-[10px] md:text-[11px] font-black uppercase tracking-wider whitespace-nowrap text-center"
                 style={{
                   background: "linear-gradient(90deg, #00ff5f, #5dff8a)",
                   color: "#003314",
