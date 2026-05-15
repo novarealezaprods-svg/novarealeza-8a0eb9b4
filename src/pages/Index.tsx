@@ -784,6 +784,16 @@ export default function IndexPage() {
         </div>
       </footer>
 
+      <a
+        href="https://wa.me/5511978768141"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Fale conosco no WhatsApp"
+        className="fixed bottom-5 right-5 z-50 bg-[#25D366] hover:bg-[#1ebe57] text-white rounded-full p-3 shadow-lg hover:scale-110 transition-transform"
+      >
+        <MessageCircle className="h-7 w-7" />
+      </a>
+
       <BeatCarouselDialog
         beats={beats}
         openIndex={openBeatIndex}
