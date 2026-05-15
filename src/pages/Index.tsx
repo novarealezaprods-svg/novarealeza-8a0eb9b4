@@ -248,26 +248,27 @@ export default function IndexPage() {
               <span className="hero-cta-shine" aria-hidden="true" />
               <span className="hero-cta-text">QUERO MEUS 100 BEATS POR 19,90</span>
             </button>
+            <p className="hero-cta-sub">
+              <span aria-hidden="true">🔒</span>
+              <span>Pagamento seguro</span>
+              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
+              <span>Acesso imediato</span>
+              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
+              <span>7 dias de garantia</span>
+            </p>
             <button
               type="button"
               onClick={() => document.getElementById("ouca-antes")?.scrollIntoView({ behavior: "smooth" })}
               className="group mt-4 flex flex-col items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
             >
-              <span
-                className="text-[13px] text-white/60 group-hover:text-white transition-opacity duration-200 no-underline"
-                style={{ animation: "hook-pulse 1.8s ease-in-out infinite" }}
-              >
+              <span className="text-[13px] text-white/60 group-hover:text-white transition-opacity duration-200 no-underline">
                 Ouça antes de comprar
               </span>
               <ChevronDown
                 className="h-4 w-4 text-white/60 group-hover:text-white transition-opacity duration-200"
                 style={{ animation: "hook-bounce 1.2s ease-in-out infinite" }}
               />
-              <style>{`
-                @keyframes hook-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
-                @keyframes hook-pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
-                .group:hover span[style*="hook-pulse"], .group:hover svg[style*="hook-bounce"] { animation-play-state: paused; }
-              `}</style>
+              <style>{`@keyframes hook-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }`}</style>
             </button>
           </div>
 
