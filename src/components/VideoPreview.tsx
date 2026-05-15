@@ -254,27 +254,14 @@ export function VideoPreview({ url }: { url: string }) {
       {/* Loading overlay — VSL */}
       {!loadHidden && !ended && (
         <div
-          className="absolute inset-0 z-30 flex flex-col items-center justify-between pointer-events-none rounded-[inherit] overflow-hidden"
+          className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none rounded-[inherit] overflow-hidden"
           style={{
             background: "#0d0d0d",
             opacity: loadFading ? 0 : 1,
             transition: "opacity 0.5s ease-out",
           }}
         >
-          <div
-            style={{
-              marginTop: "18px",
-              color: "#00FF41",
-              fontSize: "14px",
-              letterSpacing: "3px",
-              fontWeight: 700,
-            }}
-          >
-            NOVA REALEZA
-          </div>
-
-          <div className="flex flex-col items-center gap-3">
-            <div className="relative" style={{ width: 96, height: 96 }}>
+          <div className="relative" style={{ width: 96, height: 96 }}>
               <svg
                 width="96"
                 height="96"
@@ -302,20 +289,6 @@ export function VideoPreview({ url }: { url: string }) {
               >
                 {Math.round(loadProgress)}%
               </div>
-            </div>
-            <div style={{ color: "#555", fontSize: "13px" }}>Carregando seus beats...</div>
-          </div>
-
-          <div style={{ width: "100%", height: "4px", background: "#1a1a1a" }}>
-            <div
-              style={{
-                height: "100%",
-                width: `${loadProgress}%`,
-                background: "#00FF41",
-                transition: "width 0.3s ease-out",
-                boxShadow: "0 0 8px #00FF41",
-              }}
-            />
           </div>
 
           <style>{`@keyframes vsl-spin { to { transform: rotate(360deg); } }`}</style>
