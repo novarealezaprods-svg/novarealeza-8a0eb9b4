@@ -915,32 +915,6 @@ export default function IndexPage() {
           );
         })()}
       </Dialog>
-
-      <Dialog open={playlistsOpen} onOpenChange={setPlaylistsOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <ListMusic className="w-5 h-5 text-primary" />
-              Playlists
-            </DialogTitle>
-            <DialogDescription>Escolha uma playlist para abrir.</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-2 mt-2 max-h-[60vh] overflow-y-auto">
-            {playlists.map((p) => (
-              <a
-                key={p.id}
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between gap-3 rounded-lg border border-border bg-card/50 px-4 py-3 hover:border-primary/60 hover:bg-primary/5 transition-colors"
-              >
-                <span className="font-medium text-sm text-white truncate">{p.name}</span>
-                <ExternalLink className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-              </a>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
