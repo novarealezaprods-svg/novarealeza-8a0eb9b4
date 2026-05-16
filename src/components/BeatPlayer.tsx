@@ -1,6 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Play, Pause, Loader2 } from "lucide-react";
-import { normalizeDirectUrl, supabaseImageThumb } from "@/lib/normalize-url";
+import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 export type BeatItem = {
   name: string;
@@ -198,7 +198,7 @@ export function BeatPlayer({
   };
 
   const name = displayName || beat.name;
-  const bgImage = beat.image_url ? supabaseImageThumb(beat.image_url, 400, 65) : null;
+  const bgImage = beat.image_url || null;
 
   return (
     <div

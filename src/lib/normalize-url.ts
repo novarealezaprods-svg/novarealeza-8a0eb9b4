@@ -18,17 +18,3 @@ export function normalizeDirectUrl(url: string): string {
   if (gd) return `https://drive.google.com/uc?export=download&id=${gd[1]}`;
   return url;
 }
-
-// For Supabase storage image URLs, switch to the on-the-fly image transform
-// endpoint so we serve resized/compressed WebP instead of the full original.
-// This dramatically speeds up loading of beat cover art.
-export function supabaseImageThumb(url: string, width = 400, quality = 70): string {
-  if (!url) return url;
-  if (!/\/storage\/v1\/object\/public\//.test(url)) return url;
-  const rendered = url.replace(
-    "/storage/v1/object/public/",
-    "/storage/v1/render/image/public/"
-  );
-  const sep = rendered.includes("?") ? "&" : "?";
-  return `${rendered}${sep}width=${width}&quality=${quality}&resize=cover`;
-}

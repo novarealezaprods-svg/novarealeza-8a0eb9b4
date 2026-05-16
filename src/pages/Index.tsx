@@ -376,13 +376,12 @@ export default function IndexPage() {
                     className={`p-3 md:p-4 ${isRightCol ? "border-l border-border" : ""} ${!isLastRow ? "border-b border-border" : ""}`}
                   >
                     <div className="relative w-full aspect-square">
-                       <img
-                         src={normalizeDirectUrl(src)}
-                         alt={`Prova social ${i + 1}`}
-                         loading="lazy"
-                         decoding="async"
-                         className="absolute inset-0 w-full h-full object-contain"
-                       />
+                      <img
+                        src={normalizeDirectUrl(src)}
+                        alt={`Prova social ${i + 1}`}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-contain"
+                      />
                     </div>
                   </div>
                 );
