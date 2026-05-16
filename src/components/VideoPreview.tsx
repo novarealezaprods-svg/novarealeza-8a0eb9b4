@@ -27,8 +27,9 @@ export function VideoPreview({ url }: { url: string }) {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
   const [playbackFailed, setPlaybackFailed] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [paused, setPaused] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [paused, setPaused] = useState(true);
+  const [started, setStarted] = useState(false);
   const [duration, setDuration] = useState(0);
   const [loadProgress, setLoadProgress] = useState(0);
   const [loadFading, setLoadFading] = useState(false);
