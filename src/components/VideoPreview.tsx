@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, Volume2, VolumeX, Play, Pause } from "lucide-react";
+import { RotateCcw, Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
@@ -7,13 +7,13 @@ function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" 
   const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
   if (yt)
     return {
-      src: `https://www.youtube.com/embed/${yt[1]}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`,
+      src: `https://www.youtube.com/embed/${yt[1]}?autoplay=0&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`,
       provider: "youtube",
     };
   const vm = url.match(/vimeo\.com\/(\d+)/);
   if (vm)
     return {
-      src: `https://player.vimeo.com/video/${vm[1]}?autoplay=1&muted=1&playsinline=1`,
+      src: `https://player.vimeo.com/video/${vm[1]}?autoplay=0&playsinline=1`,
       provider: "vimeo",
     };
   return null;
@@ -27,7 +27,8 @@ export function VideoPreview({ url }: { url: string }) {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
   const [playbackFailed, setPlaybackFailed] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const [started, setStarted] = useState(false);
+  const [startFading, setStartFading] = useState(false);
   const [paused, setPaused] = useState(false);
   const [duration, setDuration] = useState(0);
   const [loadProgress, setLoadProgress] = useState(0);
@@ -81,26 +82,24 @@ export function VideoPreview({ url }: { url: string }) {
     };
   }, [embed, reloadKey]);
 
-  // Browsers block autoplay with sound. We start muted, then a click/tap
-  // anywhere on the player unmutes (counts as a user gesture).
-  const unmute = () => {
-    setMuted(false);
+  // Starts playback WITH SOUND in response to a user click.
+  const startPlayback = () => {
+    setStartFading(true);
+    window.setTimeout(() => setStarted(true), 300);
     if (embed?.provider === "youtube") {
       const post = (msg: object) =>
         iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
       post({ event: "command", func: "unMute", args: [] });
       post({ event: "command", func: "setVolume", args: [100] });
+      post({ event: "command", func: "playVideo", args: [] });
       return;
     }
     if (embed?.provider === "vimeo") {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ method: "setMuted", value: false }),
-        "*"
-      );
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ method: "setVolume", value: 1 }),
-        "*"
-      );
+      const post = (msg: object) =>
+        iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
+      post({ method: "setMuted", value: false });
+      post({ method: "setVolume", value: 1 });
+      post({ method: "play" });
       return;
     }
     if (videoRef.current) {
@@ -109,37 +108,8 @@ export function VideoPreview({ url }: { url: string }) {
         videoRef.current.volume = 1;
         void videoRef.current.play();
       } catch {}
-      // Se a reprodução falhou antes (autoplay bloqueado no mobile),
-      // este toque conta como gesto do usuário — tenta tocar de novo.
-      if (playbackFailed) {
-        setPlaybackFailed(false);
-        setLoading(true);
-        try {
-          void videoRef.current.play();
-        } catch {}
-      }
     }
   };
-
-  useEffect(() => {
-    if (embed || !videoRef.current) return;
-    const video = videoRef.current;
-    setPlaybackFailed(false);
-
-    const tryPlay = async () => {
-      try {
-        video.muted = true;
-        video.defaultMuted = true;
-        video.volume = 0;
-        await video.play();
-      } catch {
-        setPlaybackFailed(true);
-        setLoading(false);
-      }
-    };
-
-    void tryPlay();
-  }, [embed, directUrl, reloadKey]);
 
   const replay = () => {
     setEnded(false);
@@ -149,6 +119,8 @@ export function VideoPreview({ url }: { url: string }) {
     setLoadProgress(0);
     setLoadFading(false);
     setLoadHidden(false);
+    setStarted(false);
+    setStartFading(false);
     setReloadKey((k) => k + 1);
   };
 
@@ -211,7 +183,7 @@ export function VideoPreview({ url }: { url: string }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-black" onClick={unmute}>
+    <div className="relative w-full h-full bg-black">
       {embed ? (
         <iframe
           key={reloadKey}
@@ -227,8 +199,6 @@ export function VideoPreview({ url }: { url: string }) {
           key={reloadKey}
           ref={videoRef}
           src={directUrl}
-          autoPlay
-          muted
           preload="auto"
           playsInline
           onEnded={() => setEnded(true)}
@@ -295,29 +265,35 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Big "Ativar som" overlay — visible while muted (ou quando autoplay falha no mobile) */}
-      {muted && !ended && !loading && (
+      {/* Custom play button — clique para iniciar com som */}
+      {!started && !ended && (
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            unmute();
+            startPlayback();
           }}
-          aria-label="Ativar som"
-          className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-[2px] hover:bg-black/50 transition-colors group"
+          aria-label="Reproduzir vídeo"
+          className="absolute inset-0 z-40 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors"
+          style={{
+            opacity: startFading ? 0 : 1,
+            transition: "opacity 0.3s ease-out, background-color 0.2s",
+            pointerEvents: startFading ? "none" : "auto",
+          }}
         >
           <div
-            className="h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform"
+            className="flex items-center justify-center rounded-full"
             style={{
-              boxShadow:
-                "0 0 24px var(--primary), 0 0 8px var(--primary), 0 6px 18px rgba(0,0,0,0.5)",
+              width: 64,
+              height: 64,
+              background: "#00FF41",
+              boxShadow: "0 0 20px rgba(0,255,65,0.5)",
+              animation: "vsl-play-pulse 1.6s ease-in-out infinite",
             }}
           >
-            <VolumeX className="h-9 w-9 text-primary-foreground" />
+            <Play className="h-7 w-7 text-black fill-black ml-[2px]" />
           </div>
-          <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-sm sm:text-base">
-            Toque para ativar o som
-          </span>
+          <style>{`@keyframes vsl-play-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }`}</style>
         </button>
       )}
 
