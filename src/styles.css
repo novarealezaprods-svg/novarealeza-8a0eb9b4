@@ -824,6 +824,52 @@
   stroke-width: 3.5;
 }
 
+/* Hero block — mobile centering & spacing overrides (<=768px) */
+@media (max-width: 768px) {
+  .hero-section,
+  .hero-section > div {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-section .hero-title {
+    text-align: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 36px;
+    line-height: 1.1;
+    word-break: keep-all;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-section .hero-subtitle {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-section .hero-section-video,
+  .hero-section > div > .mx-auto {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-section .hero-cta-block,
+  .hero-section .hero-cta,
+  .hero-section button {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+}
+
 .supreme-cta {
   position: relative;
   overflow: hidden;
