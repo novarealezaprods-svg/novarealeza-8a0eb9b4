@@ -430,7 +430,7 @@ export default function IndexPage() {
               <ul className="flex flex-col" style={{ gap: "14px" }}>
                 {[
                   "Beat free que todo mundo já ouviu",
-                  "Risco de copyright strike no YouTube",
+                  "Direitos autorais bloqueando seu som",
                   "Som amador que entrega você antes de tocar",
                   "Sem variedade, sem identidade",
                   "Gastando tempo garimpando instrumental",
