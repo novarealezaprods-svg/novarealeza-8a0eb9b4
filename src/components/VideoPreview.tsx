@@ -82,15 +82,18 @@ export function VideoPreview({ url }: { url: string }) {
     };
   }, [embed, reloadKey]);
 
-  // Browsers block autoplay with sound. We start muted, then a click/tap
-  // anywhere on the player unmutes (counts as a user gesture).
-  const unmute = () => {
+  // Autoplay desativado. Áudio inicia ligado quando o usuário toca play.
+  const startPlayback = () => {
+    if (started) return;
+    setStarted(true);
     setMuted(false);
+    setPaused(false);
     if (embed?.provider === "youtube") {
       const post = (msg: object) =>
         iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
       post({ event: "command", func: "unMute", args: [] });
       post({ event: "command", func: "setVolume", args: [100] });
+      post({ event: "command", func: "playVideo", args: [] });
       return;
     }
     if (embed?.provider === "vimeo") {
@@ -102,6 +105,10 @@ export function VideoPreview({ url }: { url: string }) {
         JSON.stringify({ method: "setVolume", value: 1 }),
         "*"
       );
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ method: "play" }),
+        "*"
+      );
       return;
     }
     if (videoRef.current) {
@@ -110,36 +117,15 @@ export function VideoPreview({ url }: { url: string }) {
         videoRef.current.volume = 1;
         void videoRef.current.play();
       } catch {}
-      // Se a reprodução falhou antes (autoplay bloqueado no mobile),
-      // este toque conta como gesto do usuário — tenta tocar de novo.
-      if (playbackFailed) {
-        setPlaybackFailed(false);
-        setLoading(true);
-        try {
-          void videoRef.current.play();
-        } catch {}
-      }
+      setPlaybackFailed(false);
     }
   };
 
   useEffect(() => {
     if (embed || !videoRef.current) return;
-    const video = videoRef.current;
+    // Autoplay desativado: aguarda gesto do usuário.
     setPlaybackFailed(false);
-
-    const tryPlay = async () => {
-      try {
-        video.muted = true;
-        video.defaultMuted = true;
-        video.volume = 0;
-        await video.play();
-      } catch {
-        setPlaybackFailed(true);
-        setLoading(false);
-      }
-    };
-
-    void tryPlay();
+    setLoading(false);
   }, [embed, directUrl, reloadKey]);
 
   const replay = () => {
