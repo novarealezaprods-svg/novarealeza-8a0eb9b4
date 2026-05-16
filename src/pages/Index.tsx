@@ -249,23 +249,16 @@ export default function IndexPage() {
               <span className="hero-cta-text">QUERO MEUS 100 BEATS POR 19,90</span>
             </button>
             <p className="hero-cta-sub">
-              <span aria-hidden="true">🔒</span>
-              <span>Pagamento seguro</span>
-              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
-              <span>Acesso imediato</span>
-              <span className="hero-cta-sub-sep" aria-hidden="true">·</span>
-              <span>7 dias de garantia</span>
-            </p>
             <button
               type="button"
               onClick={() => document.getElementById("ouca-antes")?.scrollIntoView({ behavior: "smooth" })}
-              className="group mt-4 flex flex-col items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
+              className="group mt-6 flex flex-col items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 rounded-full px-8 py-4 cursor-pointer transition-all"
             >
-              <span className="text-[13px] text-white/60 group-hover:text-white transition-opacity duration-200 no-underline">
+              <span className="text-[16px] md:text-[17px] font-semibold text-white/90 group-hover:text-white transition-opacity duration-200 no-underline tracking-wide">
                 Ouça antes de comprar
               </span>
               <ChevronDown
-                className="h-4 w-4 text-white/60 group-hover:text-white transition-opacity duration-200"
+                className="h-5 w-5 text-white/80 group-hover:text-white transition-opacity duration-200"
                 style={{ animation: "hook-bounce 1.2s ease-in-out infinite" }}
               />
               <style>{`@keyframes hook-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }`}</style>
