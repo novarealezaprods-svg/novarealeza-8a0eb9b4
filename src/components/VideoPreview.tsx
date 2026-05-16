@@ -27,8 +27,9 @@ export function VideoPreview({ url }: { url: string }) {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
   const [playbackFailed, setPlaybackFailed] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [paused, setPaused] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [paused, setPaused] = useState(true);
+  const [started, setStarted] = useState(false);
   const [duration, setDuration] = useState(0);
   const [loadProgress, setLoadProgress] = useState(0);
   const [loadFading, setLoadFading] = useState(false);
@@ -81,15 +82,18 @@ export function VideoPreview({ url }: { url: string }) {
     };
   }, [embed, reloadKey]);
 
-  // Browsers block autoplay with sound. We start muted, then a click/tap
-  // anywhere on the player unmutes (counts as a user gesture).
-  const unmute = () => {
+  // Autoplay desativado. Áudio inicia ligado quando o usuário toca play.
+  const startPlayback = () => {
+    if (started) return;
+    setStarted(true);
     setMuted(false);
+    setPaused(false);
     if (embed?.provider === "youtube") {
       const post = (msg: object) =>
         iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
       post({ event: "command", func: "unMute", args: [] });
       post({ event: "command", func: "setVolume", args: [100] });
+      post({ event: "command", func: "playVideo", args: [] });
       return;
     }
     if (embed?.provider === "vimeo") {
@@ -101,6 +105,10 @@ export function VideoPreview({ url }: { url: string }) {
         JSON.stringify({ method: "setVolume", value: 1 }),
         "*"
       );
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ method: "play" }),
+        "*"
+      );
       return;
     }
     if (videoRef.current) {
@@ -109,43 +117,24 @@ export function VideoPreview({ url }: { url: string }) {
         videoRef.current.volume = 1;
         void videoRef.current.play();
       } catch {}
-      // Se a reprodução falhou antes (autoplay bloqueado no mobile),
-      // este toque conta como gesto do usuário — tenta tocar de novo.
-      if (playbackFailed) {
-        setPlaybackFailed(false);
-        setLoading(true);
-        try {
-          void videoRef.current.play();
-        } catch {}
-      }
+      setPlaybackFailed(false);
     }
   };
 
   useEffect(() => {
     if (embed || !videoRef.current) return;
-    const video = videoRef.current;
+    // Autoplay desativado: aguarda gesto do usuário.
     setPlaybackFailed(false);
-
-    const tryPlay = async () => {
-      try {
-        video.muted = true;
-        video.defaultMuted = true;
-        video.volume = 0;
-        await video.play();
-      } catch {
-        setPlaybackFailed(true);
-        setLoading(false);
-      }
-    };
-
-    void tryPlay();
+    setLoading(false);
   }, [embed, directUrl, reloadKey]);
 
   const replay = () => {
     setEnded(false);
     setProgress(0);
     setLoading(true);
-    setPaused(false);
+    setPaused(true);
+    setStarted(false);
+    setMuted(false);
     setLoadProgress(0);
     setLoadFading(false);
     setLoadHidden(false);
@@ -211,12 +200,12 @@ export function VideoPreview({ url }: { url: string }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-black" onClick={unmute}>
+    <div className="relative w-full h-full bg-black">
       {embed ? (
         <iframe
           key={reloadKey}
           ref={iframeRef}
-          src={embed.src}
+          src={embed.src.replace("autoplay=1", "autoplay=0").replace("mute=1", "mute=0").replace("muted=1", "muted=0")}
           title="Preview"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -227,8 +216,7 @@ export function VideoPreview({ url }: { url: string }) {
           key={reloadKey}
           ref={videoRef}
           src={directUrl}
-          autoPlay
-          muted
+          muted={muted}
           preload="auto"
           playsInline
           onEnded={() => setEnded(true)}
@@ -251,8 +239,8 @@ export function VideoPreview({ url }: { url: string }) {
         />
       )}
 
-      {/* Loading overlay — VSL */}
-      {!loadHidden && !ended && (
+      {/* Loading overlay — VSL (somente após iniciar) */}
+      {started && !loadHidden && !ended && (
         <div
           className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none rounded-[inherit] overflow-hidden"
           style={{
@@ -295,15 +283,15 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Big "Ativar som" overlay — visible while muted (ou quando autoplay falha no mobile) */}
-      {muted && !ended && !loading && (
+      {/* Big Play overlay — autoplay desativado, áudio inicia ligado */}
+      {!started && !ended && (
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            unmute();
+            startPlayback();
           }}
-          aria-label="Ativar som"
+          aria-label="Reproduzir vídeo"
           className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-[2px] hover:bg-black/50 transition-colors group"
         >
           <div
@@ -313,10 +301,10 @@ export function VideoPreview({ url }: { url: string }) {
                 "0 0 24px var(--primary), 0 0 8px var(--primary), 0 6px 18px rgba(0,0,0,0.5)",
             }}
           >
-            <VolumeX className="h-9 w-9 text-primary-foreground" />
+            <Play className="h-9 w-9 text-primary-foreground fill-current ml-1" />
           </div>
           <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-sm sm:text-base">
-            Toque para ativar o som
+            Toque para iniciar
           </span>
         </button>
       )}
