@@ -132,7 +132,9 @@ export function VideoPreview({ url }: { url: string }) {
     setEnded(false);
     setProgress(0);
     setLoading(true);
-    setPaused(false);
+    setPaused(true);
+    setStarted(false);
+    setMuted(false);
     setLoadProgress(0);
     setLoadFading(false);
     setLoadHidden(false);
@@ -198,12 +200,12 @@ export function VideoPreview({ url }: { url: string }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-black" onClick={unmute}>
+    <div className="relative w-full h-full bg-black">
       {embed ? (
         <iframe
           key={reloadKey}
           ref={iframeRef}
-          src={embed.src}
+          src={embed.src.replace("autoplay=1", "autoplay=0").replace("mute=1", "mute=0").replace("muted=1", "muted=0")}
           title="Preview"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -214,8 +216,7 @@ export function VideoPreview({ url }: { url: string }) {
           key={reloadKey}
           ref={videoRef}
           src={directUrl}
-          autoPlay
-          muted
+          muted={muted}
           preload="auto"
           playsInline
           onEnded={() => setEnded(true)}
@@ -238,8 +239,8 @@ export function VideoPreview({ url }: { url: string }) {
         />
       )}
 
-      {/* Loading overlay — VSL */}
-      {!loadHidden && !ended && (
+      {/* Loading overlay — VSL (somente após iniciar) */}
+      {started && !loadHidden && !ended && (
         <div
           className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none rounded-[inherit] overflow-hidden"
           style={{
@@ -282,15 +283,15 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Big "Ativar som" overlay — visible while muted (ou quando autoplay falha no mobile) */}
-      {muted && !ended && !loading && (
+      {/* Big Play overlay — autoplay desativado, áudio inicia ligado */}
+      {!started && !ended && (
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            unmute();
+            startPlayback();
           }}
-          aria-label="Ativar som"
+          aria-label="Reproduzir vídeo"
           className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-[2px] hover:bg-black/50 transition-colors group"
         >
           <div
@@ -300,10 +301,10 @@ export function VideoPreview({ url }: { url: string }) {
                 "0 0 24px var(--primary), 0 0 8px var(--primary), 0 6px 18px rgba(0,0,0,0.5)",
             }}
           >
-            <VolumeX className="h-9 w-9 text-primary-foreground" />
+            <Play className="h-9 w-9 text-primary-foreground fill-current ml-1" />
           </div>
           <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-sm sm:text-base">
-            Toque para ativar o som
+            Toque para iniciar
           </span>
         </button>
       )}
