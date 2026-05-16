@@ -211,9 +211,9 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <section className="relative overflow-hidden py-6 md:py-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
+      <section className="hero-section relative overflow-hidden py-6 md:py-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-6`}>
-          <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
+          <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
             Pare de Enterrar Sua Música
             <br />
             em Beat <span className="text-accent">FREE</span>
