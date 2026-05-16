@@ -211,7 +211,7 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <section className="relative overflow-hidden pt-12 pb-20 md:pb-24" style={{ backgroundImage: "var(--gradient-hero)" }}>
+      <section className="relative overflow-hidden py-6 md:py-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-6`}>
           <h1 className="font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
             Pare de Enterrar Sua Música
@@ -267,7 +267,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section id="ouca-antes" className="py-20 md:py-24 border-t border-border/50 scroll-mt-20">
+      <section id="ouca-antes" className="py-6 md:py-8 border-t border-border/50 scroll-mt-20">
         <div className={CONTAINER}>
           <div className="text-center mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
@@ -347,7 +347,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section id="avaliacoes" className="py-20 md:py-24 bg-card/30 border-y border-border/50 scroll-mt-20">
+      <section id="avaliacoes" className="py-6 md:py-8 bg-card/30 border-y border-border/50 scroll-mt-20">
         <div className="container max-w-3xl mx-auto px-4 md:px-6">
           <div className="mb-8 flex flex-col items-center text-white">
             <span className="text-sm font-semibold">Veja as avaliações do pack</span>
@@ -400,7 +400,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-24 bg-background border-t border-border/50">
+      <section className="py-6 md:py-8 bg-background border-t border-border/50">
         <div className={CONTAINER}>
           {/* BLOCO 1 — Antes vs Depois */}
           <div className="text-center mb-14 reveal">
@@ -682,7 +682,7 @@ export default function IndexPage() {
       </section>
 
       <section className="border-y border-border/50 bg-card/30">
-        <div className={`${CONTAINER} py-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center`}>
+        <div className={`${CONTAINER} py-6 md:py-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center`}>
           {stats.map((s) => (
             <div key={s.id}>
               <div className="text-2xl md:text-3xl font-black">{s.n}</div>
@@ -692,7 +692,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-24">
+      <section className="py-6 md:py-8">
         <div className={CONTAINER}>
           <div className="text-center mb-14 reveal">
             <Badge variant="outline" className="mb-4 text-xs tracking-widest uppercase border-accent/40 text-accent">
@@ -715,7 +715,7 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-24 border-t border-border/50">
+      <section className="py-6 md:py-8 border-t border-border/50">
         <div className={`${CONTAINER} max-w-3xl`}>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-center mb-10 reveal">
             Perguntas frequentes
