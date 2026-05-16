@@ -251,16 +251,19 @@ export default function IndexPage() {
             <button
               type="button"
               onClick={() => document.getElementById("ouca-antes")?.scrollIntoView({ behavior: "smooth" })}
-              className="group mt-6 flex flex-col items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 rounded-full px-8 py-4 cursor-pointer transition-all"
+              className="group mt-6 flex flex-col items-center gap-2 bg-transparent border-0 p-0 cursor-pointer"
             >
-              <span className="text-[16px] md:text-[17px] font-semibold text-white/90 group-hover:text-white transition-opacity duration-200 no-underline tracking-wide">
+              <span
+                className="text-[16px] md:text-[17px] font-semibold text-white/90 group-hover:text-white transition-opacity duration-200 no-underline tracking-wide"
+                style={{ animation: "hook-pulse 1.6s ease-in-out infinite" }}
+              >
                 Ouça antes de comprar
               </span>
               <ChevronDown
                 className="h-5 w-5 text-white/80 group-hover:text-white transition-opacity duration-200"
                 style={{ animation: "hook-bounce 1.2s ease-in-out infinite" }}
               />
-              <style>{`@keyframes hook-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }`}</style>
+              <style>{`@keyframes hook-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } } @keyframes hook-pulse { 0%,100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.06); opacity: 1; } }`}</style>
             </button>
           </div>
 
