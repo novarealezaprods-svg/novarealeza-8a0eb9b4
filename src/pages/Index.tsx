@@ -250,7 +250,7 @@ export default function IndexPage() {
 
           <div className="hero-cta-block flex flex-col items-center w-full" style={{ marginTop: 0 }}>
             <button
-              onClick={handleBasicCheckoutClick}
+              onClick={() => document.getElementById("pack-basico")?.scrollIntoView({ behavior: "smooth", block: "start" })}
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
               <span className="hero-cta-shine" aria-hidden="true" />
@@ -520,7 +520,7 @@ export default function IndexPage() {
           </div>
 
           {/* BLOCO 2 — Cards de Compra (Pack 100 + Pack 300 lado a lado) */}
-          <div className="mt-16 md:mt-20 flex flex-col gap-6 max-w-2xl mx-auto items-stretch">
+          <div id="pack-basico" className="mt-16 md:mt-20 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
             <div className="basic-card reveal reveal-zoom">
               <div className="basic-card-inner text-center">
                 <span className="basic-badge">
