@@ -590,22 +590,11 @@ export default function IndexPage() {
               id="oferta-suprema"
               className="reveal reveal-zoom relative scroll-mt-20 rounded-2xl"
               style={{
-                border: "2px solid rgba(0, 255, 95, 0.55)",
+                border: "2px solid rgba(255, 196, 0, 0.55)",
                 boxShadow:
-                  "0 0 24px rgba(0, 255, 95, 0.35), 0 0 60px rgba(0, 255, 95, 0.15), inset 0 0 18px rgba(0, 255, 95, 0.08)",
+                  "0 0 24px rgba(255, 196, 0, 0.35), 0 0 60px rgba(255, 196, 0, 0.15), inset 0 0 18px rgba(255, 196, 0, 0.08)",
               }}
             >
-              <span
-                className="absolute left-1/2 -translate-x-1/2 -top-3 z-10 inline-flex items-center justify-center gap-1 px-3 py-1 rounded-full text-[10px] md:text-[11px] font-black uppercase tracking-wider whitespace-nowrap text-center"
-                style={{
-                  background: "linear-gradient(90deg, #00ff5f, #5dff8a)",
-                  color: "#003314",
-                  boxShadow: "0 0 18px rgba(0, 255, 95, 0.6)",
-                }}
-              >
-                <Star className="h-3 w-3 fill-current" />
-                Melhor custo-benefício
-              </span>
               <div className="supreme-card">
               <div className="supreme-card-inner text-center">
                 {/* sparkles decorativos */}
