@@ -27,9 +27,9 @@ export function VideoPreview({ url }: { url: string }) {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
   const [playbackFailed, setPlaybackFailed] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [paused, setPaused] = useState(true);
-  const [started, setStarted] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [started, setStarted] = useState(true);
   const [duration, setDuration] = useState(0);
   const [loadProgress, setLoadProgress] = useState(0);
   const [loadFading, setLoadFading] = useState(false);
@@ -82,9 +82,8 @@ export function VideoPreview({ url }: { url: string }) {
     };
   }, [embed, reloadKey]);
 
-  // Autoplay desativado. Áudio inicia ligado quando o usuário toca play.
+  // Autoplay ativo (muted). Clique do usuário desativa o mute.
   const startPlayback = () => {
-    if (started) return;
     setStarted(true);
     setMuted(false);
     setPaused(false);
@@ -123,18 +122,23 @@ export function VideoPreview({ url }: { url: string }) {
 
   useEffect(() => {
     if (embed || !videoRef.current) return;
-    // Autoplay desativado: aguarda gesto do usuário.
+    // Autoplay muted no carregamento
+    const v = videoRef.current;
+    v.muted = true;
     setPlaybackFailed(false);
-    setLoading(false);
+    const p = v.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(() => setPlaybackFailed(true));
+    }
   }, [embed, directUrl, reloadKey]);
 
   const replay = () => {
     setEnded(false);
     setProgress(0);
     setLoading(true);
-    setPaused(true);
-    setStarted(false);
-    setMuted(false);
+    setPaused(false);
+    setStarted(true);
+    setMuted(true);
     setLoadProgress(0);
     setLoadFading(false);
     setLoadHidden(false);
@@ -205,7 +209,7 @@ export function VideoPreview({ url }: { url: string }) {
         <iframe
           key={reloadKey}
           ref={iframeRef}
-          src={embed.src.replace("autoplay=1", "autoplay=0").replace("mute=1", "mute=0").replace("muted=1", "muted=0")}
+          src={embed.src}
           title="Preview"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
