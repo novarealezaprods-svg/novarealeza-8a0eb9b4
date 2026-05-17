@@ -240,6 +240,14 @@ export default function IndexPage() {
             </Card>
           </div>
 
+          <div className="flex items-center justify-center gap-2 mt-4 text-sm md:text-base font-semibold text-white/90 text-center px-4">
+            <Check className="h-4 w-4 text-[#5dff8a] flex-shrink-0" style={{ filter: "drop-shadow(0 0 6px rgba(0,255,95,0.6))" }} />
+            <span>
+              <span className="font-black text-[#5dff8a]" style={{ textShadow: "0 0 10px rgba(0,255,95,0.5)" }}>Uso liberado</span>{" "}
+              pra Spotify, Instagram, TikTok etc
+            </span>
+          </div>
+
           <div className="hero-cta-block flex flex-col items-center w-full">
             <button
               onClick={handleBasicCheckoutClick}
