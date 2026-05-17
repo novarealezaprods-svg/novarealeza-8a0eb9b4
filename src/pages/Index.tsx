@@ -212,7 +212,7 @@ export default function IndexPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <section className="hero-section relative overflow-hidden py-6 md:py-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
-        <div className={`${CONTAINER} text-center flex flex-col items-center gap-6`}>
+        <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
           <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
             Pare de Enterrar Sua Música
             <br />
@@ -223,7 +223,7 @@ export default function IndexPage() {
             100 beats profissionais por menos<br />que um lanche. Grave e poste hoje.
           </p>
 
-          <div className="mx-auto w-full max-w-[560px]">
+          <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
             <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
               {previewVideo ? (
                 <VideoPreview url={previewVideo} />
@@ -240,7 +240,7 @@ export default function IndexPage() {
             </Card>
           </div>
 
-          <div className="flex items-center justify-center gap-1.5 mt-3 text-[11px] md:text-xs font-medium text-white/80 text-center px-4">
+          <div className="flex items-center justify-center gap-1.5 text-[11px] md:text-xs font-medium text-white/80 text-center px-4" style={{ marginTop: "-4px" }}>
             <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" style={{ filter: "drop-shadow(0 0 4px rgba(0,255,95,0.6))" }} />
             <span>
               <span className="font-black text-[#5dff8a]" style={{ textShadow: "0 0 8px rgba(0,255,95,0.5)" }}>Uso liberado</span>{" "}
@@ -248,7 +248,7 @@ export default function IndexPage() {
             </span>
           </div>
 
-          <div className="hero-cta-block flex flex-col items-center w-full">
+          <div className="hero-cta-block flex flex-col items-center w-full" style={{ marginTop: 0 }}>
             <button
               onClick={handleBasicCheckoutClick}
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
@@ -259,16 +259,16 @@ export default function IndexPage() {
             <button
               type="button"
               onClick={() => document.getElementById("ouca-antes")?.scrollIntoView({ behavior: "smooth" })}
-              className="group mt-6 flex flex-col items-center gap-2 bg-transparent border-0 p-0 cursor-pointer"
+              className="group mt-4 flex flex-col items-center gap-2 bg-transparent border-0 p-0 cursor-pointer"
             >
               <span
-                className="text-[16px] md:text-[17px] font-semibold text-white/90 group-hover:text-white transition-opacity duration-200 no-underline tracking-wide"
+                className="text-[15px] font-semibold text-white group-hover:text-white transition-opacity duration-200 no-underline tracking-wide"
                 style={{ animation: "hook-pulse 1.6s ease-in-out infinite" }}
               >
                 Ouça antes de comprar
               </span>
               <ChevronDown
-                className="h-5 w-5 text-white/80 group-hover:text-white transition-opacity duration-200"
+                className="h-5 w-5 text-white group-hover:text-white transition-opacity duration-200"
                 style={{ animation: "hook-bounce 1.2s ease-in-out infinite" }}
               />
               <style>{`@keyframes hook-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } } @keyframes hook-pulse { 0%,100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.06); opacity: 1; } }`}</style>
