@@ -287,16 +287,16 @@ export function VideoPreview({ url }: { url: string }) {
         </div>
       )}
 
-      {/* Big Play overlay — autoplay desativado, áudio inicia ligado */}
-      {!started && !ended && (
+      {/* Tap-to-unmute overlay — autoplay muted estilo Netflix */}
+      {muted && !ended && loadHidden && (
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
             startPlayback();
           }}
-          aria-label="Reproduzir vídeo"
-          className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-[2px] hover:bg-black/50 transition-colors group"
+          aria-label="Ativar som"
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/30 hover:bg-black/40 transition-colors group"
         >
           <div
             className="h-20 w-20 rounded-full bg-primary flex items-center justify-center shadow-[var(--shadow-glow)] group-hover:scale-110 transition-transform"
@@ -305,10 +305,10 @@ export function VideoPreview({ url }: { url: string }) {
                 "0 0 24px var(--primary), 0 0 8px var(--primary), 0 6px 18px rgba(0,0,0,0.5)",
             }}
           >
-            <Play className="h-9 w-9 text-primary-foreground fill-current ml-1" />
+            <VolumeX className="h-9 w-9 text-primary-foreground" />
           </div>
           <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground font-bold text-sm sm:text-base">
-            Toque para iniciar
+            Toque para ativar o som
           </span>
         </button>
       )}
