@@ -224,7 +224,7 @@ export default function IndexPage() {
           </p>
 
           <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
-            <Card className="relative aspect-video overflow-hidden border-border/60 bg-card group">
+            <Card className="relative aspect-video overflow-hidden border-0 bg-transparent shadow-none rounded-none group">
               {previewVideo ? (
                 <VideoPreview url={previewVideo} />
               ) : (
