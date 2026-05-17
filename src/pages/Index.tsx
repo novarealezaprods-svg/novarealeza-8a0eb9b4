@@ -512,13 +512,7 @@ export default function IndexPage() {
           </div>
 
           {/* BLOCO 2 — Cards de Compra (Pack 100 + Pack 300 lado a lado) */}
-          <div className="mt-16 md:mt-20 text-center reveal reveal-zoom">
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
-              <span className="supreme-title">Seja Um Artista Completo</span>
-            </h2>
-          </div>
-
-          <div className="mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto items-start">
+          <div className="mt-16 md:mt-20 flex flex-col gap-6 max-w-2xl mx-auto items-stretch">
             <div className="basic-card reveal reveal-zoom">
               <div className="basic-card-inner text-center">
                 <span className="basic-badge">
@@ -582,6 +576,13 @@ export default function IndexPage() {
                   <ScarcityBar />
                 </div>
               </div>
+            </div>
+
+            {/* Transição dourada para apresentar o Pack 300 */}
+            <div className="text-center reveal reveal-zoom py-2">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
+                <span className="supreme-title">Seja Um Artista Completo</span>
+              </h2>
             </div>
 
             {/* Pack 300 — destaque verde */}
