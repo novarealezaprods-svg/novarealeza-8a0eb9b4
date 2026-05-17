@@ -338,7 +338,7 @@
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 @media (min-width: 768px) {
-  .hero-cta { padding: 20px 56px; font-size: 17px; width: auto; }
+  .hero-cta { padding: 20px 64px; font-size: 20px; font-weight: 900; width: auto; }
 }
 .hero-cta-shine {
   position: absolute;
