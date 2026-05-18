@@ -40,7 +40,6 @@ const packFeatures = [
   "100 beats profissionais (40 Funk · 40 Trap · 20 Variados)",
   "100% Royalty Free — Spotify, YouTube, TikTok",
   "Mixados e masterizados em alta qualidade",
-  "Acesso vitalício + atualizações futuras",
 ];
 const testimonials = [
   { name: "MC Vinny", text: "Lancei 3 sons em 1 semana com o pack. Qualidade absurda.", role: "Artista independente" },
