@@ -53,7 +53,7 @@ const stats = [
 ];
 const faq = [
   { q: "Posso usar os beats no Spotify e YouTube?", a: "Sim! Todos os beats são 100% royalty free. Você pode monetizar onde quiser." },
-  { q: "Como recebo o pack?", a: "Após a compra, você recebe acesso imediato ao link de download por e-mail." },
+  { q: "Como recebo o pack?", a: "Após a compra, você recebe acesso imediato ao link de download por e-mail e whatsapp." },
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
 
