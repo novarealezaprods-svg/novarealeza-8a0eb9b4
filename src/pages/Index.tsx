@@ -717,9 +717,9 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <footer className="relative mt-8 overflow-hidden border-t border-primary/20 bg-gradient-to-b from-primary/[0.04] via-background to-background">
+      <footer className="relative mt-8 overflow-hidden border-t border-border/50 bg-background">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-        <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[600px] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+        
 
         <div className={`${CONTAINER} relative py-14`}>
           {/* Brand row */}
