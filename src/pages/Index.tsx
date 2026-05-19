@@ -733,41 +733,37 @@ export default function IndexPage() {
           </div>
 
           {/* Trust badges */}
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="flex items-center justify-center gap-2.5 rounded-xl border border-primary/30 bg-primary/[0.06] px-4 py-3 text-sm">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <div className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-2.5 text-sm">
               <Shield className="h-4 w-4 shrink-0 text-primary" />
-              <span className="font-semibold text-foreground">Garantia de 7 dias</span>
+              <span className="font-semibold text-primary">Garantia de 7 dias</span>
             </div>
-            <div className="flex items-center justify-center gap-2.5 rounded-xl border border-border/60 bg-card/40 px-4 py-3 text-sm">
+            <div className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-2.5 text-sm">
               <Lock className="h-4 w-4 shrink-0 text-primary" />
-              <span className="font-medium text-foreground/90">Pagamento 100% seguro</span>
+              <span className="font-semibold text-primary">Pagamento 100% seguro</span>
             </div>
-            <div className="flex items-center justify-center gap-2.5 rounded-xl border border-border/60 bg-card/40 px-4 py-3 text-sm">
+            <div className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-2.5 text-sm">
               <Download className="h-4 w-4 shrink-0 text-primary" />
-              <span className="font-medium text-foreground/90">Acesso imediato</span>
+              <span className="font-semibold text-primary">Acesso imediato</span>
             </div>
           </div>
 
           {/* Contact */}
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-10">
+          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-10">
             <a
               href="mailto:novarealezaprods@gmail.com"
-              className="group flex items-center gap-2.5 text-sm text-foreground/90 transition-colors hover:text-primary"
+              className="group flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/30 bg-primary/10 transition-colors group-hover:border-primary/60 group-hover:bg-primary/20">
-                <Mail className="h-4 w-4 text-primary" />
-              </span>
+              <Mail className="h-4 w-4 text-primary" />
               <span className="font-medium">novarealezaprods@gmail.com</span>
             </a>
             <a
               href="https://wa.me/5511978768141"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2.5 text-sm text-foreground/90 transition-colors hover:text-primary"
+              className="group flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/30 bg-primary/10 transition-colors group-hover:border-primary/60 group-hover:bg-primary/20">
-                <Phone className="h-4 w-4 text-primary" />
-              </span>
+              <Phone className="h-4 w-4 text-primary" />
               <span className="font-medium">(11) 97876-8141</span>
             </a>
           </div>
