@@ -748,9 +748,6 @@ export default function IndexPage() {
           {/* Brand row */}
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/60 shadow-[0_0_24px_hsl(var(--primary)/0.5)]">
-                <Music2 className="h-4.5 w-4.5 text-primary-foreground" />
-              </span>
               <span className="text-lg font-bold tracking-tight text-foreground">Nova Realeza</span>
             </div>
             <p className="max-w-md text-sm text-muted-foreground">
