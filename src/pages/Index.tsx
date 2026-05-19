@@ -740,19 +740,47 @@ export default function IndexPage() {
         </div>
       </section>
 
-      <footer className="border-t border-border/50 py-12">
-        <div className={`${CONTAINER} flex flex-col items-center gap-6`}>
-          <div className="flex items-center gap-2.5 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-sm">
-            <Shield className="h-4 w-4 text-primary" />
-            <span className="font-semibold text-foreground">Garantia incondicional de 7 dias</span>
+      <footer className="relative mt-8 overflow-hidden border-t border-primary/20 bg-gradient-to-b from-primary/[0.04] via-background to-background">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+        <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[600px] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+
+        <div className={`${CONTAINER} relative py-14`}>
+          {/* Brand row */}
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="flex items-center gap-2.5">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/60 shadow-[0_0_24px_hsl(var(--primary)/0.5)]">
+                <Music2 className="h-4.5 w-4.5 text-primary-foreground" />
+              </span>
+              <span className="text-lg font-bold tracking-tight text-foreground">Nova Realeza</span>
+            </div>
+            <p className="max-w-md text-sm text-muted-foreground">
+              Beats profissionais para artistas que querem soltar hits de verdade.
+            </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
+          {/* Trust badges */}
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="flex items-center justify-center gap-2.5 rounded-xl border border-primary/30 bg-primary/[0.06] px-4 py-3 text-sm">
+              <Shield className="h-4 w-4 shrink-0 text-primary" />
+              <span className="font-semibold text-foreground">Garantia de 7 dias</span>
+            </div>
+            <div className="flex items-center justify-center gap-2.5 rounded-xl border border-border/60 bg-card/40 px-4 py-3 text-sm">
+              <Lock className="h-4 w-4 shrink-0 text-primary" />
+              <span className="font-medium text-foreground/90">Pagamento 100% seguro</span>
+            </div>
+            <div className="flex items-center justify-center gap-2.5 rounded-xl border border-border/60 bg-card/40 px-4 py-3 text-sm">
+              <Download className="h-4 w-4 shrink-0 text-primary" />
+              <span className="font-medium text-foreground/90">Acesso imediato</span>
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-10">
             <a
               href="mailto:novarealezaprods@gmail.com"
-              className="group flex items-center gap-2.5 text-sm text-foreground/90 hover:text-primary transition-colors"
+              className="group flex items-center gap-2.5 text-sm text-foreground/90 transition-colors hover:text-primary"
             >
-              <span className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/30 bg-primary/10 transition-colors group-hover:border-primary/60 group-hover:bg-primary/20">
                 <Mail className="h-4 w-4 text-primary" />
               </span>
               <span className="font-medium">novarealezaprods@gmail.com</span>
@@ -761,28 +789,32 @@ export default function IndexPage() {
               href="https://wa.me/5511978768141"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2.5 text-sm text-foreground/90 hover:text-primary transition-colors"
+              className="group flex items-center gap-2.5 text-sm text-foreground/90 transition-colors hover:text-primary"
             >
-              <span className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/30 bg-primary/10 transition-colors group-hover:border-primary/60 group-hover:bg-primary/20">
                 <Phone className="h-4 w-4 text-primary" />
               </span>
               <span className="font-medium">(11) 97876-8141</span>
             </a>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-xs text-muted-foreground">
+          {/* Divider */}
+          <div className="mx-auto mt-10 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-border to-transparent" />
+
+          {/* Legal */}
+          <div className="mt-6 flex flex-col items-center gap-3 text-xs text-muted-foreground sm:flex-row sm:justify-center sm:gap-6">
             <div className="flex items-center gap-2">
               <User className="h-3.5 w-3.5" />
               <span>Cléber Marques Ernanandes</span>
             </div>
-            <div className="hidden sm:block h-3 w-px bg-border" />
+            <div className="hidden h-3 w-px bg-border sm:block" />
             <div className="flex items-center gap-2">
               <Building2 className="h-3.5 w-3.5" />
               <span>CNPJ 51.800.800/0001-28</span>
             </div>
           </div>
 
-          <p className="text-xs text-muted-foreground/70">
+          <p className="mt-4 text-center text-xs text-muted-foreground/70">
             {`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}
           </p>
         </div>
