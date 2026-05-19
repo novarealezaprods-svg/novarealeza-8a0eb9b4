@@ -634,7 +634,7 @@ export default function IndexPage() {
                     "TUDO do pack base (100 beats prontos)",
                     "+200 Beats Adicionados",
                     "TODOS estilos musicais ",
-                    "Drum kit profissional (808, kicks, hats)",
+                    "Drum kit profissional (808, kicks, hats...)",
                     "Presets de mixagem",
                     "Acesso a comunidade do Whatsapp com artistas de todo Brasil",
                     "Suporte prioritário no WhatsApp",
