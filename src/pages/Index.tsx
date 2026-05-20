@@ -76,6 +76,7 @@ export default function IndexPage() {
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>("");
+  const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState<string>("");
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [showUpsell, setShowUpsell] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState<{ open: boolean; url: string; variant: "green" | "gold" }>({ open: false, url: "", variant: "green" });
@@ -132,6 +133,7 @@ export default function IndexPage() {
       setPreviewVideo(map["preview_video"] ?? null);
       setCheckoutUrl(map["checkout_url"] ?? "");
       setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
+      setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
       setProofImages(
         (imgs ?? []).map((r: any) =>
           String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
@@ -866,7 +868,7 @@ export default function IndexPage() {
               <button
                 onClick={() => {
                   setShowUpsell(false);
-                  executeCheckout(checkoutUrlSupreme || checkoutUrl);
+                  executeCheckout(checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl);
                 }}
                 className="w-full rounded-xl font-black transition hover:brightness-110"
                 style={{

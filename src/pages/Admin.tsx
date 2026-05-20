@@ -26,6 +26,7 @@ export default function AdminPage() {
   // Settings
   const [checkoutUrl, setCheckoutUrl] = useState("");
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState("");
+  const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState("");
   const [previewVideo, setPreviewVideo] = useState("");
   const [uploadingVideo, setUploadingVideo] = useState(false);
 
@@ -62,6 +63,7 @@ export default function AdminPage() {
     const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
     setCheckoutUrl(map["checkout_url"] ?? "");
     setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
+    setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
     setPreviewVideo(map["preview_video"] ?? "");
     setBeats((bts ?? []) as Beat[]);
     setImages((imgs ?? []) as Image[]);
@@ -319,6 +321,14 @@ export default function AdminPage() {
                   <Input id="checkout-supreme" value={checkoutUrlSupreme} onChange={(e) => setCheckoutUrlSupreme(e.target.value)} placeholder="https://mpago.la/..." />
                   <Button onClick={() => saveSetting("checkout_url_supreme", checkoutUrlSupreme)}><Save className="w-4 h-4" /></Button>
                 </div>
+              </div>
+              <div>
+                <Label htmlFor="checkout-upsell">Link do Checkout — Upsell Pack 300 com desconto (R$ 37,90)</Label>
+                <div className="flex gap-2 mt-1">
+                  <Input id="checkout-upsell" value={checkoutUrlUpsell} onChange={(e) => setCheckoutUrlUpsell(e.target.value)} placeholder="https://mpago.la/..." />
+                  <Button onClick={() => saveSetting("checkout_url_upsell", checkoutUrlUpsell)}><Save className="w-4 h-4" /></Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">Usado no card de upsell que aparece ao clicar em comprar o Pack 100.</p>
               </div>
               <div>
                 <Label htmlFor="video">URL do vídeo de preview</Label>
