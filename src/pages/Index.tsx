@@ -844,63 +844,6 @@ export default function IndexPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <Dialog open={deliveryModal.open} onOpenChange={(open) => setDeliveryModal((s) => ({ ...s, open }))}>
-        {(() => {
-          const isGold = deliveryModal.variant === "gold";
-          const accent = isGold ? "#ffd86b" : "#22c55e";
-          const accentSoft = isGold ? "#d9c98e" : "#86efac";
-          const btnBg = isGold
-            ? "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a)"
-            : "linear-gradient(135deg, #16a34a, #22c55e, #4ade80, #22c55e, #16a34a)";
-          const btnColor = isGold ? "#1a1208" : "#03140a";
-          const borderImg = isGold
-            ? "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a) 1"
-            : "linear-gradient(135deg, #14532d, #22c55e, #4ade80, #22c55e, #14532d) 1";
-          return (
-            <DialogContent
-              className="max-w-[400px] p-0 overflow-hidden border-2 gap-0"
-              style={{
-                borderImage: borderImg,
-                background: "linear-gradient(180deg, #0d0d0d 0%, #050505 100%)",
-              }}
-            >
-              <div className="px-6 pt-7 pb-5 text-center">
-                <DialogHeader className="space-y-2">
-                  <DialogTitle className="text-center text-xl md:text-[22px] font-black leading-tight text-white">
-                    Confirme seu WhatsApp e e-mail no checkout
-                  </DialogTitle>
-                  <DialogDescription className="text-center text-sm leading-relaxed" style={{ color: accentSoft }}>
-                    A entrega é <strong style={{ color: accent }}>automática e instantânea</strong>. Se os dados estiverem errados, você não recebe o pack.
-                  </DialogDescription>
-                </DialogHeader>
-              </div>
-
-              <div className="px-6 pb-6 space-y-2">
-                <Button
-                  onClick={() => {
-                    const url = deliveryModal.url;
-                    setDeliveryModal({ open: false, url: "", variant: "green" });
-                    executeCheckout(url);
-                  }}
-                  className="w-full h-12 text-base font-black shadow-lg border-0"
-                  style={{ background: btnBg, color: btnColor }}
-                  aria-label="Continuar para o pagamento"
-                >
-                  Continuar para o pagamento →
-                </Button>
-                <button
-                  type="button"
-                  onClick={() => setDeliveryModal({ open: false, url: "", variant: "green" })}
-                  className="w-full text-xs text-[#777] hover:text-white transition py-1"
-                  aria-label="Voltar"
-                >
-                  Voltar
-                </button>
-              </div>
-            </DialogContent>
-          );
-        })()}
-      </Dialog>
     </div>
   );
 }
