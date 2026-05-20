@@ -797,52 +797,102 @@ export default function IndexPage() {
         meta={BEAT_META}
       />
 
-      <AlertDialog open={showUpsell} onOpenChange={setShowUpsell}>
-        <AlertDialogContent className="border-2 max-w-md" style={{ borderImage: "linear-gradient(135deg, #c98b1a, #ffd86b, #fff5b8, #ffd86b, #c98b1a) 1", background: "linear-gradient(180deg, #14100a 0%, #0a0805 100%)" }}>
-          <button
-            onClick={() => setShowUpsell(false)}
-            aria-label="Fechar"
-            className="absolute right-3 top-3 rounded-full bg-black/60 hover:bg-black/80 text-white p-1.5 transition z-10"
+      {showUpsell && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setShowUpsell(false)}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300"
+          style={{ background: "rgba(0,0,0,0.85)" }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-[400px] animate-in slide-in-from-bottom-8 duration-500"
+            style={{
+              background: "#0d0d0d",
+              borderRadius: "16px",
+              padding: "24px",
+              border: "1px solid rgba(0,255,65,0.4)",
+              boxShadow: "0 0 20px rgba(0,255,65,0.3)",
+            }}
           >
-            <X className="h-4 w-4" />
-          </button>
-          <AlertDialogHeader>
-            <div className="flex justify-center mb-2">
-              <span className="supreme-badge">
-                <Star className="h-3 w-3 fill-current" />
-                <span>Espera!</span>
-                <Star className="h-3 w-3 fill-current" />
+            <div className="flex justify-center mb-3">
+              <span
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black tracking-wide"
+                style={{ background: "#FF3C3C", color: "#fff" }}
+              >
+                🔥 OFERTA ESPECIAL
               </span>
             </div>
-            <AlertDialogTitle className="text-center text-2xl md:text-3xl font-black">
-              <span className="supreme-title">Você viu o Pack Supremo?</span>
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-center text-[#d9c98e] text-base pt-2">
-              Antes de fechar, dá uma olhada na <strong className="text-[#ffd86b]">Oferta Suprema</strong>:
-              <br />
-              <span className="text-white">+200 beats VIP, stems, drum kit e curso bônus</span>
-              <br />
-              por apenas <strong className="text-[#ffd86b]">R$ 47,90</strong> — economia de 75%.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex-col gap-2 sm:flex-col sm:space-x-0">
-            <AlertDialogAction
-              onClick={handleGoSupreme}
-              className="supreme-cta inline-flex items-center justify-center w-full"
+            <h3 className="text-center font-bold text-white" style={{ fontSize: "18px" }}>
+              Espera! Antes de continuar...
+            </h3>
+            <p
+              className="text-center mt-2 text-white"
+              style={{ fontSize: "13px", opacity: 0.7, lineHeight: 1.5 }}
             >
-              <span className="supreme-cta-shine" aria-hidden="true" />
-              <Trophy className="h-4 w-4 mr-2 relative z-10" />
-               <span className="relative z-10">VER PACK SUPREMO</span>
-            </AlertDialogAction>
-            <AlertDialogCancel
-              onClick={handleContinueBasic}
-              className="w-full mt-0 h-12 bg-green-600 hover:bg-green-500 border-green-500 text-white text-base font-bold shadow-lg"
-            >
-              Não, prefiro o pack básico de R$ 19,90
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+              Adicione +200 beats ao seu pack por apenas R$18,00 a mais!
+            </p>
+
+            <div className="mt-5 flex flex-col items-center gap-1">
+              <span style={{ color: "#555", fontSize: "14px", textDecoration: "line-through" }}>
+                De R$ 47,90
+              </span>
+              <span
+                style={{
+                  color: "#00FF41",
+                  fontWeight: 800,
+                  fontSize: "32px",
+                  lineHeight: 1,
+                  textShadow: "0 0 12px rgba(0,255,65,0.5)",
+                }}
+              >
+                R$ 37,90
+              </span>
+              <span
+                className="mt-2 inline-flex items-center px-2.5 py-1 rounded-full font-bold"
+                style={{
+                  background: "rgba(0,255,65,0.12)",
+                  color: "#00FF41",
+                  fontSize: "12px",
+                  border: "1px solid rgba(0,255,65,0.35)",
+                }}
+              >
+                💰 Você economiza R$10,00
+              </span>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setShowUpsell(false);
+                  executeCheckout(checkoutUrlSupreme || checkoutUrl);
+                }}
+                className="w-full rounded-xl font-black transition hover:brightness-110"
+                style={{
+                  background: "linear-gradient(135deg, #00C853, #00FF41)",
+                  color: "#03140a",
+                  padding: "14px 16px",
+                  fontSize: "14px",
+                  boxShadow: "0 0 18px rgba(0,255,65,0.45)",
+                }}
+              >
+                SIM! QUERO O PACK 300 POR R$37,90
+              </button>
+              <button
+                onClick={() => {
+                  setShowUpsell(false);
+                  executeCheckout(checkoutUrl);
+                }}
+                className="w-full bg-transparent border-0 hover:text-white transition"
+                style={{ color: "#555", fontSize: "12px" }}
+              >
+                Não, quero apenas o Pack 100
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
