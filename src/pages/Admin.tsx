@@ -26,6 +26,7 @@ export default function AdminPage() {
   // Settings
   const [checkoutUrl, setCheckoutUrl] = useState("");
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState("");
+  const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState("");
   const [previewVideo, setPreviewVideo] = useState("");
   const [uploadingVideo, setUploadingVideo] = useState(false);
 
@@ -62,6 +63,7 @@ export default function AdminPage() {
     const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
     setCheckoutUrl(map["checkout_url"] ?? "");
     setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
+    setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
     setPreviewVideo(map["preview_video"] ?? "");
     setBeats((bts ?? []) as Beat[]);
     setImages((imgs ?? []) as Image[]);
