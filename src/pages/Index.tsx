@@ -868,7 +868,7 @@ export default function IndexPage() {
               <button
                 onClick={() => {
                   setShowUpsell(false);
-                  executeCheckout(checkoutUrlSupreme || checkoutUrl);
+                  executeCheckout(checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl);
                 }}
                 className="w-full rounded-xl font-black transition hover:brightness-110"
                 style={{
