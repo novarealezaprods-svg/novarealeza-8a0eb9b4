@@ -142,10 +142,10 @@ export default function IndexPage() {
     })();
   }, []);
 
-  const handleCheckout = (urlOverride?: string, variant: "green" | "gold" = "green") => {
+  const handleCheckout = (urlOverride?: string, _variant: "green" | "gold" = "green") => {
     const target = urlOverride || checkoutUrl;
     if (!target) return;
-    setDeliveryModal({ open: true, url: target, variant });
+    executeCheckout(target);
   };
 
   const executeCheckout = (target: string) => {
