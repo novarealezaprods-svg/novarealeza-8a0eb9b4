@@ -621,7 +621,7 @@ export default function IndexPage() {
                 <div className="mt-6 flex flex-col items-center gap-1">
                   <span className="supreme-strike">R$ 197,00</span>
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
-                    R$ 47,90
+                    R$ 37,90
                   </span>
                 </div>
                 <div className="flex justify-center">
@@ -674,7 +674,7 @@ export default function IndexPage() {
                   >
                     <span className="supreme-cta-shine" aria-hidden="true" />
                     <Download className="h-4 w-4 mr-2 relative z-10" />
-                    <span className="relative z-10">300 BEATS POR 47,90</span>
+                    <span className="relative z-10">300 BEATS POR 37,90</span>
                   </button>
                 </div>
                 <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
@@ -838,7 +838,7 @@ export default function IndexPage() {
 
             <div className="mt-5 flex flex-col items-center gap-1">
               <span style={{ color: "#555", fontSize: "14px", textDecoration: "line-through" }}>
-                De R$ 47,90
+                De R$ 37,90
               </span>
               <span
                 style={{
