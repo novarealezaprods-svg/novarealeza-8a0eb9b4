@@ -323,6 +323,14 @@ export default function AdminPage() {
                 </div>
               </div>
               <div>
+                <Label htmlFor="checkout-upsell">Link do Checkout — Upsell Pack 300 com desconto (R$ 37,90)</Label>
+                <div className="flex gap-2 mt-1">
+                  <Input id="checkout-upsell" value={checkoutUrlUpsell} onChange={(e) => setCheckoutUrlUpsell(e.target.value)} placeholder="https://mpago.la/..." />
+                  <Button onClick={() => saveSetting("checkout_url_upsell", checkoutUrlUpsell)}><Save className="w-4 h-4" /></Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">Usado no card de upsell que aparece ao clicar em comprar o Pack 100.</p>
+              </div>
+              <div>
                 <Label htmlFor="video">URL do vídeo de preview</Label>
                 <div className="flex gap-2 mt-1">
                   <Input id="video" value={previewVideo} onChange={(e) => setPreviewVideo(e.target.value)} placeholder="https://..." />
