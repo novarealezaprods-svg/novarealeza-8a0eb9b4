@@ -233,7 +233,7 @@ export function BeatPlayer({
 
       <div className="flex justify-center my-1 md:my-4">
         <button
-          onClick={(e) => { e.stopPropagation(); toggle(); }}
+          onClick={toggle}
           aria-label={isPlaying ? "Pausar" : "Tocar"}
           disabled={!resolvedUrl}
           className={`h-11 w-11 md:h-16 md:w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${
