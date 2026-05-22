@@ -747,7 +747,7 @@ export default function IndexPage() {
                     "TODOS estilos musicais (Trap - Funk - R&B - Drill - Hard - Boombap - Hood - Reggaeton)",
                     "100% Royalty Free — Spotify, YouTube, TikTok",
                     "Bônus 1: Drum kit profissional (808, kicks, hats...)",
-                    "Bônus 2: Presets De Mixagem",
+                    "Bônus 2: Presets De Mixagem (Bandlab e Fl Studio)",
                     "Bônus 3: Acesso a comunidade do Whatsapp com artistas de todo Brasil",
                   ].map((f, i) => (
                     <div key={i} className="supreme-feature">
