@@ -519,6 +519,46 @@ export default function IndexPage() {
             </div>
           </div>
 
+          {/* BLOCO — Entrega do produto */}
+          <div className="mt-12 md:mt-16 max-w-3xl mx-auto reveal">
+            <div
+              className="rounded-2xl p-6 md:p-8 border border-primary/30 bg-[#0a0a0a] text-center"
+              style={{ boxShadow: "0 10px 40px -10px hsl(var(--primary) / 0.25)" }}
+            >
+              <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/30">
+                <Zap className="h-3 w-3" />
+                Entrega imediata
+              </span>
+              <h3 className="mt-4 text-2xl md:text-3xl font-black text-white leading-tight">
+                Como você vai receber seus beats
+              </h3>
+              <p className="mt-3 text-sm md:text-base text-[#aaaaaa] max-w-xl mx-auto">
+                Logo após a confirmação do pagamento, você recebe o acesso completo direto no seu <span className="text-white font-semibold">WhatsApp</span> e no seu <span className="text-white font-semibold">Gmail</span>. Sem espera, sem complicação.
+              </p>
+
+              <div className="mt-7 grid sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+                <div className="flex items-center gap-3 rounded-xl p-4 border border-border/60 bg-background/40">
+                  <span className="flex items-center justify-center h-11 w-11 rounded-full bg-primary/15 text-primary flex-shrink-0">
+                    <MessageCircle className="h-5 w-5" />
+                  </span>
+                  <div className="text-left">
+                    <div className="text-white font-bold text-sm">WhatsApp</div>
+                    <div className="text-xs text-[#9ad9a4]">Link enviado na hora</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 rounded-xl p-4 border border-border/60 bg-background/40">
+                  <span className="flex items-center justify-center h-11 w-11 rounded-full bg-primary/15 text-primary flex-shrink-0">
+                    <Mail className="h-5 w-5" />
+                  </span>
+                  <div className="text-left">
+                    <div className="text-white font-bold text-sm">Gmail</div>
+                    <div className="text-xs text-[#9ad9a4]">Acesso vitalício no e-mail</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* BLOCO 2 — Cards de Compra (Pack 100 + Pack 300 lado a lado) */}
           <div id="pack-basico" className="mt-16 md:mt-20 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
             <div className="basic-card reveal reveal-zoom">
