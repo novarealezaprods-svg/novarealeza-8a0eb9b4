@@ -413,6 +413,57 @@ export default function IndexPage() {
 
       <section className="py-6 md:py-8 bg-background border-t border-border/50">
         <div className={CONTAINER}>
+          {/* BLOCO — Dor (acima do Antes vs Depois) */}
+          <div className="max-w-3xl mx-auto mb-14 md:mb-20 reveal">
+            <div
+              className="rounded-2xl p-6 md:p-9 border border-destructive/40 bg-[#0a0a0a] relative overflow-hidden"
+              style={{ boxShadow: "0 10px 40px -10px hsl(var(--destructive) / 0.35)" }}
+            >
+              <div className="absolute inset-x-0 top-0 h-[3px] bg-destructive" />
+              <div className="flex items-center gap-3 mb-5">
+                <span className="flex items-center justify-center h-10 w-10 rounded-full bg-destructive/15 text-destructive flex-shrink-0">
+                  <AlertTriangle className="h-5 w-5" />
+                </span>
+                <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-destructive/10 text-destructive border border-destructive/30">
+                  A verdade que ninguém te conta
+                </span>
+              </div>
+
+              <h3 className="text-2xl md:text-4xl font-black text-white leading-[1.1]">
+                Beat ruim não é só "som fraco".
+                <br />
+                <span className="text-destructive">É a sua carreira travada antes de começar.</span>
+              </h3>
+
+              <p className="mt-5 text-[15px] md:text-base text-[#cfcfcf] leading-relaxed">
+                Enquanto você posta com beat free que <span className="text-white font-semibold">todo mundo já usou</span>, o ouvinte pula em 3 segundos. Sua música não registra nas plataformas, não roda no Spotify, não monetiza no YouTube — e pior: pode <span className="text-white font-semibold">cair do ar a qualquer momento</span> por direitos autorais.
+              </p>
+
+              <ul className="mt-7 flex flex-col" style={{ gap: "12px" }}>
+                {[
+                  "Som genérico que qualquer um já usou — você vira mais um na multidão",
+                  "Sem registro nas plataformas, sua música não conta como sua",
+                  "Lançamento inseguro: hoje no ar, amanhã derrubado por copyright",
+                  "Sem saber se vai bombar ou sumir em 24h",
+                  "Cada post com beat free é uma chance perdida de crescer",
+                ].map((t, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 font-medium leading-snug"
+                    style={{ fontSize: "15px", color: "#dcdcdc" }}
+                  >
+                    <span className="text-destructive font-bold flex-shrink-0 mt-0.5">⚠</span>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mt-7 text-center text-base md:text-lg font-black text-white">
+                Quantos lançamentos você já <span className="text-destructive">queimou</span> assim?
+              </p>
+            </div>
+          </div>
+
           {/* BLOCO 1 — Antes vs Depois */}
           <div className="text-center mb-14 reveal">
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
