@@ -358,6 +358,17 @@ export default function IndexPage() {
         </div>
       </section>
 
+      <section className="border-y border-border/50 bg-card/30">
+        <div className={`${CONTAINER} py-6 md:py-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center`}>
+          {stats.map((s) => (
+            <div key={s.id}>
+              <div className="text-2xl md:text-3xl font-black">{s.n}</div>
+              <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section id="avaliacoes" className="py-6 md:py-8 bg-card/30 border-y border-border/50 scroll-mt-20">
         <div className="container max-w-3xl mx-auto px-4 md:px-6">
           <div className="mb-8 flex flex-col items-center text-white">
@@ -756,17 +767,6 @@ export default function IndexPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="border-y border-border/50 bg-card/30">
-        <div className={`${CONTAINER} py-6 md:py-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center`}>
-          {stats.map((s) => (
-            <div key={s.id}>
-              <div className="text-2xl md:text-3xl font-black">{s.n}</div>
-              <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{s.l}</div>
-            </div>
-          ))}
         </div>
       </section>
 
