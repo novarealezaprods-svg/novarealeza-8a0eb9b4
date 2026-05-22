@@ -205,18 +205,27 @@ export function VideoPreview({ url }: { url: string }) {
 
       {/* Netflix-style loading overlay com porcentagem */}
       {loading && !ended && (
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none bg-black gap-4 px-8">
-          <div className="text-white font-semibold text-2xl sm:text-3xl tabular-nums">
-            {Math.floor(bufferPct)}%
-          </div>
-          <div className="w-full max-w-xs h-[3px] bg-white/15 overflow-hidden rounded-full">
-            <div
-              className="h-full bg-[#00FF41] transition-[width] duration-150 ease-linear"
-              style={{
-                width: `${bufferPct}%`,
-                boxShadow: "0 0 10px #00FF41, 0 0 4px #00FF41",
-              }}
-            />
+        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none bg-black">
+          <div className="relative h-24 w-24">
+            <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.12)" strokeWidth="6" fill="none" />
+              <circle
+                cx="50" cy="50" r="44"
+                stroke="#00FF41"
+                strokeWidth="6"
+                fill="none"
+                strokeLinecap="round"
+                strokeDasharray={2 * Math.PI * 44}
+                strokeDashoffset={2 * Math.PI * 44 * (1 - bufferPct / 100)}
+                style={{
+                  transition: "stroke-dashoffset 150ms linear",
+                  filter: "drop-shadow(0 0 6px #00FF41)",
+                }}
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center text-white font-semibold text-xl tabular-nums">
+              {Math.floor(bufferPct)}%
+            </div>
           </div>
         </div>
       )}
