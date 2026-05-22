@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, Volume2, VolumeX, Play, Pause } from "lucide-react";
+import { RotateCcw, VolumeX, Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
@@ -26,14 +26,8 @@ export function VideoPreview({ url }: { url: string }) {
   const [reloadKey, setReloadKey] = useState(0);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [playbackFailed, setPlaybackFailed] = useState(false);
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
-  const [started, setStarted] = useState(true);
-  const [duration, setDuration] = useState(0);
-  const [loadProgress, setLoadProgress] = useState(0);
-  const [loadFading, setLoadFading] = useState(false);
-  const [loadHidden, setLoadHidden] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
@@ -84,7 +78,6 @@ export function VideoPreview({ url }: { url: string }) {
 
   // Autoplay ativo (muted). Clique do usuário desativa o mute.
   const startPlayback = () => {
-    setStarted(true);
     setMuted(false);
     setPaused(false);
     if (embed?.provider === "youtube") {
@@ -116,19 +109,16 @@ export function VideoPreview({ url }: { url: string }) {
         videoRef.current.volume = 1;
         void videoRef.current.play();
       } catch {}
-      setPlaybackFailed(false);
     }
   };
 
   useEffect(() => {
     if (embed || !videoRef.current) return;
-    // Autoplay muted no carregamento
     const v = videoRef.current;
     v.muted = true;
-    setPlaybackFailed(false);
     const p = v.play();
     if (p && typeof p.catch === "function") {
-      p.catch(() => setPlaybackFailed(true));
+      p.catch(() => {});
     }
   }, [embed, directUrl, reloadKey]);
 
@@ -137,11 +127,7 @@ export function VideoPreview({ url }: { url: string }) {
     setProgress(0);
     setLoading(true);
     setPaused(false);
-    setStarted(true);
     setMuted(true);
-    setLoadProgress(0);
-    setLoadFading(false);
-    setLoadHidden(false);
     setReloadKey((k) => k + 1);
   };
 
@@ -165,42 +151,6 @@ export function VideoPreview({ url }: { url: string }) {
     const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
     v.currentTime = ratio * v.duration;
     setProgress(ratio * 100);
-  };
-
-  // Loading overlay progress simulation (caps at 90% if no real progress)
-  useEffect(() => {
-    if (loadHidden) return;
-    setLoadProgress(0);
-    const start = Date.now();
-    const id = window.setInterval(() => {
-      const elapsed = Date.now() - start;
-      const simulated = Math.min(90, (elapsed / 3000) * 90);
-      setLoadProgress((p) => (p < simulated ? simulated : p));
-      if (elapsed >= 3000) window.clearInterval(id);
-    }, 60);
-    return () => window.clearInterval(id);
-  }, [reloadKey, loadHidden]);
-
-  // When video becomes ready, complete the bar and fade out
-  useEffect(() => {
-    if (loading || ended || loadHidden) return;
-    setLoadProgress(100);
-    const t1 = window.setTimeout(() => setLoadFading(true), 80);
-    const t2 = window.setTimeout(() => setLoadHidden(true), 80 + 500);
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-    };
-  }, [loading, ended, loadHidden]);
-
-  // Real buffered progress for direct <video>
-  const handleVideoProgress = () => {
-    const v = videoRef.current;
-    if (!v || !v.duration || !isFinite(v.duration)) return;
-    if (v.buffered.length === 0) return;
-    const buffered = v.buffered.end(v.buffered.length - 1);
-    const pct = Math.min(99, (buffered / v.duration) * 100);
-    setLoadProgress((p) => (p < pct ? pct : p));
   };
 
   return (
@@ -227,14 +177,9 @@ export function VideoPreview({ url }: { url: string }) {
           onPlaying={() => { setLoading(false); setPaused(false); }}
           onPause={() => setPaused(true)}
           onPlay={() => setPaused(false)}
-          onLoadedMetadata={(e) => setDuration(e.currentTarget.duration || 0)}
           onWaiting={() => setLoading(true)}
           onCanPlay={() => setLoading(false)}
-          onProgress={handleVideoProgress}
-          onError={() => {
-            setPlaybackFailed(true);
-            setLoading(false);
-          }}
+          onError={() => setLoading(false)}
           onTimeUpdate={(e) => {
             const v = e.currentTarget;
             if (v.duration > 0) setProgress((v.currentTime / v.duration) * 100);
@@ -243,52 +188,22 @@ export function VideoPreview({ url }: { url: string }) {
         />
       )}
 
-      {/* Loading overlay — VSL (somente após iniciar) */}
-      {started && !loadHidden && !ended && (
+      {/* Loading spinner — somente enquanto realmente carrega */}
+      {loading && !ended && (
         <div
-          className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none rounded-[inherit] overflow-hidden"
-          style={{
-            background: "#0d0d0d",
-            opacity: loadFading ? 0 : 1,
-            transition: "opacity 0.5s ease-out",
-          }}
+          className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none bg-black"
         >
-          <div className="relative" style={{ width: 96, height: 96 }}>
-              <svg
-                width="96"
-                height="96"
-                viewBox="0 0 96 96"
-                style={{ animation: "vsl-spin 2s linear infinite" }}
-              >
-                <circle cx="48" cy="48" r="42" stroke="#1a1a1a" strokeWidth="4" fill="none" />
-                <circle
-                  cx="48"
-                  cy="48"
-                  r="42"
-                  stroke="#00FF41"
-                  strokeWidth="4"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeDasharray={2 * Math.PI * 42}
-                  strokeDashoffset={2 * Math.PI * 42 * (1 - loadProgress / 100)}
-                  transform="rotate(-90 48 48)"
-                  style={{ transition: "stroke-dashoffset 0.3s ease-out" }}
-                />
-              </svg>
-              <div
-                className="absolute inset-0 flex items-center justify-center"
-                style={{ color: "#fff", fontWeight: 700, fontSize: "24px" }}
-              >
-                {Math.round(loadProgress)}%
-              </div>
-          </div>
-
+          <svg width="56" height="56" viewBox="0 0 56 56" style={{ animation: "vsl-spin 1s linear infinite" }}>
+            <circle cx="28" cy="28" r="24" stroke="#1a1a1a" strokeWidth="4" fill="none" />
+            <circle cx="28" cy="28" r="24" stroke="#00FF41" strokeWidth="4" fill="none" strokeLinecap="round"
+              strokeDasharray={2 * Math.PI * 24} strokeDashoffset={2 * Math.PI * 24 * 0.7} />
+          </svg>
           <style>{`@keyframes vsl-spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
 
       {/* Tap-to-unmute overlay — autoplay muted estilo Netflix */}
-      {muted && !ended && loadHidden && (
+      {muted && !ended && !loading && (
         <button
           type="button"
           onClick={(e) => {
