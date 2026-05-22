@@ -149,6 +149,17 @@
   }
 }
 
+/* Performance — evitar scroll horizontal global */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Placeholder cinza escuro para imagens enquanto carregam */
+img {
+  background-color: #1a1a1a;
+}
+
 /* Bloco "Antes vs Depois" — animações on-scroll */
 @keyframes slide-in-left {
   from { opacity: 0; transform: translateX(-40px); }

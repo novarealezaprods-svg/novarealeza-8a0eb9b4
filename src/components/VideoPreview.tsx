@@ -171,7 +171,7 @@ export function VideoPreview({ url }: { url: string }) {
           ref={videoRef}
           src={directUrl}
           muted={muted}
-          preload="auto"
+          preload="metadata"
           playsInline
           onEnded={() => setEnded(true)}
           onPlaying={() => { setLoading(false); setPaused(false); }}
