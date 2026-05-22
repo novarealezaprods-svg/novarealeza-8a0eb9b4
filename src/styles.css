@@ -155,10 +155,7 @@ html, body {
   max-width: 100%;
 }
 
-/* Placeholder preto para imagens enquanto carregam */
-img {
-  background-color: #000000;
-}
+/* Sem placeholder de fundo nas imagens (preserva PNGs transparentes) */
 
 /* Bloco "Antes vs Depois" — animações on-scroll */
 @keyframes slide-in-left {
