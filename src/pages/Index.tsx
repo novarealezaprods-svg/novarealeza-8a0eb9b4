@@ -730,7 +730,7 @@ export default function IndexPage() {
                     "Drum kit profissional (808, kicks, hats...)",
                     "Presets de mixagem",
                     "Acesso a comunidade do Whatsapp com artistas de todo Brasil",
-                    "Suporte prioritário no WhatsApp",
+                    "100% Royalty Free — Spotify, YouTube, TikTok",
                   ].map((f, i) => (
                     <div key={i} className="supreme-feature">
                       <span className="supreme-feature-check">
