@@ -26,6 +26,7 @@ export function VideoPreview({ url }: { url: string }) {
   const [reloadKey, setReloadKey] = useState(0);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [bufferPct, setBufferPct] = useState(0);
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -122,6 +123,20 @@ export function VideoPreview({ url }: { url: string }) {
     }
   }, [embed, directUrl, reloadKey]);
 
+  // Simulated Netflix-style loading percentage while buffering
+  useEffect(() => {
+    if (!loading) return;
+    setBufferPct(0);
+    let pct = 0;
+    const id = window.setInterval(() => {
+      // ease toward 95%, never reach 100 until actually playing
+      const remaining = 95 - pct;
+      pct = Math.min(95, pct + Math.max(0.5, remaining * 0.08));
+      setBufferPct(pct);
+    }, 120);
+    return () => window.clearInterval(id);
+  }, [loading, reloadKey]);
+
   const replay = () => {
     setEnded(false);
     setProgress(0);
@@ -171,7 +186,7 @@ export function VideoPreview({ url }: { url: string }) {
           ref={videoRef}
           src={directUrl}
           muted={muted}
-          preload="metadata"
+          preload="auto"
           playsInline
           onEnded={() => setEnded(true)}
           onPlaying={() => { setLoading(false); setPaused(false); }}
@@ -188,17 +203,21 @@ export function VideoPreview({ url }: { url: string }) {
         />
       )}
 
-      {/* Loading spinner — somente enquanto realmente carrega */}
+      {/* Netflix-style loading overlay com porcentagem */}
       {loading && !ended && (
-        <div
-          className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none bg-black"
-        >
-          <svg width="56" height="56" viewBox="0 0 56 56" style={{ animation: "vsl-spin 1s linear infinite" }}>
-            <circle cx="28" cy="28" r="24" stroke="#1a1a1a" strokeWidth="4" fill="none" />
-            <circle cx="28" cy="28" r="24" stroke="#00FF41" strokeWidth="4" fill="none" strokeLinecap="round"
-              strokeDasharray={2 * Math.PI * 24} strokeDashoffset={2 * Math.PI * 24 * 0.7} />
-          </svg>
-          <style>{`@keyframes vsl-spin { to { transform: rotate(360deg); } }`}</style>
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none bg-black gap-4 px-8">
+          <div className="text-white font-semibold text-2xl sm:text-3xl tabular-nums">
+            {Math.floor(bufferPct)}%
+          </div>
+          <div className="w-full max-w-xs h-[3px] bg-white/15 overflow-hidden rounded-full">
+            <div
+              className="h-full bg-[#00FF41] transition-[width] duration-150 ease-linear"
+              style={{
+                width: `${bufferPct}%`,
+                boxShadow: "0 0 10px #00FF41, 0 0 4px #00FF41",
+              }}
+            />
+          </div>
         </div>
       )}
 
