@@ -723,23 +723,6 @@ export default function IndexPage() {
                 </div>
 
                 <div
-                  className="mt-8 rounded-xl px-4 py-3 max-w-md mx-auto"
-                  style={{
-                    background: "rgba(255, 196, 0, 0.08)",
-                    border: "1px solid rgba(255, 196, 0, 0.28)",
-                  }}
-                >
-                  <p className="text-sm md:text-base font-semibold text-[#fff8e0] flex items-center justify-center gap-2 flex-wrap">
-                    <Trophy className="h-4 w-4 text-[#ffd86b]" />
-                    <span>Apenas</span>
-                    <span className="font-black text-[#ffd86b]" style={{ textShadow: "0 0 12px rgba(255, 215, 0, 0.6)" }}>
-                      30 vagas
-                    </span>
-                    <span>nesse preço</span>
-                  </p>
-                </div>
-
-                <div
                   className="mt-4 rounded-xl px-4 py-3 max-w-md mx-auto"
                   style={{
                     background: "rgba(255, 196, 0, 0.08)",
