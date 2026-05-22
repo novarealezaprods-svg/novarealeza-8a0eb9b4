@@ -1073,3 +1073,13 @@
   color: #1a2e21;
   stroke-width: 3.5;
 }
+
+.hero-cta.basic-cta {
+  background: linear-gradient(180deg, #cde8d2 0%, #9cc4a6 100%);
+  color: #1a2e21;
+  box-shadow:
+    0 0 24px rgba(156, 196, 166, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+}
