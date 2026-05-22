@@ -724,7 +724,7 @@ export default function IndexPage() {
                   <span className="supreme-title">PACK 300 BEATS+</span>
                 </h3>
                 <p className="mt-2 text-sm md:text-base text-[#d9c98e] font-semibold tracking-wide">
-                  Pacote completo · Acesso vitalício VIP
+                  Pacote completo
                 </p>
 
                 <div className="mt-6 flex flex-col items-center gap-1">
