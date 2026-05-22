@@ -695,17 +695,6 @@ export default function IndexPage() {
               </div>
             </div>
 
-            {/* Banner de transição animado */}
-            <div className="upsell-transition-banner reveal">
-              <div className="upsell-transition-inner">
-                <div className="upsell-arrows" aria-hidden="true">
-                  <span className="upsell-arrow-seq a1">↓</span>
-                  <span className="upsell-arrow-seq a2">↓</span>
-                  <span className="upsell-arrow-seq a3">↓</span>
-                </div>
-              </div>
-            </div>
-
             {/* Transição dourada para apresentar o Pack 300 */}
             <div className="text-center reveal reveal-zoom py-2">
               <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
