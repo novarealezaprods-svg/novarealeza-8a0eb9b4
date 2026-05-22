@@ -393,6 +393,9 @@ export default function IndexPage() {
                         src={normalizeDirectUrl(src)}
                         alt={`Prova social ${i + 1}`}
                         loading="lazy"
+                        decoding="async"
+                        width="600"
+                        height="600"
                         className="absolute inset-0 w-full h-full object-contain"
                       />
                     </div>
@@ -630,6 +633,9 @@ export default function IndexPage() {
                   alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
                   className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
                   loading="lazy"
+                  decoding="async"
+                  width="176"
+                  height="176"
                 />
                 <div className="flex-1 flex flex-col items-center md:items-start gap-3">
                   <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
