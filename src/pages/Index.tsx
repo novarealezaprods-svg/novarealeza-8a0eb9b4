@@ -698,10 +698,6 @@ export default function IndexPage() {
             {/* Banner de transição animado */}
             <div className="upsell-transition-banner reveal">
               <div className="upsell-transition-inner">
-                <p className="upsell-main">
-                  🔥 PERAÍ — TEM UMA OFERTA <span className="upsell-highlight">AINDA MELHOR</span> ESPERANDO POR VOCÊ
-                </p>
-                <p className="upsell-sub">Mais beats. Mais estilos. Preço que não faz sentido.</p>
                 <div className="upsell-arrows" aria-hidden="true">
                   <span className="upsell-arrow-seq a1">↓</span>
                   <span className="upsell-arrow-seq a2">↓</span>
