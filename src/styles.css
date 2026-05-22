@@ -1088,9 +1088,9 @@
 .upsell-transition-banner {
   width: 100%;
   padding: 32px 0;
-  background: #111111;
-  border-top: 1px solid rgba(255, 215, 0, 0.3);
-  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+  background: transparent;
+  border-top: none;
+  border-bottom: none;
   display: flex;
   justify-content: center;
   align-items: center;
