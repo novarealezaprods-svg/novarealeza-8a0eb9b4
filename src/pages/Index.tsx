@@ -655,7 +655,7 @@ export default function IndexPage() {
 
           {/* BLOCO 2 — Cards de Compra (Pack 100 + Pack 300 lado a lado) */}
           <div id="pack-basico" className="mt-12 md:mt-16 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
-            <div className="basic-card reveal reveal-zoom max-w-md mx-auto w-full">
+            <div className="basic-card max-w-md mx-auto w-full">
               <div className="basic-card-inner text-center" style={{ padding: "20px" }}>
                 <span className="basic-badge">
                   <Flame className="h-3 w-3" />
@@ -702,7 +702,7 @@ export default function IndexPage() {
             </div>
 
             {/* Transição dourada para apresentar o Pack 300 */}
-            <div className="text-center reveal reveal-zoom py-2">
+            <div className="text-center py-2">
               <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
                 <span className="supreme-title">Seja Um Artista Completo</span>
               </h2>
@@ -711,7 +711,7 @@ export default function IndexPage() {
             {/* Pack 300 — destaque verde */}
             <div
               id="oferta-suprema"
-              className="reveal reveal-zoom relative scroll-mt-20 rounded-2xl"
+              className="relative scroll-mt-20 rounded-2xl"
               style={{
                 border: "2px solid rgba(255, 196, 0, 0.55)",
                 boxShadow:
