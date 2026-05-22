@@ -37,7 +37,7 @@ const features = [
 ];
 const packFeatures = [
   "100 beats profissionais (40 Funk · 40 Trap · 20 Variados)",
-  "100% Royalty Free — Spotify, YouTube, TikTok",
+  "Liberado para todas plataformas digitais",
   "Mixados e masterizados em alta qualidade",
 ];
 const testimonials = [
