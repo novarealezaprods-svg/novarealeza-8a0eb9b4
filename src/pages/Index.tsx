@@ -358,7 +358,7 @@ export default function IndexPage() {
       </section>
 
       <section className="border-y border-border/50 bg-card/30">
-        <div className={`${CONTAINER} py-6 md:py-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center`}>
+        <div className={`${CONTAINER} py-6 md:py-8 grid grid-cols-2 gap-4 text-center`}>
           {stats.map((s) => (
             <div key={s.id}>
               <div className="text-2xl md:text-3xl font-black">{s.n}</div>
