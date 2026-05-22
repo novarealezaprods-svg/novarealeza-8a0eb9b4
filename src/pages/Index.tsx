@@ -254,7 +254,7 @@ export default function IndexPage() {
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
               <span className="hero-cta-shine" aria-hidden="true" />
-              <span className="hero-cta-text">QUERO MEUS 100 BEATS POR 19,90</span>
+              <span className="hero-cta-text">QUERO GARANTIR MEU PACK</span>
             </button>
             <button
               type="button"
