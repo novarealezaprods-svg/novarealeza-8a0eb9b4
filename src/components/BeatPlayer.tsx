@@ -202,11 +202,7 @@ export function BeatPlayer({
 
   return (
     <div
-      onClick={() => onOpen?.(index)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen?.(index); } }}
-      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square cursor-pointer"
+      className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square"
       style={{
         background: bgImage
           ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
@@ -237,7 +233,7 @@ export function BeatPlayer({
 
       <div className="flex justify-center my-1 md:my-4">
         <button
-          onClick={(e) => { e.stopPropagation(); toggle(); }}
+          onClick={toggle}
           aria-label={isPlaying ? "Pausar" : "Tocar"}
           disabled={!resolvedUrl}
           className={`h-11 w-11 md:h-16 md:w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${
