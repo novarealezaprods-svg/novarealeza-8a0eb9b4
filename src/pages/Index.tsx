@@ -24,6 +24,7 @@ import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon, Loa
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
+import garantia7Dias from "@/assets/garantia-7-dias.png";
 
 const genres = ["BOOMBAP/RAP", "FUNK", "NEW JAZZ", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
 const features = [
@@ -622,17 +623,29 @@ export default function IndexPage() {
           </div>
 
           {/* Garantia Incondicional 7 dias */}
-          <div className="mt-16 md:mt-20 max-w-2xl mx-auto reveal">
-            <div className="rounded-2xl border border-primary/40 bg-card/60 p-6 md:p-8 text-center flex flex-col items-center gap-4">
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 border border-primary/30">
-                <ShieldCheck className="w-8 h-8 text-primary" />
+          <div className="mt-16 md:mt-20 max-w-3xl mx-auto reveal">
+            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
+              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
+              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
+                <img
+                  src={garantia7Dias}
+                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
+                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
+                  loading="lazy"
+                />
+                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Risco zero
+                  </span>
+                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
+                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
+                  </h3>
+                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
+                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-2xl md:text-3xl font-black tracking-tight">
-                Garantia Incondicional de 7 Dias
-              </h3>
-              <p className="text-sm md:text-base text-muted-foreground max-w-lg">
-                Sua compra é 100% protegida. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos todo o seu dinheiro — sem perguntas, sem burocracia. O risco é todo nosso.
-              </p>
             </div>
           </div>
 
