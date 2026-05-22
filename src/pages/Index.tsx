@@ -671,9 +671,6 @@ export default function IndexPage() {
                   <ShieldCheck className="h-3 w-3" />
                   <span>Garantia incondicional de 7 dias</span>
                 </p>
-                <div className="mt-6">
-                  <ScarcityBar />
-                </div>
               </div>
             </div>
 
