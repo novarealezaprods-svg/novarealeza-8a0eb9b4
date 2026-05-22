@@ -416,30 +416,30 @@ export default function IndexPage() {
           {/* BLOCO — Dor (acima do Antes vs Depois) */}
           <div className="max-w-3xl mx-auto mb-14 md:mb-20 reveal">
             <div
-              className="rounded-2xl p-6 md:p-9 border border-destructive/40 bg-[#0a0a0a] relative overflow-hidden"
+              className="rounded-2xl p-6 md:p-10 border border-destructive/40 bg-[#0a0a0a] relative overflow-hidden text-center"
               style={{ boxShadow: "0 10px 40px -10px hsl(var(--destructive) / 0.35)" }}
             >
               <div className="absolute inset-x-0 top-0 h-[3px] bg-destructive" />
-              <div className="flex items-center gap-3 mb-5">
-                <span className="flex items-center justify-center h-10 w-10 rounded-full bg-destructive/15 text-destructive flex-shrink-0">
-                  <AlertTriangle className="h-5 w-5" />
+              <div className="flex flex-col items-center gap-3 mb-6">
+                <span className="flex items-center justify-center h-12 w-12 rounded-full bg-destructive/15 text-destructive">
+                  <AlertTriangle className="h-6 w-6" />
                 </span>
                 <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-destructive/10 text-destructive border border-destructive/30">
                   A verdade que ninguém te conta
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-4xl font-black text-white leading-[1.1]">
+              <h3 className="text-3xl md:text-4xl font-black text-white leading-[1.15]">
                 Beat ruim não é só "som fraco".
                 <br />
                 <span className="text-destructive">É a sua carreira travada antes de começar.</span>
               </h3>
 
-              <p className="mt-5 text-[15px] md:text-base text-[#cfcfcf] leading-relaxed">
+              <p className="mt-6 text-[17px] md:text-xl text-[#dcdcdc] leading-relaxed max-w-2xl mx-auto">
                 Enquanto você posta com beat free que <span className="text-white font-semibold">todo mundo já usou</span>, o ouvinte pula em 3 segundos. Sua música não registra nas plataformas, não roda no Spotify, não monetiza no YouTube — e pior: pode <span className="text-white font-semibold">cair do ar a qualquer momento</span> por direitos autorais.
               </p>
 
-              <ul className="mt-7 flex flex-col" style={{ gap: "12px" }}>
+              <ul className="mt-8 flex flex-col items-center max-w-xl mx-auto" style={{ gap: "16px" }}>
                 {[
                   "Som genérico que qualquer um já usou — você vira mais um na multidão",
                   "Sem registro nas plataformas, sua música não conta como sua",
@@ -449,8 +449,8 @@ export default function IndexPage() {
                 ].map((t, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-3 font-medium leading-snug"
-                    style={{ fontSize: "15px", color: "#dcdcdc" }}
+                    className="flex items-start gap-3 font-medium leading-snug text-left"
+                    style={{ fontSize: "17px", color: "#e6e6e6" }}
                   >
                     <span className="text-destructive font-bold flex-shrink-0 mt-0.5">⚠</span>
                     <span>{t}</span>
@@ -458,7 +458,7 @@ export default function IndexPage() {
                 ))}
               </ul>
 
-              <p className="mt-7 text-center text-base md:text-lg font-black text-white">
+              <p className="mt-8 text-lg md:text-xl font-black text-white">
                 Quantos lançamentos você já <span className="text-destructive">queimou</span> assim?
               </p>
             </div>
