@@ -649,28 +649,28 @@ export default function IndexPage() {
 
           {/* BLOCO 2 — Cards de Compra (Pack 100 + Pack 300 lado a lado) */}
           <div id="pack-basico" className="mt-12 md:mt-16 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
-            <div className="basic-card reveal reveal-zoom">
-              <div className="basic-card-inner text-center">
+            <div className="basic-card reveal reveal-zoom max-w-md mx-auto w-full">
+              <div className="basic-card-inner text-center" style={{ padding: "20px" }}>
                 <span className="basic-badge">
                   <Flame className="h-3 w-3" />
                   <span>Oferta limitada</span>
                 </span>
-                <h2 className="mt-5 text-3xl md:text-4xl font-black tracking-tight">
+                <h2 className="mt-3 text-2xl md:text-3xl font-black tracking-tight">
                   <span className="basic-title">Pack 100 Beats</span>
                 </h2>
-                <p className="mt-2 text-sm md:text-base text-[#9ad9a4] font-semibold tracking-wide">
+                <p className="mt-1 text-xs md:text-sm text-[#9ad9a4] font-semibold tracking-wide">
                   Pagamento único · Acesso vitalício
                 </p>
 
-                <div className="mt-6 flex flex-col items-center gap-1">
-                  <span className="basic-price text-5xl md:text-6xl font-black leading-none">
+                <div className="mt-4 flex flex-col items-center gap-1">
+                  <span className="basic-price text-4xl md:text-5xl font-black leading-none">
                     R$ 19,90
                   </span>
                 </div>
 
-                <div className="mt-8 text-left max-w-md mx-auto flex flex-col" style={{ gap: "6px" }}>
+                <div className="mt-5 text-left max-w-md mx-auto flex flex-col" style={{ gap: "4px" }}>
                   {packFeatures.map((f, i) => (
-                    <div key={i} className="basic-feature" style={{ fontSize: "13px" }}>
+                    <div key={i} className="basic-feature" style={{ fontSize: "12px" }}>
                       <span className="basic-feature-check">
                         <Check />
                       </span>
