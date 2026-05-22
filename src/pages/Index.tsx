@@ -707,7 +707,7 @@ export default function IndexPage() {
                   {[
                     "TUDO do pack base (100 beats prontos)",
                     "+200 Beats Adicionados",
-                    "TODOS estilos musicais ",
+                    "TODOS estilos musicais (Trap - Funk - R&B - Drill - Hard - Boombap - Hood - Reggaeton)",
                     "Drum kit profissional (808, kicks, hats...)",
                     "Presets de mixagem",
                     "Acesso a comunidade do Whatsapp com artistas de todo Brasil",
