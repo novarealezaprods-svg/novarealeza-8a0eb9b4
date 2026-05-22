@@ -645,7 +645,7 @@ export default function IndexPage() {
                 <div className="hero-cta-block flex flex-col items-center w-full">
                   <button
                     onClick={handleBasicCheckoutClick}
-                    className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
+                    className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
                   >
                     <span className="hero-cta-shine" aria-hidden="true" />
                     <span className="hero-cta-text">QUERO MEU PACK AGORA</span>
