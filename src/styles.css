@@ -155,9 +155,9 @@ html, body {
   max-width: 100%;
 }
 
-/* Placeholder cinza escuro para imagens enquanto carregam */
+/* Placeholder preto para imagens enquanto carregam */
 img {
-  background-color: #1a1a1a;
+  background-color: #000000;
 }
 
 /* Bloco "Antes vs Depois" — animações on-scroll */
