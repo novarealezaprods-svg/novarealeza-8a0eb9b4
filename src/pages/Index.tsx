@@ -26,12 +26,12 @@ import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 import garantia7Dias from "@/assets/garantia-7-dias.png";
 
-const genres = ["BOOMBAP/RAP", "FUNK", "TRAP", "Hard", "Sampled", "R&B", "Drill", "EXPERIMENTAL"];
+const genres = ["BOOMBAP/RAP", "FUNK", "TRAP", "Hard", "NEW JAZZ", "R&B", "Drill", "EXPERIMENTAL"];
 const features = [
   "100 beats profissionais prontos para uso",
   "40 beats funk",
   "40 beats trap",
-  "20 beats variados (boombap, edm, drill, new jazz)",
+  "20 beats variados (boombap, edm, drill, NEW JAZZ)",
   "100% royalty free — você fica com tudo",
   "Liberado para Spotify, YouTube, TikTok",
   "Mixados e masterizados em alta qualidade",
