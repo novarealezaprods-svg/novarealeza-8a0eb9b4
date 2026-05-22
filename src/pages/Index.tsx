@@ -709,7 +709,7 @@ export default function IndexPage() {
                     "+200 Beats Adicionados",
                     "TODOS estilos musicais (Trap - Funk - R&B - Drill - Hard - Boombap - Hood - Reggaeton)",
                     "Bônus 1: Drum kit profissional (808, kicks, hats...)",
-                    "Presets de mixagem",
+                    "Bônus 2: Presets De Mixagem",
                     "Acesso a comunidade do Whatsapp com artistas de todo Brasil",
                     "100% Royalty Free — Spotify, YouTube, TikTok",
                   ].map((f, i) => (
