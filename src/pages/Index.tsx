@@ -84,6 +84,17 @@ export default function IndexPage() {
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
   useEffect(() => {
+    // Garante que o site sempre inicia no topo (evita scroll restoration do navegador)
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    if (window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".ba-card");
     if (!els.length) return;
     const io = new IntersectionObserver(
