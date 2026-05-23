@@ -800,12 +800,12 @@ export default function IndexPage() {
                     style={{
                       display: "grid",
                       gridTemplateColumns: "1fr 1fr",
-                      gap: "8px 12px",
-                      background: "rgba(0,0,0,0.3)",
-                      borderRadius: "10px",
-                      padding: "12px",
+                      gap: "0 16px",
+                      background: "rgba(255,215,0,0.05)",
+                      borderRadius: "12px",
+                      padding: "16px",
                       margin: "8px 0",
-                      border: "1px solid rgba(255, 196, 0, 0.2)",
+                      border: "1px solid rgba(255,215,0,0.2)",
                     }}
                   >
                     {[
@@ -813,26 +813,28 @@ export default function IndexPage() {
                       { icon: "🔥", name: "Funk", qty: "118 beats" },
                       { icon: "💥", name: "Drill", qty: "23 beats" },
                       { icon: "🎵", name: "Boombap", qty: "20 beats" },
-                      { icon: "🖤", name: "R&B", qty: "à definir" },
-                      { icon: "🎸", name: "Hard", qty: "à definir" },
+                      { icon: "🎶", name: "R&B", qty: "23 beats" },
+                      { icon: "⚡", name: "Hard", qty: "30 beats" },
                     ].map((g, i) => (
                       <div
                         key={i}
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          gap: "6px",
-                          fontSize: "13px",
-                          color: "#fff8e0",
+                          gap: "8px",
+                          padding: "8px 0",
+                          borderBottom: "1px solid rgba(255,215,0,0.08)",
                         }}
                       >
-                        <span style={{ fontSize: "15px" }}>{g.icon}</span>
-                        <span>{g.name}</span>
+                        <span style={{ fontSize: "20px" }}>{g.icon}</span>
+                        <span style={{ color: "#ffffff", fontSize: "13px" }}>{g.name}</span>
                         <span
                           style={{
                             marginLeft: "auto",
-                            color: "#ffd86b",
-                            fontWeight: 800,
+                            color: "#FFD700",
+                            fontWeight: 700,
+                            fontSize: "14px",
+                            textAlign: "right",
                             textShadow: "0 0 8px rgba(255,215,0,0.4)",
                           }}
                         >
@@ -844,12 +846,13 @@ export default function IndexPage() {
                       style={{
                         gridColumn: "1 / -1",
                         textAlign: "center",
-                        color: "rgba(255, 216, 107, 0.7)",
-                        fontSize: "12px",
-                        marginTop: "4px",
+                        color: "#FFD700",
+                        fontWeight: 700,
+                        fontSize: "13px",
+                        marginTop: "8px",
                       }}
                     >
-                      e muito mais estilos inclusos
+                      335 beats no total
                     </p>
                   </div>
                 </div>
