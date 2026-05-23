@@ -132,15 +132,38 @@ export default function IndexPage() {
   }, [beats.length, proofImages.length]);
 
   useEffect(() => {
+    // Carrega o vídeo da VSL o quanto antes, em paralelo (não espera o resto)
+    (async () => {
+      const { data } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "preview_video")
+        .maybeSingle();
+      const url = (data as any)?.value ?? null;
+      if (!url) return;
+      setPreviewVideo(url);
+      // Preload do arquivo de vídeo direto (não funciona para YouTube/Vimeo)
+      const isEmbed = /youtube\.com|youtu\.be|vimeo\.com/.test(url);
+      if (!isEmbed) {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "video";
+        link.href = url;
+        (link as any).fetchPriority = "high";
+        document.head.appendChild(link);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     (async () => {
       const [{ data: settings }, { data: imgs }, { data: bts }, { data: pls }] = await Promise.all([
-        supabase.from("site_settings").select("key,value"),
+        supabase.from("site_settings").select("key,value").neq("key", "preview_video"),
         supabase.from("proof_images").select("url").order("position", { ascending: true }),
         supabase.from("beats").select("name,url,key,bpm,image_url,genre,active").eq("active", true).order("position", { ascending: true }),
         supabase.from("playlists" as any).select("id,name,url").order("position", { ascending: true }),
       ]);
       const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
-      setPreviewVideo(map["preview_video"] ?? null);
       setCheckoutUrl(map["checkout_url"] ?? "");
       setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
       setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
