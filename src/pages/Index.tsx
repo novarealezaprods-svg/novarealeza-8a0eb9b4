@@ -448,7 +448,14 @@ export default function IndexPage() {
                 <span className="flex items-center justify-center h-12 w-12 rounded-full bg-destructive/15 text-destructive">
                   <AlertTriangle className="h-6 w-6" />
                 </span>
-                <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-destructive/10 text-destructive border border-destructive/30">
+                <span
+                  className="inline-flex items-center rounded-full font-bold uppercase tracking-wider bg-destructive/10 text-destructive"
+                  style={{
+                    padding: "6px 16px",
+                    fontSize: "11px",
+                    border: "1px solid rgba(255,60,60,0.5)",
+                  }}
+                >
                   A verdade que ninguém te conta
                 </span>
               </div>
@@ -459,11 +466,19 @@ export default function IndexPage() {
                 <span className="text-destructive">É a sua carreira travada antes de começar.</span>
               </h3>
 
-              <p className="mt-6 text-[17px] md:text-xl text-[#dcdcdc] leading-relaxed max-w-2xl mx-auto">
-                Enquanto você posta com beat free que <span className="text-white font-semibold">todo mundo já usou</span>, o ouvinte pula em 3 segundos. Sua música não registra nas plataformas, não roda no Spotify, não monetiza no YouTube — e pior: pode <span className="text-white font-semibold">cair do ar a qualquer momento</span> por direitos autorais.
-              </p>
+              <div
+                className="mt-6 text-[#dcdcdc] max-w-2xl mx-auto flex flex-col"
+                style={{ gap: "12px", fontSize: "14px", lineHeight: 1.7 }}
+              >
+                <p>
+                  Enquanto você posta com beat free que <span className="text-white font-semibold">todo mundo já usou</span>.
+                </p>
+                <p>
+                  O ouvinte pula em 3 segundos. Sua música não registra nas plataformas, não roda no Spotify, não monetiza no YouTube — e pior: pode <span className="text-white font-semibold">cair do ar a qualquer momento</span> por direitos autorais.
+                </p>
+              </div>
 
-              <ul className="mt-8 flex flex-col items-center max-w-xl mx-auto" style={{ gap: "16px" }}>
+              <ul className="mt-8 flex flex-col items-center max-w-xl mx-auto" style={{ gap: "10px" }}>
                 {[
                   "Som genérico que qualquer um já usou — você vira mais um na multidão",
                   "Sem registro nas plataformas, sua música não conta como sua",
@@ -474,17 +489,52 @@ export default function IndexPage() {
                   <li
                     key={i}
                     className="flex items-start gap-3 font-medium leading-snug text-left"
-                    style={{ fontSize: "17px", color: "#e6e6e6" }}
+                    style={{ fontSize: "14px", color: "#e6e6e6" }}
                   >
-                    <span className="text-destructive font-bold flex-shrink-0 mt-0.5">⚠</span>
+                    <span
+                      className="font-bold flex-shrink-0 mt-0.5"
+                      style={{ color: "#FF3C3C", fontSize: "16px" }}
+                    >
+                      ❌
+                    </span>
                     <span>{t}</span>
                   </li>
                 ))}
               </ul>
 
-              <p className="mt-8 text-lg md:text-xl font-black text-white">
+              <p
+                className="mt-8 font-black text-white"
+                style={{ fontSize: "18px", marginBottom: "16px" }}
+              >
                 Quantos lançamentos você já <span className="text-destructive">queimou</span> assim?
               </p>
+              <button
+                type="button"
+                onClick={() => {
+                  document
+                    .getElementById("pack-basico")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="inline-flex items-center justify-center font-semibold transition-colors duration-200"
+                style={{
+                  background: "transparent",
+                  border: "1px solid #00FF41",
+                  color: "#00FF41",
+                  fontSize: "13px",
+                  borderRadius: "100px",
+                  padding: "8px 20px",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#00FF41";
+                  e.currentTarget.style.color = "#000";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#00FF41";
+                }}
+              >
+                Resolve Isso Agora →
+              </button>
             </div>
           </div>
 
