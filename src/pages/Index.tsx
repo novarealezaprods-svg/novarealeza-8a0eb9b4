@@ -842,18 +842,6 @@ export default function IndexPage() {
                         </span>
                       </div>
                     ))}
-                    <p
-                      style={{
-                        gridColumn: "1 / -1",
-                        textAlign: "center",
-                        color: "#FFD700",
-                        fontWeight: 700,
-                        fontSize: "13px",
-                        marginTop: "8px",
-                      }}
-                    >
-                      335 beats no total
-                    </p>
                   </div>
                 </div>
 
