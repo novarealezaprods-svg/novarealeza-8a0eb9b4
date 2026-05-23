@@ -524,7 +524,7 @@ export default function IndexPage() {
               </div>
               <ul className="flex flex-col" style={{ gap: "14px" }}>
                 {[
-                  "100 beats exclusivos e profissionais",
+                  "100 beats de identidade e original",
                   "100% royalty free — Spotify, YouTube, sem medo",
                   "Som que posiciona você como artista sério",
                   "BOOMBAP/RAP, FUNK, R&B, NEW JAZZ e muito mais",
