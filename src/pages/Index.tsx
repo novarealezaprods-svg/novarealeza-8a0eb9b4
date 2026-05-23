@@ -797,9 +797,8 @@ export default function IndexPage() {
                     </div>
                   ))}
                   <div
+                    className="grid grid-cols-1 md:grid-cols-2"
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
                       gap: "0 16px",
                       background: "rgba(255,215,0,0.05)",
                       borderRadius: "12px",
@@ -822,12 +821,12 @@ export default function IndexPage() {
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
-                          padding: "8px 0",
+                          padding: "8px 12px",
                           borderBottom: "1px solid rgba(255,215,0,0.08)",
                         }}
                       >
                         <span style={{ fontSize: "20px" }}>{g.icon}</span>
-                        <span style={{ color: "#ffffff", fontSize: "13px" }}>{g.name}</span>
+                        <span style={{ color: "#ffffff", fontSize: "14px" }}>{g.name}</span>
                         <span
                           style={{
                             marginLeft: "auto",
@@ -835,6 +834,7 @@ export default function IndexPage() {
                             fontWeight: 700,
                             fontSize: "14px",
                             textAlign: "right",
+                            whiteSpace: "nowrap",
                             textShadow: "0 0 8px rgba(255,215,0,0.4)",
                           }}
                         >
