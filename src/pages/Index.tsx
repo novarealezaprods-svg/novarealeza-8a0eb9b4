@@ -134,6 +134,11 @@ export default function IndexPage() {
   useEffect(() => {
     // Carrega o vídeo da VSL o quanto antes, em paralelo (não espera o resto)
     (async () => {
+      // Usa URL cacheada para começar a carregar imediatamente
+      try {
+        const cached = localStorage.getItem("vsl_url");
+        if (cached) setPreviewVideo(cached);
+      } catch {}
       const { data } = await supabase
         .from("site_settings")
         .select("value")
@@ -142,6 +147,7 @@ export default function IndexPage() {
       const url = (data as any)?.value ?? null;
       if (!url) return;
       setPreviewVideo(url);
+      try { localStorage.setItem("vsl_url", url); } catch {}
       // Preload do arquivo de vídeo direto (não funciona para YouTube/Vimeo)
       const isEmbed = /youtube\.com|youtu\.be|vimeo\.com/.test(url);
       if (!isEmbed) {
