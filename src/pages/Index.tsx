@@ -511,6 +511,51 @@ export default function IndexPage() {
             </div>
           </div>
 
+          {/* BLOCO — História / Por que criei esse pack */}
+          <div className="max-w-3xl mx-auto mb-14 md:mb-20 reveal">
+            <div
+              className="rounded-2xl p-6 md:p-10 border border-accent/30 bg-[#0a0a0a] relative overflow-hidden"
+              style={{ boxShadow: "0 10px 40px -10px hsl(var(--accent) / 0.25)" }}
+            >
+              <div className="absolute inset-x-0 top-0 h-[3px] bg-accent" />
+              <div className="flex flex-col items-center gap-3 mb-6 text-center">
+                <span
+                  className="inline-flex items-center rounded-full font-bold uppercase tracking-wider bg-accent/10 text-accent"
+                  style={{
+                    padding: "6px 16px",
+                    fontSize: "11px",
+                    border: "1px solid rgba(0,255,65,0.4)",
+                  }}
+                >
+                  Por trás do pack
+                </span>
+                <h3 className="text-3xl md:text-4xl font-black text-white leading-[1.15]">
+                  6 meses construindo.
+                  <br />
+                  <span className="text-accent">Agora é a sua vez de usar.</span>
+                </h3>
+              </div>
+
+              <div
+                className="text-[#dcdcdc] max-w-2xl mx-auto flex flex-col"
+                style={{ gap: "12px", fontSize: "14px", lineHeight: 1.7 }}
+              >
+                <p>
+                  Esse pack nasceu de <span className="text-white font-semibold">6 meses de produção dedicada</span> — testando levadas, mixagens, vozes e referências até chegar em beats que realmente funcionam em qualquer projeto.
+                </p>
+                <p>
+                  Estou me desfazendo dele agora porque já comecei um <span className="text-white font-semibold">catálogo novo</span>, e faz mais sentido colocar esse material na mão de quem vai usar do que deixar parado no HD.
+                </p>
+                <p>
+                  É exatamente por isso que ele cobre <span className="text-white font-semibold">tantos gêneros diferentes</span>: trap, drill, funk, R&B, melódico, boombap, afro e mais. Foi feito durante meses de experimentação — então tem som pra <span className="text-accent font-semibold">todo tipo de artista e todo tipo de vibe</span>.
+                </p>
+                <p>
+                  Seja você rapper, cantor, produtor iniciante ou alguém que só quer postar conteúdo com som original e seguro: <span className="text-white font-semibold">tem beat aqui pro seu estilo</span>.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* BLOCO 1 — Antes vs Depois */}
           <div className="text-center mb-14 reveal">
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
