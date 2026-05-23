@@ -845,22 +845,6 @@ export default function IndexPage() {
                   </div>
                 </div>
 
-                <div
-                  className="mt-4 rounded-xl px-4 py-3 max-w-md mx-auto"
-                  style={{
-                    background: "rgba(255, 196, 0, 0.08)",
-                    border: "1px solid rgba(255, 196, 0, 0.28)",
-                  }}
-                >
-                  <p className="text-sm md:text-base font-semibold text-[#fff8e0] flex items-center justify-center gap-2 flex-wrap">
-                    <Flame className="h-4 w-4 text-[#ffd86b]" />
-                    <span className="font-black text-[#ffd86b]" style={{ textShadow: "0 0 10px rgba(255, 215, 0, 0.5)" }}>
-                      +2.500
-                    </span>
-                    <span>artistas já garantiram o pack</span>
-                  </p>
-                </div>
-
                 <div className="mt-8 flex flex-col items-center w-full">
                   <button
                     onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
