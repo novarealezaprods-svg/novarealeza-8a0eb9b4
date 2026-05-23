@@ -813,7 +813,7 @@ export default function IndexPage() {
                       { icon: "🔥", name: "Funk", qty: "118 beats" },
                       { icon: "💥", name: "Drill", qty: "23 beats" },
                       { icon: "🎵", name: "Boombap", qty: "20 beats" },
-                      { icon: "🎶", name: "R&B", qty: "23 beats" },
+                      { icon: "🎷", name: "R&B", qty: "23 beats" },
                       { icon: "🔨", name: "Hard", qty: "30 beats" },
                     ].map((g, i) => (
                       <div
