@@ -970,7 +970,7 @@ export default function IndexPage() {
                   border: "1px solid rgba(0,255,65,0.35)",
                 }}
               >
-                💰 Você economiza R$20,00
+                💰 Você economiza R$10,00
               </span>
             </div>
 
