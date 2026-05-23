@@ -20,6 +20,28 @@
     <link rel="dns-prefetch" href="https://www.youtube.com" />
     <link rel="dns-prefetch" href="https://player.vimeo.com" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.dropbox.com" />
+    <link rel="preconnect" href="https://www.dropbox.com" crossorigin />
+    <link rel="dns-prefetch" href="https://dl.dropboxusercontent.com" />
+    <link rel="preconnect" href="https://dl.dropboxusercontent.com" crossorigin />
+    <link rel="dns-prefetch" href="https://uc.dropbox.com" />
+    <link rel="preconnect" href="https://uc.dropbox.com" crossorigin />
+    <!-- Pré-carrega VSL imediatamente usando URL cacheada (sem esperar Supabase) -->
+    <script>
+      (function () {
+        try {
+          var u = localStorage.getItem('vsl_url');
+          if (u && !/youtube\.com|youtu\.be|vimeo\.com/.test(u)) {
+            var l = document.createElement('link');
+            l.rel = 'preload';
+            l.as = 'video';
+            l.href = u;
+            l.setAttribute('fetchpriority', 'high');
+            document.head.appendChild(l);
+          }
+        } catch (e) {}
+      })();
+    </script>
     <!-- Loader styles (inline para evitar FOUC) -->
     <style>
       html, body { overflow-x: hidden; max-width: 100%; }
