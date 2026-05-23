@@ -996,8 +996,8 @@ export default function IndexPage() {
                   setShowUpsell(false);
                   executeCheckout(checkoutUrl);
                 }}
-                className="w-full bg-transparent border-0 hover:text-white transition"
-                style={{ color: "#555", fontSize: "12px" }}
+                className="w-full bg-transparent border border-white/30 rounded-lg py-2 hover:bg-white/10 hover:border-white/60 transition"
+                style={{ color: "#bbb", fontSize: "14px", fontWeight: 500 }}
               >
                 Não, quero apenas o Pack 100
               </button>
