@@ -37,7 +37,7 @@ const features = [
   "Mixados e masterizados em alta qualidade",
 ];
 const packFeatures = [
-  "100 beats profissionais (40 Funk · 40 Trap · 20 Variados)",
+  "100 beats profissionais (40 Trap · 40 Funk · 20 Variados)",
   "Liberado para todas plataformas digitais",
   "Mixados e masterizados em alta qualidade",
 ];
