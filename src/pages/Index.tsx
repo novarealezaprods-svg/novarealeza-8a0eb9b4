@@ -815,7 +815,6 @@ export default function IndexPage() {
                       { icon: "🎵", name: "Boombap", qty: "20 beats" },
                       { icon: "🖤", name: "R&B", qty: "à definir" },
                       { icon: "🎸", name: "Hard", qty: "à definir" },
-                      { icon: "🏘️", name: "Hood", qty: "à definir" },
                     ].map((g, i) => (
                       <div
                         key={i}
