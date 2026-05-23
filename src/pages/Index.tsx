@@ -733,6 +733,23 @@ export default function IndexPage() {
                       border: "1px solid rgba(255,215,0,0.2)",
                     }}
                   >
+                    <div
+                      className="md:col-span-2"
+                      style={{
+                        textAlign: "center",
+                        color: "#FFD700",
+                        fontWeight: 800,
+                        fontSize: "15px",
+                        textTransform: "uppercase",
+                        letterSpacing: "1px",
+                        paddingBottom: "10px",
+                        marginBottom: "6px",
+                        borderBottom: "1px solid rgba(255,215,0,0.2)",
+                        textShadow: "0 0 10px rgba(255,215,0,0.4)",
+                      }}
+                    >
+                      O que você leva?
+                    </div>
                     {[
                       { icon: "🎯", name: "Trap", qty: "121 beats" },
                       { icon: "🔥", name: "Funk", qty: "118 beats" },
