@@ -495,7 +495,7 @@ export default function IndexPage() {
                       className="font-bold flex-shrink-0 mt-0.5"
                       style={{ color: "#FF3C3C", fontSize: "16px" }}
                     >
-                      ❌
+                      ⚠
                     </span>
                     <span>{t}</span>
                   </li>
@@ -508,33 +508,6 @@ export default function IndexPage() {
               >
                 Quantos lançamentos você já <span className="text-destructive">queimou</span> assim?
               </p>
-              <button
-                type="button"
-                onClick={() => {
-                  document
-                    .getElementById("pack-basico")
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
-                }}
-                className="inline-flex items-center justify-center font-semibold transition-colors duration-200"
-                style={{
-                  background: "transparent",
-                  border: "1px solid #00FF41",
-                  color: "#00FF41",
-                  fontSize: "13px",
-                  borderRadius: "100px",
-                  padding: "8px 20px",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#00FF41";
-                  e.currentTarget.style.color = "#000";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#00FF41";
-                }}
-              >
-                Resolve Isso Agora →
-              </button>
             </div>
           </div>
 
