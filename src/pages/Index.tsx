@@ -784,7 +784,6 @@ export default function IndexPage() {
                   {[
                     "TUDO do pack base (100 beats prontos)",
                     "+200 Beats Adicionados",
-                    "TODOS estilos musicais (Trap - Funk - R&B - Drill - Hard - Boombap - Hood - Reggaeton)",
                     "100% Royalty Free — Spotify, YouTube, TikTok",
                     "Bônus 1: Drum kit profissional (808, kicks, hats...)",
                     "Bônus 2: Presets De Mixagem (Bandlab e Fl Studio)",
@@ -797,6 +796,63 @@ export default function IndexPage() {
                       <span>{f}</span>
                     </div>
                   ))}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "8px 12px",
+                      background: "rgba(0,0,0,0.3)",
+                      borderRadius: "10px",
+                      padding: "12px",
+                      margin: "8px 0",
+                      border: "1px solid rgba(255, 196, 0, 0.2)",
+                    }}
+                  >
+                    {[
+                      { icon: "🎯", name: "Trap", qty: "121 beats" },
+                      { icon: "🔥", name: "Funk", qty: "118 beats" },
+                      { icon: "💥", name: "Drill", qty: "23 beats" },
+                      { icon: "🎵", name: "Boombap", qty: "20 beats" },
+                      { icon: "🖤", name: "R&B", qty: "à definir" },
+                      { icon: "🎸", name: "Hard", qty: "à definir" },
+                      { icon: "🏘️", name: "Hood", qty: "à definir" },
+                    ].map((g, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          fontSize: "13px",
+                          color: "#fff8e0",
+                        }}
+                      >
+                        <span style={{ fontSize: "15px" }}>{g.icon}</span>
+                        <span>{g.name}</span>
+                        <span
+                          style={{
+                            marginLeft: "auto",
+                            color: "#ffd86b",
+                            fontWeight: 800,
+                            textShadow: "0 0 8px rgba(255,215,0,0.4)",
+                          }}
+                        >
+                          {g.qty}
+                        </span>
+                      </div>
+                    ))}
+                    <p
+                      style={{
+                        gridColumn: "1 / -1",
+                        textAlign: "center",
+                        color: "rgba(255, 216, 107, 0.7)",
+                        fontSize: "12px",
+                        marginTop: "4px",
+                      }}
+                    >
+                      e muito mais estilos inclusos
+                    </p>
+                  </div>
                 </div>
 
                 <div
