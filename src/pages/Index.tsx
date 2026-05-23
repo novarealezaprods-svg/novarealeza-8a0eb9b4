@@ -527,7 +527,7 @@ export default function IndexPage() {
                   "100 beats de identidade e original",
                   "100% royalty free — Spotify, YouTube, sem medo",
                   "Som que posiciona você como artista sério",
-                  "BOOMBAP/RAP, FUNK, R&B, NEW JAZZ e muito mais",
+                  "TRAP, BOOMBAP, FUNK, R&B, NEW JAZZ e muito mais",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
                   <li
