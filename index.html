@@ -26,12 +26,20 @@
     <link rel="preconnect" href="https://dl.dropboxusercontent.com" crossorigin />
     <link rel="dns-prefetch" href="https://uc.dropbox.com" />
     <link rel="preconnect" href="https://uc.dropbox.com" crossorigin />
-    <!-- Pré-carrega VSL imediatamente usando URL cacheada (sem esperar Supabase) -->
+    <!-- Pré-carrega VSL imediatamente (URL atual hardcoded + cache da última URL) -->
+    <link
+      rel="preload"
+      as="video"
+      href="https://www.dropbox.com/scl/fi/evbplolvw5t36p1nlchiv/Design-sem-nome.webm?rlkey=7oi5vt45yvhbrixj326287r21&st=p67u5hr6&raw=1"
+      fetchpriority="high"
+      crossorigin
+    />
     <script>
       (function () {
         try {
           var u = localStorage.getItem('vsl_url');
-          if (u && !/youtube\.com|youtu\.be|vimeo\.com/.test(u)) {
+          var hardcoded = 'https://www.dropbox.com/scl/fi/evbplolvw5t36p1nlchiv/Design-sem-nome.webm?rlkey=7oi5vt45yvhbrixj326287r21&st=p67u5hr6&raw=1';
+          if (u && u !== hardcoded && !/youtube\.com|youtu\.be|vimeo\.com/.test(u)) {
             var l = document.createElement('link');
             l.rel = 'preload';
             l.as = 'video';
