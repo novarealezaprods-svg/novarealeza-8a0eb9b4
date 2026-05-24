@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Play } from "lucide-react";
+import { useRef, useState } from "react";
+import { Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
@@ -25,33 +25,17 @@ export function VideoPreview({ url }: { url: string }) {
   const directUrl = embed ? url : normalizeDirectUrl(url);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [started, setStarted] = useState(false);
+  const [paused, setPaused] = useState(true);
 
-  useEffect(() => {
-    setStarted(false);
-  }, [embed, directUrl, url]);
-
-  const handlePlay = () => {
-    setStarted(true);
-    if (embed?.provider === "youtube") {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: "command", func: "playVideo", args: [] }),
-        "*"
-      );
-      return;
-    }
-    if (embed?.provider === "vimeo") {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ method: "play" }),
-        "*"
-      );
-      return;
-    }
+  const togglePlay = () => {
     const v = videoRef.current;
-    if (v) {
+    if (!v) return;
+    if (v.paused) {
       v.muted = false;
       v.volume = 1;
       void v.play();
+    } else {
+      v.pause();
     }
   };
 
@@ -71,33 +55,36 @@ export function VideoPreview({ url }: { url: string }) {
           className="absolute inset-0 w-full h-full"
         />
       ) : (
-        <video
-          ref={videoRef}
-          src={directUrl}
-          preload="metadata"
-          playsInline
-          controls={started}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      )}
-
-      {!started && (
-        <button
-          type="button"
-          onClick={handlePlay}
-          aria-label="Reproduzir vídeo"
-          className="absolute inset-0 z-20 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors group"
-        >
-          <div
-            className="h-16 w-16 rounded-full flex items-center justify-center animate-vsl-pulse"
+        <>
+          <video
+            ref={videoRef}
+            src={directUrl}
+            preload="metadata"
+            playsInline
+            onClick={togglePlay}
+            onPlay={() => setPaused(false)}
+            onPause={() => setPaused(true)}
+            className="absolute inset-0 w-full h-full object-cover cursor-pointer"
+          />
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+            aria-label={paused ? "Reproduzir" : "Pausar"}
+            className="absolute bottom-2 left-2 z-20 flex items-center justify-center"
             style={{
-              backgroundColor: "#39FF14",
-              boxShadow: "0 0 24px rgba(57,255,20,0.5)",
+              width: 28,
+              height: 28,
+              backgroundColor: "rgba(0,0,0,0.5)",
+              borderRadius: 6,
             }}
           >
-            <Play className="h-6 w-6 fill-black text-black ml-[2px]" strokeWidth={0} />
-          </div>
-        </button>
+            {paused ? (
+              <Play className="fill-white text-white ml-[1px]" style={{ width: 12, height: 12 }} strokeWidth={0} />
+            ) : (
+              <Pause className="fill-white text-white" style={{ width: 12, height: 12 }} strokeWidth={0} />
+            )}
+          </button>
+        </>
       )}
     </div>
   );
