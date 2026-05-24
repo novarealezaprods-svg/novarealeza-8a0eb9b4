@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
@@ -26,6 +26,12 @@ export function VideoPreview({ url }: { url: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [paused, setPaused] = useState(true);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    setStarted(false);
+    setPaused(true);
+  }, [embed, directUrl, url]);
 
   const togglePlay = () => {
     const v = videoRef.current;
@@ -34,6 +40,7 @@ export function VideoPreview({ url }: { url: string }) {
       v.muted = false;
       v.volume = 1;
       void v.play();
+      setStarted(true);
     } else {
       v.pause();
     }
@@ -66,24 +73,40 @@ export function VideoPreview({ url }: { url: string }) {
             onPause={() => setPaused(true)}
             className="absolute inset-0 w-full h-full object-cover cursor-pointer"
           />
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-            aria-label={paused ? "Reproduzir" : "Pausar"}
-            className="absolute bottom-2 left-2 z-20 flex items-center justify-center"
-            style={{
-              width: 28,
-              height: 28,
-              backgroundColor: "rgba(0,0,0,0.5)",
-              borderRadius: 6,
-            }}
-          >
-            {paused ? (
-              <Play className="fill-white text-white ml-[1px]" style={{ width: 12, height: 12 }} strokeWidth={0} />
-            ) : (
+          {!started && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              aria-label="Reproduzir vídeo"
+              className="absolute inset-0 z-20 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors"
+            >
+              <div
+                className="h-16 w-16 rounded-full flex items-center justify-center animate-vsl-pulse"
+                style={{
+                  backgroundColor: "#39FF14",
+                  boxShadow: "0 0 24px rgba(57,255,20,0.5)",
+                }}
+              >
+                <Play className="h-6 w-6 fill-black text-black ml-[2px]" strokeWidth={0} />
+              </div>
+            </button>
+          )}
+          {started && !paused && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              aria-label="Pausar"
+              className="absolute bottom-2 left-2 z-20 flex items-center justify-center"
+              style={{
+                width: 28,
+                height: 28,
+                backgroundColor: "rgba(0,0,0,0.5)",
+                borderRadius: 6,
+              }}
+            >
               <Pause className="fill-white text-white" style={{ width: 12, height: 12 }} strokeWidth={0} />
-            )}
-          </button>
+            </button>
+          )}
         </>
       )}
     </div>
