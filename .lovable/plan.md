@@ -1,33 +1,16 @@
-## O que está acontecendo
-O problema não foi causado pela remoção da animação de rolagem. O site publicado principal está normal, mas o domínio `100beats.novarealezaprods.com.br` ainda está entregando uma versão antiga do HTML, que aponta para um arquivo CSS velho e quebrado.
-
-- Endereço publicado funcionando: carrega `assets/index-C14aXekq.css`
-- Domínio personalizado com problema: carrega `assets/index-CEC0WpJl.css`
-
-Isso indica cache/proxy no domínio personalizado, não erro no código do site.
+## Objetivo
+Corrigir o bug em que a VSL pausa no mobile ao tocar em **ativar áudio**, sem alterar o visual nem quebrar play/pause, replay e barra de progresso.
 
 ## Plano
-1. Confirmar no painel de domínios que o domínio está configurado em modo compatível com Cloudflare/proxy.
-2. Se estiver atrás de Cloudflare, reconectar o domínio marcando a opção **"Domain uses Cloudflare or a similar proxy"**.
-3. Como alternativa rápida, desligar o proxy do subdomínio (`DNS only`) para ele buscar direto a versão nova do site.
-4. Revalidar o domínio e testar novamente até ele passar a carregar o mesmo CSS da versão publicada.
+1. Ajustar o fluxo do botão **ativar áudio** para garantir que toda a sequência de unmute + restart + play aconteça dentro do mesmo gesto do usuário.
+2. Blindar o clique do botão para que ele não dispare nenhum outro handler do vídeo ao mesmo tempo.
+3. Revisar a lógica de play/pause do vídeo direto para evitar conflito entre o toque de ativar áudio e o toggle invisível/de toque no vídeo.
+4. Validar o comportamento no mobile: tocar em ativar áudio deve reiniciar do começo e seguir reproduzindo com som, sem entrar em pause.
 
-## Passo a passo simples
-### Opção recomendada
-- Abra **Settings → Domains** no projeto
-- Remova o domínio com problema
-- Adicione novamente o domínio
-- Na configuração avançada, ative **"Domain uses Cloudflare or a similar proxy"**
-- Salve e aguarde a atualização
-
-### Opção mais rápida no Cloudflare
-- Abra o DNS do subdomínio `100beats`
-- Troque a nuvem laranja para cinza (`DNS only`)
-- Aguarde alguns minutos
-- Atualize a página com recarga forçada
-
-## Resultado esperado
-Depois disso, o domínio personalizado deve parar de usar o CSS antigo e voltar a aparecer com o estilo normal.
-
-## Detalhe técnico
-O domínio principal já foi publicado corretamente. O problema é que o domínio personalizado ainda está servindo HTML antigo em cache/proxy, então ele pede um CSS antigo que não bate com a publicação atual.
+## Detalhes técnicos
+- Manter a correção concentrada em `src/components/VideoPreview.tsx`.
+- Garantir `stopPropagation()` e `preventDefault()` no clique do botão de áudio.
+- Fazer `muted = false`, `currentTime = 0` e `play()` em sequência síncrona de gesto sempre que for vídeo direto.
+- Só atualizar o estado visual de `muted` após confirmação de reprodução, para evitar esconder o overlay cedo demais.
+- Se necessário, limitar temporariamente o toggle de play/pause logo após o unmute para impedir duplo disparo no mobile.
+- Não mexer em layout, estilo, textos, performance geral ou outras partes da página.
