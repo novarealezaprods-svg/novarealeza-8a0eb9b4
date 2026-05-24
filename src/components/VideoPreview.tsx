@@ -241,7 +241,7 @@ export function VideoPreview({ url }: { url: string }) {
   const replay = () => {
     setEnded(false);
     setProgress(0);
-    setLoading(true);
+    setLoading(false);
     setPaused(false);
     setMuted(true);
     setReloadKey((k) => k + 1);
