@@ -33,14 +33,22 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
     setPaused(true);
   }, [embed, directUrl, url]);
 
-  const togglePlay = () => {
+  const togglePlay = async (e?: React.SyntheticEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) {
       v.muted = false;
       v.volume = 1;
-      void v.play();
-      setStarted(true);
+      try {
+        await v.play();
+        setStarted(true);
+      } catch {
+        // play() rejected (e.g. user gesture missing)
+      }
     } else {
       v.pause();
     }
@@ -69,7 +77,10 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
             poster={poster}
             preload="none"
             playsInline
-            onClick={togglePlay}
+            webkit-playsinline="true"
+            x5-playsinline="true"
+            controls={false}
+            onClick={(e) => togglePlay(e)}
             onPlay={() => setPaused(false)}
             onPause={() => setPaused(true)}
             className="absolute inset-0 w-full h-full object-cover cursor-pointer"
@@ -77,7 +88,8 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
           {!started && (
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              onClick={(e) => togglePlay(e)}
+              onTouchEnd={(e) => togglePlay(e)}
               aria-label="Reproduzir vídeo"
               className="absolute inset-0 z-20 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors"
             >
@@ -95,7 +107,7 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
           {started && !paused && (
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              onClick={(e) => togglePlay(e)}
               aria-label="Pausar"
               className="absolute bottom-2 left-2 z-20 flex items-center justify-center"
               style={{
