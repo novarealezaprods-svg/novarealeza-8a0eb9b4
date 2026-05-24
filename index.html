@@ -26,30 +26,6 @@
     <link rel="preconnect" href="https://dl.dropboxusercontent.com" crossorigin />
     <link rel="dns-prefetch" href="https://uc.dropbox.com" />
     <link rel="preconnect" href="https://uc.dropbox.com" crossorigin />
-    <!-- Pré-carrega VSL imediatamente (URL atual hardcoded + cache da última URL) -->
-    <link
-      rel="preload"
-      as="video"
-      href="https://wdsbsuydzqkixhntvrqw.supabase.co/storage/v1/object/public/videos/1779572077712-9uw63u.webm"
-      fetchpriority="high"
-      crossorigin
-    />
-    <script>
-      (function () {
-        try {
-          var u = localStorage.getItem('vsl_url');
-          var hardcoded = 'https://wdsbsuydzqkixhntvrqw.supabase.co/storage/v1/object/public/videos/1779572077712-9uw63u.webm';
-          if (u && u !== hardcoded && !/youtube\.com|youtu\.be|vimeo\.com/.test(u)) {
-            var l = document.createElement('link');
-            l.rel = 'preload';
-            l.as = 'video';
-            l.href = u;
-            l.setAttribute('fetchpriority', 'high');
-            document.head.appendChild(l);
-          }
-        } catch (e) {}
-      })();
-    </script>
     <!-- Loader styles (inline para evitar FOUC) -->
     <style>
       html, body { overflow-x: hidden; max-width: 100%; }

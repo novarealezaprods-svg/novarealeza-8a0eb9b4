@@ -67,7 +67,7 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
             ref={videoRef}
             src={directUrl}
             poster={poster}
-            preload="metadata"
+            preload="none"
             playsInline
             onClick={togglePlay}
             onPlay={() => setPaused(false)}
