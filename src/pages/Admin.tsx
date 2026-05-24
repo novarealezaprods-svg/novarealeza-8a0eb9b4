@@ -390,14 +390,14 @@ export default function AdminPage() {
                         if (!file) return;
                         setUploadingThumb(true);
                         const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-                        const path = `thumbnails/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-                        const { error } = await supabase.storage.from("videos").upload(path, file, {
+                        const path = `vsl-thumbnails/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+                        const { error } = await supabase.storage.from("beat-images").upload(path, file, {
                           contentType: file.type || "image/jpeg",
                           upsert: false,
                         });
                         setUploadingThumb(false);
                         if (error) return toast.error(error.message);
-                        const { data } = supabase.storage.from("videos").getPublicUrl(path);
+                        const { data } = supabase.storage.from("beat-images").getPublicUrl(path);
                         setVslThumbnail(data.publicUrl);
                         await saveSetting("vsl_thumbnail", data.publicUrl);
                       }}
