@@ -53,7 +53,7 @@ export function VideoPreview({ url }: { url: string }) {
   const [ended, setEnded] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [bufferPct, setBufferPct] = useState(0);
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
@@ -241,7 +241,7 @@ export function VideoPreview({ url }: { url: string }) {
   const replay = () => {
     setEnded(false);
     setProgress(0);
-    setLoading(true);
+    setLoading(false);
     setPaused(false);
     setMuted(true);
     setReloadKey((k) => k + 1);
@@ -297,9 +297,7 @@ export function VideoPreview({ url }: { url: string }) {
             }}
           onPause={() => setPaused(true)}
           onPlay={() => setPaused(false)}
-            onWaiting={() => {
-              if (!suppressNextWaitingRef.current) setLoading(true);
-            }}
+            onWaiting={() => {}}
             onLoadedMetadata={applyPendingInstantRestart}
             onCanPlay={() => {
               applyPendingInstantRestart();
