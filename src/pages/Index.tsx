@@ -71,6 +71,7 @@ const BEAT_META: { name: string; genre: string }[] = [
 
 export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
+  const [vslThumbnail, setVslThumbnail] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
