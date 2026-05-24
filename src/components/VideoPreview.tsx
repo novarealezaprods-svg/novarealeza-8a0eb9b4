@@ -35,6 +35,7 @@ export function VideoPreview({ url }: { url: string }) {
   const ytDuration = useRef(0);
   const pollRef = useRef<number | null>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const ignoreToggleUntilRef = useRef(0);
 
   useEffect(() => {
     setEnded(false);
@@ -87,6 +88,7 @@ export function VideoPreview({ url }: { url: string }) {
 
   // Autoplay ativo (muted). Clique do usuário desativa o mute.
   const startPlayback = () => {
+    ignoreToggleUntilRef.current = Date.now() + 500;
     setMuted(false);
     setPaused(false);
     if (embed?.provider === "youtube") {
@@ -160,6 +162,7 @@ export function VideoPreview({ url }: { url: string }) {
   };
 
   const togglePlay = () => {
+    if (Date.now() < ignoreToggleUntilRef.current) return;
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) {
