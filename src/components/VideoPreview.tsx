@@ -20,7 +20,7 @@ function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" 
 }
 
 
-export function VideoPreview({ url }: { url: string }) {
+export function VideoPreview({ url, poster }: { url: string; poster?: string }) {
   const embed = getEmbedUrl(url);
   const directUrl = embed ? url : normalizeDirectUrl(url);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -66,6 +66,7 @@ export function VideoPreview({ url }: { url: string }) {
           <video
             ref={videoRef}
             src={directUrl}
+            poster={poster}
             preload="metadata"
             playsInline
             onClick={togglePlay}

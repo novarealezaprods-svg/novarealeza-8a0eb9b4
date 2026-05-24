@@ -29,6 +29,8 @@ export default function AdminPage() {
   const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState("");
   const [previewVideo, setPreviewVideo] = useState("");
   const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [vslThumbnail, setVslThumbnail] = useState("");
+  const [uploadingThumb, setUploadingThumb] = useState(false);
 
   // Beats
   const [beats, setBeats] = useState<Beat[]>([]);
@@ -65,6 +67,7 @@ export default function AdminPage() {
     setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
     setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
     setPreviewVideo(map["preview_video"] ?? "");
+    setVslThumbnail(map["vsl_thumbnail"] ?? "");
     setBeats((bts ?? []) as Beat[]);
     setImages((imgs ?? []) as Image[]);
     setPlaylists((pls ?? []) as unknown as Playlist[]);
@@ -363,6 +366,64 @@ export default function AdminPage() {
                   <Button onClick={() => saveSetting("preview_video", previewVideo)}><Save className="w-4 h-4" /></Button>
                 </div>
                 {uploadingVideo && <p className="text-xs text-muted-foreground mt-1">Enviando vídeo...</p>}
+              </div>
+            </Card>
+
+            <Card className="p-6 space-y-4">
+              <h3 className="font-semibold">Configurações do Vídeo</h3>
+              <div>
+                <Label htmlFor="vsl-thumb">Thumbnail da VSL</Label>
+                <div className="flex gap-2 mt-1 items-start">
+                  <Input
+                    id="vsl-thumb"
+                    value={vslThumbnail}
+                    onChange={(e) => setVslThumbnail(e.target.value)}
+                    placeholder="https://..."
+                  />
+                  <label className="cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        setUploadingThumb(true);
+                        const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+                        const path = `thumbnails/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+                        const { error } = await supabase.storage.from("videos").upload(path, file, {
+                          contentType: file.type || "image/jpeg",
+                          upsert: false,
+                        });
+                        setUploadingThumb(false);
+                        if (error) return toast.error(error.message);
+                        const { data } = supabase.storage.from("videos").getPublicUrl(path);
+                        setVslThumbnail(data.publicUrl);
+                        await saveSetting("vsl_thumbnail", data.publicUrl);
+                      }}
+                    />
+                    <Button type="button" variant="outline" size="icon" asChild disabled={uploadingThumb} title="Enviar imagem">
+                      <span><Upload className="w-4 h-4" /></span>
+                    </Button>
+                  </label>
+                  <Button onClick={() => saveSetting("vsl_thumbnail", vslThumbnail)} title="Salvar thumbnail">
+                    <Save className="w-4 h-4" />
+                  </Button>
+                </div>
+                {uploadingThumb && <p className="text-xs text-muted-foreground mt-1">Enviando imagem...</p>}
+                {vslThumbnail && (
+                  <div className="mt-3">
+                    <img
+                      src={vslThumbnail}
+                      alt="Preview da thumbnail da VSL"
+                      className="rounded border border-border object-cover"
+                      style={{ width: 160, height: 90 }}
+                    />
+                  </div>
+                )}
+                <p className="text-xs text-muted-foreground mt-2">
+                  Imagem exibida antes do visitante dar play no vídeo. Tamanho recomendado: 1280x720px
+                </p>
               </div>
             </Card>
           </TabsContent>

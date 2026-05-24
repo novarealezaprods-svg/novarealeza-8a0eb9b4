@@ -71,6 +71,7 @@ const BEAT_META: { name: string; genre: string }[] = [
 
 export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(null);
+  const [vslThumbnail, setVslThumbnail] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
@@ -161,6 +162,7 @@ export default function IndexPage() {
       setCheckoutUrl(map["checkout_url"] ?? "");
       setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
       setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
+      setVslThumbnail(map["vsl_thumbnail"] ?? null);
       setProofImages(
         (imgs ?? []).map((r: any) =>
           String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
@@ -253,7 +255,7 @@ export default function IndexPage() {
           <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
             <Card className="relative aspect-video overflow-hidden border-0 bg-transparent shadow-none rounded-none group">
               {previewVideo ? (
-                <VideoPreview url={previewVideo} />
+                <VideoPreview url={previewVideo} poster={vslThumbnail ?? undefined} />
               ) : (
                 <>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
