@@ -63,7 +63,7 @@ function getAudio(): HTMLAudioElement | null {
   if (audio) return audio;
 
   const el = new Audio();
-  el.preload = "auto";
+  el.preload = "none";
 
   el.addEventListener("playing", () => {
     setState({ isPlaying: true, loadingUrl: null });
