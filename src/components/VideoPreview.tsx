@@ -114,17 +114,13 @@ export function VideoPreview({ url }: { url: string }) {
     }
     if (videoRef.current) {
       try {
-        videoRef.current.pause();
-        videoRef.current.muted = false;
-        videoRef.current.volume = 1;
-        if (typeof videoRef.current.fastSeek === "function") {
-          videoRef.current.fastSeek(0);
-        } else {
-          videoRef.current.currentTime = 0;
-        }
+        const v = videoRef.current;
+        v.muted = false;
+        v.volume = 1;
+        try { v.currentTime = 0; } catch {}
         setProgress(0);
         setLoading(false);
-        const promise = videoRef.current.play();
+        const promise = v.play();
         if (promise && typeof promise.catch === "function") promise.catch(() => {});
       } catch {}
     }
