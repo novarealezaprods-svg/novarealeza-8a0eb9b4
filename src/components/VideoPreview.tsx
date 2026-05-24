@@ -53,7 +53,7 @@ export function VideoPreview({ url }: { url: string }) {
   const [ended, setEnded] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [bufferPct, setBufferPct] = useState(0);
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
