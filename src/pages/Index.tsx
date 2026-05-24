@@ -162,6 +162,7 @@ export default function IndexPage() {
       setCheckoutUrl(map["checkout_url"] ?? "");
       setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
       setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
+      setVslThumbnail(map["vsl_thumbnail"] ?? null);
       setProofImages(
         (imgs ?? []).map((r: any) =>
           String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
