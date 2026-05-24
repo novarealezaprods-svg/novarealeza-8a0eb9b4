@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import { RotateCcw, VolumeX, Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
@@ -155,7 +155,7 @@ export function VideoPreview({ url }: { url: string }) {
   };
 
   const handleAudioButtonInteraction = (
-    e: React.MouseEvent<HTMLButtonElement> | React.PointerEvent<HTMLButtonElement>
+    e: MouseEvent<HTMLButtonElement> | PointerEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
     e.stopPropagation();
