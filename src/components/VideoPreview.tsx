@@ -108,6 +108,8 @@ export function VideoPreview({ url }: { url: string }) {
       try {
         videoRef.current.muted = false;
         videoRef.current.volume = 1;
+        videoRef.current.currentTime = 0;
+        setProgress(0);
         void videoRef.current.play();
       } catch {}
     }
