@@ -200,26 +200,29 @@ export function VideoPreview({ url }: { url: string }) {
           <video
           key={reloadKey}
           ref={videoRef}
-            src={directUrl}
+          src={directUrl}
           muted={muted}
-           preload="metadata"
+          preload="metadata"
           playsInline
+          onClick={() => {
+            if (!muted) togglePlay();
+          }}
           onEnded={() => setEnded(true)}
-            onPlaying={() => {
-              setLoading(false);
-              setPaused(false);
-            }}
+          onPlaying={() => {
+            setLoading(false);
+            setPaused(false);
+          }}
           onPause={() => setPaused(true)}
           onPlay={() => setPaused(false)}
-            onWaiting={() => {}}
-             onLoadedMetadata={() => setLoading(false)}
-             onCanPlay={() => setLoading(false)}
+          onWaiting={() => {}}
+          onLoadedMetadata={() => setLoading(false)}
+          onCanPlay={() => setLoading(false)}
           onError={() => setLoading(false)}
           onTimeUpdate={(e) => {
             const v = e.currentTarget;
             if (v.duration > 0) setProgress((v.currentTime / v.duration) * 100);
           }}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover cursor-pointer"
         />
       )}
 
@@ -294,16 +297,6 @@ export function VideoPreview({ url }: { url: string }) {
       {/* Progress bar — verde fluorescente */}
       {!ended && !loading && (
         <>
-          {/* Invisible click-to-toggle play/pause overlay (only for direct <video>) */}
-          {!embed && !muted && (
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-              aria-label={paused ? "Reproduzir" : "Pausar"}
-              className="absolute inset-0 z-10 bg-transparent cursor-pointer"
-            />
-          )}
-
           {/* Pause/Play button — bottom-left */}
           {!embed && (
             <button
