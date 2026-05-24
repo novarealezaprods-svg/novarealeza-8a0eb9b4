@@ -297,9 +297,7 @@ export function VideoPreview({ url }: { url: string }) {
             }}
           onPause={() => setPaused(true)}
           onPlay={() => setPaused(false)}
-            onWaiting={() => {
-              if (!suppressNextWaitingRef.current) setLoading(true);
-            }}
+            onWaiting={() => {}}
             onLoadedMetadata={applyPendingInstantRestart}
             onCanPlay={() => {
               applyPendingInstantRestart();
