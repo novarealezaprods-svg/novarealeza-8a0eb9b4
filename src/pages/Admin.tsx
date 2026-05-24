@@ -29,6 +29,8 @@ export default function AdminPage() {
   const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState("");
   const [previewVideo, setPreviewVideo] = useState("");
   const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [vslThumbnail, setVslThumbnail] = useState("");
+  const [uploadingThumb, setUploadingThumb] = useState(false);
 
   // Beats
   const [beats, setBeats] = useState<Beat[]>([]);
@@ -65,6 +67,7 @@ export default function AdminPage() {
     setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
     setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
     setPreviewVideo(map["preview_video"] ?? "");
+    setVslThumbnail(map["vsl_thumbnail"] ?? "");
     setBeats((bts ?? []) as Beat[]);
     setImages((imgs ?? []) as Image[]);
     setPlaylists((pls ?? []) as unknown as Playlist[]);
