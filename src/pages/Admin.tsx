@@ -383,7 +383,7 @@ export default function AdminPage() {
                   <label className="cursor-pointer">
                     <input
                       type="file"
-                      accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                      accept="image/*,.jpg,.jpeg,.png,.webp,.bmp,.gif"
                       className="hidden"
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
