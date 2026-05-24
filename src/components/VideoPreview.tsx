@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import { RotateCcw, VolumeX, Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
@@ -36,6 +36,8 @@ export function VideoPreview({ url }: { url: string }) {
   const pollRef = useRef<number | null>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const ignoreToggleUntilRef = useRef(0);
+  const audioGestureAtRef = useRef(0);
+  const isStartingPlaybackRef = useRef(false);
 
   useEffect(() => {
     setEnded(false);
@@ -87,8 +89,8 @@ export function VideoPreview({ url }: { url: string }) {
   }, [embed, reloadKey]);
 
   // Autoplay ativo (muted). Clique do usuário desativa o mute.
-  const startPlayback = async () => {
-    ignoreToggleUntilRef.current = Date.now() + 500;
+  const startPlayback = () => {
+    ignoreToggleUntilRef.current = Date.now() + 1200;
     if (embed?.provider === "youtube") {
       setMuted(false);
       setPaused(false);
@@ -119,16 +121,50 @@ export function VideoPreview({ url }: { url: string }) {
     if (videoRef.current) {
       try {
         const v = videoRef.current;
+        isStartingPlaybackRef.current = true;
         v.muted = false;
         v.volume = 1;
         try { v.currentTime = 0; } catch {}
         setProgress(0);
         setLoading(false);
-        await v.play();
+        const playPromise = v.play();
+
+        if (playPromise && typeof playPromise.then === "function") {
+          playPromise
+            .then(() => {
+              setMuted(false);
+              setPaused(false);
+            })
+            .catch(() => {
+              v.muted = true;
+            })
+            .finally(() => {
+              isStartingPlaybackRef.current = false;
+            });
+          return;
+        }
+
         setMuted(false);
         setPaused(false);
-      } catch {}
+        isStartingPlaybackRef.current = false;
+      } catch {
+        if (videoRef.current) videoRef.current.muted = true;
+        isStartingPlaybackRef.current = false;
+      }
     }
+  };
+
+  const handleAudioButtonInteraction = (
+    e: MouseEvent<HTMLButtonElement> | PointerEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const now = Date.now();
+    if (isStartingPlaybackRef.current || now - audioGestureAtRef.current < 400) return;
+
+    audioGestureAtRef.current = now;
+    startPlayback();
   };
 
   useEffect(() => {
@@ -207,7 +243,13 @@ export function VideoPreview({ url }: { url: string }) {
           muted={muted}
           preload="metadata"
           playsInline
-          onClick={() => {
+          onClick={(e) => {
+            if (Date.now() < ignoreToggleUntilRef.current) {
+              e.preventDefault();
+              e.stopPropagation();
+              return;
+            }
+
             if (!muted) togglePlay();
           }}
           onEnded={() => setEnded(true)}
@@ -260,11 +302,8 @@ export function VideoPreview({ url }: { url: string }) {
       {muted && !ended && !loading && (
         <button
           type="button"
-          onClick={async (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            await startPlayback();
-          }}
+          onPointerUp={handleAudioButtonInteraction}
+          onClick={handleAudioButtonInteraction}
           aria-label="Ativar som"
           className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/30 hover:bg-black/40 transition-colors group"
         >
