@@ -43,6 +43,10 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
     if (v.paused) {
       v.muted = false;
       v.volume = 1;
+      if (v.preload !== "auto") {
+        v.preload = "auto";
+        try { v.load(); } catch {}
+      }
       try {
         await v.play();
         setStarted(true);
@@ -51,6 +55,15 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
       }
     } else {
       v.pause();
+    }
+  };
+
+  const warmUp = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.preload !== "auto") {
+      v.preload = "auto";
+      try { v.load(); } catch {}
     }
   };
 
@@ -90,6 +103,8 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
               type="button"
               onClick={(e) => togglePlay(e)}
               onTouchEnd={(e) => togglePlay(e)}
+              onPointerEnter={warmUp}
+              onPointerDown={warmUp}
               aria-label="Reproduzir vídeo"
               className="absolute inset-0 z-20 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors"
             >
