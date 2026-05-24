@@ -255,7 +255,7 @@ export default function IndexPage() {
           <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
             <Card className="relative aspect-video overflow-hidden border-0 bg-transparent shadow-none rounded-none group">
               {previewVideo ? (
-                <VideoPreview url={previewVideo} />
+                <VideoPreview url={previewVideo} poster={vslThumbnail ?? undefined} />
               ) : (
                 <>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
