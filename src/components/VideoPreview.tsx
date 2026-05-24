@@ -87,11 +87,11 @@ export function VideoPreview({ url }: { url: string }) {
   }, [embed, reloadKey]);
 
   // Autoplay ativo (muted). Clique do usuário desativa o mute.
-  const startPlayback = () => {
+  const startPlayback = async () => {
     ignoreToggleUntilRef.current = Date.now() + 500;
-    setMuted(false);
-    setPaused(false);
     if (embed?.provider === "youtube") {
+      setMuted(false);
+      setPaused(false);
       const post = (msg: object) =>
         iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
       post({ event: "command", func: "unMute", args: [] });
@@ -100,6 +100,8 @@ export function VideoPreview({ url }: { url: string }) {
       return;
     }
     if (embed?.provider === "vimeo") {
+      setMuted(false);
+      setPaused(false);
       iframeRef.current?.contentWindow?.postMessage(
         JSON.stringify({ method: "setMuted", value: false }),
         "*"
@@ -122,8 +124,9 @@ export function VideoPreview({ url }: { url: string }) {
         try { v.currentTime = 0; } catch {}
         setProgress(0);
         setLoading(false);
-        const promise = v.play();
-        if (promise && typeof promise.catch === "function") promise.catch(() => {});
+        await v.play();
+        setMuted(false);
+        setPaused(false);
       } catch {}
     }
   };
@@ -257,9 +260,10 @@ export function VideoPreview({ url }: { url: string }) {
       {muted && !ended && !loading && (
         <button
           type="button"
-          onClick={(e) => {
+          onClick={async (e) => {
+            e.preventDefault();
             e.stopPropagation();
-            startPlayback();
+            await startPlayback();
           }}
           aria-label="Ativar som"
           className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/30 hover:bg-black/40 transition-colors group"
