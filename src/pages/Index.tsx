@@ -132,9 +132,7 @@ export default function IndexPage() {
   }, [beats.length, proofImages.length]);
 
   useEffect(() => {
-    // Carrega o vídeo da VSL o quanto antes, em paralelo (não espera o resto)
     (async () => {
-      // Usa URL cacheada para começar a carregar imediatamente
       try {
         const cached = localStorage.getItem("vsl_url");
         if (cached) setPreviewVideo(cached);
@@ -148,16 +146,6 @@ export default function IndexPage() {
       if (!url) return;
       setPreviewVideo(url);
       try { localStorage.setItem("vsl_url", url); } catch {}
-      // Preload do arquivo de vídeo direto (não funciona para YouTube/Vimeo)
-      const isEmbed = /youtube\.com|youtu\.be|vimeo\.com/.test(url);
-      if (!isEmbed) {
-        const link = document.createElement("link");
-        link.rel = "preload";
-        link.as = "video";
-        link.href = url;
-        (link as any).fetchPriority = "high";
-        document.head.appendChild(link);
-      }
     })();
   }, []);
 
