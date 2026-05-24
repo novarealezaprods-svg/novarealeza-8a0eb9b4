@@ -879,6 +879,22 @@ html, body {
   }
 }
 
+/* Performance — reduzir animações pesadas no mobile (TBT/paint) */
+@media (max-width: 768px) {
+  /* CTA do hero: mantém pulse leve, remove breath/shine custosos */
+  .hero-cta {
+    animation: hero-cta-in 0.5s ease-out 600ms forwards,
+               hero-cta-pulse 2.4s ease-in-out 1.1s infinite;
+  }
+  .hero-cta .hero-cta-shine { display: none; }
+  /* Subtítulo: remove shimmer contínuo de text-shadow */
+  .hero-subtitle {
+    animation: hero-fade-in 0.5s ease-out 200ms both;
+  }
+  /* Cards beat: anima apenas os primeiros para não bloquear thread */
+  .beat-card-anim:nth-child(n+7) { animation: none; opacity: 1; }
+}
+
 .supreme-cta {
   position: relative;
   overflow: hidden;

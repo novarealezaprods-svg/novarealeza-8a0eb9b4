@@ -87,7 +87,6 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
           <video
             ref={videoRef}
             src={directUrl}
-            poster={poster}
             preload="none"
             playsInline
             webkit-playsinline="true"
@@ -98,6 +97,20 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
             onPause={() => setPaused(true)}
             className="absolute inset-0 w-full h-full object-cover cursor-pointer"
           />
+          {poster && !started && (
+            <img
+              src={poster}
+              alt=""
+              width={1280}
+              height={720}
+              decoding="async"
+              loading="eager"
+              // @ts-ignore - valid HTML attribute, not yet typed in React
+              fetchpriority="high"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none z-10"
+              draggable={false}
+            />
+          )}
           {!started && (
             <button
               type="button"
