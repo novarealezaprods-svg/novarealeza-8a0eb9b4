@@ -138,7 +138,7 @@ export function VideoPreview({ url }: { url: string }) {
     if (p && typeof p.catch === "function") {
       p.catch(() => {});
     }
-  }, [embed, playbackUrl, reloadKey]);
+  }, [embed, directUrl, reloadKey]);
 
   // Simulated Netflix-style loading percentage while buffering
   useEffect(() => {
