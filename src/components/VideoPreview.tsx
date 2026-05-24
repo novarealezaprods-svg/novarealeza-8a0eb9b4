@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { RotateCcw, VolumeX, Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
-const warmedVideoObjectUrls = new Map<string, string>();
-const warmingVideoRequests = new Map<string, Promise<string>>();
-
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
   const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
@@ -22,30 +19,6 @@ function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" 
   return null;
 }
 
-function warmDirectVideo(url: string) {
-  const cached = warmedVideoObjectUrls.get(url);
-  if (cached) return Promise.resolve(cached);
-
-  const pending = warmingVideoRequests.get(url);
-  if (pending) return pending;
-
-  const request = fetch(url, { cache: "force-cache", mode: "cors" })
-    .then((response) => {
-      if (!response.ok) throw new Error(`Failed to warm video: ${response.status}`);
-      return response.blob();
-    })
-    .then((blob) => {
-      const objectUrl = URL.createObjectURL(blob);
-      warmedVideoObjectUrls.set(url, objectUrl);
-      return objectUrl;
-    })
-    .finally(() => {
-      warmingVideoRequests.delete(url);
-    });
-
-  warmingVideoRequests.set(url, request);
-  return request;
-}
 
 export function VideoPreview({ url }: { url: string }) {
   const embed = getEmbedUrl(url);
@@ -57,64 +30,18 @@ export function VideoPreview({ url }: { url: string }) {
   const [bufferPct, setBufferPct] = useState(0);
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
-  const [playbackUrl, setPlaybackUrl] = useState(directUrl);
-  const [instantRestartUrl, setInstantRestartUrl] = useState<string | null>(
-    embed ? null : warmedVideoObjectUrls.get(directUrl) ?? null
-  );
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const ytDuration = useRef(0);
   const pollRef = useRef<number | null>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
-  const pendingInstantRestartRef = useRef(false);
-  const suppressNextWaitingRef = useRef(false);
-
-  const applyPendingInstantRestart = () => {
-    const v = videoRef.current;
-    if (!v || !pendingInstantRestartRef.current) return;
-
-    pendingInstantRestartRef.current = false;
-    try {
-      if (typeof v.fastSeek === "function") {
-        v.fastSeek(0);
-      } else {
-        v.currentTime = 0;
-      }
-      v.muted = false;
-      v.volume = 1;
-      const promise = v.play();
-      if (promise && typeof promise.catch === "function") promise.catch(() => {});
-    } catch {}
-  };
 
   useEffect(() => {
-    if (embed) {
-      setPlaybackUrl(url);
-      setInstantRestartUrl(null);
-      return;
-    }
-
-    setPlaybackUrl(directUrl);
-    setInstantRestartUrl(warmedVideoObjectUrls.get(directUrl) ?? null);
+    setEnded(false);
+    setProgress(0);
+    setMuted(true);
+    setPaused(false);
   }, [embed, directUrl, url]);
-
-  useEffect(() => {
-    if (embed || !directUrl) return;
-
-    let cancelled = false;
-    const timeoutId = window.setTimeout(() => {
-      void warmDirectVideo(directUrl)
-        .then((objectUrl) => {
-          if (!cancelled) setInstantRestartUrl(objectUrl);
-        })
-        .catch(() => {});
-    }, 300);
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timeoutId);
-    };
-  }, [embed, directUrl]);
 
   // YouTube postMessage state + progress polling
   useEffect(() => {
@@ -186,18 +113,8 @@ export function VideoPreview({ url }: { url: string }) {
       return;
     }
     if (videoRef.current) {
-      if (instantRestartUrl && playbackUrl !== instantRestartUrl) {
-        pendingInstantRestartRef.current = true;
-        suppressNextWaitingRef.current = true;
-        setProgress(0);
-        setLoading(false);
-        setPlaybackUrl(instantRestartUrl);
-        return;
-      }
-
       try {
         videoRef.current.pause();
-        suppressNextWaitingRef.current = true;
         videoRef.current.muted = false;
         videoRef.current.volume = 1;
         if (typeof videoRef.current.fastSeek === "function") {
@@ -215,14 +132,13 @@ export function VideoPreview({ url }: { url: string }) {
 
   useEffect(() => {
     if (embed || !videoRef.current) return;
-    if (pendingInstantRestartRef.current) return;
     const v = videoRef.current;
     v.muted = true;
     const p = v.play();
     if (p && typeof p.catch === "function") {
       p.catch(() => {});
     }
-  }, [embed, playbackUrl, reloadKey]);
+  }, [embed, directUrl, reloadKey]);
 
   // Simulated Netflix-style loading percentage while buffering
   useEffect(() => {
@@ -285,24 +201,20 @@ export function VideoPreview({ url }: { url: string }) {
           <video
           key={reloadKey}
           ref={videoRef}
-            src={playbackUrl}
+            src={directUrl}
           muted={muted}
-          preload="auto"
+           preload="metadata"
           playsInline
           onEnded={() => setEnded(true)}
             onPlaying={() => {
-              suppressNextWaitingRef.current = false;
               setLoading(false);
               setPaused(false);
             }}
           onPause={() => setPaused(true)}
           onPlay={() => setPaused(false)}
             onWaiting={() => {}}
-            onLoadedMetadata={applyPendingInstantRestart}
-            onCanPlay={() => {
-              applyPendingInstantRestart();
-              setLoading(false);
-            }}
+             onLoadedMetadata={() => setLoading(false)}
+             onCanPlay={() => setLoading(false)}
           onError={() => setLoading(false)}
           onTimeUpdate={(e) => {
             const v = e.currentTarget;
