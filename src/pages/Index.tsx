@@ -173,6 +173,19 @@ export default function IndexPage() {
     })();
   }, []);
 
+  // Preload do poster da VSL para acelerar LCP no mobile.
+  useEffect(() => {
+    if (!vslThumbnail) return;
+    const existing = document.querySelector<HTMLLinkElement>(`link[rel="preload"][href="${vslThumbnail}"]`);
+    if (existing) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = vslThumbnail;
+    (link as any).fetchPriority = "high";
+    document.head.appendChild(link);
+  }, [vslThumbnail]);
+
   const handleCheckout = (urlOverride?: string, _variant: "green" | "gold" = "green") => {
     const target = urlOverride || checkoutUrl;
     if (!target) return;
