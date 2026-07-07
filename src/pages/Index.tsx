@@ -252,6 +252,38 @@ export default function IndexPage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const beatsSection = document.getElementById("ouca-antes");
+    const pricingSection = document.getElementById("pack-basico");
+    if (!beatsSection || !pricingSection) return;
+
+    let passedBeats = false;
+    let pricingVisible = false;
+    const update = () => setShowStickyCta(passedBeats && !pricingVisible);
+
+    const beatsObserver = new IntersectionObserver(
+      ([entry]) => {
+        passedBeats = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        update();
+      },
+      { threshold: 0 }
+    );
+    const pricingObserver = new IntersectionObserver(
+      ([entry]) => {
+        pricingVisible = entry.isIntersecting;
+        update();
+      },
+      { threshold: 0 }
+    );
+
+    beatsObserver.observe(beatsSection);
+    pricingObserver.observe(pricingSection);
+    return () => {
+      beatsObserver.disconnect();
+      pricingObserver.disconnect();
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
