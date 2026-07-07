@@ -974,6 +974,17 @@ export default function IndexPage() {
         meta={BEAT_META}
       />
 
+      {showStickyCta && (
+        <div className="sticky-cta-bar">
+          <button
+            onClick={() => document.getElementById("pack-basico")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            className="sticky-cta-btn"
+          >
+            QUERO GARANTIR MEU PACK
+          </button>
+        </div>
+      )}
+
       {showUpsell && (
         <div
           role="dialog"
