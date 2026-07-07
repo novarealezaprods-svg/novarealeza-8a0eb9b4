@@ -81,6 +81,7 @@ export default function IndexPage() {
   const [showUpsell, setShowUpsell] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState<{ open: boolean; url: string; variant: "green" | "gold" }>({ open: false, url: "", variant: "green" });
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
+  const [showStickyCta, setShowStickyCta] = useState(false);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -249,6 +250,38 @@ export default function IndexPage() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const beatsSection = document.getElementById("ouca-antes");
+    const pricingSection = document.getElementById("pack-basico");
+    if (!beatsSection || !pricingSection) return;
+
+    let passedBeats = false;
+    let pricingVisible = false;
+    const update = () => setShowStickyCta(passedBeats && !pricingVisible);
+
+    const beatsObserver = new IntersectionObserver(
+      ([entry]) => {
+        passedBeats = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        update();
+      },
+      { threshold: 0 }
+    );
+    const pricingObserver = new IntersectionObserver(
+      ([entry]) => {
+        pricingVisible = entry.isIntersecting;
+        update();
+      },
+      { threshold: 0 }
+    );
+
+    beatsObserver.observe(beatsSection);
+    pricingObserver.observe(pricingSection);
+    return () => {
+      beatsObserver.disconnect();
+      pricingObserver.disconnect();
+    };
   }, []);
 
   return (
@@ -940,6 +973,17 @@ export default function IndexPage() {
         onClose={() => { setOpenBeatIndex(null); pauseCurrent(); }}
         meta={BEAT_META}
       />
+
+      {showStickyCta && (
+        <div className="sticky-cta-bar">
+          <button
+            onClick={() => document.getElementById("pack-basico")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            className="sticky-cta-btn"
+          >
+            QUERO GARANTIR MEU PACK
+          </button>
+        </div>
+      )}
 
       {showUpsell && (
         <div
