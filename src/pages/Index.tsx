@@ -81,6 +81,7 @@ export default function IndexPage() {
   const [showUpsell, setShowUpsell] = useState(false);
   const [deliveryModal, setDeliveryModal] = useState<{ open: boolean; url: string; variant: "green" | "gold" }>({ open: false, url: "", variant: "green" });
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
+  const [showStickyCta, setShowStickyCta] = useState(false);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
