@@ -27,25 +27,24 @@ import { ScarcityBar } from "@/components/ScarcityBar";
 import garantia7Dias from "@/assets/garantia-7-dias.png";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
 
-const genres = ["BOOMBAP/RAP", "TRAP", "Hard", "NEW JAZZ", "Drill", "EXPERIMENTAL"];
+const genres = ["TRAP", "DRILL", "TYPE LEVIANO", "TYPE FAB GODAMN", "TYPE ALEE", "TYPE TCHELO"];
 const features = [
-  "100 beats profissionais prontos para uso",
-  "40 beats funk",
-  "40 beats trap",
-  "20 beats variados (boombap, edm, drill, NEW JAZZ)",
+  "100 beats de trap profissionais prontos para uso",
+  "Type Leviano, Fab Godamn, Alee, Tchelo e mais",
+  "Trap, drill e variações",
   "100% royalty free — você fica com tudo",
   "Liberado para Spotify, YouTube, TikTok",
   "Mixados e masterizados em alta qualidade",
 ];
 const packFeatures = [
-  "100 beats profissionais (40 Trap · 40 Funk · 20 Variados)",
+  "100 beats de trap profissionais",
   "Liberado para todas plataformas digitais",
   "Mixados e masterizados em alta qualidade",
 ];
 const testimonials = [
   { name: "MC Vinny", text: "Lancei 3 sons em 1 semana com o pack. Qualidade absurda.", role: "Artista independente" },
   { name: "Lucas Prod", text: "Os stems salvaram minha vida. Consigo customizar tudo.", role: "Beatmaker" },
-  { name: "Maya R&B", text: "Variedade insana de estilos. Vale cada centavo.", role: "Cantora" },
+  { name: "Maya", text: "Variedade insana de levada. Vale cada centavo.", role: "Cantora" },
 ];
 const stats = [
   { id: "stat-3", n: "100%", l: "dos direitos pro artista" },
@@ -58,16 +57,16 @@ const faq = [
 ];
 
 const BEAT_META: { name: string; genre: string }[] = [
-  { name: "TRAP 🇺🇸", genre: "FUNK" },
-  { name: "TRAP 🇺🇸", genre: "FUNK" },
-  { name: "Type Alee", genre: "BOOMBAP/RAP" },
-  { name: "Type BOOMBAP/RAP", genre: "BOOMBAP/RAP" },
+  { name: "TRAP 🇺🇸", genre: "TRAP" },
+  { name: "TRAP 🇺🇸", genre: "TRAP" },
+  { name: "Type Alee", genre: "TYPE ALEE" },
+  { name: "Type Leviano", genre: "TYPE LEVIANO" },
   { name: "Type Hood Drill", genre: "DRILL" },
-  { name: "Type Skrilla", genre: "FUNK" },
-  { name: "Type Ambient Hood", genre: "HOOD" },
-  { name: "Type Don Toliver", genre: "FUNK" },
-  { name: "Nave Nova na Favela", genre: "BOOMBAP/RAP" },
-  { name: "Type Florida", genre: "FUNK" },
+  { name: "Type Fab Godamn", genre: "TYPE FAB GODAMN" },
+  { name: "Type Tchelo", genre: "TYPE TCHELO" },
+  { name: "Type Don Toliver", genre: "TRAP" },
+  { name: "Type Skrilla", genre: "TRAP" },
+  { name: "Type Florida", genre: "TRAP" },
 ];
 
 export default function IndexPage() {
@@ -362,14 +361,14 @@ export default function IndexPage() {
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
             <p className="mt-4 text-[15px]" style={{ color: "#888" }}>
-              Ouça alguns beats do pack — no pack tem: TRAP, FUNK, R&B Boombap, Drill, Hood, Reggaeton e mais&nbsp;
+              Ouça alguns beats do pack — no pack tem type beat de: LEVIANO, FAB GODAMN, ALEE, TCHELO, além de TRAP, DRILL e mais&nbsp;
             </p>
           </div>
 
           {beats.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
               {beats.slice(0, 12).map((b: any, i) => {
-                const fallback = BEAT_META[i] || { name: b.name, genre: "FUNK" };
+                const fallback = BEAT_META[i] || { name: b.name, genre: "TRAP" };
                 const meta = {
                   name: b.name || fallback.name,
                   genre: b.genre || fallback.genre,
@@ -593,7 +592,7 @@ export default function IndexPage() {
                   "beats de identidade e original",
                   "100% royalty free — Spotify, YouTube, sem medo",
                   "Som que posiciona você como artista sério",
-                  "TRAP, BOOMBAP, FUNK, R&B, NEW JAZZ e muito mais",
+                  "Type LEVIANO, FAB GODAMN, ALEE, TCHELO e muito mais",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
                   <li
