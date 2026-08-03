@@ -776,7 +776,7 @@ export default function IndexPage() {
                     "TUDO do pack base (100 beats)",
                     "+200 Beats Adicionados",
                     "100% Royalty Free — Spotify, YouTube, TikTok",
-                    "Bônus 1: Drum kit profissional (808, kicks, hats...)",
+                    "Bônus 1: Curso de como gravar em casa com a melhor qualidade",
                     "Bônus 2: Presets De Mixagem (Bandlab e Fl Studio)",
                     "Bônus 3: Acesso a comunidade do Whatsapp com artistas de todo Brasil",
                     "🍀 Bônus 4: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
