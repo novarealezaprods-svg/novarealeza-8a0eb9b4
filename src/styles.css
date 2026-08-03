@@ -832,6 +832,19 @@ html, body {
   color: #1a0f00;
   stroke-width: 3.5;
 }
+/* Itens de bônus usam caixinha de presente no lugar do check dourado */
+.supreme-feature-gift {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(255, 196, 0, 0.7));
+}
 
 /* Hero block — mobile centering & spacing overrides (<=768px) */
 @media (max-width: 768px) {

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle, FileCheck } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle, FileCheck, Heart } from "lucide-react";
 import { ListMusic, ExternalLink } from "lucide-react";
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -815,14 +815,23 @@ export default function IndexPage() {
                     "Bônus 2: Presets De Mixagem (Bandlab e Fl Studio)",
                     "Bônus 3: Acesso a comunidade do Whatsapp com artistas de todo Brasil",
                     "🍀 Bônus 4: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
-                  ].map((f, i) => (
-                    <div key={i} className="supreme-feature">
-                      <span className="supreme-feature-check">
-                        <Check />
-                      </span>
-                      <span>{f}</span>
-                    </div>
-                  ))}
+                  ].map((f, i) => {
+                    const isBonus = f.includes("Bônus");
+                    return (
+                      <div key={i} className="supreme-feature">
+                        {isBonus ? (
+                          <span className="supreme-feature-gift" aria-hidden="true">
+                            🎁
+                          </span>
+                        ) : (
+                          <span className="supreme-feature-check">
+                            <Check />
+                          </span>
+                        )}
+                        <span>{f}</span>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <div className="mt-8 flex flex-col items-center w-full">
@@ -840,6 +849,58 @@ export default function IndexPage() {
                   <span>Garantia incondicional de 7 dias · Pagamento 100% seguro</span>
                 </p>
               </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sobre nós */}
+          <div className="mt-16 md:mt-20 max-w-3xl mx-auto reveal">
+            <div className="rounded-3xl border border-border/60 bg-card/40 p-6 md:p-10">
+              <div className="flex items-center gap-3 mb-5">
+                <span className="flex items-center justify-center h-11 w-11 rounded-full bg-primary/15 text-primary flex-shrink-0">
+                  <Heart className="h-5 w-5" />
+                </span>
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wide text-white">
+                  Sobre nós
+                </h3>
+              </div>
+
+              <div className="space-y-4 text-sm md:text-base leading-relaxed text-[#cccccc]">
+                <p>
+                  Meu nome é <span className="text-white font-semibold">Markz</span>, sou produtor musical
+                  e fundador da <span className="text-white font-semibold">Nova Realeza</span>. Comecei
+                  fazendo beat pra tentar lançar minha própria música, e sei exatamente a sensação de
+                  terminar uma ideia boa às 2 da manhã e não ter um beat decente pra colocar embaixo — só
+                  sobrando beat de internet, cheio de tag, que todo mundo já usou e que trava sua música
+                  no primeiro upload.
+                </p>
+                <p>
+                  Foi ver isso acontecer com tanta gente que me fez montar esse pack. Não é sobre vender
+                  beat — é sobre tirar essa trava do caminho de quem só quer gravar e postar sem medo de
+                  perder a música pra um strike de direitos autorais.
+                </p>
+                <p>
+                  Cada beat aqui tem contrato de licença assinado digitalmente pelo Gov.br — o mesmo
+                  documento que você viu aí em cima. Isso significa que a música é 100% sua, liberada pra
+                  Spotify, YouTube, TikTok, Deezer, qualquer plataforma, sem cobrança de crédito e sem
+                  ninguém aparecer depois pra derrubar seu trabalho.
+                </p>
+                <p>
+                  Se eu fosse vender essas 300 licenças separadas, ia cobrar R$ 60 por beat — isso dá{" "}
+                  <span className="text-white font-black line-through decoration-destructive decoration-2">
+                    R$ 18.000
+                  </span>
+                  . Mas eu não quero isso. Quero que o maior número possível de artista tenha acesso a beat
+                  de qualidade, com documento, sem passar pelo que eu passei. Por isso decidi entregar o
+                  pack inteiro por <span className="text-primary font-black">R$ 47,90</span>.
+                </p>
+                <p className="text-white/90">
+                  Não é caridade, é decisão minha. Beat bom você merece ter. Direito autoral você merece
+                  ter tranquilo.
+                </p>
+                <p className="pt-2 font-black text-white tracking-wide">
+                  — Markz, Nova Realeza Prods
+                </p>
               </div>
             </div>
           </div>
