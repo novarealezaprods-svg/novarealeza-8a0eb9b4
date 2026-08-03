@@ -48,7 +48,7 @@ const testimonials = [
   { name: "Maya R&B", text: "Variedade insana de estilos. Vale cada centavo.", role: "Cantora" },
 ];
 const stats = [
-  { id: "stat-3", n: "4.9/5", l: "Avaliação média" },
+  { id: "stat-3", n: "100%", l: "dos direitos pro artista" },
   { id: "stat-4", n: "100%", l: "Royalty free" },
 ];
 const faq = [
@@ -438,8 +438,8 @@ export default function IndexPage() {
         <div className={`${CONTAINER} py-6 md:py-8 grid grid-cols-2 gap-4 text-center`}>
           {stats.map((s) => (
             <div key={s.id}>
-              <div className="text-2xl md:text-3xl font-black">{s.n}</div>
-              <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{s.l}</div>
+              <div className="text-2xl md:text-3xl font-black text-primary">{s.n}</div>
+              <div className="text-xs uppercase tracking-widest text-primary/80 mt-1">{s.l}</div>
             </div>
           ))}
         </div>
