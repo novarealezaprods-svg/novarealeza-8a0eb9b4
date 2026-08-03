@@ -56,6 +56,37 @@ const faq = [
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
 
+// Visualizers de fundo, casados pelo nome do beat (sem acento, sem
+// diferenciar maiuscula/minuscula). Os videos ficam em public/visualizers/,
+// baixados e convertidos previamente — o site nao embute player de terceiros.
+// Para adicionar: converta o video, jogue na pasta e acrescente uma linha.
+const VISUALIZERS: Record<string, string> = {
+  "type trap": "/visualizers/type-trap.mp4",
+  "type alee": "/visualizers/type-alee.mp4",
+  "type leviano": "/visualizers/type-leviano.mp4",
+  "type supernova": "/visualizers/type-supernova.mp4",
+  "types usa": "/visualizers/type-usa.mp4",
+  "type fug": "/visualizers/type-fug.mp4",
+  "type plugg": "/visualizers/type-plugg.mp4",
+  "type bounce": "/visualizers/type-bounce.mp4",
+  "type drill": "/visualizers/type-drill.mp4",
+  "type florida": "/visualizers/type-florida.mp4",
+};
+
+// Normaliza o nome vindo do banco para casar com as chaves acima:
+// tira acentos, remove apostrofos (o admin usa "TYPE\u00b4S USA", com acento
+// agudo solto) e reduz qualquer outro separador a um espaco simples.
+function visualizerFor(name: string): string | null {
+  const key = (name || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/['\u2019\u2018\u00b4`]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+  return VISUALIZERS[key] ?? null;
+}
+
 const BEAT_META: { name: string; genre: string }[] = [
   { name: "TRAP 🇺🇸", genre: "TRAP" },
   { name: "TRAP 🇺🇸", genre: "TRAP" },
@@ -376,7 +407,7 @@ export default function IndexPage() {
                 return (
                   <BeatPlayer
                     key={`${b.name}-${i}`}
-                    beat={b}
+                    beat={{ ...b, visualizer_video: visualizerFor(meta.name) }}
                     index={i}
                     displayName={meta.name}
                     genre={meta.genre}

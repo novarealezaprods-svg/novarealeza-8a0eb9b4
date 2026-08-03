@@ -8,7 +8,29 @@ export type BeatItem = {
   key?: string;
   bpm?: number | string;
   image_url?: string | null;
+  // Caminho de um MP4 local (ex.: /visualizers/type-trap.mp4) — nunca um link
+  // do YouTube. Baixe e converta o vídeo antes (ver public/visualizers/),
+  // não existe player de terceiros embutido no site. Toca em loop e mudo
+  // como fundo do card enquanto o beat está tocando; fora disso mostra
+  // image_url.
+  visualizer_video?: string | null;
 };
+
+// Cobre um card quadrado (aspect-square) com o vídeo do visualizer, recortado
+// e centralizado via object-fit — sem depender de nenhum player externo.
+function VisualizerBackground({ src }: { src: string }) {
+  return (
+    <video
+      className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+      src={src}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="none"
+    />
+  );
+}
 
 const PREVIEW_SECONDS = 60;
 
@@ -199,6 +221,7 @@ export function BeatPlayer({
 
   const name = displayName || beat.name;
   const bgImage = beat.image_url || null;
+  const visualizerSrc = isPlaying ? beat.visualizer_video || null : null;
 
   return (
     <div
@@ -216,8 +239,19 @@ export function BeatPlayer({
         animationDelay: `${index * 80}ms`,
       }}
     >
+      {visualizerSrc && (
+        <>
+          <VisualizerBackground src={visualizerSrc} />
+          {/* Escurece o vídeo para o texto e o botão continuarem legíveis por cima */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.7) 100%)" }}
+          />
+        </>
+      )}
+
       <div
-        className="text-center text-white truncate text-[12px] md:text-base self-center"
+        className="relative z-[1] text-center text-white truncate text-[12px] md:text-base self-center"
         style={{
           fontWeight: 700,
           textTransform: "uppercase",
@@ -231,7 +265,7 @@ export function BeatPlayer({
         {name}
       </div>
 
-      <div className="flex justify-center my-1 md:my-4">
+      <div className="relative z-[1] flex justify-center my-1 md:my-4">
         <button
           onClick={toggle}
           aria-label={isPlaying ? "Pausar" : "Tocar"}
