@@ -1035,7 +1035,7 @@ export default function IndexPage() {
                   textShadow: "0 0 12px rgba(0,255,65,0.5)",
                 }}
               >
-                R$ 27,90
+                R$ 37,90
               </span>
               <span
                 className="mt-2 inline-flex items-center px-2.5 py-1 rounded-full font-bold"
@@ -1065,7 +1065,7 @@ export default function IndexPage() {
                   boxShadow: "0 0 18px rgba(0,255,65,0.45)",
                 }}
               >
-                SIM! QUERO O PACK 300 POR R$27,90
+                SIM! QUERO O PACK 300 POR R$37,90
               </button>
               <button
                 onClick={() => {
