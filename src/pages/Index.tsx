@@ -779,7 +779,7 @@ export default function IndexPage() {
                     "Bônus 1: Drum kit profissional (808, kicks, hats...)",
                     "Bônus 2: Presets De Mixagem (Bandlab e Fl Studio)",
                     "Bônus 3: Acesso a comunidade do Whatsapp com artistas de todo Brasil",
-                    "Bônus 4: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
+                    "🍀 Bônus 4: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
                   ].map((f, i) => (
                     <div key={i} className="supreme-feature">
                       <span className="supreme-feature-check">
