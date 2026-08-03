@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle, FileCheck } from "lucide-react";
 import { ListMusic, ExternalLink } from "lucide-react";
 import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -25,6 +25,7 @@ import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 import garantia7Dias from "@/assets/garantia-7-dias.png";
+import licencaAssinada from "@/assets/licenca-assinada.webp";
 
 const genres = ["BOOMBAP/RAP", "TRAP", "Hard", "NEW JAZZ", "Drill", "EXPERIMENTAL"];
 const features = [
@@ -675,6 +676,40 @@ export default function IndexPage() {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Prova de licença assinada */}
+          <div className="mt-16 md:mt-20 max-w-4xl mx-auto reveal">
+            <div className="text-center mb-10">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
+                <FileCheck className="w-3.5 h-3.5" />
+                100% Legal · Assinado no Gov.br
+              </span>
+              <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+                Sua Música Merece uma <span className="text-primary">Licença de Verdade</span>
+              </h2>
+              <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
+                Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
+                sua música pode ir pro Spotify, YouTube e TikTok sem risco de bloqueio ou remoção por
+                direitos autorais.
+              </p>
+            </div>
+
+            <div className="relative mx-auto max-w-md md:max-w-lg">
+              <div
+                className="absolute inset-0 bg-primary/40 blur-[90px] rounded-full scale-90 pointer-events-none"
+                aria-hidden="true"
+              />
+              <img
+                src={licencaAssinada}
+                alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
+                className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
+                loading="lazy"
+                decoding="async"
+                width="1900"
+                height="2180"
+              />
             </div>
           </div>
 

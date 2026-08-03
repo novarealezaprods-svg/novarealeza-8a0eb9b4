@@ -996,6 +996,18 @@ html, body {
   100% { background-position: 200% 50%; }
 }
 
+/* Selo de licença: flutua suavemente e pulsa o brilho verde ao redor */
+@keyframes license-float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%      { transform: translateY(-14px) rotate(1deg); }
+}
+.license-float {
+  animation: license-float 6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .license-float { animation: none; }
+}
+
 .basic-card {
   position: relative;
   overflow: hidden;
