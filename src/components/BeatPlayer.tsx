@@ -250,22 +250,6 @@ export function BeatPlayer({
         </button>
       </div>
 
-      {(beat.bpm || beat.key) && (
-        <div
-          className="text-center self-center text-white"
-          style={{
-            fontSize: 10,
-            background: "rgba(0,0,0,0.45)",
-            padding: "3px 8px",
-            borderRadius: 4,
-          }}
-        >
-          {beat.bpm && <span style={{ fontWeight: 700 }}>{beat.bpm} BPM</span>}
-          {beat.bpm && beat.key && <span style={{ margin: "0 6px", opacity: 0.7 }}>·</span>}
-          {beat.key && <span>{beat.key}</span>}
-        </div>
-      )}
-
       {hasError && (
         <div className="mt-2 text-[10px] text-destructive leading-tight text-center">
           Áudio indisponível — reenvie pelo /admin

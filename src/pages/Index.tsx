@@ -691,8 +691,9 @@ export default function IndexPage() {
               </h2>
               <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
                 Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
-                sua música pode ir pro Spotify, YouTube e TikTok sem risco de bloqueio ou remoção por
-                direitos autorais.
+                sua música <span className="text-white font-semibold">pode ir pra todas as plataformas
+                digitais</span>: Spotify, YouTube, TikTok, Deezer, Apple Music e qualquer outra, sem risco
+                de bloqueio ou remoção por direitos autorais.
               </p>
             </div>
 
@@ -1271,16 +1272,6 @@ function BeatSlide({ beat, name, active }: { beat: BeatItem; name: string; activ
         </button>
       </div>
 
-      {(beat.bpm || beat.key) && (
-        <div
-          className="text-center self-center text-white"
-          style={{ fontSize: 12, background: "rgba(0,0,0,0.45)", padding: "4px 10px", borderRadius: 4 }}
-        >
-          {beat.bpm && <span style={{ fontWeight: 700 }}>{beat.bpm} BPM</span>}
-          {beat.bpm && beat.key && <span style={{ margin: "0 6px", opacity: 0.7 }}>·</span>}
-          {beat.key && <span>{beat.key}</span>}
-        </div>
-      )}
     </div>
   );
 }
