@@ -27,7 +27,7 @@ import { ScarcityBar } from "@/components/ScarcityBar";
 import garantia7Dias from "@/assets/garantia-7-dias.png";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
 
-const genres = ["TRAP", "DRILL", "TYPE LEVIANO", "TYPE FAB GODAMN", "TYPE ALEE", "TYPE TCHELO"];
+const genres = ["TRAP", "HARD", "DRILL", "HOOD", "AMBIENT", "CRANK", "NEW JAZZ", "BOUNCE"];
 const features = [
   "100 beats de trap profissionais prontos para uso",
   "Type Leviano, Fab Godamn, Alee, Tchelo e mais",
