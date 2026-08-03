@@ -26,7 +26,7 @@ import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 import garantia7Dias from "@/assets/garantia-7-dias.png";
 
-const genres = ["BOOMBAP/RAP", "FUNK", "TRAP", "Hard", "NEW JAZZ", "R&B", "Drill", "EXPERIMENTAL"];
+const genres = ["BOOMBAP/RAP", "TRAP", "Hard", "NEW JAZZ", "Drill", "EXPERIMENTAL"];
 const features = [
   "100 beats profissionais prontos para uso",
   "40 beats funk",
