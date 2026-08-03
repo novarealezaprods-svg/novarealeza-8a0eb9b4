@@ -1065,7 +1065,7 @@ export default function IndexPage() {
                   boxShadow: "0 0 18px rgba(0,255,65,0.45)",
                 }}
               >
-                SIM! QUERO O PACK 300 POR R$27,90
+                SIM! QUERO O PACK 300 POR R$37,90
               </button>
               <button
                 onClick={() => {
