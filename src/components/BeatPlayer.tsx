@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Play, Pause, Loader2 } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 
@@ -18,16 +18,47 @@ export type BeatItem = {
 
 // Cobre um card quadrado (aspect-square) com o vídeo do visualizer, recortado
 // e centralizado via object-fit — sem depender de nenhum player externo.
-function VisualizerBackground({ src }: { src: string }) {
+function VisualizerBackground({ src, playing }: { src: string; playing: boolean }) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // O React nem sempre reflete a prop `muted` no elemento de verdade, e sem
+    // o mute aplicado o iOS bloqueia o autoplay inline.
+    el.muted = true;
+    el.defaultMuted = true;
+  }, [src]);
+
+  // Acompanha o play/pause do áudio. O elemento é montado assim que o card
+  // fica ativo (antes do áudio começar), então o download já started e o vídeo
+  // aparece sem espera perceptível.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (playing) {
+      el.play().catch(() => {
+        /* autoplay bloqueado (ex.: modo de baixo consumo do iOS) — segue com
+           a imagem de fundo, sem quebrar o player de áudio */
+      });
+    } else {
+      el.pause();
+    }
+  }, [playing]);
+
   return (
     <video
+      ref={ref}
       className="absolute inset-0 h-full w-full object-cover pointer-events-none"
       src={src}
       autoPlay
       muted
       loop
       playsInline
-      preload="none"
+      // iOS antigo ainda olha para o atributo com prefixo
+      {...{ "webkit-playsinline": "true" }}
+      preload="auto"
+      disablePictureInPicture
     />
   );
 }
@@ -221,7 +252,9 @@ export function BeatPlayer({
 
   const name = displayName || beat.name;
   const bgImage = beat.image_url || null;
-  const visualizerSrc = isPlaying ? beat.visualizer_video || null : null;
+  // Monta assim que o beat vira o ativo (isActive é setado de forma síncrona no
+  // clique), não só quando o áudio começa — evita a espera de download.
+  const visualizerSrc = isActive ? beat.visualizer_video || null : null;
 
   return (
     <div
@@ -241,7 +274,7 @@ export function BeatPlayer({
     >
       {visualizerSrc && (
         <>
-          <VisualizerBackground src={visualizerSrc} />
+          <VisualizerBackground src={visualizerSrc} playing={isPlaying} />
           {/* Escurece o vídeo para o texto e o botão continuarem legíveis por cima */}
           <div
             className="absolute inset-0 pointer-events-none"
