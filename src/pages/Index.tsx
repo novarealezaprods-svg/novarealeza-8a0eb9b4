@@ -1019,12 +1019,12 @@ export default function IndexPage() {
               className="text-center mt-2 text-white"
               style={{ fontSize: "13px", opacity: 0.7, lineHeight: 1.5 }}
             >
-              Adicione +70 beats ao seu pack por apenas R$18,00 a mais!
+              Adicione +70 beats ao seu pack por apenas R$8,00 a mais!
             </p>
 
             <div className="mt-5 flex flex-col items-center gap-1">
               <span style={{ color: "#555", fontSize: "14px", textDecoration: "line-through" }}>
-                De R$ 137,00
+                De R$ 37,90
               </span>
               <span
                 style={{
@@ -1035,7 +1035,7 @@ export default function IndexPage() {
                   textShadow: "0 0 12px rgba(0,255,65,0.5)",
                 }}
               >
-                R$ 37,90
+                R$ 27,90
               </span>
               <span
                 className="mt-2 inline-flex items-center px-2.5 py-1 rounded-full font-bold"
@@ -1046,17 +1046,17 @@ export default function IndexPage() {
                   border: "1px solid rgba(0,255,65,0.35)",
                 }}
               >
-                🎁 +70 beats e todos os bônus
+                💰 Você economiza R$10,00
               </span>
             </div>
 
             <div className="mt-6 flex flex-col gap-3">
               <button
                 onClick={() => {
-                  // Mesmo produto e mesmo preço do card dourado (R$ 37,90) —
-                  // não usa checkout_url_upsell, que era o antigo preço promocional.
+                  // Preço promocional do modal (R$ 27,90) — produto próprio,
+                  // diferente do card dourado (R$ 37,90).
                   setShowUpsell(false);
-                  executeCheckout(checkoutUrlSupreme || checkoutUrl);
+                  executeCheckout(checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl);
                 }}
                 className="w-full rounded-xl font-black transition hover:brightness-110"
                 style={{
@@ -1067,7 +1067,7 @@ export default function IndexPage() {
                   boxShadow: "0 0 18px rgba(0,255,65,0.45)",
                 }}
               >
-                SIM! QUERO O PACK 120 POR R$37,90
+                SIM! QUERO O PACK 120 POR R$27,90
               </button>
               <button
                 onClick={() => {
