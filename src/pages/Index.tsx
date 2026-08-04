@@ -474,6 +474,45 @@ export default function IndexPage() {
         </div>
       </section>
 
+      {/* Prova de licença assinada */}
+      <section className="py-10 md:py-14 bg-background border-t border-border/50">
+        <div className={CONTAINER}>
+            <div className="max-w-4xl mx-auto reveal">
+              <div className="text-center mb-10">
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
+                  <FileCheck className="w-3.5 h-3.5" />
+                  100% Legal · Assinado no Gov.br
+                </span>
+                <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+                  Sua Música Merece uma <span className="text-primary">Licença de Verdade</span>
+                </h2>
+                <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
+                  Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
+                  sua música <span className="text-white font-semibold">pode ir pra todas as plataformas
+                  digitais</span>: Spotify, YouTube, TikTok, Deezer, Apple Music e qualquer outra, sem risco
+                  de bloqueio ou remoção por direitos autorais.
+                </p>
+              </div>
+  
+              <div className="relative mx-auto max-w-md md:max-w-lg">
+                <div
+                  className="absolute inset-0 bg-primary/40 blur-[90px] rounded-full scale-90 pointer-events-none"
+                  aria-hidden="true"
+                />
+                <img
+                  src={licencaAssinada}
+                  alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
+                  className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
+                  loading="lazy"
+                  decoding="async"
+                  width="1900"
+                  height="2180"
+                />
+              </div>
+            </div>
+        </div>
+      </section>
+
       <section className="py-6 md:py-8 bg-background border-t border-border/50">
         <div className={CONTAINER}>
           {/* BLOCO 1 — Antes vs Depois */}
@@ -622,71 +661,6 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* Garantia Incondicional 7 dias */}
-          <div className="mt-16 md:mt-20 max-w-3xl mx-auto reveal">
-            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
-              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
-              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
-                <img
-                  src={garantia7Dias}
-                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
-                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
-                  loading="lazy"
-                  decoding="async"
-                  width="176"
-                  height="176"
-                />
-                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    Risco zero
-                  </span>
-                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
-                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
-                  </h3>
-                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
-                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Prova de licença assinada */}
-          <div className="mt-16 md:mt-20 max-w-4xl mx-auto reveal">
-            <div className="text-center mb-10">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
-                <FileCheck className="w-3.5 h-3.5" />
-                100% Legal · Assinado no Gov.br
-              </span>
-              <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
-                Sua Música Merece uma <span className="text-primary">Licença de Verdade</span>
-              </h2>
-              <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
-                Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
-                sua música <span className="text-white font-semibold">pode ir pra todas as plataformas
-                digitais</span>: Spotify, YouTube, TikTok, Deezer, Apple Music e qualquer outra, sem risco
-                de bloqueio ou remoção por direitos autorais.
-              </p>
-            </div>
-
-            <div className="relative mx-auto max-w-md md:max-w-lg">
-              <div
-                className="absolute inset-0 bg-primary/40 blur-[90px] rounded-full scale-90 pointer-events-none"
-                aria-hidden="true"
-              />
-              <img
-                src={licencaAssinada}
-                alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
-                className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
-                loading="lazy"
-                decoding="async"
-                width="1900"
-                height="2180"
-              />
-            </div>
-          </div>
-
           {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap) */}
           <div id="pack-basico" className="mt-12 md:mt-16 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
             <div className="text-center py-2">
@@ -776,6 +750,36 @@ export default function IndexPage() {
                   <span>Garantia incondicional de 7 dias · Pagamento 100% seguro</span>
                 </p>
               </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Garantia Incondicional 7 dias */}
+          <div className="mt-16 md:mt-20 max-w-3xl mx-auto reveal">
+            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
+              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
+              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
+                <img
+                  src={garantia7Dias}
+                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
+                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
+                  loading="lazy"
+                  decoding="async"
+                  width="176"
+                  height="176"
+                />
+                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Risco zero
+                  </span>
+                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
+                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
+                  </h3>
+                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
+                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
