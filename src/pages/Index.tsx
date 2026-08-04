@@ -22,10 +22,10 @@ import {
 import useEmblaCarousel from "embla-carousel-react";
 import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon, Loader2 } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
-import { VideoPreview } from "@/components/VideoPreview";
 import { ScarcityBar } from "@/components/ScarcityBar";
 import garantia7Dias from "@/assets/garantia-7-dias.png";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
+import mockup100Trap from "@/assets/mockup-100-trap.webp";
 
 const genres = ["TRAP", "HARD", "DRILL", "HOOD", "AMBIENT", "CRANK", "NEW JAZZ", "BOUNCE"];
 const features = [
@@ -101,8 +101,6 @@ const BEAT_META: { name: string; genre: string }[] = [
 ];
 
 export default function IndexPage() {
-  const [previewVideo, setPreviewVideo] = useState<string | null>(null);
-  const [vslThumbnail, setVslThumbnail] = useState<string | null>(null);
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
@@ -166,24 +164,6 @@ export default function IndexPage() {
 
   useEffect(() => {
     (async () => {
-      try {
-        const cached = localStorage.getItem("vsl_url");
-        if (cached) setPreviewVideo(cached);
-      } catch {}
-      const { data } = await supabase
-        .from("site_settings")
-        .select("value")
-        .eq("key", "preview_video")
-        .maybeSingle();
-      const url = (data as any)?.value ?? null;
-      if (!url) return;
-      setPreviewVideo(url);
-      try { localStorage.setItem("vsl_url", url); } catch {}
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
       const [{ data: settings }, { data: imgs }, { data: bts }, { data: pls }] = await Promise.all([
         supabase.from("site_settings").select("key,value").neq("key", "preview_video"),
         supabase.from("proof_images").select("url").order("position", { ascending: true }),
@@ -194,7 +174,6 @@ export default function IndexPage() {
       setCheckoutUrl(map["checkout_url"] ?? "");
       setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
       setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
-      setVslThumbnail(map["vsl_thumbnail"] ?? null);
       setProofImages(
         (imgs ?? []).map((r: any) =>
           String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
@@ -205,20 +184,7 @@ export default function IndexPage() {
     })();
   }, []);
 
-  // Preload do poster da VSL para acelerar LCP no mobile.
-  useEffect(() => {
-    if (!vslThumbnail) return;
-    const existing = document.querySelector<HTMLLinkElement>(`link[rel="preload"][href="${vslThumbnail}"]`);
-    if (existing) return;
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = vslThumbnail;
-    (link as any).fetchPriority = "high";
-    document.head.appendChild(link);
-  }, [vslThumbnail]);
-
-  const handleCheckout = (urlOverride?: string, _variant: "green" | "gold" = "green") => {
+  const handleCheckout =(urlOverride?: string, _variant: "green" | "gold" = "green") => {
     const target = urlOverride || checkoutUrl;
     if (!target) return;
     executeCheckout(target);
@@ -326,27 +292,31 @@ export default function IndexPage() {
           </h1>
 
           <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed tracking-wide text-center text-white/70 text-[16px]" style={{ animationDelay: "200ms" }}>
-            300 Beats Profissionais por menos<br />que um lanche. Grave e poste hoje.
+            100 Beats Profissionais de Trap por R$ 19,90.<br />Grave e poste hoje.
           </p>
 
-          <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
-            <Card className="relative aspect-video overflow-hidden border-0 bg-transparent shadow-none rounded-none group">
-              {previewVideo ? (
-                <VideoPreview url={previewVideo} poster={vslThumbnail ?? undefined} />
-              ) : (
-                <>
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                    <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)]">
-                      <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
-                    </div>
-                  </div>
-                </>
-              )}
-            </Card>
+          <div className="mx-auto w-full max-w-[380px] md:max-w-[440px]">
+            <img
+              src={mockup100Trap}
+              alt="Pack 100 Beats de Trap — Nova Realeza"
+              className="w-full h-auto"
+              width="900"
+              height="900"
+              fetchPriority="high"
+            />
+            {/* Mesmo gancho de ancoragem do card de preço, reforçado já no topo */}
+            <div className="mt-3 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                100 licenças avulsas custariam
+              </p>
+              <p className="text-lg font-black text-white leading-none">
+                <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 6.000</span>{" "}
+                <span className="text-primary">R$ 19,90</span>
+              </p>
+            </div>
           </div>
 
-          <div className="flex items-center justify-center gap-1.5 text-[11px] md:text-xs font-medium text-white/80 text-center px-4" style={{ marginTop: "-4px" }}>
+          <div className="flex items-center justify-center gap-1.5 text-[11px] md:text-xs font-medium text-white/80 text-center px-4">
             <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" style={{ filter: "drop-shadow(0 0 4px rgba(0,255,95,0.6))" }} />
             <span>
               <span className="font-black text-[#5dff8a]" style={{ textShadow: "0 0 8px rgba(0,255,95,0.5)" }}>Uso liberado</span>{" "}
@@ -884,57 +854,6 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* Sobre nós */}
-          <div className="mt-16 md:mt-20 max-w-3xl mx-auto reveal">
-            <div className="rounded-3xl border border-border/60 bg-card/40 p-6 md:p-10">
-              <div className="flex items-center gap-3 mb-5">
-                <span className="flex items-center justify-center h-11 w-11 rounded-full bg-primary/15 text-primary flex-shrink-0">
-                  <Heart className="h-5 w-5" />
-                </span>
-                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wide text-white">
-                  Sobre nós
-                </h3>
-              </div>
-
-              <div className="space-y-4 text-sm md:text-base leading-relaxed text-[#cccccc]">
-                <p>
-                  Meu nome é <span className="text-white font-semibold">Markz</span>, sou produtor musical
-                  e fundador da <span className="text-white font-semibold">Nova Realeza</span>. Comecei
-                  fazendo beat pra tentar lançar minha própria música, e sei exatamente a sensação de
-                  terminar uma ideia boa às 2 da manhã e não ter um beat decente pra colocar embaixo — só
-                  sobrando beat de internet, cheio de tag, que todo mundo já usou e que trava sua música
-                  no primeiro upload.
-                </p>
-                <p>
-                  Foi ver isso acontecer com tanta gente que me fez montar esse pack. Não é sobre vender
-                  beat — é sobre tirar essa trava do caminho de quem só quer gravar e postar sem medo de
-                  perder a música pra um strike de direitos autorais.
-                </p>
-                <p>
-                  Cada beat aqui tem contrato de licença assinado digitalmente pelo Gov.br — o mesmo
-                  documento que você viu aí em cima. Isso significa que a música é 100% sua, liberada pra
-                  Spotify, YouTube, TikTok, Deezer, qualquer plataforma, sem cobrança de crédito e sem
-                  ninguém aparecer depois pra derrubar seu trabalho.
-                </p>
-                <p>
-                  Se eu fosse vender essas 300 licenças separadas, ia cobrar R$ 60 por beat — isso dá{" "}
-                  <span className="text-white font-black line-through decoration-destructive decoration-2">
-                    R$ 18.000
-                  </span>
-                  . Mas eu não quero isso. Quero que o maior número possível de artista tenha acesso a beat
-                  de qualidade, com documento, sem passar pelo que eu passei. Por isso decidi entregar o
-                  pack inteiro por <span className="text-primary font-black">R$ 47,90</span>.
-                </p>
-                <p className="text-white/90">
-                  Não é caridade, é decisão minha. Beat bom você merece ter. Direito autoral você merece
-                  ter tranquilo.
-                </p>
-                <p className="pt-2 font-black text-white tracking-wide">
-                  — Markz, Nova Realeza Prods
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -962,70 +881,81 @@ export default function IndexPage() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
         
 
-        <div className={`${CONTAINER} relative py-14`}>
-          {/* Brand row */}
-          <div className="flex flex-col items-center gap-4 text-center">
-            <div className="flex items-center gap-2.5">
-              <span className="text-lg font-bold tracking-tight text-foreground">Nova Realeza</span>
-            </div>
-            <p className="max-w-md text-sm text-muted-foreground">
-              Beats profissionais para artistas que querem soltar hits de verdade.
-            </p>
-          </div>
-
-          {/* Trust badges */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <div className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-2.5 text-sm">
+        <div className={`${CONTAINER} relative py-12 md:py-14`}>
+          {/* Faixa de garantias — primeira coisa que se vê no rodapé */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-3 text-sm">
               <Shield className="h-4 w-4 shrink-0 text-primary" />
               <span className="font-semibold text-primary">Garantia de 7 dias</span>
             </div>
-            <div className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-2.5 text-sm">
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-3 text-sm">
               <Lock className="h-4 w-4 shrink-0 text-primary" />
               <span className="font-semibold text-primary">Pagamento 100% seguro</span>
             </div>
-            <div className="flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-2.5 text-sm">
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-primary/40 bg-primary/[0.08] px-4 py-3 text-sm">
               <Download className="h-4 w-4 shrink-0 text-primary" />
               <span className="font-semibold text-primary">Acesso imediato</span>
             </div>
           </div>
 
-          {/* Contact */}
-          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-10">
-            <a
-              href="mailto:novarealezaprods@gmail.com"
-              className="group flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary"
-            >
-              <Mail className="h-4 w-4 text-primary" />
-              <span className="font-medium">novarealezaprods@gmail.com</span>
-            </a>
-            <a
-              href="https://wa.me/5511978768141"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary"
-            >
-              <Phone className="h-4 w-4 text-primary" />
-              <span className="font-medium">(11) 97876-8141</span>
-            </a>
+          <div className="mx-auto mt-10 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
+
+          {/* Colunas: marca · contato · institucional */}
+          <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8 text-center md:text-left">
+            {/* Marca */}
+            <div className="flex flex-col items-center md:items-start gap-3">
+              <span className="text-lg font-black tracking-tight text-foreground">Nova Realeza</span>
+              <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+                Beats profissionais para artistas que querem soltar hits de verdade.
+              </p>
+            </div>
+
+            {/* Contato */}
+            <div className="flex flex-col items-center md:items-start gap-3">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-white/70">
+                Contato
+              </h4>
+              <a
+                href="https://wa.me/5511978768141"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary"
+              >
+                <MessageCircle className="h-4 w-4 shrink-0 text-primary" />
+                <span className="font-medium">(11) 97876-8141</span>
+              </a>
+              <a
+                href="mailto:novarealezaprods@gmail.com"
+                className="flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary break-all"
+              >
+                <Mail className="h-4 w-4 shrink-0 text-primary" />
+                <span className="font-medium">novarealezaprods@gmail.com</span>
+              </a>
+            </div>
+
+            {/* Institucional */}
+            <div className="flex flex-col items-center md:items-start gap-3">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-white/70">
+                Informações
+              </h4>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <User className="h-4 w-4 shrink-0 text-primary" />
+                <span>Cléber Marques Ernandes Filho</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Building2 className="h-4 w-4 shrink-0 text-primary" />
+                <span>CNPJ 51.800.800/0001-28</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <FileCheck className="h-4 w-4 shrink-0 text-primary" />
+                <span>Licença assinada via Gov.br</span>
+              </div>
+            </div>
           </div>
 
-          {/* Divider */}
-          <div className="mx-auto mt-10 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-border to-transparent" />
+          <div className="mx-auto mt-10 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
 
-          {/* Legal */}
-          <div className="mt-6 flex flex-col items-center gap-3 text-xs text-muted-foreground sm:flex-row sm:justify-center sm:gap-6">
-            <div className="flex items-center gap-2">
-              <User className="h-3.5 w-3.5" />
-              <span>Cléber Marques Ernanandes</span>
-            </div>
-            <div className="hidden h-3 w-px bg-border sm:block" />
-            <div className="flex items-center gap-2">
-              <Building2 className="h-3.5 w-3.5" />
-              <span>CNPJ 51.800.800/0001-28</span>
-            </div>
-          </div>
-
-          <p className="mt-4 text-center text-xs text-muted-foreground/70">
+          <p className="mt-6 text-center text-xs text-muted-foreground/70">
             {`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}
           </p>
         </div>
