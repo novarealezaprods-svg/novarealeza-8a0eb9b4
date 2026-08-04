@@ -29,7 +29,7 @@ import mockup100Trap from "@/assets/mockup-100-trap.webp";
 
 const genres = ["TRAP", "HARD", "DRILL", "HOOD", "AMBIENT", "CRANK", "NEW JAZZ", "BOUNCE"];
 const features = [
-  "100 beats de trap profissionais prontos para uso",
+  "120 beats de trap profissionais prontos para uso",
   "Type Leviano, Fab Godamn, Alee, Tchelo e mais",
   "Trap, drill e variações",
   "100% royalty free — você fica com tudo",
@@ -37,7 +37,7 @@ const features = [
   "Mixados e masterizados em alta qualidade",
 ];
 const packFeatures = [
-  "100 beats de trap profissionais",
+  "120 beats de trap profissionais",
   "Liberado para todas plataformas digitais",
   "Mixados e masterizados em alta qualidade",
 ];
@@ -104,11 +104,7 @@ export default function IndexPage() {
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
-  const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>("");
-  const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState<string>("");
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
-  const [showUpsell, setShowUpsell] = useState(false);
-  const [deliveryModal, setDeliveryModal] = useState<{ open: boolean; url: string; variant: "green" | "gold" }>({ open: false, url: "", variant: "green" });
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
   const [showStickyCta, setShowStickyCta] = useState(false);
 
@@ -172,8 +168,6 @@ export default function IndexPage() {
       ]);
       const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
       setCheckoutUrl(map["checkout_url"] ?? "");
-      setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
-      setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
       setProofImages(
         (imgs ?? []).map((r: any) =>
           String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
@@ -208,27 +202,6 @@ export default function IndexPage() {
     } catch {
       window.open(target, "_blank", "noopener,noreferrer");
     }
-  };
-
-  const handleBasicCheckoutClick = () => {
-    setShowUpsell(true);
-  };
-
-  const handleContinueBasic = () => {
-    setShowUpsell(false);
-    handleCheckout();
-  };
-
-  const handleGoSupreme = () => {
-    setShowUpsell(false);
-    // Aguarda o fechamento do dialog (Radix trava o scroll do body) antes de rolar.
-    // No mobile, scrollIntoView dispara antes do unlock e não funciona.
-    setTimeout(() => {
-      const el = document.getElementById("oferta-suprema");
-      if (!el) return;
-      const y = el.getBoundingClientRect().top + window.pageYOffset - 16;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }, 350);
   };
 
   // ViewContent at 75% scroll
@@ -292,13 +265,13 @@ export default function IndexPage() {
           </h1>
 
           <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed tracking-wide text-center text-white/70 text-[16px]" style={{ animationDelay: "200ms" }}>
-            100 Beats Profissionais de Trap por R$ 19,90.<br />Grave e poste hoje.
+            120 Beats Profissionais de Trap por R$ 19,90.<br />Grave e poste hoje.
           </p>
 
           <div className="mx-auto w-full max-w-[380px] md:max-w-[440px]">
             <img
               src={mockup100Trap}
-              alt="Pack 100 Beats de Trap — Nova Realeza"
+              alt="Pack 120 Beats de Trap — Nova Realeza"
               className="w-full h-auto"
               width="900"
               height="900"
@@ -307,10 +280,10 @@ export default function IndexPage() {
             {/* Mesmo gancho de ancoragem do card de preço, reforçado já no topo */}
             <div className="mt-3 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center">
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                100 licenças avulsas custariam
+                120 licenças avulsas custariam
               </p>
               <p className="text-lg font-black text-white leading-none">
-                <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 6.000</span>{" "}
+                <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
                 <span className="text-primary">R$ 19,90</span>
               </p>
             </div>
@@ -714,62 +687,15 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* BLOCO 2 — Cards de Compra (Pack 100 + Pack 300 lado a lado) */}
+          {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap) */}
           <div id="pack-basico" className="mt-12 md:mt-16 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
-            <div className="basic-card max-w-md mx-auto w-full">
-              <div className="basic-card-inner text-center" style={{ padding: "20px" }}>
-                <span className="basic-badge">
-                  <Flame className="h-3 w-3" />
-                  <span>Oferta limitada</span>
-                </span>
-                <h2 className="mt-3 text-2xl md:text-3xl font-black tracking-tight">
-                  <span className="basic-title">Pack 100 Beats</span>
-                </h2>
-                <p className="mt-1 text-xs md:text-sm text-[#9ad9a4] font-semibold tracking-wide">
-                  Pagamento único · Acesso vitalício
-                </p>
-
-                <div className="mt-4 flex flex-col items-center gap-1">
-                  <span className="basic-price text-4xl md:text-5xl font-black leading-none">
-                    R$ 19,90
-                  </span>
-                </div>
-
-                <div className="mt-5 text-left max-w-md mx-auto flex flex-col" style={{ gap: "4px" }}>
-                  {packFeatures.map((f, i) => (
-                    <div key={i} className="basic-feature" style={{ fontSize: "12px" }}>
-                      <span className="basic-feature-check">
-                        <Check />
-                      </span>
-                      <span>{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="hero-cta-block flex flex-col items-center w-full">
-                  <button
-                    onClick={handleBasicCheckoutClick}
-                    className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
-                  >
-                    <span className="hero-cta-shine" aria-hidden="true" />
-                    <span className="hero-cta-text">QUERO MEU PACK AGORA</span>
-                  </button>
-                </div>
-                <p className="mt-4 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
-                  <ShieldCheck className="h-3 w-3" />
-                  <span>Garantia incondicional de 7 dias</span>
-                </p>
-              </div>
-            </div>
-
-            {/* Transição dourada para apresentar o Pack 300 */}
             <div className="text-center py-2">
               <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
                 <span className="supreme-title">Seja Um Artista Completo</span>
               </h2>
             </div>
 
-            {/* Pack 300 — destaque verde */}
+            {/* Oferta única — card dourado */}
             <div
               id="oferta-suprema"
               className="relative scroll-mt-20 rounded-2xl"
@@ -788,7 +714,7 @@ export default function IndexPage() {
                 <span className="supreme-sparkle" style={{ bottom: "14%", right: "12%", animationDelay: "1.8s" }} />
 
                 <h3 className="text-3xl md:text-4xl font-black tracking-tight">
-                  <span className="supreme-title">PACK 300 BEATS+</span>
+                  <span className="supreme-title">PACK 120 BEATS DE TRAP</span>
                 </h3>
                 <p className="mt-2 text-sm md:text-base text-[#d9c98e] font-semibold tracking-wide">
                   Pacote completo
@@ -797,20 +723,20 @@ export default function IndexPage() {
                 <div className="mt-6 flex flex-col items-center gap-1">
                   <span className="supreme-strike">R$ 137,00</span>
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
-                    R$ 47,90
+                    R$ 19,90
                   </span>
                 </div>
                 <div className="flex justify-center">
                   <span className="supreme-savings">
                     <Flame className="h-3 w-3" />
-                    Economize 75% hoje
+                    Economize 85% hoje
                   </span>
                 </div>
 
                 <div className="mt-8 space-y-3.5 text-left max-w-md mx-auto">
                   {[
-                    "TUDO do pack base (100 beats)",
-                    "+200 Beats Adicionados",
+                    "120 beats de trap profissionais",
+                    "Mixados e masterizados em alta qualidade",
                     "100% Royalty Free — Spotify, YouTube, TikTok",
                     "Bônus 1: Curso de como gravar em casa com a melhor qualidade",
                     "Bônus 2: Presets De Mixagem (Bandlab e Fl Studio)",
@@ -837,12 +763,12 @@ export default function IndexPage() {
 
                 <div className="mt-8 flex flex-col items-center w-full">
                   <button
-                    onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
+                    onClick={() => handleCheckout(checkoutUrl, "gold")}
                     className="supreme-cta inline-flex items-center justify-center"
                   >
                     <span className="supreme-cta-shine" aria-hidden="true" />
                     <Download className="h-4 w-4 mr-2 relative z-10" />
-                    <span className="relative z-10">300 BEATS POR 47,90</span>
+                    <span className="relative z-10">120 BEATS POR 19,90</span>
                   </button>
                 </div>
                 <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
@@ -979,102 +905,6 @@ export default function IndexPage() {
         </div>
       )}
 
-      {showUpsell && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setShowUpsell(false)}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300"
-          style={{ background: "rgba(0,0,0,0.85)" }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[400px] animate-in slide-in-from-bottom-8 duration-500"
-            style={{
-              background: "#0d0d0d",
-              borderRadius: "16px",
-              padding: "24px",
-              border: "1px solid rgba(0,255,65,0.4)",
-              boxShadow: "0 0 20px rgba(0,255,65,0.3)",
-            }}
-          >
-            <div className="flex justify-center mb-3">
-              <span
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black tracking-wide"
-                style={{ background: "#FF3C3C", color: "#fff" }}
-              >
-                🔥 OFERTA ESPECIAL
-              </span>
-            </div>
-            <h3 className="text-center font-bold text-white" style={{ fontSize: "18px" }}>
-              Espera! Antes de continuar...
-            </h3>
-            <p
-              className="text-center mt-2 text-white"
-              style={{ fontSize: "13px", opacity: 0.7, lineHeight: 1.5 }}
-            >
-              Adicione +200 beats ao seu pack por apenas R$18,00 a mais!
-            </p>
-
-            <div className="mt-5 flex flex-col items-center gap-1">
-              <span style={{ color: "#555", fontSize: "14px", textDecoration: "line-through" }}>
-                De R$ 47,90
-              </span>
-              <span
-                style={{
-                  color: "#00FF41",
-                  fontWeight: 800,
-                  fontSize: "32px",
-                  lineHeight: 1,
-                  textShadow: "0 0 12px rgba(0,255,65,0.5)",
-                }}
-              >
-                R$ 37,90
-              </span>
-              <span
-                className="mt-2 inline-flex items-center px-2.5 py-1 rounded-full font-bold"
-                style={{
-                  background: "rgba(0,255,65,0.12)",
-                  color: "#00FF41",
-                  fontSize: "12px",
-                  border: "1px solid rgba(0,255,65,0.35)",
-                }}
-              >
-                💰 Você economiza R$10,00
-              </span>
-            </div>
-
-            <div className="mt-6 flex flex-col gap-3">
-              <button
-                onClick={() => {
-                  setShowUpsell(false);
-                  executeCheckout(checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl);
-                }}
-                className="w-full rounded-xl font-black transition hover:brightness-110"
-                style={{
-                  background: "linear-gradient(135deg, #00C853, #00FF41)",
-                  color: "#03140a",
-                  padding: "14px 16px",
-                  fontSize: "14px",
-                  boxShadow: "0 0 18px rgba(0,255,65,0.45)",
-                }}
-              >
-                SIM! QUERO O PACK 300 POR R$37,90
-              </button>
-              <button
-                onClick={() => {
-                  setShowUpsell(false);
-                  executeCheckout(checkoutUrl);
-                }}
-                className="w-full bg-transparent border border-white/30 rounded-lg py-2 hover:bg-white/10 hover:border-white/60 transition"
-                style={{ color: "#bbb", fontSize: "14px", fontWeight: 500 }}
-              >
-                Não, quero apenas o Pack 100
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );
