@@ -1,31 +1,16 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Music, Globe, Zap, Lock, ShieldCheck as Shield, MessageCircle, AlertTriangle, FileCheck, Heart } from "lucide-react";
-import { ListMusic, ExternalLink } from "lucide-react";
-import { BeatPlayer, type BeatItem, playUrl, pauseCurrent, useBeatSnap } from "@/components/BeatPlayer";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Dialog, DialogTitle, DialogContent, DialogHeader, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import useEmblaCarousel from "embla-carousel-react";
-import { X, ChevronLeft, ChevronRight, Play as PlayIcon, Pause as PauseIcon, Loader2 } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Zap, Lock, ShieldCheck as Shield, MessageCircle, FileCheck, ListMusic, ExternalLink } from "lucide-react";
+import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
-import { ScarcityBar } from "@/components/ScarcityBar";
-import garantia7Dias from "@/assets/garantia-7-dias.png";
+import garantia7Dias from "@/assets/garantia-7-dias.webp";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
-import mockup100Trap from "@/assets/mockup-100-trap.webp";
+
+// O carrossel de beats só abre ao clicar num card, então o Radix Dialog e o
+// embla-carousel saem do bundle inicial e só são baixados quando necessário.
+const BeatCarouselDialog = lazy(() => import("@/components/BeatCarouselDialog"));
 
 const genres = ["TRAP", "HARD", "DRILL", "HOOD", "PLUGG", "CRANK", "NEW JAZZ", "BOUNCE"];
 const features = [
@@ -165,6 +150,10 @@ export default function IndexPage() {
 
   useEffect(() => {
     (async () => {
+      // Import dinâmico: o cliente do Supabase pesa ~211kB e nada acima da
+      // dobra depende dele. Carregando aqui, ele sai do bundle inicial e é
+      // baixado em paralelo, sem atrasar o hero.
+      const { supabase } = await import("@/integrations/supabase/client");
       const [{ data: settings }, { data: imgs }, { data: bts }, { data: pls }] = await Promise.all([
         supabase.from("site_settings").select("key,value").neq("key", "preview_video"),
         supabase.from("proof_images").select("url").order("position", { ascending: true }),
@@ -293,12 +282,12 @@ export default function IndexPage() {
           </h1>
 
           <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed tracking-wide text-center text-white/70 text-[16px]" style={{ animationDelay: "200ms" }}>
-            Beats Profissionais de Trap a partir de R$ 19,90.<br />Grave e poste hoje.
+            120 beats de trap por menos que uma pizza na sesh.<br />Grave hoje, posta hoje, sem dor de cabeça.
           </p>
 
           <div className="mx-auto w-full max-w-[380px] md:max-w-[440px]">
             <img
-              src={mockup100Trap}
+              src="/img/mockup-trap.webp"
               alt="Pack 120 Beats de Trap — Nova Realeza"
               className="w-full h-auto"
               width="900"
@@ -966,12 +955,17 @@ export default function IndexPage() {
         </div>
       </footer>
 
-      <BeatCarouselDialog
-        beats={beats.slice(0, 12)}
-        openIndex={openBeatIndex}
-        onClose={() => { setOpenBeatIndex(null); pauseCurrent(); }}
-        meta={BEAT_META}
-      />
+      {/* Só monta (e só baixa o chunk) depois que um beat é aberto */}
+      {openBeatIndex !== null && (
+        <Suspense fallback={null}>
+          <BeatCarouselDialog
+            beats={beats.slice(0, 12)}
+            openIndex={openBeatIndex}
+            onClose={() => { setOpenBeatIndex(null); pauseCurrent(); }}
+            meta={BEAT_META}
+          />
+        </Suspense>
+      )}
 
       {showStickyCta && (
         <div className="sticky-cta-bar">
@@ -1088,155 +1082,3 @@ export default function IndexPage() {
   );
 }
 
-function BeatCarouselDialog({
-  beats,
-  openIndex,
-  onClose,
-  meta,
-}: {
-  beats: BeatItem[];
-  openIndex: number | null;
-  onClose: () => void;
-  meta: { name: string; genre: string }[];
-}) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, startIndex: openIndex ?? 0 });
-  const [selected, setSelected] = useState(openIndex ?? 0);
-
-  useEffect(() => {
-    if (openIndex !== null && emblaApi) {
-      emblaApi.scrollTo(openIndex, true);
-      setSelected(openIndex);
-    }
-  }, [openIndex, emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    const onSelect = () => {
-      setSelected(emblaApi.selectedScrollSnap());
-      pauseCurrent();
-    };
-    emblaApi.on("select", onSelect);
-    return () => { emblaApi.off("select", onSelect); };
-  }, [emblaApi]);
-
-  const open = openIndex !== null;
-
-  return (
-    <Dialog open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
-      <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="beat-dialog-overlay fixed inset-0 z-50 bg-black/90 backdrop-blur-md" />
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
-          <DialogPrimitive.Content className="beat-dialog-content pointer-events-auto relative w-full max-w-md">
-            <DialogTitle className="sr-only">Beats</DialogTitle>
-            <div className="overflow-hidden rounded-lg" ref={emblaRef}>
-              <div className="flex">
-                {beats.map((b, i) => {
-                  const m = meta[i] || { name: b.name, genre: "TRAP" };
-                  return (
-                    <div key={`${b.name}-${i}`} className="flex-[0_0_100%] min-w-0 px-1">
-                      <BeatSlide beat={b} name={b.name || m.name} active={selected === i} />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <button
-              onClick={() => emblaApi?.scrollPrev()}
-              aria-label="Anterior"
-              className="absolute left-1 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center transition"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => emblaApi?.scrollNext()}
-              aria-label="Próximo"
-              className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center transition"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-
-            <DialogPrimitive.Close className="absolute right-2 top-2 rounded-full opacity-90 hover:opacity-100 transition bg-black/60 p-1.5 z-10">
-              <X className="h-4 w-4 text-white" />
-              <span className="sr-only">Fechar</span>
-            </DialogPrimitive.Close>
-
-            <div className="mt-3 flex justify-center gap-1.5">
-              {beats.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => emblaApi?.scrollTo(i)}
-                  aria-label={`Ir ao beat ${i + 1}`}
-                  className={`h-1.5 rounded-full transition-all ${selected === i ? "w-5 bg-primary" : "w-1.5 bg-white/40"}`}
-                />
-              ))}
-            </div>
-          </DialogPrimitive.Content>
-        </div>
-      </DialogPrimitive.Portal>
-    </Dialog>
-  );
-}
-
-function BeatSlide({ beat, name, active }: { beat: BeatItem; name: string; active: boolean }) {
-  const [resolvedUrl, setResolvedUrl] = useState("");
-  const snap = useBeatSnap();
-  useEffect(() => { setResolvedUrl(normalizeDirectUrl(beat.url)); }, [beat.url]);
-
-  useEffect(() => {
-    if (!active) return;
-  }, [active]);
-
-  const isActive = snap.activeUrl === resolvedUrl;
-  const isPlaying = isActive && snap.isPlaying;
-  const isLoading = snap.loadingUrl === resolvedUrl && !snap.isPlaying;
-  const bgImage = beat.image_url || null;
-
-  const toggle = () => {
-    if (!resolvedUrl) return;
-    if (isPlaying) { pauseCurrent(); return; }
-    playUrl(resolvedUrl);
-  };
-
-  return (
-    <div
-      className="relative w-full aspect-square flex flex-col justify-between p-5 rounded-lg overflow-hidden border border-border"
-      style={{
-        background: bgImage
-          ? `linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
-          : "#111111",
-      }}
-    >
-      <div
-        className="text-center text-white self-center text-sm md:text-lg"
-        style={{
-          fontWeight: 700,
-          textTransform: "uppercase",
-          background: "rgba(0,0,0,0.5)",
-          padding: "6px 12px",
-          borderRadius: 6,
-        }}
-      >
-        {name}
-      </div>
-
-      <div className="flex justify-center">
-        <button
-          onClick={toggle}
-          aria-label={isPlaying ? "Pausar" : "Tocar"}
-          disabled={!resolvedUrl}
-          className={`h-20 w-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-[var(--shadow-glow)] hover:brightness-110 transition disabled:opacity-60 ${isPlaying ? "beat-pulse" : ""}`}
-        >
-          {isPlaying ? (
-            <PauseIcon className="h-9 w-9 fill-current" />
-          ) : isLoading ? (
-            <Loader2 className="h-9 w-9 animate-spin" />
-          ) : (
-            <PlayIcon className="h-9 w-9 fill-current ml-1" />
-          )}
-        </button>
-      </div>
-
-    </div>
-  );
-}

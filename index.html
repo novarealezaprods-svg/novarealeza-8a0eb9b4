@@ -12,31 +12,43 @@
     <meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/439725ec-4dad-4e71-909d-936a41791135/id-preview-e287d40e--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app-1776953203387.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/439725ec-4dad-4e71-909d-936a41791135/id-preview-e287d40e--35a5ef50-2295-4fa1-a671-c5c8bb57841e.lovable.app-1776953203387.png" />
-    <!-- Performance: DNS prefetch + preconnect -->
-    <link rel="dns-prefetch" href="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev" />
-    <link rel="preconnect" href="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev" crossorigin />
-    <link rel="dns-prefetch" href="https://wdsbsuydzqkixhntvrqw.supabase.co" />
+    <!--
+      Imagem do hero (elemento de LCP). Servida de /public com caminho fixo
+      para poder ser pré-carregada aqui: se dependesse do import no bundle, o
+      navegador só a descobriria depois de baixar e executar o JS.
+    -->
+    <link rel="preload" as="image" href="/img/mockup-trap.webp" fetchpriority="high" />
+    <!-- Supabase é o primeiro fetch depois do JS: abre a conexão desde já -->
     <link rel="preconnect" href="https://wdsbsuydzqkixhntvrqw.supabase.co" crossorigin />
-    <link rel="dns-prefetch" href="https://www.youtube.com" />
-    <link rel="dns-prefetch" href="https://player.vimeo.com" />
+    <link rel="dns-prefetch" href="https://wdsbsuydzqkixhntvrqw.supabase.co" />
+    <!-- GTM entra tarde e sem bloquear; só o DNS adiantado já basta -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://www.dropbox.com" />
-    <link rel="preconnect" href="https://www.dropbox.com" crossorigin />
-    <link rel="dns-prefetch" href="https://dl.dropboxusercontent.com" />
-    <link rel="preconnect" href="https://dl.dropboxusercontent.com" crossorigin />
-    <link rel="dns-prefetch" href="https://uc.dropbox.com" />
-    <link rel="preconnect" href="https://uc.dropbox.com" crossorigin />
     <!-- Loader styles (inline para evitar FOUC) -->
     <style>
       html, body { overflow-x: hidden; max-width: 100%; }
     </style>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KX8BW3LF');</script>
-    <!-- End Google Tag Manager -->
+    <!--
+      GTM adiado para depois do load: como script no <head> ele competia com o
+      bundle e com a imagem do hero pela banda inicial. Nada aqui depende dele
+      para renderizar, e os eventos (AddToCart/ViewContent) só disparam por
+      interação, bem depois deste ponto.
+    -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      (function (w, d, s, l, i) {
+        function carregar() {
+          w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        }
+        if (d.readyState === 'complete') carregar();
+        else w.addEventListener('load', carregar);
+      })(window, document, 'script', 'dataLayer', 'GTM-KX8BW3LF');
+    </script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
