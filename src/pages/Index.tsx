@@ -419,22 +419,6 @@ export default function IndexPage() {
             ))}
           </div>
 
-          {/* Selo "sem I.A." — vem logo depois das prévias, quando a qualidade
-              acabou de ser comprovada de ouvido */}
-          <div className="mt-10 flex justify-center reveal">
-            <div className="inline-flex items-center gap-4 rounded-2xl border border-primary/40 bg-primary/[0.06] px-5 py-4 text-left">
-              <span className="text-3xl leading-none" aria-hidden="true">🎹</span>
-              <div>
-                <p className="text-sm md:text-base font-black uppercase tracking-wide text-primary leading-tight">
-                  Feito na mão, no estúdio
-                </p>
-                <p className="mt-1 text-xs md:text-sm text-[#aaaaaa]">
-                  Nenhum beat de I.A. por aqui — cada um saiu da minha
-                  criatividade e de anos de estudo.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -541,6 +525,23 @@ export default function IndexPage() {
                 />
               </div>
             </div>
+
+          {/* Selo "sem I.A." — reforça a autenticidade logo depois da prova
+              de que a licença é real */}
+          <div className="mt-12 md:mt-14 flex justify-center reveal">
+            <div className="inline-flex items-center gap-4 rounded-2xl border border-primary/40 bg-primary/[0.06] px-5 py-4 text-left">
+              <span className="text-3xl leading-none" aria-hidden="true">🎹</span>
+              <div>
+                <p className="text-sm md:text-base font-black uppercase tracking-wide text-primary leading-tight">
+                  Feito na mão, no estúdio
+                </p>
+                <p className="mt-1 text-xs md:text-sm text-[#aaaaaa]">
+                  Nenhum beat de I.A. por aqui — cada um saiu da minha
+                  criatividade e de anos de estudo.
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* BLOCO — Entrega do produto */}
           <div className="mt-12 md:mt-16 max-w-3xl mx-auto reveal">
@@ -791,9 +792,8 @@ export default function IndexPage() {
                     "Mixados e masterizados em alta qualidade",
                     "100% Royalty Free — Spotify, YouTube, TikTok",
                     "Bônus 1: Curso de como gravar em casa com a melhor qualidade",
-                    "Bônus 2: Presets De Mixagem (Bandlab e Fl Studio)",
-                    "Bônus 3: Acesso a comunidade do Whatsapp com artistas de todo Brasil",
-                    "🍀 Bônus 4: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
+                    "Bônus 2: Acesso a comunidade do Whatsapp com artistas de todo Brasil",
+                    "🍀 Bônus 3: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
                   ].map((f, i) => {
                     const isBonus = f.includes("Bônus");
                     return (
