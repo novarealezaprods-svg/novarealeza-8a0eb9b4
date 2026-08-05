@@ -418,6 +418,23 @@ export default function IndexPage() {
               </Badge>
             ))}
           </div>
+
+          {/* Selo "sem I.A." — vem logo depois das prévias, quando a qualidade
+              acabou de ser comprovada de ouvido */}
+          <div className="mt-10 flex justify-center reveal">
+            <div className="inline-flex items-center gap-4 rounded-2xl border border-primary/40 bg-primary/[0.06] px-5 py-4 text-left">
+              <span className="text-3xl leading-none" aria-hidden="true">🎹</span>
+              <div>
+                <p className="text-sm md:text-base font-black uppercase tracking-wide text-primary leading-tight">
+                  Feito na mão, no estúdio
+                </p>
+                <p className="mt-1 text-xs md:text-sm text-[#aaaaaa]">
+                  Nenhum beat de I.A. por aqui — cada um saiu da minha
+                  criatividade e de anos de estudo.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -595,8 +612,8 @@ export default function IndexPage() {
                 {[
                   "Beat free que todo mundo já ouviu",
                   "Direitos autorais bloqueando seu som",
+                  "Beat de I.A. genérico, sem alma nenhuma",
                   "Som amador que entrega você antes de tocar",
-                  "Sem variedade, sem identidade",
                   "Gastando tempo garimpando instrumental",
                 ].map((t, i) => (
                   <li
@@ -658,7 +675,7 @@ export default function IndexPage() {
                 {[
                   "beats de identidade e original",
                   "100% royalty free — Spotify, YouTube, sem medo",
-                  "Som que posiciona você como artista sério",
+                  "Feito na mão por produtor de verdade, zero I.A.",
                   "Type LEVIANO, FAB GODAMN, ALEE, TCHELO e muito mais",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
