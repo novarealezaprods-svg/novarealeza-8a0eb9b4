@@ -348,12 +348,9 @@ export default function IndexPage() {
         <div className={CONTAINER}>
           <div className="text-center mb-12 reveal">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
-              Ouça Antes de Comprar
+              Ouça Algumas Prévias
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
-            <p className="mt-4 text-[15px]" style={{ color: "#888" }}>
-              Ouça alguns beats do pack — no pack tem type beat de: LEVIANO, FAB GODAMN, ALEE, TCHELO, além de TRAP, DRILL e mais&nbsp;
-            </p>
           </div>
 
           {beats.length > 0 ? (
