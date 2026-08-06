@@ -320,7 +320,7 @@ export default function IndexPage() {
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
               <span className="hero-cta-shine" aria-hidden="true" />
-              <span className="hero-cta-text">QUERO GARANTIR MEU PACK</span>
+              <span className="hero-cta-text">QUERO MEU PACK</span>
             </button>
             <button
               type="button"
@@ -987,7 +987,7 @@ export default function IndexPage() {
             onClick={() => document.getElementById("pack-basico")?.scrollIntoView({ behavior: "smooth", block: "start" })}
             className="sticky-cta-btn"
           >
-            QUERO GARANTIR MEU PACK
+            QUERO MEU PACK
           </button>
         </div>
       )}
