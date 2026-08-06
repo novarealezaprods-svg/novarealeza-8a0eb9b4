@@ -731,7 +731,7 @@ export default function IndexPage() {
                     className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
                   >
                     <span className="hero-cta-shine" aria-hidden="true" />
-                    <span className="hero-cta-text">QUERO MEU PACK AGORA</span>
+                    <span className="hero-cta-text">QUERO MEU PACK</span>
                   </button>
                 </div>
                 <p className="mt-4 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
@@ -820,7 +820,7 @@ export default function IndexPage() {
                   >
                     <span className="supreme-cta-shine" aria-hidden="true" />
                     <Download className="h-4 w-4 mr-2 relative z-10" />
-                    <span className="relative z-10">120 BEATS POR 37,90</span>
+                    <span className="relative z-10">QUERO MEU PACK</span>
                   </button>
                 </div>
                 <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
