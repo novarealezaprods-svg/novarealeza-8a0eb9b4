@@ -346,7 +346,7 @@ export default function IndexPage() {
             {/* Mesmo gancho de ancoragem do card de preço, reforçado já no topo */}
             <div className="mt-3 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center">
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                120 licenças avulsas custariam
+                120 licenças custariam
               </p>
               <p className="text-lg font-black text-white leading-none">
                 <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
