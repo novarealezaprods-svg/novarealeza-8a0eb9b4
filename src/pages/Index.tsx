@@ -2,9 +2,10 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Zap, Lock, ShieldCheck as Shield, MessageCircle, FileCheck, ListMusic, ExternalLink } from "lucide-react";
+import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Zap, Lock, ShieldCheck as Shield, MessageCircle, FileCheck, ListMusic, ExternalLink } from "lucide-react";
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
+import { VideoPreview } from "@/components/VideoPreview";
 import garantia7Dias from "@/assets/garantia-7-dias.webp";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
 
@@ -87,7 +88,15 @@ const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Florida", genre: "TRAP" },
 ];
 
+// Fallback da VSL: mesmo vídeo já hospedado no Supabase deste projeto.
+// Serve de rede de segurança caso a linha "preview_video" em site_settings
+// fique vazia — o vídeo real continua vindo do banco normalmente.
+const VSL_URL_FALLBACK = "https://wdsbsuydzqkixhntvrqw.supabase.co/storage/v1/object/public/videos/1779572077712-9uw63u.webm";
+const VSL_THUMBNAIL_FALLBACK = "https://wdsbsuydzqkixhntvrqw.supabase.co/storage/v1/object/public/beat-images/vsl-thumbnails/1779619233224-916tve.jpg";
+
 export default function IndexPage() {
+  const [previewVideo, setPreviewVideo] = useState<string | null>(VSL_URL_FALLBACK);
+  const [vslThumbnail, setVslThumbnail] = useState<string | null>(VSL_THUMBNAIL_FALLBACK);
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>("");
@@ -150,6 +159,38 @@ export default function IndexPage() {
 
   useEffect(() => {
     (async () => {
+      try {
+        const cached = localStorage.getItem("vsl_url");
+        if (cached) setPreviewVideo(cached);
+      } catch {}
+      const { supabase } = await import("@/integrations/supabase/client");
+      const { data } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "preview_video")
+        .maybeSingle();
+      const url = (data as any)?.value ?? null;
+      if (!url) return; // mantém o fallback (ver VSL_URL_FALLBACK)
+      setPreviewVideo(url);
+      try { localStorage.setItem("vsl_url", url); } catch {}
+    })();
+  }, []);
+
+  // Preload do poster da VSL para acelerar LCP no mobile.
+  useEffect(() => {
+    if (!vslThumbnail) return;
+    const existing = document.querySelector<HTMLLinkElement>(`link[rel="preload"][href="${vslThumbnail}"]`);
+    if (existing) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = vslThumbnail;
+    (link as any).fetchPriority = "high";
+    document.head.appendChild(link);
+  }, [vslThumbnail]);
+
+  useEffect(() => {
+    (async () => {
       // Import dinâmico: o cliente do Supabase pesa ~211kB e nada acima da
       // dobra depende dele. Carregando aqui, ele sai do bundle inicial e é
       // baixado em paralelo, sem atrasar o hero.
@@ -164,6 +205,7 @@ export default function IndexPage() {
       setCheckoutUrl(map["checkout_url"] ?? "");
       setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
       setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
+      setVslThumbnail(map["vsl_thumbnail"] || VSL_THUMBNAIL_FALLBACK);
       setProofImages(
         (imgs ?? []).map((r: any) =>
           String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
@@ -285,15 +327,22 @@ export default function IndexPage() {
             120 beats de trap por menos que uma pizza na sesh.<br />Grave hoje, posta hoje, sem dor de cabeça.
           </p>
 
-          <div className="mx-auto w-full max-w-[380px] md:max-w-[440px]">
-            <img
-              src="/img/mockup-trap.webp"
-              alt="Pack 120 Beats de Trap — Nova Realeza"
-              className="w-full h-auto"
-              width="900"
-              height="900"
-              fetchPriority="high"
-            />
+          <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
+            <Card className="relative aspect-video overflow-hidden border-0 bg-transparent shadow-none rounded-none group">
+              {previewVideo ? (
+                <VideoPreview url={previewVideo} poster={vslThumbnail ?? undefined} />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)]">
+                      <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
+                    </div>
+                  </div>
+                </>
+              )}
+            </Card>
+
             {/* Mesmo gancho de ancoragem do card de preço, reforçado já no topo */}
             <div className="mt-3 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center">
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
@@ -549,6 +598,15 @@ export default function IndexPage() {
               className="rounded-2xl p-6 md:p-8 border border-primary/30 bg-[#0a0a0a] text-center"
               style={{ boxShadow: "0 10px 40px -10px hsl(var(--primary) / 0.25)" }}
             >
+              <img
+                src="/img/mockup-trap.webp"
+                alt="Pack 120 Beats de Trap — Nova Realeza"
+                className="w-28 h-28 md:w-36 md:h-36 mx-auto mb-4"
+                width="900"
+                height="900"
+                loading="lazy"
+                decoding="async"
+              />
               <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/30">
                 <Zap className="h-3 w-3" />
                 Entrega imediata
@@ -725,6 +783,10 @@ export default function IndexPage() {
                   ))}
                 </div>
 
+                <p className="mt-5 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Garantia incondicional de 7 dias</span>
+                </p>
                 <div className="hero-cta-block flex flex-col items-center w-full">
                   <button
                     onClick={handleBasicCheckoutClick}
@@ -734,10 +796,6 @@ export default function IndexPage() {
                     <span className="hero-cta-text">QUERO MEU PACK</span>
                   </button>
                 </div>
-                <p className="mt-4 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
-                  <ShieldCheck className="h-3 w-3" />
-                  <span>Garantia incondicional de 7 dias</span>
-                </p>
               </div>
             </div>
 
@@ -778,11 +836,8 @@ export default function IndexPage() {
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
                     R$ 37,90
                   </span>
-                </div>
-                <div className="flex justify-center">
-                  <span className="supreme-savings">
-                    <Flame className="h-3 w-3" />
-                    Economize 72% hoje
+                  <span className="text-xs md:text-sm text-[#d9c98e] font-semibold">
+                    ou 3x de R$ 12,64 sem juros
                   </span>
                 </div>
 
