@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
+import { registerVslPause } from "@/components/BeatPlayer";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -32,6 +33,24 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
     setStarted(false);
     setPaused(true);
   }, [embed, directUrl, url]);
+
+  // Ao clicar em qualquer beat, o player global (BeatPlayer) chama isso pra
+  // pausar a VSL na hora, evitando os dois áudios tocando juntos.
+  useEffect(() => {
+    registerVslPause(() => {
+      const v = videoRef.current;
+      if (v && !v.paused) v.pause();
+      const f = iframeRef.current;
+      if (f?.contentWindow && embed) {
+        const cmd =
+          embed.provider === "youtube"
+            ? { event: "command", func: "pauseVideo", args: "" }
+            : { method: "pause" };
+        f.contentWindow.postMessage(JSON.stringify(cmd), "*");
+      }
+    });
+    return () => registerVslPause(null);
+  }, [embed]);
 
   const togglePlay = async (e?: React.SyntheticEvent) => {
     if (e) {

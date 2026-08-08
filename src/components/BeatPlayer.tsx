@@ -105,6 +105,14 @@ const setState = (patch: Partial<ControllerState>) => {
 
 let audio: HTMLAudioElement | null = null;
 
+// A VSL do hero é um <video> independente deste player. Quando um beat
+// começa a tocar, ela precisa pausar imediatamente pra não sobrepor áudio.
+// O VideoPreview se registra aqui ao montar.
+let vslPause: (() => void) | null = null;
+export function registerVslPause(fn: (() => void) | null) {
+  vslPause = fn;
+}
+
 export { playUrl, pauseCurrent };
 
 export function useBeatSnap() {
@@ -158,6 +166,7 @@ function getAudio(): HTMLAudioElement | null {
 }
 
 function playUrl(url: string) {
+  vslPause?.();
   const el = getAudio();
   if (!el) return;
 
