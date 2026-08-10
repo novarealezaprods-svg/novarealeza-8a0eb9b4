@@ -269,9 +269,7 @@ export function BeatPlayer({
     <div
       className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square"
       style={{
-        background: bgImage
-          ? `linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%), url("${bgImage}") center/cover no-repeat`
-          : "#111111",
+        background: "#111111",
         border: `1px solid ${isPlaying ? "#39FF14" : "#222222"}`,
         borderRadius: 10,
         overflow: "hidden",
@@ -281,6 +279,25 @@ export function BeatPlayer({
         animationDelay: `${index * 80}ms`,
       }}
     >
+      {/* Capa do beat como <img> de verdade (não background-image do CSS),
+          senão loading="lazy" não tem efeito nenhum — o navegador baixa
+          background-image sempre, não importa se está fora da tela. */}
+      {bgImage && !visualizerSrc && (
+        <>
+          <img
+            src={bgImage}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+          />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%)" }}
+          />
+        </>
+      )}
+
       {visualizerSrc && (
         <>
           <VisualizerBackground src={visualizerSrc} playing={isPlaying} />
