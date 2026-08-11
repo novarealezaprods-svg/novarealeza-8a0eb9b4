@@ -832,7 +832,6 @@ export default function IndexPage() {
                 </p>
 
                 <div className="mt-6 flex flex-col items-center gap-1">
-                  <span className="supreme-strike">R$ 137,00</span>
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
                     R$ 37,90
                   </span>
