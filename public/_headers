@@ -9,3 +9,12 @@
 
 /favicon.ico
   Cache-Control: public, max-age=604800
+
+# HTML sempre revalida no navegador (max-age=0), mas fica em cache na borda
+# da Cloudflare por 5min (s-maxage) -- evita bater no compute a cada visita
+# sem arriscar servir conteudo desatualizado por muito tempo.
+/
+  Cache-Control: public, max-age=0, s-maxage=300, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=0, s-maxage=300, must-revalidate
