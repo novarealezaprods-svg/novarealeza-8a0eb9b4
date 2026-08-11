@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -138,24 +138,30 @@ export default function IndexPage() {
     return () => io.disconnect();
   }, []);
 
-  // Scroll reveal animations
+  // Scroll reveal animations. Observer fica vivo o componente inteiro (nao
+  // recria a cada fetch do Supabase) -- recriar no meio do carregamento
+  // desconectava o observer antigo e podia deixar elementos travados em
+  // opacity:0 pra sempre, mesmo ja tendo passado pela viewport.
+  const revealObserverRef = useRef<IntersectionObserver | null>(null);
   useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>(".reveal");
-    if (!els.length) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            (e.target as HTMLElement).classList.add("is-visible");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    if (!revealObserverRef.current) {
+      revealObserverRef.current = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              (e.target as HTMLElement).classList.add("is-visible");
+              revealObserverRef.current?.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+      );
+    }
+    const io = revealObserverRef.current;
+    document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => io.observe(el));
   }, [beats.length, proofImages.length]);
+
+  useEffect(() => () => revealObserverRef.current?.disconnect(), []);
 
   useEffect(() => {
     (async () => {
