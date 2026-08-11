@@ -569,8 +569,8 @@ export default function IndexPage() {
                   className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
                   loading="lazy"
                   decoding="async"
-                  width="1900"
-                  height="2180"
+                  width="1200"
+                  height="1377"
                 />
               </div>
             </div>
