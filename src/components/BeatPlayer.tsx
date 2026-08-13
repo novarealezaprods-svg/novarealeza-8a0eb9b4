@@ -286,7 +286,7 @@ export function BeatPlayer({
         <>
           <img
             src={bgImage}
-            alt=""
+            alt={`Capa do beat ${name}${genre ? ` — ${genre}` : ""}`}
             loading="lazy"
             decoding="async"
             className="absolute inset-0 h-full w-full object-cover pointer-events-none"

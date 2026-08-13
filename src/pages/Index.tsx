@@ -2,12 +2,16 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Flame, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Zap, Lock, ShieldCheck as Shield, MessageCircle, FileCheck, ListMusic, ExternalLink } from "lucide-react";
+import { Check, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Zap, Lock, ShieldCheck as Shield, MessageCircle, FileCheck, ListMusic, ExternalLink } from "lucide-react";
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
 import garantia7Dias from "@/assets/garantia-7-dias.webp";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
+import proofGraton from "@/assets/proof-images/proof-graton.jpeg";
+import proofPackInsano from "@/assets/proof-images/proof-pack-insano.jpeg";
+import proofSaullinMc from "@/assets/proof-images/proof-saullin-mc.jpeg";
+import producaoEstudioPoster from "@/assets/producao-estudio-poster.webp";
 
 // O carrossel de beats só abre ao clicar num card, então o Radix Dialog e o
 // embla-carousel saem do bundle inicial e só são baixados quando necessário.
@@ -43,6 +47,20 @@ const faq = [
   { q: "Como recebo o pack?", a: "Após a compra, você recebe acesso imediato ao link de download por e-mail e whatsapp." },
   { q: "Tem garantia?", a: "Sim, 7 dias de garantia incondicional. Se não gostar, devolvemos seu dinheiro." },
 ];
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
+// Provas mais recentes (WhatsApp/Instagram), recortadas pelo próprio
+// produtor só no conteúdo da conversa — usadas na faixa de prova social
+// logo acima do CTA de compra. Mesmas do site de funk (mesmo produtor).
+const NEW_PROOF_IMAGES: string[] = [proofGraton, proofPackInsano, proofSaullinMc];
 
 // Visualizers de fundo, casados pelo nome do beat (sem acento, sem
 // diferenciar maiuscula/minuscula). Os videos ficam em public/visualizers/,
@@ -348,17 +366,6 @@ export default function IndexPage() {
                 </>
               )}
             </Card>
-
-            {/* Mesmo gancho de ancoragem do card de preço, reforçado já no topo */}
-            <div className="mt-3 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                120 licenças custariam
-              </p>
-              <p className="text-lg font-black text-white leading-none">
-                <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
-                <span className="text-primary">R$ 37,90</span>
-              </p>
-            </div>
           </div>
 
           <div className="flex items-center justify-center gap-1.5 text-[11px] md:text-xs font-medium text-white/80 text-center px-4">
@@ -757,15 +764,46 @@ export default function IndexPage() {
             </div>
           </div>
 
+          {/* Prova social reforçada bem perto da decisão de compra — mesmas
+              imagens da seção "Avaliações", só que reaproveitadas aqui pra
+              quem já rolou até o preço sem descer até a seção dedicada */}
+          {NEW_PROOF_IMAGES.length > 0 && (
+            <div className="mt-14 md:mt-16 reveal">
+              <p className="text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                Quem comprou, aprovou
+              </p>
+              <div className="flex items-center justify-center gap-1.5 mb-2 text-[11px] text-muted-foreground">
+                <span>Arraste pro lado</span>
+                <span className="proof-swipe-arrow">→</span>
+              </div>
+              {/* Cada card ocupa ~78% da largura pra deixar a próxima imagem
+                  "espiando" na borda — o convite visual pra arrastar. */}
+              <div className="no-scrollbar flex gap-3 overflow-x-auto snap-x snap-mandatory px-6 pb-1">
+                {NEW_PROOF_IMAGES.map((src, i) => (
+                  <div
+                    key={i}
+                    className="relative aspect-square w-[78%] max-w-[240px] flex-shrink-0 snap-center rounded-xl overflow-hidden border border-border/60 bg-card/40"
+                  >
+                    <img
+                      src={src}
+                      alt={`Avaliação de cliente ${i + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      width="600"
+                      height="600"
+                      className="absolute inset-0 w-full h-full object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap) */}
-          <div id="pack-basico" className="mt-12 md:mt-16 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
+          <div id="pack-basico" className="mt-8 md:mt-10 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
             <div className="basic-card max-w-md mx-auto w-full">
               <div className="basic-card-inner text-center" style={{ padding: "20px" }}>
-                <span className="basic-badge">
-                  <Flame className="h-3 w-3" />
-                  <span>Oferta limitada</span>
-                </span>
-                <h2 className="mt-3 text-2xl md:text-3xl font-black tracking-tight">
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight">
                   <span className="basic-title">Pack 50 Beats</span>
                 </h2>
                 <p className="mt-1 text-xs md:text-sm text-[#9ad9a4] font-semibold tracking-wide">
@@ -776,6 +814,7 @@ export default function IndexPage() {
                   <span className="basic-price text-4xl md:text-5xl font-black leading-none">
                     R$ 19,90
                   </span>
+                  <span className="text-[11px] text-muted-foreground">R$ 0,40 por beat</span>
                 </div>
 
                 <div className="mt-5 text-left max-w-md mx-auto flex flex-col" style={{ gap: "4px" }}>
@@ -799,7 +838,7 @@ export default function IndexPage() {
                     className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
                   >
                     <span className="hero-cta-shine" aria-hidden="true" />
-                    <span className="hero-cta-text">QUERO MEU PACK</span>
+                    <span className="hero-cta-text">QUERO MEUS 50 BEATS</span>
                   </button>
                 </div>
               </div>
@@ -830,7 +869,11 @@ export default function IndexPage() {
                 <span className="supreme-sparkle" style={{ bottom: "10%", left: "10%", animationDelay: "1.2s" }} />
                 <span className="supreme-sparkle" style={{ bottom: "14%", right: "12%", animationDelay: "1.8s" }} />
 
-                <h3 className="text-3xl md:text-4xl font-black tracking-tight">
+                <span className="supreme-badge">
+                  <Trophy className="h-3 w-3" />
+                  <span>Melhor custo-benefício</span>
+                </span>
+                <h3 className="mt-3 text-3xl md:text-4xl font-black tracking-tight">
                   <span className="supreme-title">PACK 120 BEATS DE TRAP</span>
                 </h3>
                 <p className="mt-2 text-sm md:text-base text-[#d9c98e] font-semibold tracking-wide">
@@ -844,6 +887,9 @@ export default function IndexPage() {
                   <span className="text-xs md:text-sm text-[#d9c98e] font-semibold">
                     ou 3x de R$ 12,64 sem juros
                   </span>
+                  <span className="text-[11px] text-[#d9c98e]/80">
+                    R$ 0,32 por beat — 20% mais barato que o Pack 50
+                  </span>
                 </div>
 
                 <div className="mt-8 space-y-3.5 text-left max-w-md mx-auto">
@@ -853,6 +899,9 @@ export default function IndexPage() {
                     "100% Royalty Free — Spotify, YouTube, TikTok",
                     "Bônus 1: Curso de como gravar em casa com a melhor qualidade",
                     "Bônus 2: Acesso a comunidade do Whatsapp com artistas de todo Brasil",
+                    // TODO(jurídico): confirmar enquadramento deste sorteio na Lei
+                    // 14.790/23 (loterias/sorteios vinculados a compra) antes de manter
+                    // ativo — ver item 8 do plano de ação.
                     "🍀 Bônus 3: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
                   ].map((f, i) => {
                     const isBonus = f.includes("Bônus");
@@ -880,7 +929,7 @@ export default function IndexPage() {
                   >
                     <span className="supreme-cta-shine" aria-hidden="true" />
                     <Download className="h-4 w-4 mr-2 relative z-10" />
-                    <span className="relative z-10">QUERO MEU PACK</span>
+                    <span className="relative z-10">QUERO MEUS 120 BEATS</span>
                   </button>
                 </div>
                 <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
@@ -892,8 +941,62 @@ export default function IndexPage() {
             </div>
           </div>
 
+          {/* Âncora de preço — reforça o valor antes da mensagem pessoal */}
+          <div className="mt-16 md:mt-20 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center reveal">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+              120 licenças custariam
+            </p>
+            <p className="text-lg font-black text-white leading-none">
+              <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
+              <span className="text-primary">R$ 37,90</span>
+            </p>
+            <p className="mt-1 text-[10px] text-muted-foreground">
+              Beat sai em média R$ 60 no mercado × 120
+            </p>
+          </div>
+
+          {/* Por que estou fazendo isso — credibilidade real do produtor,
+              não intenção vaga: tempo de estrada, artistas atendidos e
+              prova em vídeo do estúdio */}
+          <div className="mt-10 md:mt-12 max-w-2xl mx-auto text-center reveal">
+            <h3 className="text-xl md:text-2xl font-black tracking-tight text-white">
+              Por que estou fazendo isso?
+            </h3>
+            <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">
+              Sou produtor há 8 anos e já ajudei mais de 120 artistas a soltar música sem travar em beat de internet nem em problema de direito autoral. Nenhum beat de I.A. — cada um sai da minha mão, no estúdio. Dá uma olhada:
+            </p>
+
+            <div className="mt-6 grid grid-cols-2 gap-4 max-w-xs mx-auto">
+              <div>
+                <div className="text-2xl md:text-3xl font-black text-primary">8 anos</div>
+                <div className="text-xs uppercase tracking-widest text-primary/80 mt-1">Produzindo</div>
+              </div>
+              <div>
+                <div className="text-2xl md:text-3xl font-black text-primary">+120</div>
+                <div className="text-xs uppercase tracking-widest text-primary/80 mt-1">Artistas atendidos</div>
+              </div>
+            </div>
+
+            <div className="mt-6 mx-auto w-full max-w-[260px] rounded-xl overflow-hidden border border-border/60">
+              <div className="relative aspect-[9/16] bg-black">
+                <video
+                  src="/videos/producao-estudio.mp4"
+                  poster={producaoEstudioPoster}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  {...{ "webkit-playsinline": "true" }}
+                  preload="auto"
+                  disablePictureInPicture
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Garantia Incondicional 7 dias */}
-          <div className="mt-16 md:mt-20 max-w-3xl mx-auto reveal">
+          <div className="mt-10 md:mt-12 max-w-3xl mx-auto reveal">
             <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
               <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
               <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
@@ -942,6 +1045,7 @@ export default function IndexPage() {
               </AccordionItem>
             ))}
           </Accordion>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         </div>
       </section>
 

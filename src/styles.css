@@ -1256,3 +1256,24 @@ html, body {
 @media (min-width: 768px) {
   .sticky-cta-btn { font-size: 16px; padding: 16px 24px; }
 }
+
+/* Prova social — carrossel arrastável manualmente (scroll-snap nativo),
+   com dica animada pra chamar atenção pro gesto de arrastar */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+@keyframes proof-swipe-hint {
+  0%, 100% { transform: translateX(0); opacity: 0.6; }
+  50%      { transform: translateX(6px); opacity: 1; }
+}
+.proof-swipe-arrow {
+  display: inline-block;
+  animation: proof-swipe-hint 1.3s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .proof-swipe-arrow { animation: none; }
+}
