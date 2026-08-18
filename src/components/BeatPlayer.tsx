@@ -59,7 +59,11 @@ function VisualizerBackground({ src, playing }: { src: string; playing: boolean 
       {...{ "webkit-playsinline": "true" }}
       preload="auto"
       disablePictureInPicture
-    />
+    >
+      {/* Video decorativo, sem faixa de audio -- trilha vazia so' pra
+          satisfazer leitores de tela que esperam um <track>. */}
+      <track kind="captions" srcLang="pt-BR" label="Sem áudio" src="/captions/empty.vtt" default />
+    </video>
   );
 }
 

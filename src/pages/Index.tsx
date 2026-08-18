@@ -339,6 +339,7 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
           <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
@@ -987,10 +988,17 @@ export default function IndexPage() {
                   loop
                   playsInline
                   {...{ "webkit-playsinline": "true" }}
-                  preload="auto"
+                  // "auto" forçava o download eager dos 2,4MB assim que a página
+                  // carregava, mesmo o vídeo estando bem abaixo da dobra --
+                  // estourava o LCP no PageSpeed. "metadata" deixa o
+                  // autoplay/loop funcionando normalmente quando o elemento
+                  // entra na viewport, sem baixar o arquivo inteiro de cara.
+                  preload="metadata"
                   disablePictureInPicture
                   className="absolute inset-0 h-full w-full object-cover"
-                />
+                >
+                  <track kind="captions" srcLang="pt-BR" label="Sem áudio" src="/captions/empty.vtt" default />
+                </video>
               </div>
             </div>
           </div>
@@ -1127,11 +1135,12 @@ export default function IndexPage() {
 
           <div className="mx-auto mt-10 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
 
-          <p className="mt-6 text-center text-xs text-muted-foreground/70">
+          <p className="mt-6 text-center text-xs text-muted-foreground">
             {`© ${new Date().getFullYear()} Nova Realeza. Todos os direitos reservados.`}
           </p>
         </div>
       </footer>
+      </main>
 
       {/* Só monta (e só baixa o chunk) depois que um beat é aberto */}
       {openBeatIndex !== null && (

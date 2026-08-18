@@ -115,7 +115,11 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
             onPlay={() => setPaused(false)}
             onPause={() => setPaused(true)}
             className="absolute inset-0 w-full h-full object-cover cursor-pointer"
-          />
+          >
+            {/* TODO: trocar por legenda real (transcricao da fala) quando
+                tivermos o texto -- por ora so' evita o video sem <track>. */}
+            <track kind="captions" srcLang="pt-BR" label="Português" src="/captions/empty.vtt" default />
+          </video>
           {poster && !started && (
             <img
               src={poster}
