@@ -592,9 +592,6 @@ export default function IndexPage() {
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
                     R$ 37,90
                   </span>
-                  <span className="text-xs md:text-sm text-[#d9c98e] font-semibold">
-                    ou 3x de R$ 12,64 sem juros
-                  </span>
                   <span className="text-[11px] text-[#d9c98e]/80">
                     R$ 0,32 por beat — 20% mais barato que o Pack 50
                   </span>
