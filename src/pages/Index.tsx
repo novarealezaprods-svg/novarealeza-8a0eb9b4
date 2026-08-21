@@ -9,7 +9,7 @@ import { VideoPreview } from "@/components/VideoPreview";
 import garantia7Dias from "@/assets/garantia-7-dias.webp";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
 import proofGraton from "@/assets/proof-images/proof-graton.jpeg";
-
+import proofPackInsano from "@/assets/proof-images/proof-pack-insano.jpeg";
 import proofSaullinMc from "@/assets/proof-images/proof-saullin-mc.jpeg";
 import producaoEstudioPoster from "@/assets/producao-estudio-poster.webp";
 
@@ -64,7 +64,7 @@ const faqSchema = {
 // Provas mais recentes (WhatsApp/Instagram), recortadas pelo próprio
 // produtor só no conteúdo da conversa — usadas na faixa de prova social
 // logo acima do CTA de compra. Mesmas do site de funk (mesmo produtor).
-const NEW_PROOF_IMAGES: string[] = [proofGraton, proofSaullinMc];
+const NEW_PROOF_IMAGES: string[] = [proofGraton, proofPackInsano, proofSaullinMc];
 
 // Visualizers de fundo, casados pelo nome do beat (sem acento, sem
 // diferenciar maiuscula/minuscula). Os videos ficam em public/visualizers/,
@@ -414,13 +414,13 @@ export default function IndexPage() {
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
           <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
-            Sua Música Merece Mais que um
+            Pare de Enterrar Sua Música
             <br />
-            Beat <span className="text-accent">FREE</span>
+            em Beat <span className="text-accent">FREE</span>
           </h1>
 
           <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed tracking-wide text-center text-white/70 text-[16px]" style={{ animationDelay: "200ms" }}>
-            Enquanto isso trava seus lançamentos. 120 beats de trap por R$37,90, menos que uma pizza na sesh.<br />Grave hoje, posta hoje.
+            120 beats de trap por menos que uma pizza na sesh.<br />Grave hoje, posta hoje, sem dor de cabeça.
           </p>
 
           <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
@@ -448,13 +448,9 @@ export default function IndexPage() {
             </span>
           </div>
 
-          <p className="text-[10px] md:text-[11px] text-white/50 text-center px-4">
-            8 anos produzindo, +120 artistas atendidos, licença assinada via Gov.br
-          </p>
-
           <div className="hero-cta-block flex flex-col items-center w-full" style={{ marginTop: 0 }}>
             <button
-              onClick={() => document.getElementById("oferta-suprema")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+              onClick={() => document.getElementById("pack-basico")?.scrollIntoView({ behavior: "smooth", block: "start" })}
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
             >
               <span className="hero-cta-shine" aria-hidden="true" />
