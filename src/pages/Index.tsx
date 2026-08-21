@@ -419,8 +419,8 @@ export default function IndexPage() {
             em Beat <span className="text-accent">FREE</span>
           </h1>
 
-          <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed tracking-wide text-center text-white/70 text-[16px]" style={{ animationDelay: "200ms" }}>
-            120 beats de trap por menos que uma pizza na sesh.<br />Grave hoje, posta hoje, sem dor de cabeça.
+          <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed tracking-wide text-center text-[16px]" style={{ animationDelay: "200ms" }}>
+            120 beats de trap a partir de R$ 19,90.<br />Grave e Distribua Hoje
           </p>
 
           <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
