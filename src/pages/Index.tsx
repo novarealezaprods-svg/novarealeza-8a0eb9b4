@@ -17,6 +17,10 @@ import producaoEstudioPoster from "@/assets/producao-estudio-poster.webp";
 // embla-carousel saem do bundle inicial e só são baixados quando necessário.
 const BeatCarouselDialog = lazy(() => import("@/components/BeatCarouselDialog"));
 
+// Teto de espera pelos pixels antes de sair para o checkout. O beacon do
+// KawaiPay leva ~800ms medidos; 1,5s cobre 4G ruim sem travar a compra.
+const CHECKOUT_BEACON_TIMEOUT_MS = 1500;
+
 const genres = ["TRAP", "HARD", "DRILL", "HOOD", "PLUGG", "CRANK", "NEW JAZZ", "BOUNCE"];
 const features = [
   "120 beats de trap profissionais prontos para uso",
@@ -172,7 +176,11 @@ export default function IndexPage() {
             }
           });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+        // Dispara ANTES do card entrar na tela: a margem inferior positiva
+        // estica a área de observação meia tela para baixo, então a transição
+        // já terminou quando o card fica visível de fato. Com threshold 0.15 e
+        // margem negativa, rolagem rápida mostrava o card ainda transparente.
+        { threshold: 0, rootMargin: "0px 0px 50% 0px" }
       );
     }
     const io = revealObserverRef.current;
@@ -248,22 +256,50 @@ export default function IndexPage() {
 
   const executeCheckout = (target: string) => {
     if (!target) return;
-    // Track AddToCart via GTM dataLayer
-    if (typeof window !== "undefined") {
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      (window as any).dataLayer.push({ event: "AddToCart" });
-    }
+
     // Forward all current URL params (utm_*, fbclid, gclid, etc.) to checkout
+    let destination = target;
     try {
       const url = new URL(target);
       const incoming = new URLSearchParams(window.location.search);
       incoming.forEach((value, key) => {
         if (!url.searchParams.has(key)) url.searchParams.set(key, value);
       });
-      window.location.href = url.toString();
+      destination = url.toString();
     } catch {
-      window.location.href = target;
+      /* target não é URL absoluta: usa como veio */
     }
+
+    // Navega na mesma aba (window.open é bloqueado no in-app browser do
+    // Instagram/TikTok), mas só depois que os pixels tiverem disparado.
+    // O AddToCart sai como beacon de imagem pro KawaiPay e leva ~800ms;
+    // navegar no mesmo tick cancelava a requisição e perdia a conversão.
+    let navigated = false;
+    const go = () => {
+      if (navigated) return;
+      navigated = true;
+      window.location.href = destination;
+    };
+
+    (window as any).dataLayer = (window as any).dataLayer || [];
+
+    // Sem GTM carregado (ele entra depois do load) não há o que esperar:
+    // o eventCallback nunca viria e o usuário ficaria travado à toa.
+    if (!(window as any).google_tag_manager) {
+      (window as any).dataLayer.push({ event: "AddToCart" });
+      go();
+      return;
+    }
+
+    (window as any).dataLayer.push({
+      event: "AddToCart",
+      // O GTM chama assim que todas as tags do evento terminam — normalmente
+      // bem antes do teto abaixo.
+      eventCallback: go,
+      eventTimeout: CHECKOUT_BEACON_TIMEOUT_MS,
+    });
+    // Rede de segurança: se alguma tag travar, o eventCallback pode não vir.
+    window.setTimeout(go, CHECKOUT_BEACON_TIMEOUT_MS);
   };
 
   const handleBasicCheckoutClick = () => {

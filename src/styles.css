@@ -611,11 +611,14 @@ html, body {
   .waveform span { animation: none; transform: scaleY(0.45); }
 }
 
-/* Scroll reveal animations */
+/* Scroll reveal animations.
+   Transição curta de propósito: com 0.8s, quem rolava rápido via o card
+   ainda transparente (preto sobre preto) no meio da tela. O gatilho também
+   foi antecipado no observer — ver rootMargin em Index.tsx. */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  transform: translateY(24px);
+  transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.22,1,0.36,1);
   will-change: opacity, transform;
 }
 .reveal.reveal-left { transform: translateX(-40px); }
