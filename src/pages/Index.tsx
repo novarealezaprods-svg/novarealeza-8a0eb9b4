@@ -482,6 +482,26 @@ export default function IndexPage() {
             ))}
           </div>
 
+          {/* Waveform decorativa + reforço de que a entrega é em WAV (não MP3) */}
+          <div className="mt-10 flex flex-col items-center gap-3 reveal">
+            <div className="waveform" aria-hidden="true">
+              {Array.from({ length: 32 }).map((_, i) => (
+                <span
+                  key={i}
+                  style={{
+                    // Atraso escalonado = onda viajando; duração variada tira o
+                    // ar de "pisca tudo junto" e deixa parecido com áudio real.
+                    animationDelay: `${(i * 70) % 1400}ms`,
+                    animationDuration: `${1100 + ((i * 137) % 600)}ms`,
+                  }}
+                />
+              ))}
+            </div>
+            <p className="text-xs md:text-sm text-muted-foreground text-center">
+              Todos são arquivos <span className="text-primary font-semibold">WAV</span> enviados pelo Gmail
+            </p>
+          </div>
+
         </div>
       </section>
 
@@ -1257,7 +1277,19 @@ export default function IndexPage() {
               <button
                 onClick={() => {
                   setShowUpsell(false);
-                  executeCheckout(checkoutUrl);
+                  if (!checkoutUrl) return;
+                  if (typeof window !== "undefined") {
+                    (window as any).dataLayer = (window as any).dataLayer || [];
+                    (window as any).dataLayer.push({ event: "AddToCart" });
+                    try {
+                      const url = new URL(checkoutUrl);
+                      const incoming = new URLSearchParams(window.location.search);
+                      incoming.forEach((v, k) => { if (!url.searchParams.has(k)) url.searchParams.set(k, v); });
+                      window.location.href = url.toString();
+                    } catch {
+                      window.location.href = checkoutUrl;
+                    }
+                  }
                 }}
                 className="w-full bg-transparent border border-white/30 rounded-lg py-2 hover:bg-white/10 hover:border-white/60 transition"
                 style={{ color: "#bbb", fontSize: "14px", fontWeight: 500 }}
