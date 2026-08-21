@@ -576,6 +576,41 @@ html, body {
   animation: beat-pulse 1.6s ease-out infinite;
 }
 
+/* Waveform decorativa abaixo das prévias — anima só via transform (scaleY),
+   que a GPU compõe sozinha; animar height/box-shadow aqui entraria na conta
+   de "animações não compostas" do Lighthouse e pesaria no TBT do celular. */
+@keyframes waveform-bar {
+  0%, 100% { transform: scaleY(0.2); }
+  50%      { transform: scaleY(1); }
+}
+.waveform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  max-width: 420px;
+  height: 40px;
+}
+.waveform span {
+  flex: 1 1 0;
+  max-width: 4px;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(to top, color-mix(in oklab, var(--primary) 35%, transparent), var(--primary));
+  transform-origin: center;
+  animation: waveform-bar 1.4s ease-in-out infinite;
+  /* Só começa a animar quando a seção entra na tela (o .reveal ganha
+     .is-visible) — evita gastar compositor durante o carregamento inicial. */
+  animation-play-state: paused;
+}
+.reveal.is-visible .waveform span {
+  animation-play-state: running;
+}
+@media (prefers-reduced-motion: reduce) {
+  .waveform span { animation: none; transform: scaleY(0.45); }
+}
+
 /* Scroll reveal animations */
 .reveal {
   opacity: 0;
