@@ -187,6 +187,41 @@ export default function IndexPage() {
     document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => io.observe(el));
   }, [beats.length, proofImages.length]);
 
+  // Rede de segurança do reveal. Num flick rápido (ou scroll por âncora) o
+  // elemento pode estar abaixo da área observada num frame e já acima da tela
+  // no seguinte: como nunca chega a intersectar, o observer não dispara e ele
+  // fica em opacity:0 pra sempre — é o "bloco preto" que aparecia nas prévias
+  // e nos depoimentos. Esta varredura revela qualquer um que já passou pela
+  // dobra e se desliga sozinha quando não sobra nenhum.
+  useEffect(() => {
+    let raf = 0;
+    const varrer = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      const restantes = document.querySelectorAll<HTMLElement>(".reveal:not(.is-visible)");
+      restantes.forEach((el) => {
+        if (el.getBoundingClientRect().top < vh) {
+          el.classList.add("is-visible");
+          revealObserverRef.current?.unobserve(el);
+        }
+      });
+      if (!document.querySelector(".reveal:not(.is-visible)")) desligar();
+    };
+    const agendar = () => {
+      if (!raf) raf = requestAnimationFrame(varrer);
+    };
+    const desligar = () => {
+      window.removeEventListener("scroll", agendar);
+      window.removeEventListener("resize", agendar);
+    };
+    window.addEventListener("scroll", agendar, { passive: true });
+    window.addEventListener("resize", agendar, { passive: true });
+    return () => {
+      desligar();
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [beats.length, proofImages.length]);
+
   useEffect(() => () => revealObserverRef.current?.disconnect(), []);
 
   useEffect(() => {
