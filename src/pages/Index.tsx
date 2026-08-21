@@ -1258,10 +1258,21 @@ export default function IndexPage() {
             <div className="mt-6 flex flex-col gap-3">
               <button
                 onClick={() => {
-                  // Preço promocional do modal (R$ 27,90) — produto próprio,
-                  // diferente do card dourado (R$ 37,90).
                   setShowUpsell(false);
-                  executeCheckout(checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl);
+                  const target = checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl;
+                  if (!target) return;
+                  if (typeof window !== "undefined") {
+                    (window as any).dataLayer = (window as any).dataLayer || [];
+                    (window as any).dataLayer.push({ event: "AddToCart" });
+                    try {
+                      const url = new URL(target);
+                      const incoming = new URLSearchParams(window.location.search);
+                      incoming.forEach((v, k) => { if (!url.searchParams.has(k)) url.searchParams.set(k, v); });
+                      window.location.href = url.toString();
+                    } catch {
+                      window.location.href = target;
+                    }
+                  }
                 }}
                 className="w-full rounded-xl font-black transition hover:brightness-110"
                 style={{
