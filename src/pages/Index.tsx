@@ -260,9 +260,9 @@ export default function IndexPage() {
       incoming.forEach((value, key) => {
         if (!url.searchParams.has(key)) url.searchParams.set(key, value);
       });
-      window.open(url.toString(), "_blank", "noopener,noreferrer");
+      window.location.href = url.toString();
     } catch {
-      window.open(target, "_blank", "noopener,noreferrer");
+      window.location.href = target;
     }
   };
 
@@ -1259,20 +1259,7 @@ export default function IndexPage() {
               <button
                 onClick={() => {
                   setShowUpsell(false);
-                  const target = checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl;
-                  if (!target) return;
-                  if (typeof window !== "undefined") {
-                    (window as any).dataLayer = (window as any).dataLayer || [];
-                    (window as any).dataLayer.push({ event: "AddToCart" });
-                    try {
-                      const url = new URL(target);
-                      const incoming = new URLSearchParams(window.location.search);
-                      incoming.forEach((v, k) => { if (!url.searchParams.has(k)) url.searchParams.set(k, v); });
-                      window.location.href = url.toString();
-                    } catch {
-                      window.location.href = target;
-                    }
-                  }
+                  executeCheckout(checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl);
                 }}
                 className="w-full rounded-xl font-black transition hover:brightness-110"
                 style={{
@@ -1288,19 +1275,7 @@ export default function IndexPage() {
               <button
                 onClick={() => {
                   setShowUpsell(false);
-                  if (!checkoutUrl) return;
-                  if (typeof window !== "undefined") {
-                    (window as any).dataLayer = (window as any).dataLayer || [];
-                    (window as any).dataLayer.push({ event: "AddToCart" });
-                    try {
-                      const url = new URL(checkoutUrl);
-                      const incoming = new URLSearchParams(window.location.search);
-                      incoming.forEach((v, k) => { if (!url.searchParams.has(k)) url.searchParams.set(k, v); });
-                      window.location.href = url.toString();
-                    } catch {
-                      window.location.href = checkoutUrl;
-                    }
-                  }
+                  executeCheckout(checkoutUrl);
                 }}
                 className="w-full bg-transparent border border-white/30 rounded-lg py-2 hover:bg-white/10 hover:border-white/60 transition"
                 style={{ color: "#bbb", fontSize: "14px", fontWeight: 500 }}
