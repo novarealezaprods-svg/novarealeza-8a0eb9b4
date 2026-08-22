@@ -113,8 +113,8 @@ const BEAT_META: { name: string; genre: string }[] = [
 // Fallback da VSL: mesmo vídeo já hospedado no Supabase deste projeto.
 // Serve de rede de segurança caso a linha "preview_video" em site_settings
 // fique vazia — o vídeo real continua vindo do banco normalmente.
-const VSL_URL_FALLBACK = "https://wdsbsuydzqkixhntvrqw.supabase.co/storage/v1/object/public/videos/1779572077712-9uw63u.webm";
-const VSL_THUMBNAIL_FALLBACK = "https://wdsbsuydzqkixhntvrqw.supabase.co/storage/v1/object/public/beat-images/vsl-thumbnails/1779619233224-916tve.jpg";
+const VSL_URL_FALLBACK = "/videos/vsl.mp4";
+const VSL_THUMBNAIL_FALLBACK = "/videos/vsl-poster.webp";
 
 // Links de checkout de emergencia. O valor bom vem de site_settings, mas se o
 // Supabase estiver fora do ar os states ficavam em "" e TODO botao de compra
@@ -232,23 +232,13 @@ export default function IndexPage() {
 
   useEffect(() => () => revealObserverRef.current?.disconnect(), []);
 
+  // A VSL agora e arquivo estatico do proprio site (public/videos/vsl.mp4),
+  // servido pelo Cloudflare junto com a pagina. Antes vinha do Supabase e a URL
+  // ficava guardada em localStorage["vsl_url"] -- quando o projeto Supabase caiu,
+  // quem ja havia visitado continuava puxando o link morto do cache. Esta limpeza
+  // devolve esses visitantes ao video que funciona.
   useEffect(() => {
-    (async () => {
-      try {
-        const cached = localStorage.getItem("vsl_url");
-        if (cached) setPreviewVideo(cached);
-      } catch {}
-      const { supabase } = await import("@/integrations/supabase/client");
-      const { data } = await supabase
-        .from("site_settings")
-        .select("value")
-        .eq("key", "preview_video")
-        .maybeSingle();
-      const url = (data as any)?.value ?? null;
-      if (!url) return; // mantém o fallback (ver VSL_URL_FALLBACK)
-      setPreviewVideo(url);
-      try { localStorage.setItem("vsl_url", url); } catch {}
-    })();
+    try { localStorage.removeItem("vsl_url"); } catch {}
   }, []);
 
   // Preload do poster da VSL para acelerar LCP no mobile.
