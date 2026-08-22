@@ -1041,41 +1041,6 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* Prova social reforçada bem perto da decisão de compra — mesmas
-              imagens da seção "Avaliações", só que reaproveitadas aqui pra
-              quem já rolou até o preço sem descer até a seção dedicada */}
-          {NEW_PROOF_IMAGES.length > 0 && (
-            <div className="mt-14 md:mt-16 reveal">
-              <p className="text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                Quem comprou, aprovou
-              </p>
-              <div className="flex items-center justify-center gap-1.5 mb-2 text-[11px] text-muted-foreground">
-                <span>Arraste pro lado</span>
-                <span className="proof-swipe-arrow">→</span>
-              </div>
-              {/* Cada card ocupa ~78% da largura pra deixar a próxima imagem
-                  "espiando" na borda — o convite visual pra arrastar. */}
-              <div className="no-scrollbar flex gap-3 overflow-x-auto snap-x snap-mandatory px-6 pb-1">
-                {NEW_PROOF_IMAGES.map((src, i) => (
-                  <div
-                    key={i}
-                    className="relative aspect-square w-[78%] max-w-[240px] flex-shrink-0 snap-center rounded-xl overflow-hidden border border-border/60 bg-card/40"
-                  >
-                    <img
-                      src={src}
-                      alt={`Avaliação de cliente ${i + 1}`}
-                      loading="lazy"
-                      decoding="async"
-                      width="600"
-                      height="600"
-                      className="absolute inset-0 w-full h-full object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Âncora de preço — reforça o valor antes da mensagem pessoal */}
           <div className="mt-16 md:mt-20 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center reveal">
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
