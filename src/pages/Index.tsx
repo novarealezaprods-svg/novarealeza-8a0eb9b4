@@ -10,6 +10,9 @@ import garantia7Dias from "@/assets/garantia-7-dias.webp";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
 import proofGraton from "@/assets/proof-images/proof-graton.jpeg";
 import proofPackInsano from "@/assets/proof-images/proof-pack-insano.jpeg";
+import proofRafaelParaiba from "@/assets/proof-images/proof-rafael-paraiba.jpeg";
+import proofSalvouEp from "@/assets/proof-images/proof-salvou-ep.jpeg";
+import proofThiago from "@/assets/proof-images/proof-thiago.jpeg";
 import proofSaullinMc from "@/assets/proof-images/proof-saullin-mc.jpeg";
 import producaoEstudioPoster from "@/assets/producao-estudio-poster.webp";
 
@@ -64,6 +67,18 @@ const faqSchema = {
 // Provas mais recentes (WhatsApp/Instagram), recortadas pelo próprio
 // produtor só no conteúdo da conversa — usadas na faixa de prova social
 // logo acima do CTA de compra. Mesmas do site de funk (mesmo produtor).
+// Prints reais de conversa, versionados aqui. Antes a secao "Avaliacoes do
+// pack" so lia do Supabase; com o projeto fora do ar ela caia nos depoimentos
+// genericos de exemplo, que sao bem mais fracos que a conversa real.
+const PROOF_IMAGES: string[] = [
+  proofGraton,
+  proofSalvouEp,
+  proofPackInsano,
+  proofRafaelParaiba,
+  proofSaullinMc,
+  proofThiago,
+];
+
 const NEW_PROOF_IMAGES: string[] = [proofGraton, proofPackInsano, proofSaullinMc];
 
 // Visualizers de fundo, casados pelo nome do beat (sem acento, sem
@@ -127,7 +142,7 @@ const CHECKOUT_URL_UPSELL_FALLBACK = "https://app.kawaipay.com/checkout/10059?pr
 export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(VSL_URL_FALLBACK);
   const [vslThumbnail, setVslThumbnail] = useState<string | null>(VSL_THUMBNAIL_FALLBACK);
-  const [proofImages, setProofImages] = useState<string[]>([]);
+  const [proofImages, setProofImages] = useState<string[]>(PROOF_IMAGES);
   const [beats, setBeats] = useState<BeatItem[]>([]);
   const [checkoutUrl, setCheckoutUrl] = useState<string>(CHECKOUT_URL_FALLBACK);
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>(CHECKOUT_URL_SUPREME_FALLBACK);
@@ -271,11 +286,12 @@ export default function IndexPage() {
       setCheckoutUrlSupreme(map["checkout_url_supreme"] || CHECKOUT_URL_SUPREME_FALLBACK);
       setCheckoutUrlUpsell(map["checkout_url_upsell"] || CHECKOUT_URL_UPSELL_FALLBACK);
       setVslThumbnail(map["vsl_thumbnail"] || VSL_THUMBNAIL_FALLBACK);
-      setProofImages(
-        (imgs ?? []).map((r: any) =>
-          String(r.url).replace(/([?&])dl=1\b/, "$1raw=1")
-        )
+      // So substitui a reserva local se o banco realmente devolver imagens --
+      // resposta vazia zerava a secao de avaliacoes em vez de manter os prints.
+      const doBanco = (imgs ?? []).map((r: any) =>
+        String(r.url).replace(/([?&])dl=1/, "$1raw=1")
       );
+      if (doBanco.length > 0) setProofImages(doBanco);
       setBeats((bts ?? []) as BeatItem[]);
       setPlaylists((pls ?? []) as any);
     })();
