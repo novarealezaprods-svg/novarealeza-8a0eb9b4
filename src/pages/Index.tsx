@@ -121,7 +121,7 @@ const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Plugg", url: "/beats/type-plugg.mp3" },
   { name: "Type Bounce", url: "/beats/type-bounce.mp3" },
   { name: "Type Drill", url: "/beats/type-drill.mp3" },
-  { name: "Type Florida", url: "/beats/type-florida.mp3" },
+  { name: "Type Florida", url: "/beats/type-florida.mp3", image_url: "/beat-images/type-florida.webp" },
 ];
 
 // Mesma ordem de PREVIEW_BEATS. So alimenta o texto alternativo da capa,
