@@ -715,6 +715,25 @@ html, body {
   }
 }
 
+/* Upsell dialog — substitui animate-in/fade-in que fica preso em opacity:0
+   em alguns navegadores ao montar o elemento já com as classes aplicadas. */
+@keyframes upsell-overlay-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes upsell-card-slide-up {
+  from { opacity: 0; transform: translateY(2rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.upsell-dialog-overlay {
+  opacity: 1;
+  animation: upsell-overlay-fade-in 0.3s ease-out forwards;
+}
+.upsell-dialog-card {
+  opacity: 1;
+  animation: upsell-card-slide-up 0.5s ease-out forwards;
+}
+
 /* =======================================================
    OFERTA SUPREMA — Gold Edition (upsell card)
    ======================================================= */

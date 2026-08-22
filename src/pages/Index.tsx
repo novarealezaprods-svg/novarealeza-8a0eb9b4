@@ -1263,12 +1263,12 @@ export default function IndexPage() {
           role="dialog"
           aria-modal="true"
           onClick={() => setShowUpsell(false)}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300"
+          className="upsell-dialog-overlay fixed inset-0 z-[100] flex items-center justify-center p-4"
           style={{ background: "rgba(0,0,0,0.85)" }}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[400px] animate-in slide-in-from-bottom-8 duration-500"
+            className="upsell-dialog-card relative w-full max-w-[400px]"
             style={{
               background: "#0d0d0d",
               borderRadius: "16px",
