@@ -80,6 +80,7 @@ const NEW_PROOF_IMAGES: string[] = [prova1, prova3, prova5];
 // Para adicionar: converta o video, jogue na pasta e acrescente uma linha.
 const VISUALIZERS: Record<string, string> = {
   "type trap": "/visualizers/type-trap.mp4",
+  "type brandao": "/visualizers/type-trap.mp4",
   "type alee": "/visualizers/type-alee.mp4",
   "type leviano": "/visualizers/type-leviano.mp4",
   "type supernova": "/visualizers/type-supernova.mp4",
@@ -105,16 +106,36 @@ function visualizerFor(name: string): string | null {
   return VISUALIZERS[key] ?? null;
 }
 
+// Previas locais, servidas pelo proprio site. Antes vinham do Storage do
+// Supabase; quando o projeto saiu do ar a secao inteira virou "Nenhum beat
+// enviado ainda". Os arquivos ficam em public/beats/ -- cortes de 60s
+// nivelados a -14 LUFS para que um beat nao soe mais alto que o outro.
+// BPM e tom vieram do nome dos masters originais.
+const PREVIEW_BEATS: BeatItem[] = [
+  { name: "Type Alee", url: "/beats/type-alee.mp3" },
+  { name: "Type Brandão", url: "/beats/type-brandao.mp3" },
+  { name: "Type Leviano", url: "/beats/type-leviano.mp3" },
+  { name: "Type Supernova", url: "/beats/type-supernova.mp3" },
+  { name: "Type´s USA", url: "/beats/type-usa.mp3" },
+  { name: "Type Fug", url: "/beats/type-fug.mp3" },
+  { name: "Type Plugg", url: "/beats/type-plugg.mp3" },
+  { name: "Type Bounce", url: "/beats/type-bounce.mp3" },
+  { name: "Type Drill", url: "/beats/type-drill.mp3" },
+  { name: "Type Florida", url: "/beats/type-florida.mp3" },
+];
+
+// Mesma ordem de PREVIEW_BEATS. So alimenta o texto alternativo da capa,
+// nao aparece na tela -- fora de ordem, geraria descricao errada.
 const BEAT_META: { name: string; genre: string }[] = [
-  { name: "TRAP 🇺🇸", genre: "TRAP" },
-  { name: "TRAP 🇺🇸", genre: "TRAP" },
   { name: "Type Alee", genre: "TYPE ALEE" },
+  { name: "Type Brandão", genre: "TYPE BRANDÃO" },
   { name: "Type Leviano", genre: "TYPE LEVIANO" },
-  { name: "Type Hood Drill", genre: "DRILL" },
-  { name: "Type Fab Godamn", genre: "TYPE FAB GODAMN" },
-  { name: "Type Tchelo", genre: "TYPE TCHELO" },
-  { name: "Type Don Toliver", genre: "TRAP" },
-  { name: "Type Skrilla", genre: "TRAP" },
+  { name: "Type Supernova", genre: "TYPE SUPERNOVA" },
+  { name: "Type´s USA", genre: "TRAP" },
+  { name: "Type Fug", genre: "TYPE FUG" },
+  { name: "Type Plugg", genre: "PLUGG" },
+  { name: "Type Bounce", genre: "BOUNCE" },
+  { name: "Type Drill", genre: "DRILL" },
   { name: "Type Florida", genre: "TRAP" },
 ];
 
@@ -136,7 +157,7 @@ export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(VSL_URL_FALLBACK);
   const [vslThumbnail, setVslThumbnail] = useState<string | null>(VSL_THUMBNAIL_FALLBACK);
   const [proofImages, setProofImages] = useState<string[]>(PROOF_IMAGES);
-  const [beats, setBeats] = useState<BeatItem[]>([]);
+  const [beats, setBeats] = useState<BeatItem[]>(PREVIEW_BEATS);
   const [checkoutUrl, setCheckoutUrl] = useState<string>(CHECKOUT_URL_FALLBACK);
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>(CHECKOUT_URL_SUPREME_FALLBACK);
   const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState<string>(CHECKOUT_URL_UPSELL_FALLBACK);
@@ -285,7 +306,9 @@ export default function IndexPage() {
         String(r.url).replace(/([?&])dl=1/, "$1raw=1")
       );
       if (doBanco.length > 0) setProofImages(doBanco);
-      setBeats((bts ?? []) as BeatItem[]);
+      // So troca a lista local se o banco devolver beats de verdade.
+      const beatsDoBanco = (bts ?? []) as BeatItem[];
+      if (beatsDoBanco.length > 0) setBeats(beatsDoBanco);
       setPlaylists((pls ?? []) as any);
     })();
   }, []);
