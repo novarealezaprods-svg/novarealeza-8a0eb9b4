@@ -116,14 +116,22 @@ const BEAT_META: { name: string; genre: string }[] = [
 const VSL_URL_FALLBACK = "https://wdsbsuydzqkixhntvrqw.supabase.co/storage/v1/object/public/videos/1779572077712-9uw63u.webm";
 const VSL_THUMBNAIL_FALLBACK = "https://wdsbsuydzqkixhntvrqw.supabase.co/storage/v1/object/public/beat-images/vsl-thumbnails/1779619233224-916tve.jpg";
 
+// Links de checkout de emergencia. O valor bom vem de site_settings, mas se o
+// Supabase estiver fora do ar os states ficavam em "" e TODO botao de compra
+// virava clique morto -- o site parava de vender sem dar nenhum sinal.
+// Sao os mesmos valores cadastrados no banco: so entram quando ele falha.
+const CHECKOUT_URL_FALLBACK = "https://app.kawaipay.com/checkout/10051"; // pack 50
+const CHECKOUT_URL_SUPREME_FALLBACK = "https://app.kawaipay.com/checkout/10059"; // pack 120
+const CHECKOUT_URL_UPSELL_FALLBACK = "https://app.kawaipay.com/checkout/10059?price=8b298a11-45a6-4697-bf9c-518fbb092c6b"; // promo R$27,90
+
 export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(VSL_URL_FALLBACK);
   const [vslThumbnail, setVslThumbnail] = useState<string | null>(VSL_THUMBNAIL_FALLBACK);
   const [proofImages, setProofImages] = useState<string[]>([]);
   const [beats, setBeats] = useState<BeatItem[]>([]);
-  const [checkoutUrl, setCheckoutUrl] = useState<string>("");
-  const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>("");
-  const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState<string>("");
+  const [checkoutUrl, setCheckoutUrl] = useState<string>(CHECKOUT_URL_FALLBACK);
+  const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>(CHECKOUT_URL_SUPREME_FALLBACK);
+  const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState<string>(CHECKOUT_URL_UPSELL_FALLBACK);
   const [showUpsell, setShowUpsell] = useState(false);
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
@@ -269,9 +277,9 @@ export default function IndexPage() {
         supabase.from("playlists" as any).select("id,name,url").order("position", { ascending: true }),
       ]);
       const map = Object.fromEntries((settings ?? []).map((r: any) => [r.key, r.value]));
-      setCheckoutUrl(map["checkout_url"] ?? "");
-      setCheckoutUrlSupreme(map["checkout_url_supreme"] ?? "");
-      setCheckoutUrlUpsell(map["checkout_url_upsell"] ?? "");
+      setCheckoutUrl(map["checkout_url"] || CHECKOUT_URL_FALLBACK);
+      setCheckoutUrlSupreme(map["checkout_url_supreme"] || CHECKOUT_URL_SUPREME_FALLBACK);
+      setCheckoutUrlUpsell(map["checkout_url_upsell"] || CHECKOUT_URL_UPSELL_FALLBACK);
       setVslThumbnail(map["vsl_thumbnail"] || VSL_THUMBNAIL_FALLBACK);
       setProofImages(
         (imgs ?? []).map((r: any) =>
