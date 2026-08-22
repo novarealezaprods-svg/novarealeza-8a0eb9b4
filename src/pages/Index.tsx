@@ -113,9 +113,9 @@ function visualizerFor(name: string): string | null {
 // BPM e tom vieram do nome dos masters originais.
 const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Alee", url: "/beats/type-alee.mp3" },
-  { name: "Type Brandão", url: "/beats/type-brandao.mp3" },
-  { name: "Type Leviano", url: "/beats/type-leviano.mp3" },
-  { name: "Type Supernova", url: "/beats/type-supernova.mp3" },
+  { name: "Type Brandão", url: "/beats/type-brandao.mp3", image_url: "/beat-images/type-brandao.webp" },
+  { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
+  { name: "Type Supernova", url: "/beats/type-supernova.mp3", image_url: "/beat-images/type-supernova.webp" },
   { name: "Type´s USA", url: "/beats/type-usa.mp3" },
   { name: "Type Fug", url: "/beats/type-fug.mp3" },
   { name: "Type Plugg", url: "/beats/type-plugg.mp3" },
