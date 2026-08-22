@@ -28,21 +28,15 @@
       html, body { overflow-x: hidden; max-width: 100%; }
     </style>
     <!--
-      GTM sai do caminho do LCP sem esperar o `load` inteiro. Prender ele ao
-      `load` atrasava o page_view em 5-7s (medido) e perdia todo acesso que
-      saltava antes disso — tráfego pago no in-app browser some assim.
-      Aqui ele entra no primeiro ocioso da main thread (teto de 2,5s) ou na
-      primeira interação, o que vier antes: assim já está pronto quando o
-      usuário clica no CTA e o AddToCart tem para onde ir.
+      GTM adiado para depois do load: como script no <head> ele competia com o
+      bundle e com a imagem do hero pela banda inicial. Nada aqui depende dele
+      para renderizar, e os eventos (AddToCart/ViewContent) só disparam por
+      interação, bem depois deste ponto.
     -->
     <script>
       window.dataLayer = window.dataLayer || [];
       (function (w, d, s, l, i) {
-        var carregado = false;
         function carregar() {
-          if (carregado) return;
-          carregado = true;
-          limpar();
           w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
           var f = d.getElementsByTagName(s)[0],
             j = d.createElement(s),
@@ -51,22 +45,8 @@
           j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
           f.parentNode.insertBefore(j, f);
         }
-        // Quem interage está prestes a converter: puxa o GTM na hora.
-        var eventos = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
-        function limpar() {
-          for (var k = 0; k < eventos.length; k++) {
-            w.removeEventListener(eventos[k], carregar, true);
-          }
-        }
-        for (var k = 0; k < eventos.length; k++) {
-          w.addEventListener(eventos[k], carregar, { capture: true, passive: true });
-        }
-        function agendar() {
-          if (w.requestIdleCallback) w.requestIdleCallback(carregar, { timeout: 2500 });
-          else w.setTimeout(carregar, 2500);
-        }
-        if (d.readyState !== 'loading') agendar();
-        else d.addEventListener('DOMContentLoaded', agendar);
+        if (d.readyState === 'complete') carregar();
+        else w.addEventListener('load', carregar);
       })(window, document, 'script', 'dataLayer', 'GTM-KX8BW3LF');
     </script>
   </head>
