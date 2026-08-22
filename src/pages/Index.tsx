@@ -6,14 +6,14 @@ import { Check, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Ph
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
+import prova1 from "@/assets/proof-images/prova-1.webp";
+import prova2 from "@/assets/proof-images/prova-2.webp";
+import prova3 from "@/assets/proof-images/prova-3.webp";
+import prova4 from "@/assets/proof-images/prova-4.webp";
+import prova5 from "@/assets/proof-images/prova-5.webp";
+import prova6 from "@/assets/proof-images/prova-6.webp";
 import garantia7Dias from "@/assets/garantia-7-dias.webp";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
-import proofGraton from "@/assets/proof-images/proof-graton.jpeg";
-import proofPackInsano from "@/assets/proof-images/proof-pack-insano.jpeg";
-import proofRafaelParaiba from "@/assets/proof-images/proof-rafael-paraiba.jpeg";
-import proofSalvouEp from "@/assets/proof-images/proof-salvou-ep.jpeg";
-import proofThiago from "@/assets/proof-images/proof-thiago.jpeg";
-import proofSaullinMc from "@/assets/proof-images/proof-saullin-mc.jpeg";
 import producaoEstudioPoster from "@/assets/producao-estudio-poster.webp";
 
 // O carrossel de beats só abre ao clicar num card, então o Radix Dialog e o
@@ -70,16 +70,9 @@ const faqSchema = {
 // Prints reais de conversa, versionados aqui. Antes a secao "Avaliacoes do
 // pack" so lia do Supabase; com o projeto fora do ar ela caia nos depoimentos
 // genericos de exemplo, que sao bem mais fracos que a conversa real.
-const PROOF_IMAGES: string[] = [
-  proofGraton,
-  proofSalvouEp,
-  proofPackInsano,
-  proofRafaelParaiba,
-  proofSaullinMc,
-  proofThiago,
-];
+const PROOF_IMAGES: string[] = [prova1, prova2, prova3, prova4, prova5, prova6];
 
-const NEW_PROOF_IMAGES: string[] = [proofGraton, proofPackInsano, proofSaullinMc];
+const NEW_PROOF_IMAGES: string[] = [prova1, prova3, prova5];
 
 // Visualizers de fundo, casados pelo nome do beat (sem acento, sem
 // diferenciar maiuscula/minuscula). Os videos ficam em public/visualizers/,
