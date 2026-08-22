@@ -116,11 +116,11 @@ const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Brandão", url: "/beats/type-brandao.mp3", image_url: "/beat-images/type-brandao.webp" },
   { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
   { name: "Type Supernova", url: "/beats/type-supernova.mp3", image_url: "/beat-images/type-supernova.webp" },
-  { name: "Type´s USA", url: "/beats/type-usa.mp3" },
-  { name: "Type Fug", url: "/beats/type-fug.mp3" },
-  { name: "Type Plugg", url: "/beats/type-plugg.mp3" },
-  { name: "Type Bounce", url: "/beats/type-bounce.mp3" },
-  { name: "Type Drill", url: "/beats/type-drill.mp3" },
+  { name: "Type´s USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
+  { name: "Type Fug", url: "/beats/type-fug.mp3", image_url: "/beat-images/type-fug.webp" },
+  { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
+  { name: "Type Bounce", url: "/beats/type-bounce.mp3", image_url: "/beat-images/type-bounce.webp" },
+  { name: "Type Drill", url: "/beats/type-drill.mp3", image_url: "/beat-images/type-drill.webp" },
   { name: "Type Florida", url: "/beats/type-florida.mp3", image_url: "/beat-images/type-florida.webp" },
 ];
 
