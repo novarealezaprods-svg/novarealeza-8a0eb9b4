@@ -162,6 +162,7 @@ export default function IndexPage() {
   const [checkoutUrlSupreme, setCheckoutUrlSupreme] = useState<string>(CHECKOUT_URL_SUPREME_FALLBACK);
   const [checkoutUrlUpsell, setCheckoutUrlUpsell] = useState<string>(CHECKOUT_URL_UPSELL_FALLBACK);
   const [showUpsell, setShowUpsell] = useState(false);
+  const [licenseZoomOpen, setLicenseZoomOpen] = useState(false);
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
   const [showStickyCta, setShowStickyCta] = useState(false);
@@ -841,15 +842,26 @@ export default function IndexPage() {
                   className="absolute inset-0 bg-primary/40 blur-[90px] rounded-full scale-90 pointer-events-none"
                   aria-hidden="true"
                 />
-                <img
-                  src={licencaAssinada}
-                  alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
-                  className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
-                  loading="lazy"
-                  decoding="async"
-                  width="1200"
-                  height="1377"
-                />
+                <button
+                  type="button"
+                  onClick={() => setLicenseZoomOpen(true)}
+                  className="group relative block w-full cursor-zoom-in rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  aria-label="Ampliar contrato de licença assinada"
+                >
+                  <img
+                    src={licencaAssinada}
+                    alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
+                    className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
+                    loading="lazy"
+                    decoding="async"
+                    width="1200"
+                    height="1377"
+                  />
+                  <span className="pointer-events-none absolute bottom-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-opacity group-hover:bg-black/85">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                    Ampliar
+                  </span>
+                </button>
               </div>
             </div>
 
@@ -1279,14 +1291,40 @@ export default function IndexPage() {
       {showStickyCta && (
         <div className="sticky-cta-bar">
           <button
-            onClick={() => document.getElementById("pack-basico")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            onClick={() => document.getElementById("oferta-suprema")?.scrollIntoView({ behavior: "smooth", block: "start" })}
             className="sticky-cta-btn"
           >
-            QUERO MEU PACK
+            QUERO MEUS 120 BEATS
           </button>
         </div>
       )}
 
+
+      {licenseZoomOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Contrato de licença assinada, ampliado"
+          onClick={() => setLicenseZoomOpen(false)}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 cursor-zoom-out animate-in fade-in duration-200"
+          style={{ background: "rgba(0,0,0,0.92)" }}
+        >
+          <button
+            type="button"
+            onClick={() => setLicenseZoomOpen(false)}
+            aria-label="Fechar"
+            className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+          <img
+            src={licencaAssinada}
+            alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
+            className="max-h-[90vh] max-w-[92vw] rounded-xl object-contain shadow-[0_0_80px_-10px_rgba(0,255,95,0.4)]"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
 
       {showUpsell && (
         <div
