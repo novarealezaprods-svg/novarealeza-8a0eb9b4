@@ -704,8 +704,8 @@ export default function IndexPage() {
                     "120 beats de trap profissionais",
                     "Mixados e masterizados em alta qualidade",
                     "100% Royalty Free — Spotify, YouTube, TikTok",
-                    "Bônus 1: Curso de como gravar em casa com a melhor qualidade",
-                    "Bônus 2: Acesso a comunidade do Whatsapp com artistas de todo Brasil",
+                    "Bônus 1: 28 presets pra Bandlab",
+                    "Bônus 2: 28 presets vocais pra FL Studio",
                     // TODO(jurídico): confirmar enquadramento deste sorteio na Lei
                     // 14.790/23 (loterias/sorteios vinculados a compra) antes de manter
                     // ativo — ver item 8 do plano de ação.
