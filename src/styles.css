@@ -935,15 +935,19 @@ html, body {
     text-align: center;
     padding-left: 16px;
     padding-right: 16px;
-    font-size: 36px;
+    font-size: 32px;
     line-height: 1.1;
     word-break: keep-all;
     margin-left: auto;
     margin-right: auto;
   }
+  /* Este bloco tinha font-size:14px, sobrescrevendo (por especificidade CSS:
+     2 classes > 1 classe do Tailwind) o text-[19px] aplicado na página --
+     a "correção de peso visual" do hero nunca chegava a acontecer no
+     mobile, que é a maior parte do tráfego. */
   .hero-section .hero-subtitle {
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     padding-left: 24px;
     padding-right: 24px;
     margin-left: auto;
