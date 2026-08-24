@@ -878,23 +878,6 @@ export default function IndexPage() {
               </div>
             </div>
 
-          {/* Selo "sem I.A." — reforça a autenticidade logo depois da prova
-              de que a licença é real */}
-          <div className="mt-12 md:mt-14 flex justify-center reveal">
-            <div className="inline-flex items-center gap-4 rounded-2xl border border-primary/40 bg-primary/[0.06] px-5 py-4 text-left">
-              <span className="text-3xl leading-none" aria-hidden="true">🎹</span>
-              <div>
-                <p className="text-sm md:text-base font-black uppercase tracking-wide text-primary leading-tight">
-                  Feito na mão, no estúdio
-                </p>
-                <p className="mt-1 text-xs md:text-sm text-[#aaaaaa]">
-                  Nenhum beat de I.A. por aqui — cada um saiu da minha
-                  criatividade e de anos de estudo.
-                </p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </section>
 
