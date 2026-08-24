@@ -820,6 +820,85 @@ export default function IndexPage() {
       {/* Prova de licença assinada */}
       <section className="py-10 md:py-14 bg-background border-t border-border/50">
         <div className={CONTAINER}>
+          {/* Garantia Incondicional 7 dias */}
+          <div className="max-w-3xl mx-auto reveal">
+            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
+              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
+              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
+                <img
+                  src={garantia7Dias}
+                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
+                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
+                  loading="lazy"
+                  decoding="async"
+                  width="176"
+                  height="176"
+                />
+                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Risco zero
+                  </span>
+                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
+                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
+                  </h3>
+                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
+                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* BLOCO — Entrega do produto */}
+          <div className="mt-10 md:mt-12 max-w-3xl mx-auto reveal">
+            <div
+              className="rounded-2xl p-6 md:p-8 border border-primary/30 bg-[#0a0a0a] text-center"
+              style={{ boxShadow: "0 10px 40px -10px hsl(var(--primary) / 0.25)" }}
+            >
+              <img
+                src="/img/mockup-trap.webp"
+                alt="Pack 120 Beats de Trap — Nova Realeza"
+                className="w-28 h-28 md:w-36 md:h-36 mx-auto mb-4"
+                width="900"
+                height="900"
+                loading="lazy"
+                decoding="async"
+              />
+              <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/30">
+                <Zap className="h-3 w-3" />
+                Entrega imediata
+              </span>
+              <h3 className="mt-4 text-2xl md:text-3xl font-black text-white leading-tight">
+                Como você vai receber seus beats
+              </h3>
+              <p className="mt-3 text-sm md:text-base text-[#aaaaaa] max-w-xl mx-auto">
+                Logo após a confirmação do pagamento, você recebe o acesso completo direto no seu <span className="text-white font-semibold">WhatsApp</span> e no seu <span className="text-white font-semibold">Gmail</span>. Sem espera, sem complicação.
+              </p>
+
+              <div className="mt-7 grid sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+                <div className="flex items-center gap-3 rounded-xl p-4 border border-border/60 bg-background/40">
+                  <span className="flex items-center justify-center h-11 w-11 rounded-full bg-primary/15 text-primary flex-shrink-0">
+                    <MessageCircle className="h-5 w-5" />
+                  </span>
+                  <div className="text-left">
+                    <div className="text-white font-bold text-sm">WhatsApp</div>
+                    <div className="text-xs text-[#9ad9a4]">Link enviado na hora</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 rounded-xl p-4 border border-border/60 bg-background/40">
+                  <span className="flex items-center justify-center h-11 w-11 rounded-full bg-primary/15 text-primary flex-shrink-0">
+                    <Mail className="h-5 w-5" />
+                  </span>
+                  <div className="text-left">
+                    <div className="text-white font-bold text-sm">Gmail</div>
+                    <div className="text-xs text-[#9ad9a4]">Acesso vitalício no e-mail</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
             <div className="max-w-4xl mx-auto reveal">
               <div className="text-center mb-10">
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
@@ -882,54 +961,6 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* BLOCO — Entrega do produto */}
-          <div className="mt-12 md:mt-16 max-w-3xl mx-auto reveal">
-            <div
-              className="rounded-2xl p-6 md:p-8 border border-primary/30 bg-[#0a0a0a] text-center"
-              style={{ boxShadow: "0 10px 40px -10px hsl(var(--primary) / 0.25)" }}
-            >
-              <img
-                src="/img/mockup-trap.webp"
-                alt="Pack 120 Beats de Trap — Nova Realeza"
-                className="w-28 h-28 md:w-36 md:h-36 mx-auto mb-4"
-                width="900"
-                height="900"
-                loading="lazy"
-                decoding="async"
-              />
-              <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/30">
-                <Zap className="h-3 w-3" />
-                Entrega imediata
-              </span>
-              <h3 className="mt-4 text-2xl md:text-3xl font-black text-white leading-tight">
-                Como você vai receber seus beats
-              </h3>
-              <p className="mt-3 text-sm md:text-base text-[#aaaaaa] max-w-xl mx-auto">
-                Logo após a confirmação do pagamento, você recebe o acesso completo direto no seu <span className="text-white font-semibold">WhatsApp</span> e no seu <span className="text-white font-semibold">Gmail</span>. Sem espera, sem complicação.
-              </p>
-
-              <div className="mt-7 grid sm:grid-cols-2 gap-4 max-w-xl mx-auto">
-                <div className="flex items-center gap-3 rounded-xl p-4 border border-border/60 bg-background/40">
-                  <span className="flex items-center justify-center h-11 w-11 rounded-full bg-primary/15 text-primary flex-shrink-0">
-                    <MessageCircle className="h-5 w-5" />
-                  </span>
-                  <div className="text-left">
-                    <div className="text-white font-bold text-sm">WhatsApp</div>
-                    <div className="text-xs text-[#9ad9a4]">Link enviado na hora</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 rounded-xl p-4 border border-border/60 bg-background/40">
-                  <span className="flex items-center justify-center h-11 w-11 rounded-full bg-primary/15 text-primary flex-shrink-0">
-                    <Mail className="h-5 w-5" />
-                  </span>
-                  <div className="text-left">
-                    <div className="text-white font-bold text-sm">Gmail</div>
-                    <div className="text-xs text-[#9ad9a4]">Acesso vitalício no e-mail</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -1098,36 +1129,6 @@ export default function IndexPage() {
                 >
                   <track kind="captions" srcLang="pt-BR" label="Sem áudio" src="/captions/empty.vtt" default />
                 </video>
-              </div>
-            </div>
-          </div>
-
-          {/* Garantia Incondicional 7 dias */}
-          <div className="mt-10 md:mt-12 max-w-3xl mx-auto reveal">
-            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
-              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
-              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
-                <img
-                  src={garantia7Dias}
-                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
-                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
-                  loading="lazy"
-                  decoding="async"
-                  width="176"
-                  height="176"
-                />
-                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    Risco zero
-                  </span>
-                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
-                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
-                  </h3>
-                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
-                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
-                  </p>
-                </div>
               </div>
             </div>
           </div>
