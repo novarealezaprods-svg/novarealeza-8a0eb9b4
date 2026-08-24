@@ -6,6 +6,7 @@ import { Check, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Ph
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
+import { ScarcityBar } from "@/components/ScarcityBar";
 import prova1 from "@/assets/proof-images/prova-1.webp";
 import prova2 from "@/assets/proof-images/prova-2.webp";
 import prova3 from "@/assets/proof-images/prova-3.webp";
@@ -611,6 +612,7 @@ export default function IndexPage() {
         <div className={CONTAINER}>
           {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap) */}
           <div id="pack-basico" className="mt-8 md:mt-10 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
+            <ScarcityBar />
             <div className="basic-card max-w-md mx-auto w-full">
               <div className="basic-card-inner text-center" style={{ padding: "20px" }}>
                 <h2 className="text-2xl md:text-3xl font-black tracking-tight">
