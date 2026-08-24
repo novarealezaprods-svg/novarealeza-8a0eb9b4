@@ -141,8 +141,8 @@ const BEAT_META: { name: string; genre: string }[] = [
 // Fallback da VSL: mesmo vídeo já hospedado no Supabase deste projeto.
 // Serve de rede de segurança caso a linha "preview_video" em site_settings
 // fique vazia — o vídeo real continua vindo do banco normalmente.
-const VSL_URL_FALLBACK = "/videos/vsl.mp4";
-const VSL_THUMBNAIL_FALLBACK = "/videos/vsl-poster.webp";
+const VSL_URL_FALLBACK = "/videos/vsl-2.mp4";
+const VSL_THUMBNAIL_FALLBACK = "/videos/vsl-poster-2.webp";
 
 // Links de checkout de emergencia. O valor bom vem de site_settings, mas se o
 // Supabase estiver fora do ar os states ficavam em "" e TODO botao de compra
