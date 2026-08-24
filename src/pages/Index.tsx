@@ -6,7 +6,6 @@ import { Check, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Ph
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
-import { ScarcityBar } from "@/components/ScarcityBar";
 import prova1 from "@/assets/proof-images/prova-1.webp";
 import prova2 from "@/assets/proof-images/prova-2.webp";
 import prova3 from "@/assets/proof-images/prova-3.webp";
@@ -85,7 +84,7 @@ const VISUALIZERS: Record<string, string> = {
   "type alee": "/visualizers/type-alee.mp4",
   "type leviano": "/visualizers/type-leviano.mp4",
   "type supernova": "/visualizers/type-supernova.mp4",
-  "types usa": "/visualizers/type-usa.mp4",
+  "type usa": "/visualizers/type-usa.mp4",
   "type fug": "/visualizers/type-fug.mp4",
   "type plugg": "/visualizers/type-plugg.mp4",
   "type bounce": "/visualizers/type-bounce.mp4",
@@ -117,7 +116,7 @@ const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Brandão", url: "/beats/type-brandao.mp3", image_url: "/beat-images/type-brandao.webp" },
   { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
   { name: "Type Supernova", url: "/beats/type-supernova.mp3", image_url: "/beat-images/type-supernova.webp" },
-  { name: "Type´s USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
+  { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
   { name: "Type Fug", url: "/beats/type-fug.mp3", image_url: "/beat-images/type-fug.webp" },
   { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
   { name: "Type Bounce", url: "/beats/type-bounce.mp3", image_url: "/beat-images/type-bounce.webp" },
@@ -130,7 +129,7 @@ const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Brandão", genre: "TYPE BRANDÃO" },
   { name: "Type Leviano", genre: "TYPE LEVIANO" },
   { name: "Type Supernova", genre: "TYPE SUPERNOVA" },
-  { name: "Type´s USA", genre: "TRAP" },
+  { name: "Type USA", genre: "TRAP" },
   { name: "Type Fug", genre: "TYPE FUG" },
   { name: "Type Plugg", genre: "PLUGG" },
   { name: "Type Bounce", genre: "BOUNCE" },
@@ -443,14 +442,20 @@ export default function IndexPage() {
       <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
-          <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
+          <h1 className="hero-title font-black tracking-tight leading-[0.95] text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-center mx-auto px-6 md:px-0">
             Pare de Enterrar Sua Música
             <br />
             em Beat <span className="text-accent">FREE</span>
           </h1>
 
-          <p className="hero-fade hero-subtitle mx-auto max-w-xl leading-relaxed tracking-wide text-center text-[16px]" style={{ animationDelay: "200ms" }}>
-            120 beats de trap a partir de R$ 19,90.<br />Grave e Distribua Hoje
+          {/* Preço real do produto principal logo na primeira frase -- antes
+              dizia "a partir de R$ 19,90" (preço do Pack 50) e a pessoa só
+              descobria o preço certo do Pack 120 depois de rolar a página.
+              Corpo aumentado pra ter peso visual proximo ao do H1, ja que
+              e essa linha que carrega numero, preco e promessa. */}
+          <p className="hero-fade hero-subtitle mx-auto max-w-2xl leading-relaxed tracking-wide text-center text-[19px] md:text-[22px] font-bold" style={{ animationDelay: "200ms" }}>
+            120 beats de trap por R$ 37,90 — ou comece com 50 por R$ 19,90.<br />
+            <span className="text-[15px] md:text-[17px] font-medium text-white/70">Arquivos WAV, licença assinada, entrega na hora.</span>
           </p>
 
           <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
@@ -609,59 +614,12 @@ export default function IndexPage() {
       <section className="py-6 md:py-8 border-t border-border/50">
         <div className={CONTAINER}>
           {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap) */}
+          {/* Pack 120 vem primeiro (card dourado, maior) e o Pack 50 depois
+              como alternativa menor -- antes era o contrário, e quem via
+              R$19,90 primeiro achava R$37,90 caro em seguida. Ancoragem de
+              preço funciona melhor do valor maior pro menor. */}
           <div id="pack-basico" className="mt-8 md:mt-10 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
-            <ScarcityBar />
-            <div className="basic-card max-w-md mx-auto w-full">
-              <div className="basic-card-inner text-center" style={{ padding: "20px" }}>
-                <h2 className="text-2xl md:text-3xl font-black tracking-tight">
-                  <span className="basic-title">Pack 50 Beats</span>
-                </h2>
-                <p className="mt-1 text-xs md:text-sm text-[#9ad9a4] font-semibold tracking-wide">
-                  Pagamento único · Acesso vitalício
-                </p>
-
-                <div className="mt-4 flex flex-col items-center gap-1">
-                  <span className="basic-price text-4xl md:text-5xl font-black leading-none">
-                    R$ 19,90
-                  </span>
-                  <span className="text-[11px] text-muted-foreground">R$ 0,40 por beat</span>
-                </div>
-
-                <div className="mt-5 text-left max-w-md mx-auto flex flex-col" style={{ gap: "4px" }}>
-                  {packFeatures.map((f, i) => (
-                    <div key={i} className="basic-feature" style={{ fontSize: "12px" }}>
-                      <span className="basic-feature-check">
-                        <Check />
-                      </span>
-                      <span>{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="mt-5 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
-                  <ShieldCheck className="h-3 w-3" />
-                  <span>Garantia incondicional de 7 dias</span>
-                </p>
-                <div className="hero-cta-block flex flex-col items-center w-full">
-                  <button
-                    onClick={handleBasicCheckoutClick}
-                    className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
-                  >
-                    <span className="hero-cta-shine" aria-hidden="true" />
-                    <span className="hero-cta-text">QUERO MEUS 50 BEATS</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Transicao dourada para apresentar o pack maior */}
-            <div className="text-center py-2">
-              <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
-                <span className="supreme-title">Seja Um Artista Completo</span>
-              </h2>
-            </div>
-
-            {/* Oferta única — card dourado */}
+            {/* Oferta principal — card dourado */}
             <div
               id="oferta-suprema"
               className="relative scroll-mt-20 rounded-2xl"
@@ -695,7 +653,7 @@ export default function IndexPage() {
                     R$ 37,90
                   </span>
                   <span className="text-[11px] text-[#d9c98e]/80">
-                    R$ 0,32 por beat — 20% mais barato que o Pack 50
+                    R$ 0,32 por beat
                   </span>
                 </div>
 
@@ -744,6 +702,56 @@ export default function IndexPage() {
                   <span>Garantia incondicional de 7 dias · Pagamento 100% seguro</span>
                 </p>
               </div>
+              </div>
+            </div>
+
+            {/* Transicao para a alternativa menor */}
+            <div className="text-center py-2">
+              <h2 className="text-xl md:text-2xl font-black tracking-tight leading-tight text-muted-foreground">
+                Ou comece menor, com o Pack 50
+              </h2>
+            </div>
+
+            <div className="basic-card max-w-sm mx-auto w-full">
+              <div className="basic-card-inner text-center" style={{ padding: "16px" }}>
+                <h2 className="text-xl md:text-2xl font-black tracking-tight">
+                  <span className="basic-title">Pack 50 Beats</span>
+                </h2>
+                <p className="mt-1 text-xs text-[#9ad9a4] font-semibold tracking-wide">
+                  Pagamento único · Acesso vitalício
+                </p>
+
+                <div className="mt-3 flex flex-col items-center gap-1">
+                  <span className="basic-price text-3xl md:text-4xl font-black leading-none">
+                    R$ 19,90
+                  </span>
+                  <span className="text-[11px] text-muted-foreground">R$ 0,40 por beat</span>
+                </div>
+
+                <div className="mt-4 text-left max-w-md mx-auto flex flex-col" style={{ gap: "4px" }}>
+                  {packFeatures.map((f, i) => (
+                    <div key={i} className="basic-feature" style={{ fontSize: "12px" }}>
+                      <span className="basic-feature-check">
+                        <Check />
+                      </span>
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-4 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Garantia incondicional de 7 dias</span>
+                </p>
+                <div className="hero-cta-block flex flex-col items-center w-full">
+                  <button
+                    onClick={handleBasicCheckoutClick}
+                    className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
+                  >
+                    <span className="hero-cta-shine" aria-hidden="true" />
+                    <span className="hero-cta-text">QUERO MEUS 50 BEATS</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1141,6 +1149,38 @@ export default function IndexPage() {
         </div>
       </section>
 
+      {/* CTA de fechamento — sem isso, todo o conteudo que mais convence
+          (garantia, licenca, avaliacoes, antes/depois, FAQ) vinha depois do
+          ultimo botao de compra da pagina, sem nenhuma chance de conversao. */}
+      <section className="py-10 md:py-14 border-t border-border/50 bg-card/20">
+        <div className={`${CONTAINER} max-w-xl text-center reveal`}>
+          <h2 className="text-2xl md:text-4xl font-black tracking-tight text-white leading-tight">
+            Já viu o suficiente. <span className="text-primary">Bora gravar?</span>
+          </h2>
+          <div className="mt-6 flex flex-col items-center w-full">
+            <button
+              onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
+              className="supreme-cta inline-flex items-center justify-center"
+            >
+              <span className="supreme-cta-shine" aria-hidden="true" />
+              <Download className="h-4 w-4 mr-2 relative z-10" />
+              <span className="relative z-10">QUERO MEUS 120 BEATS</span>
+            </button>
+          </div>
+          <button
+            type="button"
+            onClick={handleBasicCheckoutClick}
+            className="mt-4 text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground transition-colors"
+          >
+            Prefiro começar com o Pack 50 por R$ 19,90
+          </button>
+          <p className="mt-5 text-xs text-muted-foreground flex items-center justify-center gap-1.5">
+            <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+            Garantia incondicional de 7 dias · Pagamento 100% seguro
+          </p>
+        </div>
+      </section>
+
       <footer className="relative mt-8 overflow-hidden border-t border-border/50 bg-background">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
         
@@ -1244,7 +1284,7 @@ export default function IndexPage() {
             onClick={() => document.getElementById("oferta-suprema")?.scrollIntoView({ behavior: "smooth", block: "start" })}
             className="sticky-cta-btn"
           >
-            QUERO MEUS 120 BEATS
+            QUERO MEUS 120 BEATS · R$ 37,90
           </button>
         </div>
       )}
