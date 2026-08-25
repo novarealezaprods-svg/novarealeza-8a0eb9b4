@@ -482,19 +482,19 @@ export default function IndexPage() {
             </span>
           </div>
 
-          <div className="flex flex-col items-center gap-1 text-[11px] md:text-xs font-medium text-white/70 text-center">
-            <div className="flex items-center gap-1.5">
-              <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" />
-              <span>Arquivos WAV</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" />
-              <span>Licença assinada</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" />
-              <span>Entrega na hora</span>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-2 px-4">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+              <Music2 className="h-3 w-3 flex-shrink-0" />
+              Arquivos WAV
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+              <FileCheck className="h-3 w-3 flex-shrink-0" />
+              Licença assinada
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+              <Zap className="h-3 w-3 flex-shrink-0" />
+              Entrega na hora
+            </span>
           </div>
 
           <div className="hero-cta-block flex flex-col items-center w-full" style={{ marginTop: 0 }}>
