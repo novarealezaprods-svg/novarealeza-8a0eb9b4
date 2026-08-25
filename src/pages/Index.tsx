@@ -470,7 +470,10 @@ export default function IndexPage() {
             Pacote com 120 beats de trap por menos que uma pizza na sessão de estúdio.
           </p>
 
-          <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
+          {/* A VSL é o elemento que mais prende atenção no hero, então ela
+              come parte do padding lateral do container no mobile (-12px de
+              cada lado) e ganha mais largura no desktop. */}
+          <div className="-mx-3 w-[calc(100%+1.5rem)] max-w-none md:mx-auto md:w-full md:max-w-[880px]">
             <Card className="relative aspect-video overflow-hidden border-0 bg-transparent shadow-none rounded-none group">
               {previewVideo ? (
                 <VideoPreview url={previewVideo} poster={vslThumbnail ?? undefined} />
