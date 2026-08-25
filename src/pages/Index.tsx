@@ -467,7 +467,7 @@ export default function IndexPage() {
               Corpo aumentado pra ter peso visual proximo ao do H1, ja que
               e essa linha que carrega numero, preco e promessa. */}
           <p className="hero-fade hero-subtitle mx-auto max-w-2xl leading-relaxed tracking-wide text-center text-[16px] md:text-[18px] font-semibold" style={{ animationDelay: "200ms" }}>
-            Pacote com 120 beats de trap por menos que uma pizza na sessão de estúdio.
+            Pacote com 120 beats de trap por menos que uma pizza na sessão.
           </p>
 
           {/* A VSL é o elemento que mais prende atenção no hero, então ela

@@ -251,16 +251,19 @@ html, body {
   0%   { background-position: 200% 50%; }
   100% { background-position: -100% 50%; }
 }
+/* Cinza como cor de base (e dourado na varredura) pra criar hierarquia com
+   o H1 branco: antes o subtítulo era branco igual ao título e os dois
+   competiam pela atenção. */
 .hero-subtitle {
-  color: #ffffff;
+  color: #a6a6a6;
   font-weight: 500;
   background: linear-gradient(
     100deg,
-    #ffffff 0%,
-    #ffffff 38%,
-    var(--primary-glow) 50%,
-    #ffffff 62%,
-    #ffffff 100%
+    #a6a6a6 0%,
+    #a6a6a6 38%,
+    #f5d27a 50%,
+    #a6a6a6 62%,
+    #a6a6a6 100%
   );
   background-size: 300% 100%;
   -webkit-background-clip: text;
@@ -273,7 +276,7 @@ html, body {
 @media (prefers-reduced-motion: reduce) {
   .hero-subtitle {
     background: none;
-    -webkit-text-fill-color: #ffffff;
+    -webkit-text-fill-color: #a6a6a6;
     animation: hero-fade-in 0.5s ease-out 200ms both;
   }
 }
