@@ -677,6 +677,56 @@ export default function IndexPage() {
         </div>
       </section>
 
+      {/* Licença de verdade — movida pra logo abaixo das avaliações */}
+      <section className="py-10 md:py-14 bg-background border-t border-border/50">
+        <div className={CONTAINER}>
+          <div className="max-w-4xl mx-auto reveal">
+            <div className="text-center mb-10">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
+                <FileCheck className="w-3.5 h-3.5" />
+                100% Legal · Assinado no Gov.br
+              </span>
+              <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+                Sua Música Merece uma <span className="text-primary">Licença de Verdade</span>
+              </h2>
+              <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
+                Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
+                sua música <span className="text-white font-semibold">pode ir pra todas as plataformas
+                digitais</span>: Spotify, YouTube, TikTok, Deezer, Apple Music e qualquer outra, sem risco
+                de bloqueio ou remoção por direitos autorais.
+              </p>
+            </div>
+
+            <div className="relative mx-auto max-w-md md:max-w-lg">
+              <div
+                className="absolute inset-0 bg-primary/40 blur-[90px] rounded-full scale-90 pointer-events-none"
+                aria-hidden="true"
+              />
+              <button
+                type="button"
+                onClick={() => setLicenseZoomOpen(true)}
+                className="group relative block w-full cursor-zoom-in rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                aria-label="Ampliar contrato de licença assinada"
+              >
+                <img
+                  src={licencaAssinada}
+                  alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
+                  className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
+                  loading="lazy"
+                  decoding="async"
+                  width="1200"
+                  height="1377"
+                />
+                <span className="pointer-events-none absolute bottom-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-opacity group-hover:bg-black/85">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                  Ampliar
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-6 md:py-8 border-t border-border/50">
         <div className={CONTAINER}>
           {/* Garantia Incondicional 7 dias — movida pra cima dos cards de preço */}
@@ -902,51 +952,6 @@ export default function IndexPage() {
               </div>
             </div>
           </div>
-
-            <div className="max-w-4xl mx-auto reveal">
-              <div className="text-center mb-10">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
-                  <FileCheck className="w-3.5 h-3.5" />
-                  100% Legal · Assinado no Gov.br
-                </span>
-                <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
-                  Sua Música Merece uma <span className="text-primary">Licença de Verdade</span>
-                </h2>
-                <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
-                  Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
-                  sua música <span className="text-white font-semibold">pode ir pra todas as plataformas
-                  digitais</span>: Spotify, YouTube, TikTok, Deezer, Apple Music e qualquer outra, sem risco
-                  de bloqueio ou remoção por direitos autorais.
-                </p>
-              </div>
-  
-              <div className="relative mx-auto max-w-md md:max-w-lg">
-                <div
-                  className="absolute inset-0 bg-primary/40 blur-[90px] rounded-full scale-90 pointer-events-none"
-                  aria-hidden="true"
-                />
-                <button
-                  type="button"
-                  onClick={() => setLicenseZoomOpen(true)}
-                  className="group relative block w-full cursor-zoom-in rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  aria-label="Ampliar contrato de licença assinada"
-                >
-                  <img
-                    src={licencaAssinada}
-                    alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
-                    className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
-                    loading="lazy"
-                    decoding="async"
-                    width="1200"
-                    height="1377"
-                  />
-                  <span className="pointer-events-none absolute bottom-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-opacity group-hover:bg-black/85">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
-                    Ampliar
-                  </span>
-                </button>
-              </div>
-            </div>
 
         </div>
       </section>
