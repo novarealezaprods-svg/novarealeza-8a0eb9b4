@@ -602,26 +602,6 @@ export default function IndexPage() {
             ))}
           </div>
 
-          {/* Waveform decorativa + reforço de que a entrega é em WAV (não MP3) */}
-          <div className="mt-10 flex flex-col items-center gap-3 reveal">
-            <div className="waveform" aria-hidden="true">
-              {Array.from({ length: 32 }).map((_, i) => (
-                <span
-                  key={i}
-                  style={{
-                    // Atraso escalonado = onda viajando; duração variada tira o
-                    // ar de "pisca tudo junto" e deixa parecido com áudio real.
-                    animationDelay: `${(i * 70) % 1400}ms`,
-                    animationDuration: `${1100 + ((i * 137) % 600)}ms`,
-                  }}
-                />
-              ))}
-            </div>
-            <p className="text-xs md:text-sm text-muted-foreground text-center">
-              Todos são arquivos <span className="text-primary font-semibold">WAV</span> enviados pelo Gmail
-            </p>
-          </div>
-
         </div>
       </section>
 
