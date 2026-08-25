@@ -442,7 +442,7 @@ export default function IndexPage() {
       <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
-          <h1 className="hero-title font-black tracking-tight leading-[0.95] text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-center mx-auto px-6 md:px-0">
+          <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
             Pare de Enterrar Sua Música
             <br />
             em Beat <span className="text-accent">FREE</span>
@@ -453,9 +453,9 @@ export default function IndexPage() {
               descobria o preço certo do Pack 120 depois de rolar a página.
               Corpo aumentado pra ter peso visual proximo ao do H1, ja que
               e essa linha que carrega numero, preco e promessa. */}
-          <p className="hero-fade hero-subtitle mx-auto max-w-2xl leading-relaxed tracking-wide text-center text-[19px] md:text-[22px] font-bold" style={{ animationDelay: "200ms" }}>
-            120 beats de trap por R$ 37,90 — ou comece com 50 por R$ 19,90.<br />
-            <span className="text-[15px] md:text-[17px] font-medium text-white/70">Arquivos WAV, licença assinada, entrega na hora.</span>
+          <p className="hero-fade hero-subtitle mx-auto max-w-2xl leading-relaxed tracking-wide text-center text-[16px] md:text-[18px] font-semibold" style={{ animationDelay: "200ms" }}>
+            Pacote com 120 beats de trap por menos que uma pizza na sessão de estúdio.<br />
+            <span className="text-[13px] md:text-[15px] font-medium text-white/70">Arquivos WAV, licença assinada, entrega na hora.</span>
           </p>
 
           <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
