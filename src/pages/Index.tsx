@@ -454,8 +454,7 @@ export default function IndexPage() {
               Corpo aumentado pra ter peso visual proximo ao do H1, ja que
               e essa linha que carrega numero, preco e promessa. */}
           <p className="hero-fade hero-subtitle mx-auto max-w-2xl leading-relaxed tracking-wide text-center text-[16px] md:text-[18px] font-semibold" style={{ animationDelay: "200ms" }}>
-            Pacote com 120 beats de trap por menos que uma pizza na sessão de estúdio.<br />
-            <span className="text-[13px] md:text-[15px] font-medium text-white/70">Arquivos WAV, licença assinada, entrega na hora.</span>
+            Pacote com 120 beats de trap por menos que uma pizza na sessão de estúdio.
           </p>
 
           <div className="mx-auto w-full max-w-[560px] md:max-w-[720px]">
@@ -481,6 +480,21 @@ export default function IndexPage() {
               <span className="font-black text-[#5dff8a]" style={{ textShadow: "0 0 8px rgba(0,255,95,0.5)" }}>Uso liberado</span>{" "}
               pra Spotify, Instagram, TikTok etc
             </span>
+          </div>
+
+          <div className="flex flex-col items-center gap-1 text-[11px] md:text-xs font-medium text-white/70 text-center">
+            <div className="flex items-center gap-1.5">
+              <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" />
+              <span>Arquivos WAV</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" />
+              <span>Licença assinada</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" />
+              <span>Entrega na hora</span>
+            </div>
           </div>
 
           <div className="hero-cta-block flex flex-col items-center w-full" style={{ marginTop: 0 }}>
