@@ -440,17 +440,20 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="top-bar w-full bg-black flex items-center justify-center py-7 md:py-10">
-        <img
-          src={logoNovaRealeza}
-          alt="Nova Realeza"
-          className="top-bar-logo h-12 md:h-16 w-auto"
-          loading="eager"
-          decoding="async"
-        />
-      </header>
       <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
+        {/* Logo dentro da própria seção do hero: como header separado com
+            fundo preto, o gradiente esverdeado do topo do hero criava uma
+            emenda de cor visível na divisa entre os dois. */}
+        <header className="top-bar w-full flex items-center justify-center pt-6 pb-10 md:pt-8 md:pb-12">
+          <img
+            src={logoNovaRealeza}
+            alt="Nova Realeza"
+            className="top-bar-logo h-12 md:h-16 w-auto"
+            loading="eager"
+            decoding="async"
+          />
+        </header>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
           <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
             Pare de Enterrar Sua Música

@@ -204,10 +204,6 @@ html, body {
 .ba-x-stroke-2 { animation: ba-x-draw-2 2.7s ease-in-out infinite; }
 
 /* Barra superior — logo com brilho dourado pulsante */
-.top-bar {
-  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-  box-shadow: 0 1px 30px rgba(212, 175, 55, 0.12);
-}
 .top-bar-logo {
   animation: logo-glow-pulse 3.2s ease-in-out infinite;
 }
