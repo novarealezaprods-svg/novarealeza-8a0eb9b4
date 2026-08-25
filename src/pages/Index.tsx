@@ -15,6 +15,7 @@ import prova6 from "@/assets/proof-images/prova-6.webp";
 import garantia7Dias from "@/assets/garantia-7-dias.webp";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
 import producaoEstudioPoster from "@/assets/producao-estudio-poster.webp";
+import logoNovaRealeza from "@/assets/logo-nova-realeza.webp";
 
 // O carrossel de beats só abre ao clicar num card, então o Radix Dialog e o
 // embla-carousel saem do bundle inicial e só são baixados quando necessário.
@@ -439,6 +440,15 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <header className="top-bar w-full bg-black flex items-center justify-center py-7 md:py-10">
+        <img
+          src={logoNovaRealeza}
+          alt="Nova Realeza"
+          className="top-bar-logo h-12 md:h-16 w-auto"
+          loading="eager"
+          decoding="async"
+        />
+      </header>
       <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
