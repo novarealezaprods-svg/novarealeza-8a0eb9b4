@@ -203,8 +203,33 @@ html, body {
 .ba-x-stroke-1 { animation: ba-x-draw-1 2.7s ease-in-out infinite; }
 .ba-x-stroke-2 { animation: ba-x-draw-2 2.7s ease-in-out infinite; }
 
-/* Barra superior — o logo já é dourado e tem brilho próprio no desenho;
-   qualquer drop-shadow aqui virava um halo retangular artificial. */
+/* Barra superior — brilho dourado do logo.
+   O drop-shadow segue o alpha da imagem, então isso só fica natural
+   porque o arquivo tem recorte limpo: quando o PNG ainda carregava o
+   glow pintado do render original, a sombra seguia aquele bloco
+   semitransparente e virava um halo retangular. Raio curto + opacidade
+   baixa mantém o brilho colado no contorno do leão e da coroa. */
+.top-bar-logo {
+  filter:
+    drop-shadow(0 0 4px rgba(255, 205, 90, 0.5))
+    drop-shadow(0 0 14px rgba(240, 175, 40, 0.22));
+  animation: logo-glow-breathe 4.5s ease-in-out infinite;
+}
+@keyframes logo-glow-breathe {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 4px rgba(255, 205, 90, 0.5))
+      drop-shadow(0 0 14px rgba(240, 175, 40, 0.22));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 7px rgba(255, 214, 110, 0.68))
+      drop-shadow(0 0 22px rgba(240, 175, 40, 0.34));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .top-bar-logo { animation: none; }
+}
 
 /* Hero — fade in sequencial dos textos */
 @keyframes hero-fade-in {
