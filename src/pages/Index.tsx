@@ -15,7 +15,7 @@ import prova6 from "@/assets/proof-images/prova-6.webp";
 import garantia7Dias from "@/assets/garantia-7-dias.webp";
 import licencaAssinada from "@/assets/licenca-assinada.webp";
 import producaoEstudioPoster from "@/assets/producao-estudio-poster.webp";
-import logoNovaRealeza from "@/assets/logo-nova-realeza.webp";
+import logoNovaRealeza from "@/assets/logo-nova-realeza.png";
 
 // O carrossel de beats só abre ao clicar num card, então o Radix Dialog e o
 // embla-carousel saem do bundle inicial e só são baixados quando necessário.
