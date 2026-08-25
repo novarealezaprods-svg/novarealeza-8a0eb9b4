@@ -613,13 +613,89 @@ export default function IndexPage() {
 
       <section className="py-6 md:py-8 border-t border-border/50">
         <div className={CONTAINER}>
+          {/* Garantia Incondicional 7 dias — movida pra cima dos cards de preço */}
+          <div className="max-w-3xl mx-auto reveal mb-10 md:mb-12">
+            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
+              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
+              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
+                <img
+                  src={garantia7Dias}
+                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
+                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
+                  loading="lazy"
+                  decoding="async"
+                  width="176"
+                  height="176"
+                />
+                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Risco zero
+                  </span>
+                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
+                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
+                  </h3>
+                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
+                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap) */}
-          {/* Pack 120 vem primeiro (card dourado, maior) e o Pack 50 depois
-              como alternativa menor -- antes era o contrário, e quem via
-              R$19,90 primeiro achava R$37,90 caro em seguida. Ancoragem de
-              preço funciona melhor do valor maior pro menor. */}
           <div id="pack-basico" className="mt-8 md:mt-10 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
-            {/* Oferta principal — card dourado */}
+            <div className="basic-card max-w-md mx-auto w-full">
+              <div className="basic-card-inner text-center" style={{ padding: "20px" }}>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight">
+                  <span className="basic-title">Pack 50 Beats</span>
+                </h2>
+                <p className="mt-1 text-xs md:text-sm text-[#9ad9a4] font-semibold tracking-wide">
+                  Pagamento único · Acesso vitalício
+                </p>
+
+                <div className="mt-4 flex flex-col items-center gap-1">
+                  <span className="basic-price text-4xl md:text-5xl font-black leading-none">
+                    R$ 19,90
+                  </span>
+                  <span className="text-[11px] text-muted-foreground">R$ 0,40 por beat</span>
+                </div>
+
+                <div className="mt-5 text-left max-w-md mx-auto flex flex-col" style={{ gap: "4px" }}>
+                  {packFeatures.map((f, i) => (
+                    <div key={i} className="basic-feature" style={{ fontSize: "12px" }}>
+                      <span className="basic-feature-check">
+                        <Check />
+                      </span>
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-5 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Garantia incondicional de 7 dias</span>
+                </p>
+                <div className="hero-cta-block flex flex-col items-center w-full">
+                  <button
+                    onClick={handleBasicCheckoutClick}
+                    className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
+                  >
+                    <span className="hero-cta-shine" aria-hidden="true" />
+                    <span className="hero-cta-text">QUERO MEUS 50 BEATS</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Transicao dourada para apresentar o pack maior */}
+            <div className="text-center py-2">
+              <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
+                <span className="supreme-title">Seja Um Artista Completo</span>
+              </h2>
+            </div>
+
+            {/* Oferta única — card dourado */}
             <div
               id="oferta-suprema"
               className="relative scroll-mt-20 rounded-2xl"
@@ -653,7 +729,7 @@ export default function IndexPage() {
                     R$ 37,90
                   </span>
                   <span className="text-[11px] text-[#d9c98e]/80">
-                    R$ 0,32 por beat
+                    R$ 0,32 por beat — 20% mais barato que o Pack 50
                   </span>
                 </div>
 
@@ -704,56 +780,6 @@ export default function IndexPage() {
               </div>
               </div>
             </div>
-
-            {/* Transicao para a alternativa menor */}
-            <div className="text-center py-2">
-              <h2 className="text-xl md:text-2xl font-black tracking-tight leading-tight text-muted-foreground">
-                Ou comece menor, com o Pack 50
-              </h2>
-            </div>
-
-            <div className="basic-card max-w-sm mx-auto w-full">
-              <div className="basic-card-inner text-center" style={{ padding: "16px" }}>
-                <h2 className="text-xl md:text-2xl font-black tracking-tight">
-                  <span className="basic-title">Pack 50 Beats</span>
-                </h2>
-                <p className="mt-1 text-xs text-[#9ad9a4] font-semibold tracking-wide">
-                  Pagamento único · Acesso vitalício
-                </p>
-
-                <div className="mt-3 flex flex-col items-center gap-1">
-                  <span className="basic-price text-3xl md:text-4xl font-black leading-none">
-                    R$ 19,90
-                  </span>
-                  <span className="text-[11px] text-muted-foreground">R$ 0,40 por beat</span>
-                </div>
-
-                <div className="mt-4 text-left max-w-md mx-auto flex flex-col" style={{ gap: "4px" }}>
-                  {packFeatures.map((f, i) => (
-                    <div key={i} className="basic-feature" style={{ fontSize: "12px" }}>
-                      <span className="basic-feature-check">
-                        <Check />
-                      </span>
-                      <span>{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="mt-4 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
-                  <ShieldCheck className="h-3 w-3" />
-                  <span>Garantia incondicional de 7 dias</span>
-                </p>
-                <div className="hero-cta-block flex flex-col items-center w-full">
-                  <button
-                    onClick={handleBasicCheckoutClick}
-                    className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
-                  >
-                    <span className="hero-cta-shine" aria-hidden="true" />
-                    <span className="hero-cta-text">QUERO MEUS 50 BEATS</span>
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -762,36 +788,6 @@ export default function IndexPage() {
       {/* Prova de licença assinada */}
       <section className="py-10 md:py-14 bg-background border-t border-border/50">
         <div className={CONTAINER}>
-          {/* Garantia Incondicional 7 dias */}
-          <div className="max-w-3xl mx-auto reveal">
-            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
-              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
-              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
-                <img
-                  src={garantia7Dias}
-                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
-                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
-                  loading="lazy"
-                  decoding="async"
-                  width="176"
-                  height="176"
-                />
-                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    Risco zero
-                  </span>
-                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
-                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
-                  </h3>
-                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
-                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* BLOCO — Entrega do produto */}
           <div className="mt-10 md:mt-12 max-w-3xl mx-auto reveal">
             <div
