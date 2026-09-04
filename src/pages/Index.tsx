@@ -742,58 +742,9 @@ export default function IndexPage() {
             </div>
           </div>
 
-          {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap) */}
+          {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap).
+              Pack 50 removido -- só existe o pack completo agora. */}
           <div id="pack-basico" className="mt-8 md:mt-10 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
-            <div className="basic-card max-w-md mx-auto w-full">
-              <div className="basic-card-inner text-center" style={{ padding: "20px" }}>
-                <h2 className="text-2xl md:text-3xl font-black tracking-tight">
-                  <span className="basic-title">Pack 50 Beats</span>
-                </h2>
-                <p className="mt-1 text-xs md:text-sm text-[#9ad9a4] font-semibold tracking-wide">
-                  Pagamento único · Acesso vitalício
-                </p>
-
-                <div className="mt-4 flex flex-col items-center gap-1">
-                  <span className="basic-price text-4xl md:text-5xl font-black leading-none">
-                    R$ 19,90
-                  </span>
-                  <span className="text-[11px] text-muted-foreground">R$ 0,40 por beat</span>
-                </div>
-
-                <div className="mt-5 text-left max-w-md mx-auto flex flex-col" style={{ gap: "4px" }}>
-                  {packFeatures.map((f, i) => (
-                    <div key={i} className="basic-feature" style={{ fontSize: "12px" }}>
-                      <span className="basic-feature-check">
-                        <Check />
-                      </span>
-                      <span>{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="mt-5 text-xs text-[#9ad9a4] flex items-center justify-center gap-1">
-                  <ShieldCheck className="h-3 w-3" />
-                  <span>Garantia incondicional de 7 dias</span>
-                </p>
-                <div className="hero-cta-block flex flex-col items-center w-full">
-                  <button
-                    onClick={handleBasicCheckoutClick}
-                    className="hero-cta basic-cta inline-flex items-center justify-center whitespace-nowrap"
-                  >
-                    <span className="hero-cta-shine" aria-hidden="true" />
-                    <span className="hero-cta-text">QUERO MEUS 50 BEATS</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Transicao dourada para apresentar o pack maior */}
-            <div className="text-center py-2">
-              <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
-                <span className="supreme-title">Seja Um Artista Completo</span>
-              </h2>
-            </div>
-
             {/* Oferta única — card dourado */}
             <div
               id="oferta-suprema"
@@ -828,7 +779,7 @@ export default function IndexPage() {
                     R$ 37,90
                   </span>
                   <span className="text-[11px] text-[#d9c98e]/80">
-                    R$ 0,32 por beat — 20% mais barato que o Pack 50
+                    R$ 0,32 por beat
                   </span>
                 </div>
 
@@ -1162,13 +1113,6 @@ export default function IndexPage() {
               <span className="relative z-10">QUERO MEUS 120 BEATS</span>
             </button>
           </div>
-          <button
-            type="button"
-            onClick={handleBasicCheckoutClick}
-            className="mt-4 text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground transition-colors"
-          >
-            Prefiro começar com o Pack 50 por R$ 19,90
-          </button>
           <p className="mt-5 text-xs text-muted-foreground flex items-center justify-center gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
             Garantia incondicional de 7 dias · Pagamento 100% seguro
