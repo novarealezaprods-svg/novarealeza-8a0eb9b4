@@ -147,8 +147,8 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
               <div
                 className="h-16 w-16 rounded-full flex items-center justify-center animate-vsl-pulse"
                 style={{
-                  backgroundColor: "#39FF14",
-                  boxShadow: "0 0 24px rgba(57,255,20,0.5)",
+                  backgroundColor: "#FFC400",
+                  boxShadow: "0 0 24px rgba(255,196,0,0.5)",
                 }}
               >
                 <Play className="h-6 w-6 fill-black text-black ml-[2px]" strokeWidth={0} />

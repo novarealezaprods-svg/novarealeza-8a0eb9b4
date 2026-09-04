@@ -70,9 +70,9 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.12 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.72 0.22 145);          /* neon green CTA */
+  --primary: oklch(0.75 0.19 85);           /* neon gold CTA */
   --primary-foreground: oklch(0.1 0 0);
-  --primary-glow: oklch(0.82 0.24 145);
+  --primary-glow: oklch(0.85 0.2 85);
   --secondary: oklch(0.18 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.16 0 0);
@@ -83,11 +83,11 @@
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.72 0.22 145);
-  --gradient-hero: radial-gradient(ellipse at top, oklch(0.18 0.05 145 / 0.35), transparent 60%);
+  --ring: oklch(0.75 0.19 85);
+  --gradient-hero: radial-gradient(ellipse at top, oklch(0.18 0.05 85 / 0.35), transparent 60%);
   --gradient-cta: linear-gradient(135deg, var(--primary), var(--primary-glow));
-  --shadow-cta: 0 10px 40px -10px oklch(0.72 0.22 145 / 0.6);
-  --shadow-glow: 0 0 60px oklch(0.72 0.22 145 / 0.35);
+  --shadow-cta: 0 10px 40px -10px oklch(0.75 0.19 85 / 0.6);
+  --shadow-glow: 0 0 60px oklch(0.75 0.19 85 / 0.35);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -339,14 +339,14 @@ html, body {
 @keyframes hero-cta-breath {
   0%, 100% {
     box-shadow:
-      0 0 30px oklch(0.72 0.22 145 / 0.55),
+      0 0 30px oklch(0.75 0.19 85 / 0.55),
       0 8px 24px rgba(0, 0, 0, 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.28),
       inset 0 -2px 0 rgba(0, 0, 0, 0.18);
   }
   50% {
     box-shadow:
-      0 0 50px oklch(0.72 0.22 145 / 0.85),
+      0 0 50px oklch(0.75 0.19 85 / 0.85),
       0 8px 24px rgba(0, 0, 0, 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.28),
       inset 0 -2px 0 rgba(0, 0, 0, 0.18);
@@ -367,7 +367,7 @@ html, body {
 .hero-cta {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, oklch(0.76 0.22 145) 0%, oklch(0.68 0.22 145) 100%);
+  background: linear-gradient(180deg, oklch(0.8 0.19 85) 0%, oklch(0.68 0.19 85) 100%);
   color: #000000;
   border: none;
   border-radius: 12px;
@@ -380,7 +380,7 @@ html, body {
   width: 90%;
   max-width: 380px;
   box-shadow:
-    0 0 30px oklch(0.72 0.22 145 / 0.55),
+    0 0 30px oklch(0.75 0.19 85 / 0.55),
     0 8px 24px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
     inset 0 -2px 0 rgba(0, 0, 0, 0.18);
@@ -617,8 +617,8 @@ html, body {
   animation: beat-fade-up 0.5s ease-out forwards;
 }
 @keyframes beat-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(57,255,20,0.55); }
-  50% { box-shadow: 0 0 0 12px rgba(57,255,20,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,196,0,0.55); }
+  50% { box-shadow: 0 0 0 12px rgba(255,196,0,0); }
 }
 .beat-pulse {
   animation: beat-pulse 1.6s ease-out infinite;
@@ -1310,8 +1310,8 @@ html, body {
   100% { opacity: 0; }
 }
 @keyframes vslPlayPulse {
-  0%, 100% { box-shadow: 0 0 24px rgba(57,255,20,0.5); }
-  50% { box-shadow: 0 0 40px rgba(57,255,20,0.9); }
+  0%, 100% { box-shadow: 0 0 24px rgba(255,196,0,0.5); }
+  50% { box-shadow: 0 0 40px rgba(255,196,0,0.9); }
 }
 .animate-vsl-pulse {
   animation: vslPlayPulse 1.6s ease-in-out infinite;
@@ -1344,7 +1344,7 @@ html, body {
   width: 100%;
   max-width: 420px;
   min-height: 48px;
-  background: linear-gradient(180deg, oklch(0.76 0.22 145) 0%, oklch(0.68 0.22 145) 100%);
+  background: linear-gradient(180deg, oklch(0.8 0.19 85) 0%, oklch(0.68 0.19 85) 100%);
   color: #000000;
   border: none;
   border-radius: 12px;
@@ -1355,7 +1355,7 @@ html, body {
   letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 0 24px oklch(0.72 0.22 145 / 0.5), 0 8px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 24px oklch(0.75 0.19 85 / 0.5), 0 8px 20px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 .sticky-cta-btn:hover { transform: scale(1.02); filter: brightness(1.08); }

@@ -491,9 +491,9 @@ export default function IndexPage() {
           </div>
 
           <div className="flex items-center justify-center gap-1.5 text-[11px] md:text-xs font-medium text-white/80 text-center px-4">
-            <Check className="h-3 w-3 text-[#5dff8a] flex-shrink-0" style={{ filter: "drop-shadow(0 0 4px rgba(0,255,95,0.6))" }} />
+            <Check className="h-3 w-3 text-[#FFD65A] flex-shrink-0" style={{ filter: "drop-shadow(0 0 4px rgba(255,196,0,0.6))" }} />
             <span>
-              <span className="font-black text-[#5dff8a]" style={{ textShadow: "0 0 8px rgba(0,255,95,0.5)" }}>Uso liberado</span>{" "}
+              <span className="font-black text-[#FFD65A]" style={{ textShadow: "0 0 8px rgba(255,196,0,0.5)" }}>Uso liberado</span>{" "}
               pra Spotify, Instagram, TikTok etc
             </span>
           </div>
@@ -694,7 +694,7 @@ export default function IndexPage() {
                 <img
                   src={licencaAssinada}
                   alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
-                  className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(0,255,95,0.5)]"
+                  className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(255,196,0,0.5)]"
                   loading="lazy"
                   decoding="async"
                   width="1200"
@@ -871,7 +871,7 @@ export default function IndexPage() {
                   </span>
                   <div className="text-left">
                     <div className="text-white font-bold text-sm">WhatsApp</div>
-                    <div className="text-xs text-[#9ad9a4]">Link enviado na hora</div>
+                    <div className="text-xs text-[#d9c98e]">Link enviado na hora</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 rounded-xl p-4 border border-border/60 bg-background/40">
@@ -880,7 +880,7 @@ export default function IndexPage() {
                   </span>
                   <div className="text-left">
                     <div className="text-white font-bold text-sm">Gmail</div>
-                    <div className="text-xs text-[#9ad9a4]">Acesso vitalício no e-mail</div>
+                    <div className="text-xs text-[#d9c98e]">Acesso vitalício no e-mail</div>
                   </div>
                 </div>
               </div>
@@ -1249,7 +1249,7 @@ export default function IndexPage() {
           <img
             src={licencaAssinada}
             alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
-            className="max-h-[90vh] max-w-[92vw] rounded-xl object-contain shadow-[0_0_80px_-10px_rgba(0,255,95,0.4)]"
+            className="max-h-[90vh] max-w-[92vw] rounded-xl object-contain shadow-[0_0_80px_-10px_rgba(255,196,0,0.4)]"
             onClick={(e) => e.stopPropagation()}
           />
         </div>
