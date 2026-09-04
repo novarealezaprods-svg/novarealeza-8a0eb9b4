@@ -470,24 +470,74 @@ export default function IndexPage() {
             Pacote com 120 beats de trap liberado pra lançamento por R$47,90.
           </p>
 
-          {/* A VSL é o elemento que mais prende atenção no hero, então ela
-              come parte do padding lateral do container no mobile (-12px de
-              cada lado) e ganha mais largura no desktop. */}
-          <div className="-mx-3 w-[calc(100%+1.5rem)] max-w-none md:mx-auto md:w-full md:max-w-[880px]">
-            <Card className="relative aspect-video overflow-hidden border-0 bg-transparent shadow-none rounded-none group">
-              {previewVideo ? (
-                <VideoPreview url={previewVideo} poster={vslThumbnail ?? undefined} />
-              ) : (
-                <>
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                    <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)]">
-                      <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
-                    </div>
-                  </div>
-                </>
-              )}
-            </Card>
+          {/* No lugar da VSL: a grade de prévias dos beats, trocada de posição
+              com a seção "Ouça Algumas Prévias" que ficava mais abaixo. */}
+          <div className="w-full">
+            {beats.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
+                {beats.slice(0, 12).map((b: any, i) => {
+                  const fallback = BEAT_META[i] || { name: b.name, genre: "TRAP" };
+                  const meta = {
+                    name: b.name || fallback.name,
+                    genre: b.genre || fallback.genre,
+                  };
+                  return (
+                    <BeatPlayer
+                      key={`${b.name}-${i}`}
+                      beat={{ ...b, visualizer_video: visualizerFor(meta.name) }}
+                      index={i}
+                      displayName={meta.name}
+                      genre={meta.genre}
+                      onOpen={(idx) => setOpenBeatIndex(idx)}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
+                <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
+              </Card>
+            )}
+
+            {playlists.length > 0 && (
+              <div className="mt-12 max-w-5xl mx-auto reveal">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl md:text-3xl font-black tracking-tight text-white inline-flex items-center gap-2">
+                    <ListMusic className="w-6 h-6 text-primary" />
+                    Playlists
+                  </h3>
+                  <div className="mx-auto mt-3 h-[3px] w-16 bg-accent rounded-full" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {playlists.map((p) => (
+                    <a
+                      key={p.id}
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between gap-3 rounded-lg border border-border bg-card/50 px-4 py-3 hover:border-primary/60 hover:bg-primary/5 transition-colors"
+                    >
+                      <span className="flex items-center gap-3 min-w-0">
+                        <span className="flex-shrink-0 w-9 h-9 rounded-md bg-primary/15 text-primary flex items-center justify-center">
+                          <ListMusic className="w-4 h-4" />
+                        </span>
+                        <span className="font-medium text-sm text-white truncate">{p.name}</span>
+                      </span>
+                      <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary flex-shrink-0" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5 reveal">
+              {genres.map((g, i) => (
+                <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
+                  {g}
+                </Badge>
+              ))}
+            </div>
           </div>
 
           <div className="flex items-center justify-center gap-1.5 text-[11px] md:text-xs font-medium text-white/80 text-center px-4">
@@ -528,79 +578,23 @@ export default function IndexPage() {
 
       <section id="ouca-antes" className="py-6 md:py-8 border-t border-border/50 scroll-mt-20">
         <div className={CONTAINER}>
-          <div className="text-center mb-12 reveal">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white">
-              Ouça Algumas Prévias
-            </h2>
-            <div className="mx-auto mt-6 h-[3px] w-20 bg-primary rounded-full" />
-          </div>
-
-          {beats.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
-              {beats.slice(0, 12).map((b: any, i) => {
-                const fallback = BEAT_META[i] || { name: b.name, genre: "TRAP" };
-                const meta = {
-                  name: b.name || fallback.name,
-                  genre: b.genre || fallback.genre,
-                };
-                return (
-                  <BeatPlayer
-                    key={`${b.name}-${i}`}
-                    beat={{ ...b, visualizer_video: visualizerFor(meta.name) }}
-                    index={i}
-                    displayName={meta.name}
-                    genre={meta.genre}
-                    onOpen={(idx) => setOpenBeatIndex(idx)}
-                  />
-                );
-              })}
-            </div>
-          ) : (
-            <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
-              <Music2 className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
-              <p className="text-sm text-muted-foreground">Nenhum beat enviado ainda.</p>
+          {/* VSL trocada de posição com a grade de prévias, que subiu pro hero. */}
+          <div className="-mx-3 w-[calc(100%+1.5rem)] max-w-none md:mx-auto md:w-full md:max-w-[880px]">
+            <Card className="relative aspect-video overflow-hidden border-0 bg-transparent shadow-none rounded-none group">
+              {previewVideo ? (
+                <VideoPreview url={previewVideo} poster={vslThumbnail ?? undefined} />
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.25_0.05_145/0.4),transparent_70%)]" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <div className="h-20 w-20 rounded-full bg-primary/90 flex items-center justify-center shadow-[var(--shadow-glow)]">
+                      <Play className="h-8 w-8 text-primary-foreground fill-current ml-1" />
+                    </div>
+                  </div>
+                </>
+              )}
             </Card>
-          )}
-
-          {playlists.length > 0 && (
-            <div className="mt-12 max-w-5xl mx-auto reveal">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl md:text-3xl font-black tracking-tight text-white inline-flex items-center gap-2">
-                  <ListMusic className="w-6 h-6 text-primary" />
-                  Playlists
-                </h3>
-                <div className="mx-auto mt-3 h-[3px] w-16 bg-accent rounded-full" />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {playlists.map((p) => (
-                  <a
-                    key={p.id}
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center justify-between gap-3 rounded-lg border border-border bg-card/50 px-4 py-3 hover:border-primary/60 hover:bg-primary/5 transition-colors"
-                  >
-                    <span className="flex items-center gap-3 min-w-0">
-                      <span className="flex-shrink-0 w-9 h-9 rounded-md bg-primary/15 text-primary flex items-center justify-center">
-                        <ListMusic className="w-4 h-4" />
-                      </span>
-                      <span className="font-medium text-sm text-white truncate">{p.name}</span>
-                    </span>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary flex-shrink-0" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5 reveal">
-            {genres.map((g, i) => (
-              <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
-                {g}
-              </Badge>
-            ))}
           </div>
-
         </div>
       </section>
 
