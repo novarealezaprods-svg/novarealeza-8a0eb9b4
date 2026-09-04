@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { Play, Pause } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { registerVslPause } from "@/components/BeatPlayer";
 
@@ -26,13 +25,6 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
   const directUrl = embed ? url : normalizeDirectUrl(url);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [paused, setPaused] = useState(true);
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    setStarted(false);
-    setPaused(true);
-  }, [embed, directUrl, url]);
 
   // Ao clicar em qualquer beat, o player global (BeatPlayer) chama isso pra
   // pausar a VSL na hora, evitando os dois áudios tocando juntos.
@@ -52,38 +44,14 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
     return () => registerVslPause(null);
   }, [embed]);
 
-  const togglePlay = async (e?: React.SyntheticEvent) => {
-    if (e) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
+  // Sem player: a VSL toca sozinha assim que a página carrega. Autoplay com
+  // som exige gesto do usuário em todo navegador, então ela nasce mutada --
+  // um toque no vídeo ativa o áudio, sem nenhum botão por cima.
+  const unmute = () => {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) {
-      v.muted = false;
-      v.volume = 1;
-      if (v.preload !== "auto") {
-        v.preload = "auto";
-        try { v.load(); } catch {}
-      }
-      try {
-        await v.play();
-        setStarted(true);
-      } catch {
-        // play() rejected (e.g. user gesture missing)
-      }
-    } else {
-      v.pause();
-    }
-  };
-
-  const warmUp = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (v.preload !== "auto") {
-      v.preload = "auto";
-      try { v.load(); } catch {}
-    }
+    v.muted = !v.muted;
+    if (v.paused) v.play().catch(() => {});
   };
 
   return (
@@ -102,76 +70,25 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
           className="absolute inset-0 w-full h-full"
         />
       ) : (
-        <>
-          <video
-            ref={videoRef}
-            src={directUrl}
-            preload="none"
-            playsInline
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            controls={false}
-            onClick={(e) => togglePlay(e)}
-            onPlay={() => setPaused(false)}
-            onPause={() => setPaused(true)}
-            className="absolute inset-0 w-full h-full object-cover cursor-pointer"
-          >
-            {/* TODO: trocar por legenda real (transcricao da fala) quando
-                tivermos o texto -- por ora so' evita o video sem <track>. */}
-            <track kind="captions" srcLang="pt-BR" label="Português" src="/captions/empty.vtt" default />
-          </video>
-          {poster && !started && (
-            <img
-              src={poster}
-              alt=""
-              width={1280}
-              height={720}
-              decoding="async"
-              loading="eager"
-              // @ts-ignore - valid HTML attribute, not yet typed in React
-              fetchpriority="high"
-              className="absolute inset-0 w-full h-full object-cover pointer-events-none z-10"
-              draggable={false}
-            />
-          )}
-          {!started && (
-            <button
-              type="button"
-              onClick={(e) => togglePlay(e)}
-              onTouchEnd={(e) => togglePlay(e)}
-              onPointerEnter={warmUp}
-              onPointerDown={warmUp}
-              aria-label="Reproduzir vídeo"
-              className="absolute inset-0 z-20 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors"
-            >
-              <div
-                className="h-16 w-16 rounded-full flex items-center justify-center animate-vsl-pulse"
-                style={{
-                  backgroundColor: "#FFC400",
-                  boxShadow: "0 0 24px rgba(255,196,0,0.5)",
-                }}
-              >
-                <Play className="h-6 w-6 fill-black text-black ml-[2px]" strokeWidth={0} />
-              </div>
-            </button>
-          )}
-          {started && !paused && (
-            <button
-              type="button"
-              onClick={(e) => togglePlay(e)}
-              aria-label="Pausar"
-              className="absolute bottom-2 left-2 z-20 flex items-center justify-center"
-              style={{
-                width: 28,
-                height: 28,
-                backgroundColor: "rgba(0,0,0,0.5)",
-                borderRadius: 6,
-              }}
-            >
-              <Pause className="fill-white text-white" style={{ width: 12, height: 12 }} strokeWidth={0} />
-            </button>
-          )}
-        </>
+        <video
+          ref={videoRef}
+          src={directUrl}
+          poster={poster}
+          preload="auto"
+          autoPlay
+          muted
+          loop
+          playsInline
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          controls={false}
+          onClick={unmute}
+          className="absolute inset-0 w-full h-full object-cover cursor-pointer"
+        >
+          {/* TODO: trocar por legenda real (transcricao da fala) quando
+              tivermos o texto -- por ora so' evita o video sem <track>. */}
+          <track kind="captions" srcLang="pt-BR" label="Português" src="/captions/empty.vtt" default />
+        </video>
       )}
     </div>
   );
