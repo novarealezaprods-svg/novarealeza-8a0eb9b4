@@ -665,12 +665,12 @@ export default function IndexPage() {
         <div className={CONTAINER}>
           <div className="max-w-4xl mx-auto reveal">
             <div className="text-center mb-10">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00FF7F]/10 border border-[#00FF7F]/30 text-[#00FF7F] text-xs font-bold uppercase tracking-wider">
                 <FileCheck className="w-3.5 h-3.5" />
                 100% Legal · Assinado no Gov.br
               </span>
               <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
-                Sua Música Merece uma <span className="text-primary">Licença de Verdade</span>
+                Sua Música Merece uma <span className="text-[#00FF7F]">Licença de Verdade</span>
               </h2>
               <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
                 Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
@@ -682,19 +682,19 @@ export default function IndexPage() {
 
             <div className="relative mx-auto max-w-md md:max-w-lg">
               <div
-                className="absolute inset-0 bg-primary/40 blur-[90px] rounded-full scale-90 pointer-events-none"
+                className="absolute inset-0 bg-[#00FF7F]/40 blur-[90px] rounded-full scale-90 pointer-events-none"
                 aria-hidden="true"
               />
               <button
                 type="button"
                 onClick={() => setLicenseZoomOpen(true)}
-                className="group relative block w-full cursor-zoom-in rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="group relative block w-full cursor-zoom-in rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF7F]"
                 aria-label="Ampliar contrato de licença assinada"
               >
                 <img
                   src={licencaAssinada}
                   alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
-                  className="license-float relative w-full rounded-2xl border border-primary/40 shadow-[0_0_60px_-10px_rgba(255,196,0,0.5)]"
+                  className="license-float relative w-full rounded-2xl border border-[#00FF7F]/40 shadow-[0_0_60px_-10px_rgba(0,255,127,0.5)]"
                   loading="lazy"
                   decoding="async"
                   width="1200"
@@ -1250,7 +1250,7 @@ export default function IndexPage() {
           <img
             src={licencaAssinada}
             alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
-            className="max-h-[90vh] max-w-[92vw] rounded-xl object-contain shadow-[0_0_80px_-10px_rgba(255,196,0,0.4)]"
+            className="max-h-[90vh] max-w-[92vw] rounded-xl object-contain shadow-[0_0_80px_-10px_rgba(0,255,127,0.4)]"
             onClick={(e) => e.stopPropagation()}
           />
         </div>
