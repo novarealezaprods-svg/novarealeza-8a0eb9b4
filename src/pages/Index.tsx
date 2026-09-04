@@ -467,7 +467,7 @@ export default function IndexPage() {
               Corpo aumentado pra ter peso visual proximo ao do H1, ja que
               e essa linha que carrega numero, preco e promessa. */}
           <p className="hero-fade hero-subtitle mx-auto max-w-2xl leading-relaxed tracking-wide text-center text-[16px] md:text-[18px] font-semibold" style={{ animationDelay: "200ms" }}>
-            Pacote com 120 beats de trap por menos que uma pizza na sessão.
+            Pacote com 120 beats de trap liberado pra lançamento por R$47,90.
           </p>
 
           {/* A VSL é o elemento que mais prende atenção no hero, então ela
@@ -776,10 +776,10 @@ export default function IndexPage() {
 
                 <div className="mt-6 flex flex-col items-center gap-1">
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
-                    R$ 37,90
+                    R$ 47,90
                   </span>
                   <span className="text-[11px] text-[#d9c98e]/80">
-                    R$ 0,32 por beat
+                    R$ 0,40 por beat
                   </span>
                 </div>
 
@@ -1018,7 +1018,7 @@ export default function IndexPage() {
             </p>
             <p className="text-lg font-black text-white leading-none">
               <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
-              <span className="text-primary">R$ 37,90</span>
+              <span className="text-primary">R$ 47,90</span>
             </p>
             <p className="mt-1 text-[10px] text-muted-foreground">
               Beat sai em média R$ 60 no mercado × 120
@@ -1224,7 +1224,7 @@ export default function IndexPage() {
             onClick={() => document.getElementById("oferta-suprema")?.scrollIntoView({ behavior: "smooth", block: "start" })}
             className="sticky-cta-btn"
           >
-            QUERO MEUS 120 BEATS · R$ 37,90
+            QUERO MEUS 120 BEATS · R$ 47,90
           </button>
         </div>
       )}
