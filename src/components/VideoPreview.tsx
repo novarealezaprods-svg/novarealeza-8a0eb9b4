@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
-import { registerVslPause } from "@/components/BeatPlayer";
+import { registerVslPause, pauseCurrent } from "@/components/BeatPlayer";
 
 function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" } | null {
   if (!url) return null;
@@ -29,7 +29,7 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
   // Ao clicar em qualquer beat, o player global (BeatPlayer) chama isso pra
   // pausar a VSL na hora, evitando os dois áudios tocando juntos.
   useEffect(() => {
-    registerVslPause(() => {
+    const pauseVsl = () => {
       const v = videoRef.current;
       if (v && !v.paused) v.pause();
       const f = iframeRef.current;
@@ -40,8 +40,28 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
             : { method: "pause" };
         f.contentWindow.postMessage(JSON.stringify(cmd), "*");
       }
-    });
-    return () => registerVslPause(null);
+    };
+    registerVslPause(pauseVsl);
+
+    // No navegador interno do Instagram/TikTok, tocar num link (ex.: "sair
+    // do anúncio") não descarrega a página -- ela só vai pro fundo, sem
+    // disparar beforeunload/unload. Sem isso, a VSL e o beat que estivesse
+    // tocando continuavam com áudio até a aba ser fechada na força.
+    const pauseEverything = () => {
+      pauseVsl();
+      pauseCurrent();
+    };
+    const onVisibility = () => {
+      if (document.hidden) pauseEverything();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", pauseEverything);
+
+    return () => {
+      registerVslPause(null);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", pauseEverything);
+    };
   }, [embed]);
 
   // Sem player: a VSL toca sozinha assim que a página carrega. Autoplay com
