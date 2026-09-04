@@ -458,7 +458,7 @@ export default function IndexPage() {
           <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
             Seu som travou no lançamento
             <br />
-            porque o beat é <span className="text-accent">free</span>?
+            porque o beat é <span className="text-accent">do youtube</span>?
           </h1>
 
           {/* Preço real do produto principal logo na primeira frase -- antes
