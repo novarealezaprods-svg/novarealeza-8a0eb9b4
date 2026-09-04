@@ -25,7 +25,7 @@ const BeatCarouselDialog = lazy(() => import("@/components/BeatCarouselDialog"))
 // KawaiPay leva ~800ms medidos; 1,5s cobre 4G ruim sem travar a compra.
 const CHECKOUT_BEACON_TIMEOUT_MS = 1500;
 
-const genres = ["TRAP", "HARD", "DRILL", "HOOD", "PLUGG", "CRANK", "NEW JAZZ", "BOUNCE"];
+const genres = ["TRAP", "HARD", "DRILL", "HOOD", "PLUGG", "CRANK", "NEW JAZZ"];
 const features = [
   "120 beats de trap profissionais prontos para uso",
   "Type Leviano, Fab Godamn, Alee, Tchelo e mais",
@@ -120,7 +120,6 @@ const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
   { name: "Type Fug", url: "/beats/type-fug.mp3", image_url: "/beat-images/type-fug.webp" },
   { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
-  { name: "Type Bounce", url: "/beats/type-bounce.mp3", image_url: "/beat-images/type-bounce.webp" },
 ];
 
 // Mesma ordem de PREVIEW_BEATS. So alimenta o texto alternativo da capa,
@@ -133,7 +132,6 @@ const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type USA", genre: "TRAP" },
   { name: "Type Fug", genre: "TYPE FUG" },
   { name: "Type Plugg", genre: "PLUGG" },
-  { name: "Type Bounce", genre: "BOUNCE" },
   { name: "Type Drill", genre: "DRILL" },
   { name: "Type Florida", genre: "TRAP" },
 ];
