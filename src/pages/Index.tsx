@@ -456,9 +456,9 @@ export default function IndexPage() {
         </header>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
           <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
-            Pare de Enterrar Sua Música
+            Seu som travou no lançamento
             <br />
-            em Beat <span className="text-accent">FREE</span>
+            porque o beat é <span className="text-accent">free</span>?
           </h1>
 
           {/* Preço real do produto principal logo na primeira frase -- antes
