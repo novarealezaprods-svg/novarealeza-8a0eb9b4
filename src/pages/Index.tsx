@@ -844,15 +844,16 @@ export default function IndexPage() {
               className="rounded-2xl p-6 md:p-8 border border-primary/30 bg-[#0a0a0a] text-center"
               style={{ boxShadow: "0 10px 40px -10px hsl(var(--primary) / 0.25)" }}
             >
-              <img
-                src="/img/mockup-trap.webp"
-                alt="Pack 120 Beats de Trap — Nova Realeza"
-                className="w-28 h-28 md:w-36 md:h-36 mx-auto mb-4"
-                width="900"
-                height="900"
-                loading="lazy"
-                decoding="async"
-              />
+              <div className="w-28 h-28 md:w-36 md:h-36 mx-auto mb-4 rounded-full bg-[#25D366]/15 border border-[#25D366]/30 flex items-center justify-center">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-14 h-14 md:w-20 md:h-20"
+                  fill="#25D366"
+                  aria-hidden="true"
+                >
+                  <path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.1-.472-.15-.671.15-.198.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.671-1.612-.919-2.207-.242-.579-.487-.5-.671-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.001 2C6.478 2 2 6.477 2 12c0 1.98.579 3.885 1.671 5.53L2 22l4.47-1.671A9.947 9.947 0 0012.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2z" />
+                </svg>
+              </div>
               <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/30">
                 <Zap className="h-3 w-3" />
                 Entrega imediata
@@ -871,7 +872,7 @@ export default function IndexPage() {
                   </span>
                   <div className="text-left">
                     <div className="text-white font-bold text-sm">WhatsApp</div>
-                    <div className="text-xs text-[#d9c98e]">Link enviado na hora</div>
+                    <div className="text-xs text-[#d9c98e]">Link do Drive enviado na hora</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 rounded-xl p-4 border border-border/60 bg-background/40">
