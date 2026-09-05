@@ -467,11 +467,7 @@ export default function IndexPage() {
                 resolver certo -- no wrapper, "ch" usava o tamanho herdado
                 (16px) em vez dos 20/26px reais, encolhendo a largura à toa. */}
             <p className="mx-auto max-w-[34ch] text-[20px] md:text-[26px] font-medium" style={{ color: "#E5E5E5", lineHeight: 1.35 }}>
-              120 beats de trap com licença assinada — liberado pra lançar em qualquer plataforma.
-            </p>
-            <p className="mx-auto max-w-[34ch] text-[20px] md:text-[26px]" style={{ lineHeight: 1.35, marginTop: "8px" }}>
-              <span className="text-primary font-bold">R$47,90</span>
-              <span className="font-normal" style={{ color: "#A3A3A3" }}> · sai a R$0,40 por beat</span>
+              +120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados.
             </p>
           </div>
 
