@@ -551,6 +551,10 @@ export default function IndexPage() {
             </span>
           </div>
 
+          <p className="text-center text-xs md:text-sm font-bold uppercase tracking-wide text-white/60">
+            O que você leva?
+          </p>
+
           <div className="flex flex-wrap items-center justify-center gap-2 px-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
               <Music2 className="h-3 w-3 flex-shrink-0" />
