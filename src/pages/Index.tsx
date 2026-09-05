@@ -459,9 +459,21 @@ export default function IndexPage() {
               descobria o preço certo do Pack 120 depois de rolar a página.
               Corpo aumentado pra ter peso visual proximo ao do H1, ja que
               e essa linha que carrega numero, preco e promessa. */}
-          <p className="hero-fade hero-subtitle mx-auto max-w-2xl leading-relaxed tracking-wide text-center text-[16px] md:text-[18px] font-semibold" style={{ animationDelay: "200ms" }}>
-            Pacote com 120 beats de trap liberado pra lançamento por R$47,90.
-          </p>
+          <div
+            className="hero-fade text-center"
+            style={{ animationDelay: "200ms", marginTop: "4px", marginBottom: "12px" }}
+          >
+            {/* max-w em ch precisa do font-size do próprio parágrafo pra
+                resolver certo -- no wrapper, "ch" usava o tamanho herdado
+                (16px) em vez dos 20/26px reais, encolhendo a largura à toa. */}
+            <p className="mx-auto max-w-[34ch] text-[20px] md:text-[26px] font-medium" style={{ color: "#E5E5E5", lineHeight: 1.35 }}>
+              120 beats de trap com licença assinada — liberado pra lançar em qualquer plataforma.
+            </p>
+            <p className="mx-auto max-w-[34ch] text-[20px] md:text-[26px]" style={{ lineHeight: 1.35, marginTop: "8px" }}>
+              <span className="text-primary font-bold">R$47,90</span>
+              <span className="font-normal" style={{ color: "#A3A3A3" }}> · sai a R$0,40 por beat</span>
+            </p>
+          </div>
 
           {/* Grade de prévias dos beats. Segura o id="ouca-antes" que a barra
               sticky observa pra saber se o usuário já passou dessa área --
