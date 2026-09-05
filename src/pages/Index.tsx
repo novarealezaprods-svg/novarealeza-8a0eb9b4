@@ -579,6 +579,144 @@ export default function IndexPage() {
         </div>
       </section>
 
+      {/* Âncora de preço + Garantia + Oferta com bônus e CTA -- tudo em um
+          bloco só, logo abaixo da grade de prévias do hero. */}
+      <section className="py-10 md:py-14 border-t border-border/50">
+        <div className={CONTAINER}>
+          <div className="mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center reveal">
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+              120 licenças custariam
+            </p>
+            <p className="text-lg font-black text-white leading-none">
+              <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
+              <span className="text-primary">R$ 47,90</span>
+            </p>
+            <p className="mt-1 text-[10px] text-muted-foreground">
+              Beat sai em média R$ 60 no mercado × 120
+            </p>
+          </div>
+
+          <div className="mt-10 max-w-3xl mx-auto reveal">
+            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
+              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
+              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
+                <img
+                  src={garantia7Dias}
+                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
+                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
+                  loading="lazy"
+                  decoding="async"
+                  width="176"
+                  height="176"
+                />
+                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Risco zero
+                  </span>
+                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
+                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
+                  </h3>
+                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
+                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap).
+              Pack 50 removido -- só existe o pack completo agora. */}
+          <div id="pack-basico" className="mt-10 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
+            {/* Oferta única — card dourado */}
+            <div
+              id="oferta-suprema"
+              className="relative scroll-mt-20 rounded-2xl"
+              style={{
+                border: "2px solid rgba(255, 196, 0, 0.55)",
+                boxShadow:
+                  "0 0 24px rgba(255, 196, 0, 0.35), 0 0 60px rgba(255, 196, 0, 0.15), inset 0 0 18px rgba(255, 196, 0, 0.08)",
+              }}
+            >
+              <div className="supreme-card">
+              <div className="supreme-card-inner text-center">
+                {/* sparkles decorativos */}
+                <span className="supreme-sparkle" style={{ top: "8%", left: "6%", animationDelay: "0s" }} />
+                <span className="supreme-sparkle" style={{ top: "12%", right: "8%", animationDelay: "0.6s" }} />
+                <span className="supreme-sparkle" style={{ bottom: "10%", left: "10%", animationDelay: "1.2s" }} />
+                <span className="supreme-sparkle" style={{ bottom: "14%", right: "12%", animationDelay: "1.8s" }} />
+
+                <span className="supreme-badge">
+                  <Trophy className="h-3 w-3" />
+                  <span>Melhor custo-benefício</span>
+                </span>
+                <h3 className="mt-3 text-3xl md:text-4xl font-black tracking-tight">
+                  <span className="supreme-title">PACK 120 BEATS DE TRAP</span>
+                </h3>
+                <p className="mt-2 text-sm md:text-base text-[#d9c98e] font-semibold tracking-wide">
+                  Pacote completo
+                </p>
+
+                <div className="mt-6 flex flex-col items-center gap-1">
+                  <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
+                    R$ 47,90
+                  </span>
+                  <span className="text-[11px] text-[#d9c98e]/80">
+                    R$ 0,40 por beat
+                  </span>
+                </div>
+
+                <div className="mt-8 space-y-3.5 text-left max-w-md mx-auto">
+                  {[
+                    "120 beats de trap profissionais",
+                    "Mixados e masterizados em alta qualidade",
+                    "100% Royalty Free — Spotify, YouTube, TikTok",
+                    "Bônus 1: 28 presets pra Bandlab",
+                    "Bônus 2: 28 presets vocais pra FL Studio",
+                    // TODO(jurídico): confirmar enquadramento deste sorteio na Lei
+                    // 14.790/23 (loterias/sorteios vinculados a compra) antes de manter
+                    // ativo — ver item 8 do plano de ação.
+                    "🍀 Bônus 3: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
+                  ].map((f, i) => {
+                    const isBonus = f.includes("Bônus");
+                    return (
+                      <div key={i} className="supreme-feature">
+                        {isBonus ? (
+                          <span className="supreme-feature-gift" aria-hidden="true">
+                            🎁
+                          </span>
+                        ) : (
+                          <span className="supreme-feature-check">
+                            <Check />
+                          </span>
+                        )}
+                        <span>{f}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-8 flex flex-col items-center w-full">
+                  <button
+                    onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
+                    className="supreme-cta inline-flex items-center justify-center"
+                  >
+                    <span className="supreme-cta-shine" aria-hidden="true" />
+                    <Download className="h-4 w-4 mr-2 relative z-10" />
+                    <span className="relative z-10">QUERO MEUS 120 BEATS</span>
+                  </button>
+                </div>
+                <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Garantia incondicional de 7 dias · Pagamento 100% seguro</span>
+                </p>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Autoridade curta — 8 anos, +120 artistas, zero I.A., feito na mão.
           Antes era uma seção inteira com vídeo e parágrafo; virou uma linha
           curta, sem tirar espaço da oferta. */}
@@ -747,144 +885,6 @@ export default function IndexPage() {
                   Ampliar
                 </span>
               </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Âncora de preço + Garantia + Oferta com bônus e CTA -- tudo em um
-          bloco só, sem quebra de seção entre o motivo pra comprar e o botão. */}
-      <section className="py-10 md:py-14 border-t border-border/50">
-        <div className={CONTAINER}>
-          <div className="mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center reveal">
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-              120 licenças custariam
-            </p>
-            <p className="text-lg font-black text-white leading-none">
-              <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
-              <span className="text-primary">R$ 47,90</span>
-            </p>
-            <p className="mt-1 text-[10px] text-muted-foreground">
-              Beat sai em média R$ 60 no mercado × 120
-            </p>
-          </div>
-
-          <div className="mt-10 max-w-3xl mx-auto reveal">
-            <div className="relative overflow-hidden rounded-3xl border border-[#d4af37]/50 bg-gradient-to-br from-[#1a1408] via-card/80 to-[#1a1408] p-6 md:p-10 shadow-[0_0_60px_-15px_rgba(212,175,55,0.4)]">
-              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.15),transparent_60%)]" />
-              <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
-                <img
-                  src={garantia7Dias}
-                  alt="Selo dourado de garantia de 7 dias - satisfação garantida ou seu dinheiro de volta"
-                  className="w-36 h-36 md:w-44 md:h-44 flex-shrink-0 drop-shadow-[0_0_25px_rgba(212,175,55,0.5)]"
-                  loading="lazy"
-                  decoding="async"
-                  width="176"
-                  height="176"
-                />
-                <div className="flex-1 flex flex-col items-center md:items-start gap-3">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#f0d78c] text-xs font-bold uppercase tracking-wider">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    Risco zero
-                  </span>
-                  <h3 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
-                    Garantia Incondicional de <span className="text-[#f0d78c]">7 Dias</span>
-                  </h3>
-                  <p className="text-sm md:text-base text-muted-foreground max-w-lg">
-                    Sua compra é <span className="text-white font-semibold">100% protegida</span>. Se em até 7 dias você não ficar satisfeito com a qualidade dos beats, devolvemos <span className="text-white font-semibold">todo o seu dinheiro</span> — sem perguntas, sem burocracia. O risco é todo nosso.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* BLOCO 2 — Card de Compra (oferta única: 120 beats de trap).
-              Pack 50 removido -- só existe o pack completo agora. */}
-          <div id="pack-basico" className="mt-10 flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
-            {/* Oferta única — card dourado */}
-            <div
-              id="oferta-suprema"
-              className="relative scroll-mt-20 rounded-2xl"
-              style={{
-                border: "2px solid rgba(255, 196, 0, 0.55)",
-                boxShadow:
-                  "0 0 24px rgba(255, 196, 0, 0.35), 0 0 60px rgba(255, 196, 0, 0.15), inset 0 0 18px rgba(255, 196, 0, 0.08)",
-              }}
-            >
-              <div className="supreme-card">
-              <div className="supreme-card-inner text-center">
-                {/* sparkles decorativos */}
-                <span className="supreme-sparkle" style={{ top: "8%", left: "6%", animationDelay: "0s" }} />
-                <span className="supreme-sparkle" style={{ top: "12%", right: "8%", animationDelay: "0.6s" }} />
-                <span className="supreme-sparkle" style={{ bottom: "10%", left: "10%", animationDelay: "1.2s" }} />
-                <span className="supreme-sparkle" style={{ bottom: "14%", right: "12%", animationDelay: "1.8s" }} />
-
-                <span className="supreme-badge">
-                  <Trophy className="h-3 w-3" />
-                  <span>Melhor custo-benefício</span>
-                </span>
-                <h3 className="mt-3 text-3xl md:text-4xl font-black tracking-tight">
-                  <span className="supreme-title">PACK 120 BEATS DE TRAP</span>
-                </h3>
-                <p className="mt-2 text-sm md:text-base text-[#d9c98e] font-semibold tracking-wide">
-                  Pacote completo
-                </p>
-
-                <div className="mt-6 flex flex-col items-center gap-1">
-                  <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
-                    R$ 47,90
-                  </span>
-                  <span className="text-[11px] text-[#d9c98e]/80">
-                    R$ 0,40 por beat
-                  </span>
-                </div>
-
-                <div className="mt-8 space-y-3.5 text-left max-w-md mx-auto">
-                  {[
-                    "120 beats de trap profissionais",
-                    "Mixados e masterizados em alta qualidade",
-                    "100% Royalty Free — Spotify, YouTube, TikTok",
-                    "Bônus 1: 28 presets pra Bandlab",
-                    "Bônus 2: 28 presets vocais pra FL Studio",
-                    // TODO(jurídico): confirmar enquadramento deste sorteio na Lei
-                    // 14.790/23 (loterias/sorteios vinculados a compra) antes de manter
-                    // ativo — ver item 8 do plano de ação.
-                    "🍀 Bônus 3: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
-                  ].map((f, i) => {
-                    const isBonus = f.includes("Bônus");
-                    return (
-                      <div key={i} className="supreme-feature">
-                        {isBonus ? (
-                          <span className="supreme-feature-gift" aria-hidden="true">
-                            🎁
-                          </span>
-                        ) : (
-                          <span className="supreme-feature-check">
-                            <Check />
-                          </span>
-                        )}
-                        <span>{f}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="mt-8 flex flex-col items-center w-full">
-                  <button
-                    onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
-                    className="supreme-cta inline-flex items-center justify-center"
-                  >
-                    <span className="supreme-cta-shine" aria-hidden="true" />
-                    <Download className="h-4 w-4 mr-2 relative z-10" />
-                    <span className="relative z-10">QUERO MEUS 120 BEATS</span>
-                  </button>
-                </div>
-                <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
-                  <ShieldCheck className="h-3 w-3" />
-                  <span>Garantia incondicional de 7 dias · Pagamento 100% seguro</span>
-                </p>
-              </div>
-              </div>
             </div>
           </div>
         </div>
