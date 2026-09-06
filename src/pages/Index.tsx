@@ -6,6 +6,7 @@ import { Check, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Ph
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
+import { TypeReveal } from "@/components/TypeReveal";
 import prova1 from "@/assets/proof-images/prova-1.webp";
 import prova2 from "@/assets/proof-images/prova-2.webp";
 import prova3 from "@/assets/proof-images/prova-3.webp";
@@ -158,6 +159,8 @@ export default function IndexPage() {
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
   const [showStickyCta, setShowStickyCta] = useState(false);
+  const [heroTitleDone, setHeroTitleDone] = useState(false);
+  const [heroSubtitleDone, setHeroSubtitleDone] = useState(false);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -457,10 +460,20 @@ export default function IndexPage() {
           />
         </header>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-5 md:gap-4`}>
-          <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
-            Pare de pegar beat no <span className="text-accent">YouTube</span>
-            <br />
-            eles são genéricos e você não pode postar nas plataformas
+          <h1
+            className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0"
+            aria-label="Pare de pegar beat no YouTube eles são genéricos e você não pode postar nas plataformas"
+          >
+            <TypeReveal
+              segments={[
+                { text: "Pare de pegar beat no " },
+                { text: "YouTube", className: "text-accent", breakAfter: true },
+                { text: "eles são genéricos e você não pode postar nas plataformas" },
+              ]}
+              speed={22}
+              startDelay={150}
+              onDone={() => setHeroTitleDone(true)}
+            />
           </h1>
 
           {/* Preço real do produto principal logo na primeira frase -- antes
@@ -475,33 +488,26 @@ export default function IndexPage() {
             {/* max-w em ch precisa do font-size do próprio parágrafo pra
                 resolver certo -- no wrapper, "ch" usava o tamanho herdado
                 (16px) em vez dos 20/26px reais, encolhendo a largura à toa. */}
-            <p className="mx-auto max-w-[34ch] text-[20px] md:text-[26px] font-medium" style={{ color: "#E5E5E5", lineHeight: 1.35 }}>
-              +120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias
-              <ChevronDown className="inline-block h-5 w-5 ml-1 align-middle" />
+            <p
+              className="mx-auto max-w-[34ch] text-[20px] md:text-[26px] font-medium"
+              style={{ color: "#E5E5E5", lineHeight: 1.35 }}
+              aria-label="+120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias"
+            >
+              <TypeReveal
+                segments={[
+                  {
+                    text: "+120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias",
+                  },
+                ]}
+                speed={12}
+                start={heroTitleDone}
+                startDelay={250}
+                onDone={() => setHeroSubtitleDone(true)}
+              />
+              {heroSubtitleDone && (
+                <ChevronDown className="inline-block h-5 w-5 ml-1 align-middle hero-fade" style={{ animationDelay: "0ms" }} />
+              )}
             </p>
-          </div>
-
-          <div className="flex items-center justify-center gap-1.5 text-[11px] md:text-xs font-medium text-white/80 text-center px-4">
-            <Check className="h-3 w-3 text-[#FFD65A] flex-shrink-0" style={{ filter: "drop-shadow(0 0 4px rgba(255,196,0,0.6))" }} />
-            <span>
-              <span className="font-black text-[#FFD65A]" style={{ textShadow: "0 0 8px rgba(255,196,0,0.5)" }}>Uso liberado</span>{" "}
-              pra Spotify, Instagram, TikTok etc
-            </span>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 px-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-              <Music2 className="h-3 w-3 flex-shrink-0" />
-              Arquivos WAV
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-              <FileCheck className="h-3 w-3 flex-shrink-0" />
-              Licença assinada
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-              <Zap className="h-3 w-3 flex-shrink-0" />
-              Entrega na hora
-            </span>
           </div>
 
           {/* Grade de prévias dos beats. Segura o id="ouca-antes" que a barra

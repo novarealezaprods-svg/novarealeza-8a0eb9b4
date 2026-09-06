@@ -242,6 +242,24 @@ html, body {
   animation: hero-fade-in 0.5s ease-out forwards;
 }
 
+/* Cursor piscando do efeito de "digitando aos poucos" do H1/subtitulo */
+@keyframes hero-typing-cursor-blink {
+  0%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.hero-typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  margin-left: 3px;
+  background: currentColor;
+  vertical-align: -0.1em;
+  animation: hero-typing-cursor-blink 0.9s step-end infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-typing-cursor { display: none; }
+}
+
 /* Hero — subtítulo com varredura de luz em loop.
    Usa gradiente recortado no texto (mesmo padrão do green-text-shine) em vez
    de animar text-shadow: blur de 28px repinta o elemento inteiro a cada frame
