@@ -484,22 +484,6 @@ export default function IndexPage() {
             <span style={{ fontWeight: 400, color: "#A3A3A3" }}> · sai a R$0,40 por beat</span>
           </p>
 
-          {/* Selos -- Arquivos WAV / Licença assinada / Zero I.A. */}
-          <div className="hero-fade flex flex-wrap items-center justify-center gap-2 px-4" style={{ marginTop: 20, animationDelay: "420ms" }}>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-              <Music2 className="h-3 w-3 flex-shrink-0" />
-              Arquivos WAV
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-              <FileCheck className="h-3 w-3 flex-shrink-0" />
-              Licença assinada
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-              <User className="h-3 w-3 flex-shrink-0" />
-              Zero I.A.
-            </span>
-          </div>
-
           {/* LEGENDA DO GRID -- fora do H1, imediatamente acima do grid */}
           <p
             className="hero-fade uppercase text-center text-[12px]"
@@ -639,6 +623,22 @@ export default function IndexPage() {
                   </span>
                   <span className="text-[11px] text-[#d9c98e]/80">
                     R$ 0,40 por beat
+                  </span>
+                </div>
+
+                {/* Selos -- Arquivos WAV / Licença assinada / Zero I.A. */}
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+                    <Music2 className="h-3 w-3 flex-shrink-0" />
+                    Arquivos WAV
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+                    <FileCheck className="h-3 w-3 flex-shrink-0" />
+                    Licença assinada
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+                    <User className="h-3 w-3 flex-shrink-0" />
+                    Zero I.A.
                   </span>
                 </div>
 
