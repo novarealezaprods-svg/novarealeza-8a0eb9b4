@@ -618,6 +618,9 @@ export default function IndexPage() {
                 </p>
 
                 <div className="mt-6 flex flex-col items-center gap-1">
+                  <span className="text-base md:text-lg font-bold text-white/50 line-through decoration-destructive decoration-2">
+                    R$ 127
+                  </span>
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
                     R$ 47,90
                   </span>
