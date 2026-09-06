@@ -49,7 +49,7 @@ function VisualizerBackground({ src, playing }: { src: string; playing: boolean 
   return (
     <video
       ref={ref}
-      className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+      className="visualizer-fade-in absolute inset-0 h-full w-full object-cover pointer-events-none"
       src={src}
       autoPlay
       muted
@@ -244,6 +244,7 @@ export function BeatPlayer({
 }) {
   const snap = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
   const [resolvedUrl, setResolvedUrl] = useState<string>("");
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setResolvedUrl(normalizeDirectUrl(beat.url));
@@ -253,6 +254,36 @@ export function BeatPlayer({
   const isLoading = snap.loadingUrl === resolvedUrl && !snap.isPlaying;
   const isPlaying = isActive && snap.isPlaying;
   const hasError = snap.errorUrl === resolvedUrl;
+
+  // Liga o visualizer sozinho, mudo, conforme o card entra na tela ao rolar
+  // a pagina -- em vez de todos ligarem de uma vez, cada um espera sua vez
+  // (pequeno atraso por coluna) pra dar sensacao gradual e organica.
+  const [ambientRevealed, setAmbientRevealed] = useState(false);
+  const [ambientInView, setAmbientInView] = useState(false);
+  const revealScheduledRef = useRef(false);
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let revealTimer: ReturnType<typeof setTimeout>;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setAmbientInView(entry.isIntersecting);
+        if (entry.isIntersecting && !revealScheduledRef.current) {
+          revealScheduledRef.current = true;
+          const delay = 120 + (index % 4) * 130;
+          revealTimer = setTimeout(() => setAmbientRevealed(true), delay);
+        }
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      clearTimeout(revealTimer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toggle = () => {
     if (!resolvedUrl) return;
@@ -265,12 +296,15 @@ export function BeatPlayer({
 
   const name = displayName || beat.name;
   const bgImage = beat.image_url || null;
-  // Monta assim que o beat vira o ativo (isActive é setado de forma síncrona no
-  // clique), não só quando o áudio começa — evita a espera de download.
-  const visualizerSrc = isActive ? beat.visualizer_video || null : null;
+  // Ativo (isActive) faz o visualizer montar na hora do clique, sem esperar o
+  // audio -- e uma vez revelado pelo scroll, o card mantem o visualizer
+  // montado (so' pausa fora da tela) em vez de voltar pra capa estatica.
+  const visualizerSrc = isActive || ambientRevealed ? beat.visualizer_video || null : null;
+  const visualizerPlaying = isPlaying || (ambientRevealed && ambientInView);
 
   return (
     <div
+      ref={cardRef}
       className="beat-card-anim group relative flex flex-col justify-between text-left transition-all duration-200 hover:-translate-y-1 p-3 md:p-5 aspect-square"
       style={{
         background: "#111111",
@@ -285,33 +319,27 @@ export function BeatPlayer({
     >
       {/* Capa do beat como <img> de verdade (não background-image do CSS),
           senão loading="lazy" não tem efeito nenhum — o navegador baixa
-          background-image sempre, não importa se está fora da tela. */}
-      {bgImage && !visualizerSrc && (
-        <>
-          <img
-            src={bgImage}
-            alt={`Capa do beat ${name}${genre ? ` — ${genre}` : ""}`}
-            loading="lazy"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover pointer-events-none"
-          />
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%)" }}
-          />
-        </>
+          background-image sempre, não importa se está fora da tela. Fica
+          montada por baixo do vídeo e some com um fade suave, em vez de
+          trocar de uma vez, pra transição do visualizer ligando ficar natural. */}
+      {bgImage && (
+        <img
+          src={bgImage}
+          alt={`Capa do beat ${name}${genre ? ` — ${genre}` : ""}`}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover pointer-events-none transition-opacity duration-700 ease-out"
+          style={{ opacity: visualizerSrc ? 0 : 1 }}
+        />
       )}
 
-      {visualizerSrc && (
-        <>
-          <VisualizerBackground src={visualizerSrc} playing={isPlaying} />
-          {/* Escurece o vídeo para o texto e o botão continuarem legíveis por cima */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.7) 100%)" }}
-          />
-        </>
-      )}
+      {visualizerSrc && <VisualizerBackground src={visualizerSrc} playing={visualizerPlaying} />}
+
+      {/* Escurece a capa/vídeo pra texto e botão continuarem legíveis por cima */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%)" }}
+      />
 
       <div
         className="relative z-[1] text-center text-white truncate text-[12px] md:text-base self-center"

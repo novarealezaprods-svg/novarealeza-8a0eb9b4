@@ -250,6 +250,19 @@ html, body {
   animation: hero-fade-in 0.5s ease-out forwards;
 }
 
+/* Visualizer dos cards de beat entrando (scroll ligando ele sozinho ou clique
+   no play) -- fade suave em vez de aparecer de repente por cima da capa. */
+@keyframes visualizer-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.visualizer-fade-in {
+  animation: visualizer-fade-in 0.7s ease-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .visualizer-fade-in { animation: none; }
+}
+
 /* Cursor piscando do efeito de "digitando aos poucos" do H1/subtitulo */
 @keyframes hero-typing-cursor-blink {
   0%, 45% { opacity: 1; }
