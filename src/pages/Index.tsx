@@ -144,10 +144,6 @@ const CHECKOUT_URL_FALLBACK = "https://app.kawaipay.com/checkout/10051"; // pack
 const CHECKOUT_URL_SUPREME_FALLBACK = "https://app.kawaipay.com/checkout/10258"; // pack 120
 const CHECKOUT_URL_UPSELL_FALLBACK = "https://app.kawaipay.com/checkout/10059?price=8b298a11-45a6-4697-bf9c-518fbb092c6b"; // promo R$27,90
 
-// Vagas restantes do lote atual, no selo do card de compra. Numero de
-// verdade, atualizado na mao pelo produtor -- nao e' contador falso que
-// desce sozinho. Quando o lote virar, e' so mudar aqui.
-const VAGAS_RESTANTES = 12;
 
 export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(VSL_URL_FALLBACK);
@@ -630,12 +626,8 @@ export default function IndexPage() {
                 <span className="supreme-sparkle" style={{ bottom: "10%", left: "10%", animationDelay: "1.2s" }} />
                 <span className="supreme-sparkle" style={{ bottom: "14%", right: "12%", animationDelay: "1.8s" }} />
 
-                <span className="supreme-badge">
-                  <Zap className="h-3 w-3" />
-                  <span>{`Restam ${VAGAS_RESTANTES} vagas`}</span>
-                </span>
                 <h3 className="mt-3 text-3xl md:text-4xl font-black tracking-tight">
-                  <span className="supreme-title">PACK 120 BEATS DE TRAP</span>
+                  <span className="supreme-title">PACK 120 BEATS</span>
                 </h3>
                 <p className="mt-2 text-sm md:text-base text-[#d9c98e] font-semibold tracking-wide">
                   Pacote completo
