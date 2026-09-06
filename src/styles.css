@@ -958,6 +958,30 @@ html, body {
   color: #1a0f00;
   stroke-width: 3.5;
 }
+/* Sub-card dos bônus: separa o que é extra do que já é o pacote base.
+   Fundo mais escuro e borda dourada fraca pra destacar sem competir com o
+   card principal, que é quem tem o brilho forte. */
+.supreme-bonus-card {
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(0, 0, 0, 0.45), rgba(40, 30, 5, 0.35));
+  padding: 16px 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 6px 20px -12px rgba(0, 0, 0, 0.8);
+}
+@media (min-width: 768px) {
+  .supreme-bonus-card { padding: 18px 22px; }
+}
+.supreme-bonus-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f0d78c;
+}
+
 /* Itens de bônus usam caixinha de presente no lugar do check dourado */
 .supreme-feature-gift {
   flex-shrink: 0;

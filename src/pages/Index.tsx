@@ -650,29 +650,41 @@ export default function IndexPage() {
                     "120 beats de trap",
                     "Mixados em alta qualidade",
                     "100% Royalty Free — Spotify, TikTok, Insta etc",
-                    "Bônus 1: 28 presets pra Bandlab",
-                    "Bônus 2: 28 presets vocais pra FL Studio",
-                    // TODO(jurídico): confirmar enquadramento deste sorteio na Lei
-                    // 14.790/23 (loterias/sorteios vinculados a compra) antes de manter
-                    // ativo — ver item 8 do plano de ação.
-                    "🍀 Bônus 3: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
-                  ].map((f, i) => {
-                    const isBonus = f.includes("Bônus");
-                    return (
+                  ].map((f, i) => (
+                    <div key={i} className="supreme-feature">
+                      <span className="supreme-feature-check">
+                        <Check />
+                      </span>
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Bônus em sub-card: separa visualmente o que é extra do que
+                    já é o pacote base, pra o valor agregado não se perder no
+                    meio da lista. */}
+                <div className="supreme-bonus-card mt-6 max-w-md mx-auto text-left">
+                  <p className="supreme-bonus-title">
+                    <span aria-hidden="true">🎁</span>
+                    Bônus inclusos
+                  </p>
+                  <div className="mt-3 space-y-3.5">
+                    {[
+                      "Bônus 1: 28 presets pra Bandlab",
+                      "Bônus 2: 28 presets vocais pra FL Studio",
+                      // TODO(jurídico): confirmar enquadramento deste sorteio na Lei
+                      // 14.790/23 (loterias/sorteios vinculados a compra) antes de manter
+                      // ativo — ver item 8 do plano de ação.
+                      "🍀 Bônus 3: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
+                    ].map((f, i) => (
                       <div key={i} className="supreme-feature">
-                        {isBonus ? (
-                          <span className="supreme-feature-gift" aria-hidden="true">
-                            🎁
-                          </span>
-                        ) : (
-                          <span className="supreme-feature-check">
-                            <Check />
-                          </span>
-                        )}
+                        <span className="supreme-feature-gift" aria-hidden="true">
+                          🎁
+                        </span>
                         <span>{f}</span>
                       </div>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
 
                 <div className="mt-6 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center">
