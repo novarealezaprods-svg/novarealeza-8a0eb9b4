@@ -529,6 +529,18 @@ export default function IndexPage() {
                     />
                   );
                 })}
+                {/* Preenche o espaço vazio que sobra na última linha da grade
+                    (7 beats em colunas de 2 ou 4 sempre deixa 1 slot livre). */}
+                <div
+                  className="flex items-center justify-center text-center aspect-square p-3 md:p-5"
+                  style={{
+                    background: "#111111",
+                    border: "1px dashed #333333",
+                    borderRadius: 10,
+                  }}
+                >
+                  <span className="text-lg md:text-2xl font-black text-primary">e muito +</span>
+                </div>
               </div>
             ) : (
               <Card className="p-10 border-dashed border-border/60 bg-card/40 text-center max-w-4xl mx-auto">
