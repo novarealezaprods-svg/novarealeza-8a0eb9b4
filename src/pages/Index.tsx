@@ -437,9 +437,9 @@ export default function IndexPage() {
           de tudo, em vez de só la embaixo na secao "Autoridade curta". */}
       <div className="w-full bg-black border-b border-border/50 py-2 px-4">
         <p className="text-center text-[11px] md:text-xs text-white/80">
-          <span className="font-black text-primary">8 anos</span> produzindo ·{" "}
+          <span className="font-black text-primary">7 anos</span> produzindo ·{" "}
           <span className="font-black text-primary">+120 artistas</span> atendidos ·{" "}
-          <span className="font-black text-primary">Zero I.A.</span>, feito na mão, no estúdio
+          <span className="font-black text-primary">Sem beat de I.A.</span>, todos feitos por mim no FL Studio
         </p>
       </div>
       <main>
@@ -748,9 +748,9 @@ export default function IndexPage() {
       <div className="py-6 md:py-8 border-t border-border/50">
         <div className={CONTAINER}>
           <p className="text-center text-sm md:text-base text-white/80 max-w-xl mx-auto leading-relaxed">
-            <span className="font-black text-primary">8 anos</span> produzindo ·{" "}
+            <span className="font-black text-primary">7 anos</span> produzindo ·{" "}
             <span className="font-black text-primary">+120 artistas</span> atendidos ·{" "}
-            <span className="font-black text-primary">Zero I.A.</span>, feito na mão, no estúdio
+            <span className="font-black text-primary">Sem beat de I.A.</span>, todos feitos por mim no FL Studio
           </p>
         </div>
       </div>
