@@ -433,6 +433,15 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Faixa de autoridade no topo do site -- teste de destacar isso antes
+          de tudo, em vez de só la embaixo na secao "Autoridade curta". */}
+      <div className="w-full bg-black border-b border-border/50 py-2 px-4">
+        <p className="text-center text-[11px] md:text-xs text-white/80">
+          <span className="font-black text-primary">8 anos</span> produzindo ·{" "}
+          <span className="font-black text-primary">+120 artistas</span> atendidos ·{" "}
+          <span className="font-black text-primary">Zero I.A.</span>, feito na mão, no estúdio
+        </p>
+      </div>
       <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         {/* Logo dentro da própria seção do hero: como header separado com
@@ -447,7 +456,7 @@ export default function IndexPage() {
             decoding="async"
           />
         </header>
-        <div className={`${CONTAINER} text-center flex flex-col items-center gap-4`}>
+        <div className={`${CONTAINER} text-center flex flex-col items-center gap-5 md:gap-4`}>
           <h1 className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0">
             Pare de pegar beat no <span className="text-accent">YouTube</span>
             <br />
@@ -461,7 +470,7 @@ export default function IndexPage() {
               e essa linha que carrega numero, preco e promessa. */}
           <div
             className="hero-fade text-center"
-            style={{ animationDelay: "200ms", marginTop: "4px", marginBottom: "12px" }}
+            style={{ animationDelay: "200ms" }}
           >
             {/* max-w em ch precisa do font-size do próprio parágrafo pra
                 resolver certo -- no wrapper, "ch" usava o tamanho herdado
@@ -651,6 +660,19 @@ export default function IndexPage() {
                   })}
                 </div>
 
+                <div className="mt-6 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                    120 licenças custariam
+                  </p>
+                  <p className="text-lg font-black text-white leading-none">
+                    <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
+                    <span className="text-primary">R$ 47,90</span>
+                  </p>
+                  <p className="mt-1 text-[10px] text-muted-foreground">
+                    Beat sai em média R$ 60 no mercado × 120
+                  </p>
+                </div>
+
                 <div className="mt-8 flex flex-col items-center w-full">
                   <button
                     onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
@@ -716,19 +738,6 @@ export default function IndexPage() {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="mt-10 mx-auto max-w-[280px] rounded-xl border border-border/60 bg-background/40 px-4 py-2.5 text-center reveal">
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-              120 licenças custariam
-            </p>
-            <p className="text-lg font-black text-white leading-none">
-              <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
-              <span className="text-primary">R$ 47,90</span>
-            </p>
-            <p className="mt-1 text-[10px] text-muted-foreground">
-              Beat sai em média R$ 60 no mercado × 120
-            </p>
           </div>
         </div>
       </section>
