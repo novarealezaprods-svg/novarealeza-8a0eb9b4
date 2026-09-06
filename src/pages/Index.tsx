@@ -6,7 +6,6 @@ import { Check, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Ph
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
-import { TypeReveal } from "@/components/TypeReveal";
 import prova1 from "@/assets/proof-images/prova-1.webp";
 import prova2 from "@/assets/proof-images/prova-2.webp";
 import prova3 from "@/assets/proof-images/prova-3.webp";
@@ -158,7 +157,6 @@ export default function IndexPage() {
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
   const [showStickyCta, setShowStickyCta] = useState(false);
-  const [heroSubtitleDone, setHeroSubtitleDone] = useState(false);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -434,17 +432,17 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Faixa de autoridade no topo do site -- teste de destacar isso antes
-          de tudo, em vez de só la embaixo na secao "Autoridade curta". */}
-      <div className="w-full bg-black border-b border-border/50 py-2 px-4">
-        <p className="text-center text-[11px] md:text-xs text-white/80">
-          <span className="font-black text-primary">7 anos</span> produzindo ·{" "}
-          <span className="font-black text-primary">+120 artistas</span> atendidos ·{" "}
-          <span className="font-black text-primary">Sem beat de I.A.</span>, todos feitos por mim no FL Studio
-        </p>
-      </div>
       <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
+        {/* EYEBROW -- acima do logo. Mesmo conteudo que antes vivia numa faixa
+            solta no topo do site; agora faz parte do bloco de texto da hero. */}
+        <p
+          className="hero-fade-block text-center text-[12px] px-4"
+          style={{ fontWeight: 500, color: "#A3A3A3" }}
+        >
+          7 anos produzindo · +120 artistas atendidos · zero I.A.
+        </p>
+
         {/* Logo dentro da própria seção do hero: como header separado com
             fundo preto, o gradiente esverdeado do topo do hero criava uma
             emenda de cor visível na divisa entre os dois. */}
@@ -457,31 +455,61 @@ export default function IndexPage() {
             decoding="async"
           />
         </header>
-        <div className={`${CONTAINER} text-center flex flex-col items-center gap-5 md:gap-4`}>
+        <div className={`${CONTAINER} text-center flex flex-col items-center`}>
+          {/* H1 */}
           <h1
-            className="hero-title hero-fade-block font-black tracking-tight leading-[1.05] text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-center mx-auto px-6 md:px-0"
-            aria-label="+120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias"
+            className="hero-title hero-fade-block font-extrabold tracking-tight leading-[1.1] text-[40px] md:text-[64px] text-white text-center mx-auto"
+            style={{ animationDelay: "80ms" }}
           >
-            <TypeReveal
-              segments={[
-                {
-                  text: "+120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias",
-                },
-              ]}
-              speed={16}
-              startDelay={150}
-              onDone={() => setHeroSubtitleDone(true)}
-            />
-            {heroSubtitleDone && (
-              <ChevronDown className="inline-block h-5 w-5 md:h-7 md:w-7 ml-1 align-middle hero-fade" style={{ animationDelay: "0ms" }} />
-            )}
+            Seu som travou no lançamento porque o beat é do <span className="text-accent">YouTube</span>
           </h1>
+
+          {/* SUBTITULO */}
+          <p
+            className="hero-fade mx-auto max-w-[34ch] text-[20px] md:text-[26px]"
+            style={{ fontWeight: 500, color: "#E5E5E5", lineHeight: 1.35, marginTop: 20, animationDelay: "200ms" }}
+          >
+            120 beats de trap em WAV, mixados, liberados pra lançar em qualquer distribuidora.
+          </p>
+
+          {/* LINHA DE PRECO */}
+          <p
+            className="hero-fade text-[20px] md:text-[26px]"
+            style={{ marginTop: 8, animationDelay: "320ms" }}
+          >
+            <span style={{ fontWeight: 700, color: "#ffffff" }}>R$47,90</span>
+            <span style={{ fontWeight: 400, color: "#A3A3A3" }}> · sai a R$0,40 por beat</span>
+          </p>
+
+          {/* Selos -- Arquivos WAV / Licença assinada / Zero I.A. */}
+          <div className="hero-fade flex flex-wrap items-center justify-center gap-2 px-4" style={{ marginTop: 20, animationDelay: "420ms" }}>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+              <Music2 className="h-3 w-3 flex-shrink-0" />
+              Arquivos WAV
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+              <FileCheck className="h-3 w-3 flex-shrink-0" />
+              Licença assinada
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
+              <User className="h-3 w-3 flex-shrink-0" />
+              Zero I.A.
+            </span>
+          </div>
+
+          {/* LEGENDA DO GRID -- fora do H1, imediatamente acima do grid */}
+          <p
+            className="hero-fade uppercase text-center text-[12px]"
+            style={{ letterSpacing: "0.08em", color: "#A3A3A3", marginTop: 28, animationDelay: "520ms" }}
+          >
+            Ouça algumas prévias
+          </p>
 
           {/* Grade de prévias dos beats. Segura o id="ouca-antes" que a barra
               sticky observa pra saber se o usuário já passou dessa área --
               antes a VSL ficava aqui embaixo dela; agora que a VSL saiu do
               site, o id migrou pra cá. */}
-          <div id="ouca-antes" className="w-full scroll-mt-20">
+          <div id="ouca-antes" className="w-full scroll-mt-20 mt-3">
             {beats.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 max-w-5xl mx-auto">
                 {beats.slice(0, 12).map((b: any, i) => {
