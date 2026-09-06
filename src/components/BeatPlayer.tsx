@@ -14,12 +14,17 @@ export type BeatItem = {
   // como fundo do card enquanto o beat está tocando; fora disso mostra
   // image_url.
   visualizer_video?: string | null;
+  // Segundo em que o audio deve comecar quando o play e' apertado (excecao --
+  // por padrao sempre 0). O visualizer roda em loop ambiente por conta
+  // propria e nunca deve influenciar esse ponto de partida.
+  startAt?: number;
 };
 
 // Cobre um card quadrado (aspect-square) com o vídeo do visualizer, recortado
 // e centralizado via object-fit — sem depender de nenhum player externo.
-function VisualizerBackground({ src, playing }: { src: string; playing: boolean }) {
+function VisualizerBackground({ src, playing, syncStart }: { src: string; playing: boolean; syncStart: boolean }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const wasSyncStart = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -37,6 +42,12 @@ function VisualizerBackground({ src, playing }: { src: string; playing: boolean 
     const el = ref.current;
     if (!el) return;
     if (playing) {
+      // O visualizer roda em loop ambiente por conta propria (nao marca o
+      // tempo do beat) -- so' reinicia do quadro zero no instante exato em
+      // que o audio de verdade comeca, pra abertura ficar sincronizada.
+      if (syncStart && !wasSyncStart.current) {
+        el.currentTime = 0;
+      }
       el.play().catch(() => {
         /* autoplay bloqueado (ex.: modo de baixo consumo do iOS) — segue com
            a imagem de fundo, sem quebrar o player de áudio */
@@ -44,7 +55,8 @@ function VisualizerBackground({ src, playing }: { src: string; playing: boolean 
     } else {
       el.pause();
     }
-  }, [playing]);
+    wasSyncStart.current = syncStart;
+  }, [playing, syncStart]);
 
   return (
     <video
@@ -78,6 +90,7 @@ const PREVIEW_SECONDS = 60;
 
 type ControllerState = {
   activeUrl: string | null;
+  activeStartAt: number;
   isPlaying: boolean;
   currentTime: number;
   duration: number;
@@ -87,6 +100,7 @@ type ControllerState = {
 
 let state: ControllerState = {
   activeUrl: null,
+  activeStartAt: 0,
   isPlaying: false,
   currentTime: 0,
   duration: 0,
@@ -140,7 +154,7 @@ function getAudio(): HTMLAudioElement | null {
     setState({ duration: el.duration || 0 });
   });
   el.addEventListener("timeupdate", () => {
-    if (el.currentTime >= PREVIEW_SECONDS) {
+    if (el.currentTime >= state.activeStartAt + PREVIEW_SECONDS) {
       el.pause();
       el.currentTime = 0;
       setState({ currentTime: 0, isPlaying: false, activeUrl: null });
@@ -169,14 +183,20 @@ function getAudio(): HTMLAudioElement | null {
   return audio;
 }
 
-function playUrl(url: string) {
+function playUrl(url: string, startAt = 0) {
   vslPause?.();
   const el = getAudio();
   if (!el) return;
 
-  // If this beat is already the active source, just resume.
+  // O play sempre reinicia do zero (ou do startAt do beat) -- nunca retoma de
+  // onde pausou, mesmo clicando de novo no mesmo beat. O visualizer roda seu
+  // proprio loop ambiente por conta e nao tem nenhuma influencia aqui.
   if (state.activeUrl === url && el.src) {
-    setState({ loadingUrl: url, errorUrl: null });
+    try {
+      el.pause();
+    } catch {}
+    el.currentTime = startAt;
+    setState({ loadingUrl: url, errorUrl: null, currentTime: startAt, activeStartAt: startAt });
     el.play().catch((err) => {
       console.warn("[BeatPlayer] play() rejeitado:", err);
       setState({ loadingUrl: null, isPlaying: false });
@@ -194,12 +214,13 @@ function playUrl(url: string) {
   } catch {}
 
   el.src = url;
-  el.currentTime = 0;
+  el.currentTime = startAt;
   setState({
     activeUrl: url,
+    activeStartAt: startAt,
     loadingUrl: url,
     errorUrl: null,
-    currentTime: 0,
+    currentTime: startAt,
     duration: 0,
     isPlaying: false,
   });
@@ -291,7 +312,7 @@ export function BeatPlayer({
       pauseCurrent();
       return;
     }
-    playUrl(resolvedUrl);
+    playUrl(resolvedUrl, beat.startAt ?? 0);
   };
 
   const name = displayName || beat.name;
@@ -333,12 +354,19 @@ export function BeatPlayer({
         />
       )}
 
-      {visualizerSrc && <VisualizerBackground src={visualizerSrc} playing={visualizerPlaying} />}
+      {visualizerSrc && <VisualizerBackground src={visualizerSrc} playing={visualizerPlaying} syncStart={isPlaying} />}
 
-      {/* Escurece a capa/vídeo pra texto e botão continuarem legíveis por cima */}
+      {/* Escurece a capa/vídeo pra texto e botão continuarem legíveis por cima.
+          O beat tocando volta pro brilho normal (overlay mais fraco) pra dar
+          impacto e deixar claro qual foi escolhido -- os outros ficam mais
+          apagados como fundo ambiente. */}
       <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%)" }}
+        className="absolute inset-0 pointer-events-none transition-[background] duration-300 ease-out"
+        style={{
+          background: isPlaying
+            ? "linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.5) 100%)"
+            : "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%)",
+        }}
       />
 
       <div

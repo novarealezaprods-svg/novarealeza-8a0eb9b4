@@ -459,27 +459,12 @@ export default function IndexPage() {
           />
         </header>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-5 md:gap-4`}>
-          <h1
-            className="hero-title hero-fade-block font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0"
-            aria-label="Pare de pegar beat no YouTube eles são genéricos e você não pode postar nas plataformas"
-          >
-            <TypeReveal
-              segments={[
-                { text: "Pare de pegar beat no " },
-                { text: "YouTube", className: "text-accent", breakAfter: true },
-                { text: "eles são genéricos e você não pode postar nas plataformas" },
-              ]}
-              speed={22}
-              startDelay={150}
-              onDone={() => setHeroTitleDone(true)}
-            />
-          </h1>
-
           {/* Preço real do produto principal logo na primeira frase -- antes
               dizia "a partir de R$ 19,90" (preço do Pack 50) e a pessoa só
               descobria o preço certo do Pack 120 depois de rolar a página.
               Corpo aumentado pra ter peso visual proximo ao do H1, ja que
-              e essa linha que carrega numero, preco e promessa. */}
+              e essa linha que carrega numero, preco e promessa. Vem antes do
+              H1 -- subtitulo digita primeiro, titulo entra depois. */}
           <div
             className="hero-fade text-center"
             style={{ animationDelay: "200ms" }}
@@ -499,8 +484,7 @@ export default function IndexPage() {
                   },
                 ]}
                 speed={12}
-                start={heroTitleDone}
-                startDelay={250}
+                startDelay={150}
                 onDone={() => setHeroSubtitleDone(true)}
               />
               {heroSubtitleDone && (
@@ -508,6 +492,23 @@ export default function IndexPage() {
               )}
             </p>
           </div>
+
+          <h1
+            className="hero-title hero-fade-block font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0"
+            aria-label="Pare de pegar beat no YouTube eles são genéricos e você não pode postar nas plataformas"
+          >
+            <TypeReveal
+              segments={[
+                { text: "Pare de pegar beat no " },
+                { text: "YouTube", className: "text-accent", breakAfter: true },
+                { text: "eles são genéricos e você não pode postar nas plataformas" },
+              ]}
+              speed={22}
+              start={heroSubtitleDone}
+              startDelay={250}
+              onDone={() => setHeroTitleDone(true)}
+            />
+          </h1>
 
           {/* Grade de prévias dos beats. Segura o id="ouca-antes" que a barra
               sticky observa pra saber se o usuário já passou dessa área --
