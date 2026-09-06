@@ -158,7 +158,6 @@ export default function IndexPage() {
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
   const [showStickyCta, setShowStickyCta] = useState(false);
-  const [heroTitleDone, setHeroTitleDone] = useState(false);
   const [heroSubtitleDone, setHeroSubtitleDone] = useState(false);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
@@ -459,55 +458,23 @@ export default function IndexPage() {
           />
         </header>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-5 md:gap-4`}>
-          {/* Preço real do produto principal logo na primeira frase -- antes
-              dizia "a partir de R$ 19,90" (preço do Pack 50) e a pessoa só
-              descobria o preço certo do Pack 120 depois de rolar a página.
-              Corpo aumentado pra ter peso visual proximo ao do H1, ja que
-              e essa linha que carrega numero, preco e promessa. Vem antes do
-              H1 -- subtitulo digita primeiro, titulo entra depois. */}
-          <div
-            className="hero-fade text-center"
-            style={{ animationDelay: "200ms" }}
-          >
-            {/* max-w em ch precisa do font-size do próprio parágrafo pra
-                resolver certo -- no wrapper, "ch" usava o tamanho herdado
-                (16px) em vez dos 20/26px reais, encolhendo a largura à toa. */}
-            <p
-              className="mx-auto max-w-[34ch] text-[20px] md:text-[26px] font-medium"
-              style={{ color: "#E5E5E5", lineHeight: 1.35 }}
-              aria-label="+120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias"
-            >
-              <TypeReveal
-                segments={[
-                  {
-                    text: "+120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias",
-                  },
-                ]}
-                speed={12}
-                startDelay={150}
-                onDone={() => setHeroSubtitleDone(true)}
-              />
-              {heroSubtitleDone && (
-                <ChevronDown className="inline-block h-5 w-5 ml-1 align-middle hero-fade" style={{ animationDelay: "0ms" }} />
-              )}
-            </p>
-          </div>
-
           <h1
-            className="hero-title hero-fade-block font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0"
-            aria-label="Pare de pegar beat no YouTube eles são genéricos e você não pode postar nas plataformas"
+            className="hero-title hero-fade-block font-black tracking-tight leading-[1.05] text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-center mx-auto px-6 md:px-0"
+            aria-label="+120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias"
           >
             <TypeReveal
               segments={[
-                { text: "Pare de pegar beat no " },
-                { text: "YouTube", className: "text-accent", breakAfter: true },
-                { text: "eles são genéricos e você não pode postar nas plataformas" },
+                {
+                  text: "+120 beats de trap em um só lugar, liberado pra lançar em qualquer distribuidora, beats wav e bem mixados. Ouça algumas prévias",
+                },
               ]}
-              speed={22}
-              start={heroSubtitleDone}
-              startDelay={250}
-              onDone={() => setHeroTitleDone(true)}
+              speed={16}
+              startDelay={150}
+              onDone={() => setHeroSubtitleDone(true)}
             />
+            {heroSubtitleDone && (
+              <ChevronDown className="inline-block h-5 w-5 md:h-7 md:w-7 ml-1 align-middle hero-fade" style={{ animationDelay: "0ms" }} />
+            )}
           </h1>
 
           {/* Grade de prévias dos beats. Segura o id="ouca-antes" que a barra
@@ -766,10 +733,9 @@ export default function IndexPage() {
           {/* BLOCO 1 — Antes vs Depois */}
           <div className="text-center mb-14 reveal">
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
-              O que muda quando você
+              Pare de pegar beat no <span className="text-accent">YouTube</span>
               <br />
-              <span>para de usar beat </span>
-              <span className="text-accent">FREE</span>
+              eles são genéricos e você não pode postar nas plataformas
             </h2>
             <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
           </div>
