@@ -534,7 +534,11 @@ export default function IndexPage() {
               </div>
             )}
 
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5 reveal">
+            <p className="mt-6 text-center text-xs md:text-sm font-bold uppercase tracking-wide text-white/60">
+              O que você leva?
+            </p>
+
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2.5 reveal">
               {genres.map((g, i) => (
                 <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
                   {g}
@@ -550,10 +554,6 @@ export default function IndexPage() {
               pra Spotify, Instagram, TikTok etc
             </span>
           </div>
-
-          <p className="text-center text-xs md:text-sm font-bold uppercase tracking-wide text-white/60">
-            O que você leva?
-          </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 px-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
