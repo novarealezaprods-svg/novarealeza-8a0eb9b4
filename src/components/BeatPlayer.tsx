@@ -357,15 +357,15 @@ export function BeatPlayer({
       {visualizerSrc && <VisualizerBackground src={visualizerSrc} playing={visualizerPlaying} syncStart={isPlaying} />}
 
       {/* Escurece a capa/vídeo pra texto e botão continuarem legíveis por cima.
-          O beat tocando volta pro brilho normal (overlay mais fraco) pra dar
-          impacto e deixar claro qual foi escolhido -- os outros ficam mais
-          apagados como fundo ambiente. */}
+          Overlay leve nos dois estados pra capa aparecer de verdade; o beat
+          tocando fica ainda mais claro, pra dar impacto e deixar claro qual
+          foi escolhido. */}
       <div
         className="absolute inset-0 pointer-events-none transition-[background] duration-300 ease-out"
         style={{
           background: isPlaying
-            ? "linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.5) 100%)"
-            : "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%)",
+            ? "linear-gradient(to bottom, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.38) 100%)"
+            : "linear-gradient(to bottom, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.58) 100%)",
         }}
       />
 
