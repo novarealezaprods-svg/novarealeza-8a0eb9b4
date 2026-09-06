@@ -107,10 +107,10 @@ function visualizerFor(name: string): string | null {
 // nivelados a -14 LUFS para que um beat nao soe mais alto que o outro.
 // BPM e tom vieram do nome dos masters originais.
 const PREVIEW_BEATS: BeatItem[] = [
-  { name: "Type Alee", url: "/beats/type-alee-2.mp3", image_url: "/beat-images/type-alee.webp" },
-  { name: "Type Trap", url: "/beats/type-trap.mp3", image_url: "/beat-images/type-brandao.webp" },
+  { name: "Type Alee", url: "/beats/type-alee-3.mp3", image_url: "/beat-images/type-alee.webp" },
+  { name: "Type Trap", url: "/beats/type-trap-2.mp3", image_url: "/beat-images/type-brandao.webp" },
   { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
-  { name: "Type Supernova", url: "/beats/type-supernova.mp3", image_url: "/beat-images/type-supernova.webp" },
+  { name: "Type Supernova", url: "/beats/type-supernova-2.mp3", image_url: "/beat-images/type-supernova.webp" },
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
   { name: "Type Fug", url: "/beats/type-fug.mp3", image_url: "/beat-images/type-fug.webp" },
   { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
@@ -464,7 +464,7 @@ export default function IndexPage() {
             className="hero-title hero-fade-block font-extrabold tracking-tight leading-[1.1] text-[40px] md:text-[64px] text-white text-center mx-auto"
             style={{ animationDelay: "80ms" }}
           >
-            Seu som travou no lançamento porque o beat é do <span className="text-accent">YouTube</span>
+            Seu som travou no lançamento porque o beat é do <span className="text-accent">YouTube</span> 💀
           </h1>
 
           {/* SUBTITULO */}
