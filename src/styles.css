@@ -242,6 +242,14 @@ html, body {
   animation: hero-fade-in 0.5s ease-out forwards;
 }
 
+/* Mesmo fade suave do .hero-fade, mas sem inline-block -- pro H1, que
+   precisa continuar block-level pra centralizar (mx-auto) e quebrar linha
+   direito. Roda junto com o efeito de digitação (TypeReveal) por dentro. */
+.hero-fade-block {
+  opacity: 0;
+  animation: hero-fade-in 0.5s ease-out forwards;
+}
+
 /* Cursor piscando do efeito de "digitando aos poucos" do H1/subtitulo */
 @keyframes hero-typing-cursor-blink {
   0%, 45% { opacity: 1; }

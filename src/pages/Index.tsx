@@ -77,7 +77,6 @@ const NEW_PROOF_IMAGES: string[] = [prova1, prova3, prova5];
 // Para adicionar: converta o video, jogue na pasta e acrescente uma linha.
 const VISUALIZERS: Record<string, string> = {
   "type trap": "/visualizers/type-trap.mp4",
-  "type brandao": "/visualizers/type-trap.mp4",
   "type alee": "/visualizers/type-alee.mp4",
   "type leviano": "/visualizers/type-leviano.mp4",
   "type supernova": "/visualizers/type-supernova.mp4",
@@ -110,7 +109,7 @@ function visualizerFor(name: string): string | null {
 // BPM e tom vieram do nome dos masters originais.
 const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Alee", url: "/beats/type-alee-2.mp3", image_url: "/beat-images/type-alee.webp" },
-  { name: "Type Brandão", url: "/beats/type-brandao.mp3", image_url: "/beat-images/type-brandao.webp" },
+  { name: "Type Trap", url: "/beats/type-trap.mp3", image_url: "/beat-images/type-brandao.webp" },
   { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
   { name: "Type Supernova", url: "/beats/type-supernova.mp3", image_url: "/beat-images/type-supernova.webp" },
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
@@ -122,7 +121,7 @@ const PREVIEW_BEATS: BeatItem[] = [
 // nao aparece na tela -- fora de ordem, geraria descricao errada.
 const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Alee", genre: "TYPE ALEE" },
-  { name: "Type Brandão", genre: "TYPE BRANDÃO" },
+  { name: "Type Trap", genre: "TYPE TRAP" },
   { name: "Type Leviano", genre: "TYPE LEVIANO" },
   { name: "Type Supernova", genre: "TYPE SUPERNOVA" },
   { name: "Type USA", genre: "TRAP" },
@@ -461,7 +460,7 @@ export default function IndexPage() {
         </header>
         <div className={`${CONTAINER} text-center flex flex-col items-center gap-5 md:gap-4`}>
           <h1
-            className="hero-title font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0"
+            className="hero-title hero-fade-block font-black tracking-tight leading-[0.95] text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-center mx-auto px-6 md:px-0"
             aria-label="Pare de pegar beat no YouTube eles são genéricos e você não pode postar nas plataformas"
           >
             <TypeReveal
