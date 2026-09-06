@@ -435,13 +435,15 @@ export default function IndexPage() {
       <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
         {/* EYEBROW -- acima do logo. Mesmo conteudo que antes vivia numa faixa
-            solta no topo do site; agora faz parte do bloco de texto da hero. */}
-        <p
-          className="hero-fade-block text-center text-[12px] px-4"
-          style={{ fontWeight: 500, color: "#A3A3A3" }}
-        >
-          7 anos produzindo · +120 artistas atendidos · zero I.A.
-        </p>
+            solta no topo do site; agora faz parte do bloco de texto da hero.
+            Visual da faixa preta com negrito dourado restaurado a pedido. */}
+        <div className="hero-fade-block w-full bg-black border-b border-border/50 py-2 px-4 -mt-16 md:-mt-8">
+          <p className="text-center text-[11px] md:text-xs text-white/80">
+            <span className="font-black text-primary">7 anos</span> produzindo ·{" "}
+            <span className="font-black text-primary">+120 artistas</span> atendidos ·{" "}
+            <span className="font-black text-primary">zero I.A.</span>
+          </p>
+        </div>
 
         {/* Logo dentro da própria seção do hero: como header separado com
             fundo preto, o gradiente esverdeado do topo do hero criava uma
