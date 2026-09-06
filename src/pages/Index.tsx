@@ -673,7 +673,7 @@ export default function IndexPage() {
               <button
                 type="button"
                 onClick={() => setLicenseZoomOpen(true)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/40 px-4 py-2 text-xs md:text-sm font-semibold text-white/80 hover:border-primary/50 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs md:text-sm font-bold shadow-[0_2px_10px_rgba(255,196,0,0.35)] hover:brightness-110 active:scale-95 transition"
               >
                 <FileCheck className="h-3.5 w-3.5" />
                 Ver prévia da licença
@@ -681,7 +681,7 @@ export default function IndexPage() {
               <button
                 type="button"
                 onClick={() => document.getElementById("avaliacoes")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/40 px-4 py-2 text-xs md:text-sm font-semibold text-white/80 hover:border-primary/50 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs md:text-sm font-bold shadow-[0_2px_10px_rgba(255,196,0,0.35)] hover:brightness-110 active:scale-95 transition"
               >
                 <Star className="h-3.5 w-3.5" />
                 Ver avaliações
