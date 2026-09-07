@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Zap, Lock, ShieldCheck as Shield, MessageCircle, FileCheck, ListMusic, ExternalLink } from "lucide-react";
+import { Check, X, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Zap, Lock, ShieldCheck as Shield, MessageCircle, FileCheck, ListMusic, ExternalLink } from "lucide-react";
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { VideoPreview } from "@/components/VideoPreview";
@@ -835,6 +835,13 @@ export default function IndexPage() {
                     <span>{f}</span>
                   </div>
                 ))}
+                {/* Contraponto ao pack 120, que leva os 3 bonus */}
+                <div className="flex items-start gap-2.5 text-sm font-medium text-white/45 leading-snug">
+                  <span className="mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-white/8">
+                    <X className="h-2.5 w-2.5 text-white/60" strokeWidth={3.5} />
+                  </span>
+                  <span>0 bônus incluso</span>
+                </div>
               </div>
 
               <button
