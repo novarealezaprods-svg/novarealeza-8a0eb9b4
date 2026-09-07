@@ -38,7 +38,7 @@ const features = [
 const packFeatures = [
   "50 beats de trap profissionais",
   "Liberado para todas plataformas digitais",
-  "Mixados e masterizados em alta qualidade",
+  "Mixados em alta qualidade",
 ];
 const testimonials = [
   { name: "MC Vinny", text: "Lancei 3 sons em 1 semana com o pack. Qualidade absurda.", role: "Artista independente" },
