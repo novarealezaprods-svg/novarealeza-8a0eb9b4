@@ -461,7 +461,7 @@ export default function IndexPage() {
             className="hero-fade mx-auto max-w-[34ch] text-[20px] md:text-[26px]"
             style={{ fontWeight: 500, color: "#E5E5E5", lineHeight: 1.35, marginTop: 20, animationDelay: "200ms" }}
           >
-            120 beats de trap em WAV, mixados, liberados pra lançar em qualquer distribuidora.
+            Tenha 120 beats de trap em WAV, mixados, liberados pra lançar em qualquer distribuidora.
           </p>
 
           {/* LINHA DE PRECO */}
