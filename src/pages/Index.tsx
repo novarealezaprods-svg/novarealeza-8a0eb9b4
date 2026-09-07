@@ -1184,7 +1184,7 @@ export default function IndexPage() {
       {showStickyCta && (
         <div className="sticky-cta-bar">
           <button
-            onClick={() => document.getElementById("oferta-suprema")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
             className="sticky-cta-btn"
           >
             QUERO MEUS 120 BEATS · R$ 47,90
