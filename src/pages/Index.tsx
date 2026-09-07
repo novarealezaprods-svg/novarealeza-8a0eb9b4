@@ -473,6 +473,18 @@ export default function IndexPage() {
             <span style={{ fontWeight: 400, color: "#A3A3A3" }}> · sai a R$0,40 por beat</span>
           </p>
 
+          {/* CTA que desce pro card de compra, ja que o card agora vive bem
+              mais pra baixo (depois das avaliacoes). */}
+          <div className="hero-fade hero-cta-block flex flex-col items-center w-full" style={{ marginTop: 24, animationDelay: "460ms" }}>
+            <button
+              onClick={() => document.getElementById("pack-basico")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+              className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
+            >
+              <span className="hero-cta-shine" aria-hidden="true" />
+              <span className="hero-cta-text">QUERO MEUS BEATS</span>
+            </button>
+          </div>
+
           {/* LEGENDA DO GRID -- fora do H1, imediatamente acima do grid */}
           <p
             className="hero-fade uppercase text-center text-[12px]"
@@ -572,6 +584,220 @@ export default function IndexPage() {
         </div>
       </section>
 
+      {/* Licença de verdade */}
+      <section className="py-10 md:py-14 bg-background border-t border-border/50">
+        <div className={CONTAINER}>
+          <div className="max-w-4xl mx-auto reveal">
+            <div className="text-center mb-10">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00FF7F]/10 border border-[#00FF7F]/30 text-[#00FF7F] text-xs font-bold uppercase tracking-wider">
+                <FileCheck className="w-3.5 h-3.5" />
+                100% Legal · Assinado no Gov.br
+              </span>
+              <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
+                Sua Música Merece uma <span className="text-[#00FF7F]">Licença de Verdade</span>
+              </h2>
+              <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
+                Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
+                sua música <span className="text-white font-semibold">pode ir pra todas as plataformas
+                digitais</span>: Spotify, YouTube, TikTok, Deezer, Apple Music e qualquer outra, sem risco
+                de bloqueio ou remoção por direitos autorais.
+              </p>
+            </div>
+
+            <div className="relative mx-auto max-w-md md:max-w-lg">
+              <div
+                className="absolute inset-0 bg-[#00FF7F]/40 blur-[90px] rounded-full scale-90 pointer-events-none"
+                aria-hidden="true"
+              />
+              <button
+                type="button"
+                onClick={() => setLicenseZoomOpen(true)}
+                className="group relative block w-full cursor-zoom-in rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF7F]"
+                aria-label="Ampliar contrato de licença assinada"
+              >
+                <img
+                  src={licencaAssinada}
+                  alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
+                  className="license-float relative w-full rounded-2xl border border-[#00FF7F]/40 shadow-[0_0_60px_-10px_rgba(0,255,127,0.5)]"
+                  loading="lazy"
+                  decoding="async"
+                  width="1200"
+                  height="1377"
+                />
+                <span className="pointer-events-none absolute bottom-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-opacity group-hover:bg-black/85">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                  Ampliar
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-6 md:py-8 bg-background border-t border-border/50">
+        <div className={CONTAINER}>
+          {/* BLOCO 1 — Antes vs Depois */}
+          <div className="text-center mb-14 reveal">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
+              Pare de pegar beat no <span className="text-accent">YouTube</span>
+              <br />
+              eles são genéricos e você não pode postar nas plataformas
+            </h2>
+            <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
+          </div>
+
+          <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-6 items-center max-w-5xl mx-auto">
+            {/* ANTES */}
+            <div
+              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a] reveal reveal-left"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <Skull className="h-6 w-6 text-destructive" />
+                <h3 className="text-2xl font-black uppercase tracking-wide text-destructive">
+                  Antes
+                </h3>
+              </div>
+              <ul className="flex flex-col" style={{ gap: "14px" }}>
+                {[
+                  "Beat free que todo mundo já ouviu",
+                  "Direitos autorais bloqueando seu som",
+                  "Beat de I.A. genérico, sem alma nenhuma",
+                  "Gastando tempo garimpando instrumental",
+                ].map((t, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 font-medium leading-snug"
+                    style={{ fontSize: "15px", color: "#aaaaaa", animationDelay: `${300 + i * 100}ms` }}
+                  >
+                    <span className="text-destructive font-bold flex-shrink-0">❌</span>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* DIVISOR CENTRAL */}
+            <div className="flex items-center justify-center my-2 md:my-0">
+              <svg
+                width="60"
+                height="60"
+                viewBox="0 0 60 60"
+                fill="none"
+                aria-hidden="true"
+                className="ba-x-svg"
+              >
+                {/* Traço 1: cima-esquerda → baixo-direita (rabiscado, irregular) */}
+                <path
+                  d="M10 9 Q 18 17, 24 24 T 38 38 Q 45 46, 51 52"
+                  stroke="#ffffff"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  className="ba-x-stroke ba-x-stroke-1"
+                />
+                {/* Traço 2: cima-direita → baixo-esquerda */}
+                <path
+                  d="M51 8 Q 43 17, 36 23 T 22 37 Q 14 45, 9 52"
+                  stroke="#ffffff"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  className="ba-x-stroke ba-x-stroke-2"
+                />
+              </svg>
+            </div>
+
+            {/* DEPOIS */}
+            <div
+              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a] reveal reveal-right"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <Trophy className="h-6 w-6 text-primary" />
+                <h3 className="text-2xl font-black uppercase tracking-wide text-primary">
+                  Depois
+                </h3>
+              </div>
+              <ul className="flex flex-col" style={{ gap: "14px" }}>
+                {[
+                  "beats de identidade e original",
+                  "100% royalty free — Spotify, YouTube, sem medo",
+                  "Feito na mão por produtor de verdade, zero I.A.",
+                  "Grave quando quiser, sem depender de ninguém",
+                ].map((t, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 font-medium leading-snug text-white"
+                    style={{ fontSize: "15px", animationDelay: `${300 + i * 100}ms` }}
+                  >
+                    <span className="text-primary font-bold flex-shrink-0">✅</span>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Avaliações */}
+      <section id="avaliacoes" className="py-6 md:py-8 bg-card/30 border-y border-border/50 scroll-mt-20">
+        <div className="container max-w-3xl mx-auto px-4 md:px-6">
+          <div className="mb-8 flex flex-col items-center text-white">
+            <span className="text-sm font-semibold">Veja as avaliações do pack</span>
+            <ChevronDown className="hero-reviews-arrow h-5 w-5 mt-1" />
+          </div>
+          <div className="text-center mb-8 md:mb-12 reveal">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
+            <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
+          </div>
+          {proofImages.length > 0 ? (
+            <div className="grid grid-cols-2">
+              {proofImages.map((src, i) => {
+                const isLastRow = i >= proofImages.length - (proofImages.length % 2 === 0 ? 2 : 1);
+                const isRightCol = i % 2 === 1;
+                return (
+                  <div
+                    key={i}
+                    className={`p-3 md:p-4 ${isRightCol ? "border-l border-border" : ""} ${!isLastRow ? "border-b border-border" : ""}`}
+                  >
+                    <div className="relative w-full aspect-square">
+                      <img
+                        src={normalizeDirectUrl(src)}
+                        alt={`Prova social ${i + 1}`}
+                        loading="lazy"
+                        decoding="async"
+                        width="600"
+                        height="600"
+                        className="absolute inset-0 w-full h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {testimonials.map((t, i) => (
+                  <Card key={i} className="p-6 border-border/60 bg-background flex flex-col">
+                    <div className="flex gap-0.5 mb-4">
+                      {[...Array(5)].map((_, j) => (
+                        <Star key={j} className="h-4 w-4 fill-primary text-primary" />
+                      ))}
+                    </div>
+                    <p className="text-sm leading-relaxed text-foreground/90 flex-1">{`"${t.text}"`}</p>
+                    <div className="mt-5 pt-4 border-t border-border/60">
+                      <div className="font-bold text-sm">{t.name}</div>
+                      <div className="text-xs text-muted-foreground">{t.role}</div>
+                    </div>
+                  </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* Âncora de preço + Garantia + Oferta com bônus e CTA -- tudo em um
           bloco só, logo abaixo da grade de prévias do hero. */}
       <section className="py-10 md:py-14 border-t border-border/50">
@@ -581,6 +807,44 @@ export default function IndexPage() {
               primeiro no bloco pra impactar rápido, logo após o CTA do hero;
               garantia e âncora de preço vêm depois, como reforço. */}
           <div id="pack-basico" className="flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
+            {/* Pack de entrada -- card preto, deliberadamente discreto pra nao
+                competir com o dourado, que e' a oferta principal. */}
+            <div className="rounded-2xl border border-white/12 bg-[#0a0a0a] p-6 md:p-8 text-center">
+              <h3 className="text-xl md:text-2xl font-black tracking-tight text-white">
+                PACK 50 BEATS
+              </h3>
+              <p className="mt-1 text-xs md:text-sm text-muted-foreground">
+                Pra quem quer começar menor
+              </p>
+
+              <div className="mt-4 flex flex-col items-center gap-1">
+                <span className="text-4xl md:text-5xl font-black leading-none text-white">
+                  R$ 19,90
+                </span>
+                <span className="text-[11px] text-muted-foreground">
+                  R$ 0,40 por beat
+                </span>
+              </div>
+
+              <div className="mt-6 space-y-3 text-left max-w-sm mx-auto">
+                {packFeatures.map((f, i) => (
+                  <div key={i} className="flex items-start gap-2.5 text-sm font-medium text-white/85 leading-snug">
+                    <span className="mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-white/12">
+                      <Check className="h-2.5 w-2.5 text-white" strokeWidth={3.5} />
+                    </span>
+                    <span>{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={handleBasicCheckoutClick}
+                className="mt-6 w-full rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10 active:scale-[0.99]"
+              >
+                QUERO O PACK 50
+              </button>
+            </div>
+
             {/* Oferta única — card dourado */}
             <div
               id="oferta-suprema"
@@ -755,220 +1019,6 @@ export default function IndexPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="py-6 md:py-8 bg-background border-t border-border/50">
-        <div className={CONTAINER}>
-          {/* BLOCO 1 — Antes vs Depois */}
-          <div className="text-center mb-14 reveal">
-            <h2 className="text-4xl md:text-6xl font-black tracking-tight text-white leading-[1.05]">
-              Pare de pegar beat no <span className="text-accent">YouTube</span>
-              <br />
-              eles são genéricos e você não pode postar nas plataformas
-            </h2>
-            <div className="mx-auto mt-6 h-[3px] w-20 bg-accent rounded-full" />
-          </div>
-
-          <div className="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-6 items-center max-w-5xl mx-auto">
-            {/* ANTES */}
-            <div
-              className="ba-card left rounded-lg p-6 md:p-8 border-l-4 border-l-destructive bg-[#0a0a0a] reveal reveal-left"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <Skull className="h-6 w-6 text-destructive" />
-                <h3 className="text-2xl font-black uppercase tracking-wide text-destructive">
-                  Antes
-                </h3>
-              </div>
-              <ul className="flex flex-col" style={{ gap: "14px" }}>
-                {[
-                  "Beat free que todo mundo já ouviu",
-                  "Direitos autorais bloqueando seu som",
-                  "Beat de I.A. genérico, sem alma nenhuma",
-                  "Gastando tempo garimpando instrumental",
-                ].map((t, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 font-medium leading-snug"
-                    style={{ fontSize: "15px", color: "#aaaaaa", animationDelay: `${300 + i * 100}ms` }}
-                  >
-                    <span className="text-destructive font-bold flex-shrink-0">❌</span>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* DIVISOR CENTRAL */}
-            <div className="flex items-center justify-center my-2 md:my-0">
-              <svg
-                width="60"
-                height="60"
-                viewBox="0 0 60 60"
-                fill="none"
-                aria-hidden="true"
-                className="ba-x-svg"
-              >
-                {/* Traço 1: cima-esquerda → baixo-direita (rabiscado, irregular) */}
-                <path
-                  d="M10 9 Q 18 17, 24 24 T 38 38 Q 45 46, 51 52"
-                  stroke="#ffffff"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                  className="ba-x-stroke ba-x-stroke-1"
-                />
-                {/* Traço 2: cima-direita → baixo-esquerda */}
-                <path
-                  d="M51 8 Q 43 17, 36 23 T 22 37 Q 14 45, 9 52"
-                  stroke="#ffffff"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                  className="ba-x-stroke ba-x-stroke-2"
-                />
-              </svg>
-            </div>
-
-            {/* DEPOIS */}
-            <div
-              className="ba-card right rounded-lg p-6 md:p-8 border-l-4 border-l-primary bg-[#0a0a0a] reveal reveal-right"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <Trophy className="h-6 w-6 text-primary" />
-                <h3 className="text-2xl font-black uppercase tracking-wide text-primary">
-                  Depois
-                </h3>
-              </div>
-              <ul className="flex flex-col" style={{ gap: "14px" }}>
-                {[
-                  "beats de identidade e original",
-                  "100% royalty free — Spotify, YouTube, sem medo",
-                  "Feito na mão por produtor de verdade, zero I.A.",
-                  "Grave quando quiser, sem depender de ninguém",
-                ].map((t, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 font-medium leading-snug text-white"
-                    style={{ fontSize: "15px", animationDelay: `${300 + i * 100}ms` }}
-                  >
-                    <span className="text-primary font-bold flex-shrink-0">✅</span>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Licença de verdade */}
-      <section className="py-10 md:py-14 bg-background border-t border-border/50">
-        <div className={CONTAINER}>
-          <div className="max-w-4xl mx-auto reveal">
-            <div className="text-center mb-10">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00FF7F]/10 border border-[#00FF7F]/30 text-[#00FF7F] text-xs font-bold uppercase tracking-wider">
-                <FileCheck className="w-3.5 h-3.5" />
-                100% Legal · Assinado no Gov.br
-              </span>
-              <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">
-                Sua Música Merece uma <span className="text-[#00FF7F]">Licença de Verdade</span>
-              </h2>
-              <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
-                Contrato de licença de uso de beat, assinado digitalmente via Gov.br — a prova real de que
-                sua música <span className="text-white font-semibold">pode ir pra todas as plataformas
-                digitais</span>: Spotify, YouTube, TikTok, Deezer, Apple Music e qualquer outra, sem risco
-                de bloqueio ou remoção por direitos autorais.
-              </p>
-            </div>
-
-            <div className="relative mx-auto max-w-md md:max-w-lg">
-              <div
-                className="absolute inset-0 bg-[#00FF7F]/40 blur-[90px] rounded-full scale-90 pointer-events-none"
-                aria-hidden="true"
-              />
-              <button
-                type="button"
-                onClick={() => setLicenseZoomOpen(true)}
-                className="group relative block w-full cursor-zoom-in rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF7F]"
-                aria-label="Ampliar contrato de licença assinada"
-              >
-                <img
-                  src={licencaAssinada}
-                  alt="Contrato de licença de uso de beat da Nova Realeza, assinado digitalmente via Gov.br — dados pessoais borrados por segurança"
-                  className="license-float relative w-full rounded-2xl border border-[#00FF7F]/40 shadow-[0_0_60px_-10px_rgba(0,255,127,0.5)]"
-                  loading="lazy"
-                  decoding="async"
-                  width="1200"
-                  height="1377"
-                />
-                <span className="pointer-events-none absolute bottom-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition-opacity group-hover:bg-black/85">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
-                  Ampliar
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Avaliações */}
-      <section id="avaliacoes" className="py-6 md:py-8 bg-card/30 border-y border-border/50 scroll-mt-20">
-        <div className="container max-w-3xl mx-auto px-4 md:px-6">
-          <div className="mb-8 flex flex-col items-center text-white">
-            <span className="text-sm font-semibold">Veja as avaliações do pack</span>
-            <ChevronDown className="hero-reviews-arrow h-5 w-5 mt-1" />
-          </div>
-          <div className="text-center mb-8 md:mb-12 reveal">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Avaliações do pack</h2>
-            <p className="mt-3 text-muted-foreground">O que quem já comprou está dizendo</p>
-          </div>
-          {proofImages.length > 0 ? (
-            <div className="grid grid-cols-2">
-              {proofImages.map((src, i) => {
-                const isLastRow = i >= proofImages.length - (proofImages.length % 2 === 0 ? 2 : 1);
-                const isRightCol = i % 2 === 1;
-                return (
-                  <div
-                    key={i}
-                    className={`p-3 md:p-4 ${isRightCol ? "border-l border-border" : ""} ${!isLastRow ? "border-b border-border" : ""}`}
-                  >
-                    <div className="relative w-full aspect-square">
-                      <img
-                        src={normalizeDirectUrl(src)}
-                        alt={`Prova social ${i + 1}`}
-                        loading="lazy"
-                        decoding="async"
-                        width="600"
-                        height="600"
-                        className="absolute inset-0 w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {testimonials.map((t, i) => (
-                  <Card key={i} className="p-6 border-border/60 bg-background flex flex-col">
-                    <div className="flex gap-0.5 mb-4">
-                      {[...Array(5)].map((_, j) => (
-                        <Star key={j} className="h-4 w-4 fill-primary text-primary" />
-                      ))}
-                    </div>
-                    <p className="text-sm leading-relaxed text-foreground/90 flex-1">{`"${t.text}"`}</p>
-                    <div className="mt-5 pt-4 border-t border-border/60">
-                      <div className="font-bold text-sm">{t.name}</div>
-                      <div className="text-xs text-muted-foreground">{t.role}</div>
-                    </div>
-                  </Card>
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
@@ -1243,23 +1293,20 @@ export default function IndexPage() {
                 className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black tracking-wide"
                 style={{ background: "#FF3C3C", color: "#fff" }}
               >
-                🔥 OFERTA ESPECIAL
+                🔥 ANTES DE FECHAR
               </span>
             </div>
             <h3 className="text-center font-bold text-white" style={{ fontSize: "18px" }}>
-              Espera! Antes de continuar...
+              Seja um artista completo
             </h3>
             <p
               className="text-center mt-2 text-white"
               style={{ fontSize: "13px", opacity: 0.7, lineHeight: 1.5 }}
             >
-              Adicione +70 beats ao seu pack por apenas R$8,00 a mais!
+              Leve a pasta completa com 120 beats + os bônus, em vez de só 50.
             </p>
 
             <div className="mt-5 flex flex-col items-center gap-1">
-              <span style={{ color: "#555", fontSize: "14px", textDecoration: "line-through" }}>
-                De R$ 37,90
-              </span>
               <span
                 style={{
                   color: "#00FF41",
@@ -1269,7 +1316,7 @@ export default function IndexPage() {
                   textShadow: "0 0 12px rgba(0,255,65,0.5)",
                 }}
               >
-                R$ 27,90
+                R$ 47,90
               </span>
               <span
                 className="mt-2 inline-flex items-center px-2.5 py-1 rounded-full font-bold"
@@ -1280,7 +1327,7 @@ export default function IndexPage() {
                   border: "1px solid rgba(0,255,65,0.35)",
                 }}
               >
-                💰 Você economiza R$10,00
+                🎁 +70 beats e os 3 bônus
               </span>
             </div>
 
@@ -1288,7 +1335,7 @@ export default function IndexPage() {
               <button
                 onClick={() => {
                   setShowUpsell(false);
-                  executeCheckout(checkoutUrlUpsell || checkoutUrlSupreme || checkoutUrl);
+                  executeCheckout(checkoutUrlSupreme || checkoutUrl);
                 }}
                 className="w-full rounded-xl font-black transition hover:brightness-110"
                 style={{
@@ -1299,7 +1346,7 @@ export default function IndexPage() {
                   boxShadow: "0 0 18px rgba(0,255,65,0.45)",
                 }}
               >
-                SIM! QUERO O PACK 120 POR R$27,90
+                SIM! QUERO OS 120 BEATS + BÔNUS
               </button>
               <button
                 onClick={() => {
