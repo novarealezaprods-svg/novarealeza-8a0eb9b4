@@ -435,17 +435,6 @@ export default function IndexPage() {
     <div className="min-h-screen bg-background text-foreground">
       <main>
       <section className="hero-section relative overflow-hidden pt-16 pb-6 md:pt-8 md:pb-8" style={{ backgroundImage: "var(--gradient-hero)" }}>
-        {/* EYEBROW -- acima do logo. Mesmo conteudo que antes vivia numa faixa
-            solta no topo do site; agora faz parte do bloco de texto da hero.
-            Visual da faixa preta com negrito dourado restaurado a pedido. */}
-        <div className="hero-fade-block w-full bg-black border-b border-border/50 py-2 px-4 -mt-16 md:-mt-8">
-          <p className="text-center text-[11px] md:text-xs text-white/80">
-            <span className="font-black text-primary">7 anos</span> produzindo ·{" "}
-            <span className="font-black text-primary">+120 artistas</span> atendidos ·{" "}
-            <span className="font-black text-primary">zero I.A.</span>
-          </p>
-        </div>
-
         {/* Logo dentro da própria seção do hero: como header separado com
             fundo preto, o gradiente esverdeado do topo do hero criava uma
             emenda de cor visível na divisa entre os dois. */}
@@ -982,6 +971,17 @@ export default function IndexPage() {
           )}
         </div>
       </section>
+
+      {/* Faixa de autoridade -- logo depois das avaliacoes, fechando a
+          prova social com quem produz. Ja viveu no topo do site; foi
+          movida pra ca a pedido. */}
+      <div className="reveal w-full bg-black border-y border-border/50 py-3 px-4">
+        <p className="text-center text-[11px] md:text-xs text-white/80">
+          <span className="font-black text-primary">7 anos</span> produzindo ·{" "}
+          <span className="font-black text-primary">+120 artistas</span> atendidos ·{" "}
+          <span className="font-black text-primary">zero I.A.</span>
+        </p>
+      </div>
 
       {/* Como recebe */}
       <section className="py-10 md:py-14 bg-background border-t border-border/50">
