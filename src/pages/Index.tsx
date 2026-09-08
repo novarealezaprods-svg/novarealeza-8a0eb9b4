@@ -144,6 +144,13 @@ const CHECKOUT_URL_FALLBACK = "https://app.kawaipay.com/checkout/10051"; // pack
 const CHECKOUT_URL_SUPREME_FALLBACK = "https://app.kawaipay.com/checkout/10258"; // pack 120
 const CHECKOUT_URL_UPSELL_FALLBACK = "https://app.kawaipay.com/checkout/10059?price=8b298a11-45a6-4697-bf9c-518fbb092c6b"; // promo R$27,90
 
+// Promo do modal de upsell: pack 120 por R$ 37,90 em vez de R$ 47,90.
+// So entra no ar quando o link do KawaiPay que realmente cobra 37,90 estiver
+// aqui. Vazio, o modal continua oferecendo o preco cheio -- o site nunca
+// anuncia um valor diferente do que o checkout cobra.
+const CHECKOUT_URL_PROMO_120 = "";
+const PROMO_120_ATIVA = CHECKOUT_URL_PROMO_120.length > 0;
+
 
 export default function IndexPage() {
   const [previewVideo, setPreviewVideo] = useState<string | null>(VSL_URL_FALLBACK);
@@ -462,15 +469,6 @@ export default function IndexPage() {
             style={{ fontWeight: 500, color: "#E5E5E5", lineHeight: 1.35, marginTop: 20, animationDelay: "200ms" }}
           >
             Tenha 120 beats de trap em WAV, mixados, liberados pra lançar em qualquer distribuidora.
-          </p>
-
-          {/* LINHA DE PRECO */}
-          <p
-            className="hero-fade text-[20px] md:text-[26px]"
-            style={{ marginTop: 8, animationDelay: "320ms" }}
-          >
-            <span style={{ fontWeight: 700, color: "#ffffff" }}>R$47,90</span>
-            <span style={{ fontWeight: 400, color: "#A3A3A3" }}> · sai a R$0,40 por beat</span>
           </p>
 
           {/* CTA que desce pro card de compra, ja que o card agora vive bem
@@ -1314,6 +1312,11 @@ export default function IndexPage() {
             </p>
 
             <div className="mt-5 flex flex-col items-center gap-1">
+              {PROMO_120_ATIVA && (
+                <span style={{ color: "#555", fontSize: "14px", textDecoration: "line-through" }}>
+                  De R$ 47,90
+                </span>
+              )}
               <span
                 style={{
                   color: "#00FF41",
@@ -1323,7 +1326,7 @@ export default function IndexPage() {
                   textShadow: "0 0 12px rgba(0,255,65,0.5)",
                 }}
               >
-                R$ 47,90
+                {PROMO_120_ATIVA ? "R$ 37,90" : "R$ 47,90"}
               </span>
               <span
                 className="mt-2 inline-flex items-center px-2.5 py-1 rounded-full font-bold"
@@ -1334,7 +1337,7 @@ export default function IndexPage() {
                   border: "1px solid rgba(0,255,65,0.35)",
                 }}
               >
-                🎁 +70 beats e os 3 bônus
+                {PROMO_120_ATIVA ? "💰 Você economiza R$10,00" : "🎁 +70 beats e os 3 bônus"}
               </span>
             </div>
 
@@ -1342,7 +1345,7 @@ export default function IndexPage() {
               <button
                 onClick={() => {
                   setShowUpsell(false);
-                  executeCheckout(checkoutUrlSupreme || checkoutUrl);
+                  executeCheckout(PROMO_120_ATIVA ? CHECKOUT_URL_PROMO_120 : checkoutUrlSupreme || checkoutUrl);
                 }}
                 className="w-full rounded-xl font-black transition hover:brightness-110"
                 style={{
@@ -1353,7 +1356,7 @@ export default function IndexPage() {
                   boxShadow: "0 0 18px rgba(0,255,65,0.45)",
                 }}
               >
-                SIM! QUERO OS 120 BEATS + BÔNUS
+                {PROMO_120_ATIVA ? "SIM! QUERO POR R$37,90" : "SIM! QUERO OS 120 BEATS + BÔNUS"}
               </button>
               <button
                 onClick={() => {
