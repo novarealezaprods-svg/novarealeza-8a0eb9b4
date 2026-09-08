@@ -148,7 +148,7 @@ const CHECKOUT_URL_UPSELL_FALLBACK = "https://app.kawaipay.com/checkout/10059?pr
 // So entra no ar quando o link do KawaiPay que realmente cobra 37,90 estiver
 // aqui. Vazio, o modal continua oferecendo o preco cheio -- o site nunca
 // anuncia um valor diferente do que o checkout cobra.
-const CHECKOUT_URL_PROMO_120 = "";
+const CHECKOUT_URL_PROMO_120 = "https://app.kawaipay.com/checkout/10258?price=a5fa7c54-d05f-4401-af5c-541fb1f8069f";
 const PROMO_120_ATIVA = CHECKOUT_URL_PROMO_120.length > 0;
 
 
