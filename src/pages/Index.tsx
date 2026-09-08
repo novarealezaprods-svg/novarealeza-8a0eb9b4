@@ -1181,13 +1181,13 @@ export default function IndexPage() {
                 Contato
               </h4>
               <a
-                href="https://wa.me/5511978768141"
+                href="https://wa.me/5511989366001"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary"
               >
                 <MessageCircle className="h-4 w-4 shrink-0 text-primary" />
-                <span className="font-medium">(11) 97876-8141</span>
+                <span className="font-medium">(11) 98936-6001</span>
               </a>
               <a
                 href="mailto:novarealezaprods@gmail.com"
