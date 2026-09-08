@@ -474,6 +474,9 @@ export default function IndexPage() {
           {/* CTA que desce pro card de compra, ja que o card agora vive bem
               mais pra baixo (depois das avaliacoes). */}
           <div className="hero-fade hero-cta-block flex flex-col items-center w-full" style={{ marginTop: 24, animationDelay: "460ms" }}>
+            <p className="mb-3 text-[13px] md:text-sm font-medium" style={{ color: "#A3A3A3" }}>
+              Grave agora sem depender de ninguém
+            </p>
             <button
               onClick={() => document.getElementById("pack-basico")?.scrollIntoView({ behavior: "smooth", block: "start" })}
               className="hero-cta inline-flex items-center justify-center whitespace-nowrap"
