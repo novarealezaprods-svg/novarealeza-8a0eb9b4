@@ -659,8 +659,8 @@ export default function IndexPage() {
                 {[
                   "Beat free que todo mundo já ouviu",
                   "Direitos autorais bloqueando seu som",
-                  "Beat de I.A. genérico, sem alma nenhuma",
-                  "Gastando tempo garimpando instrumental",
+                  "Beat de I.A. genérico, sem sentimento nenhum",
+                  "Gastando tempo garimpando beat no YouTube",
                 ].map((t, i) => (
                   <li
                     key={i}
@@ -720,7 +720,7 @@ export default function IndexPage() {
               <ul className="flex flex-col" style={{ gap: "14px" }}>
                 {[
                   "beats de identidade e original",
-                  "100% royalty free — Spotify, YouTube, sem medo",
+                  "100% royalty free — poste em todas plataformas sem medo",
                   "Feito na mão por produtor de verdade, zero I.A.",
                   "Grave quando quiser, sem depender de ninguém",
                 ].map((t, i) => (
