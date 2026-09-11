@@ -452,6 +452,8 @@ export default function IndexPage() {
             className="top-bar-logo h-12 md:h-16 w-auto"
             loading="eager"
             decoding="async"
+            width="946"
+            height="424"
           />
         </header>
         <div className={`${CONTAINER} text-center flex flex-col items-center`}>
@@ -983,7 +985,7 @@ export default function IndexPage() {
               <button
                 type="button"
                 onClick={() => setLicenseZoomOpen(true)}
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs md:text-sm font-bold shadow-[0_2px_10px_rgba(255,196,0,0.35)] hover:brightness-110 active:scale-95 transition"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-3 text-xs md:text-sm font-bold shadow-[0_2px_10px_rgba(255,196,0,0.35)] hover:brightness-110 active:scale-95 transition"
               >
                 <FileCheck className="h-3.5 w-3.5" />
                 Ver prévia da licença
@@ -991,7 +993,7 @@ export default function IndexPage() {
               <button
                 type="button"
                 onClick={() => document.getElementById("avaliacoes")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs md:text-sm font-bold shadow-[0_2px_10px_rgba(255,196,0,0.35)] hover:brightness-110 active:scale-95 transition"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-3 text-xs md:text-sm font-bold shadow-[0_2px_10px_rgba(255,196,0,0.35)] hover:brightness-110 active:scale-95 transition"
               >
                 <Star className="h-3.5 w-3.5" />
                 Ver avaliações
@@ -1184,14 +1186,14 @@ export default function IndexPage() {
                 href="https://wa.me/5511989366001"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary"
+                className="flex min-h-[44px] items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary"
               >
                 <MessageCircle className="h-4 w-4 shrink-0 text-primary" />
                 <span className="font-medium">(11) 98936-6001</span>
               </a>
               <a
                 href="mailto:novarealezaprods@gmail.com"
-                className="flex items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary break-all"
+                className="flex min-h-[44px] items-center gap-2 text-sm text-foreground/90 transition-colors hover:text-primary break-all"
               >
                 <Mail className="h-4 w-4 shrink-0 text-primary" />
                 <span className="font-medium">novarealezaprods@gmail.com</span>

@@ -20,6 +20,47 @@ export type BeatItem = {
   startAt?: number;
 };
 
+// Teto de visualizers tocando ao mesmo tempo. Cada video em loop custa
+// decodificacao continua: no mobile, quatro rodando juntos picotam o scroll
+// e queimam bateria. Quem nao pega slot fica na capa estatica e entra
+// quando alguem sai da tela.
+const MAX_VISUALIZERS_SIMULTANEOS = 2;
+const slotsEmUso = new Set<string>();
+const naFila = new Map<string, () => void>();
+
+function pedirSlot(id: string, quandoLiberar: () => void): boolean {
+  if (slotsEmUso.has(id)) return true;
+  if (slotsEmUso.size < MAX_VISUALIZERS_SIMULTANEOS) {
+    slotsEmUso.add(id);
+    return true;
+  }
+  naFila.set(id, quandoLiberar);
+  return false;
+}
+
+function devolverSlot(id: string) {
+  const tinha = slotsEmUso.delete(id);
+  naFila.delete(id);
+  if (!tinha) return;
+  const proximo = naFila.entries().next();
+  if (proximo.done) return;
+  const [proximoId, avisar] = proximo.value;
+  naFila.delete(proximoId);
+  slotsEmUso.add(proximoId);
+  avisar();
+}
+
+// Em conexao fraca ou modo de economia de dados o visualizer ambiente sai
+// caro demais (sao ~4,7MB de video so rolando a pagina) -- fica so a capa.
+// O video segue tocando normalmente quando a pessoa aperta play.
+function ambienteValeAPena(): boolean {
+  if (typeof navigator === "undefined") return false;
+  const conexao = (navigator as any).connection;
+  if (conexao?.saveData) return false;
+  if (typeof conexao?.effectiveType === "string" && /2g/.test(conexao.effectiveType)) return false;
+  return true;
+}
+
 // Cobre um card quadrado (aspect-square) com o vídeo do visualizer, recortado
 // e centralizado via object-fit — sem depender de nenhum player externo.
 function VisualizerBackground({ src, playing, syncStart }: { src: string; playing: boolean; syncStart: boolean }) {
@@ -63,13 +104,12 @@ function VisualizerBackground({ src, playing, syncStart }: { src: string; playin
       ref={ref}
       className="visualizer-fade-in absolute inset-0 h-full w-full object-cover pointer-events-none"
       src={src}
-      autoPlay
       muted
       loop
       playsInline
       // iOS antigo ainda olha para o atributo com prefixo
       {...{ "webkit-playsinline": "true" }}
-      preload="auto"
+      preload="none"
       disablePictureInPicture
     >
       {/* Video decorativo, sem faixa de audio -- trilha vazia so' pra
@@ -282,18 +322,47 @@ export function BeatPlayer({
   const [ambientRevealed, setAmbientRevealed] = useState(false);
   const [ambientInView, setAmbientInView] = useState(false);
   const revealScheduledRef = useRef(false);
+  const [temSlot, setTemSlot] = useState(false);
+  const temSlotRef = useRef(false);
+  const slotId = `${beat.url}-${index}`;
+
   useEffect(() => {
     const el = cardRef.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!ambienteValeAPena()) return;
     let revealTimer: ReturnType<typeof setTimeout>;
+
+    const ocuparSlot = () => {
+      if (temSlotRef.current) return;
+      const conseguiu = pedirSlot(slotId, () => {
+        temSlotRef.current = true;
+        setTemSlot(true);
+      });
+      if (conseguiu) {
+        temSlotRef.current = true;
+        setTemSlot(true);
+      }
+    };
+    const liberarSlot = () => {
+      if (!temSlotRef.current && !naFila.has(slotId)) return;
+      temSlotRef.current = false;
+      setTemSlot(false);
+      devolverSlot(slotId);
+    };
+
     const io = new IntersectionObserver(
       ([entry]) => {
         setAmbientInView(entry.isIntersecting);
-        if (entry.isIntersecting && !revealScheduledRef.current) {
-          revealScheduledRef.current = true;
-          const delay = 120 + (index % 4) * 130;
-          revealTimer = setTimeout(() => setAmbientRevealed(true), delay);
+        if (entry.isIntersecting) {
+          ocuparSlot();
+          if (!revealScheduledRef.current) {
+            revealScheduledRef.current = true;
+            const delay = 120 + (index % 4) * 130;
+            revealTimer = setTimeout(() => setAmbientRevealed(true), delay);
+          }
+        } else {
+          liberarSlot();
         }
       },
       { threshold: 0.35 }
@@ -302,6 +371,7 @@ export function BeatPlayer({
     return () => {
       io.disconnect();
       clearTimeout(revealTimer);
+      liberarSlot();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -321,7 +391,7 @@ export function BeatPlayer({
   // audio -- e uma vez revelado pelo scroll, o card mantem o visualizer
   // montado (so' pausa fora da tela) em vez de voltar pra capa estatica.
   const visualizerSrc = isActive || ambientRevealed ? beat.visualizer_video || null : null;
-  const visualizerPlaying = isPlaying || (ambientRevealed && ambientInView);
+  const visualizerPlaying = isPlaying || (ambientRevealed && ambientInView && temSlot);
 
   return (
     <div
@@ -349,6 +419,8 @@ export function BeatPlayer({
           alt={`Capa do beat ${name}${genre ? ` — ${genre}` : ""}`}
           loading="lazy"
           decoding="async"
+          width="600"
+          height="600"
           className="absolute inset-0 h-full w-full object-cover pointer-events-none transition-opacity duration-700 ease-out"
           style={{ opacity: visualizerSrc ? 0 : 1 }}
         />
