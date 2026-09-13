@@ -63,7 +63,19 @@ function ambienteValeAPena(): boolean {
 
 // Cobre um card quadrado (aspect-square) com o vídeo do visualizer, recortado
 // e centralizado via object-fit — sem depender de nenhum player externo.
-function VisualizerBackground({ src, playing, syncStart }: { src: string; playing: boolean; syncStart: boolean }) {
+function VisualizerBackground({
+  src,
+  playing,
+  syncStart,
+  pronto,
+  onPronto,
+}: {
+  src: string;
+  playing: boolean;
+  syncStart: boolean;
+  pronto: boolean;
+  onPronto: () => void;
+}) {
   const ref = useRef<HTMLVideoElement>(null);
   const wasSyncStart = useRef(false);
 
@@ -102,14 +114,16 @@ function VisualizerBackground({ src, playing, syncStart }: { src: string; playin
   return (
     <video
       ref={ref}
-      className="visualizer-fade-in absolute inset-0 h-full w-full object-cover pointer-events-none"
+      className="absolute inset-0 h-full w-full object-cover pointer-events-none transition-opacity duration-700 ease-out motion-reduce:transition-none"
+      style={{ opacity: pronto ? 1 : 0 }}
+      onPlaying={onPronto}
       src={src}
       muted
       loop
       playsInline
       // iOS antigo ainda olha para o atributo com prefixo
       {...{ "webkit-playsinline": "true" }}
-      preload="none"
+      preload="auto"
       disablePictureInPicture
     >
       {/* Video decorativo, sem faixa de audio -- trilha vazia so' pra
@@ -387,10 +401,15 @@ export function BeatPlayer({
 
   const name = displayName || beat.name;
   const bgImage = beat.image_url || null;
-  // Ativo (isActive) faz o visualizer montar na hora do clique, sem esperar o
-  // audio -- e uma vez revelado pelo scroll, o card mantem o visualizer
-  // montado (so' pausa fora da tela) em vez de voltar pra capa estatica.
-  const visualizerSrc = isActive || ambientRevealed ? beat.visualizer_video || null : null;
+  // O video so monta quando vai tocar: no play manual (isActive) ou no ambiente
+  // com slot livre. Card revelado sem slot fica na capa -- antes ele apagava a
+  // capa e montava um video que nunca carregava, e o card ficava preto.
+  const visualizerSrc =
+    isActive || (ambientRevealed && temSlot) ? beat.visualizer_video || null : null;
+  const [videoPronto, setVideoPronto] = useState(false);
+  useEffect(() => {
+    if (!visualizerSrc) setVideoPronto(false);
+  }, [visualizerSrc]);
   const visualizerPlaying = isPlaying || (ambientRevealed && ambientInView && temSlot);
 
   return (
@@ -422,11 +441,19 @@ export function BeatPlayer({
           width="600"
           height="600"
           className="absolute inset-0 h-full w-full object-cover pointer-events-none transition-opacity duration-700 ease-out"
-          style={{ opacity: visualizerSrc ? 0 : 1 }}
+          style={{ opacity: visualizerSrc && videoPronto ? 0 : 1 }}
         />
       )}
 
-      {visualizerSrc && <VisualizerBackground src={visualizerSrc} playing={visualizerPlaying} syncStart={isPlaying} />}
+      {visualizerSrc && (
+        <VisualizerBackground
+          src={visualizerSrc}
+          playing={visualizerPlaying}
+          syncStart={isPlaying}
+          pronto={videoPronto}
+          onPronto={() => setVideoPronto(true)}
+        />
+      )}
 
       {/* Escurece a capa/vídeo pra texto e botão continuarem legíveis por cima.
           Overlay leve nos dois estados pra capa aparecer de verdade; o beat

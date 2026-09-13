@@ -250,19 +250,6 @@ html, body {
   animation: hero-fade-in 0.5s ease-out forwards;
 }
 
-/* Visualizer dos cards de beat entrando (scroll ligando ele sozinho ou clique
-   no play) -- fade suave em vez de aparecer de repente por cima da capa. */
-@keyframes visualizer-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-.visualizer-fade-in {
-  animation: visualizer-fade-in 0.7s ease-out forwards;
-}
-@media (prefers-reduced-motion: reduce) {
-  .visualizer-fade-in { animation: none; }
-}
-
 /* Hero — subtítulo com varredura de luz em loop.
    Usa gradiente recortado no texto (mesmo padrão do green-text-shine) em vez
    de animar text-shadow: blur de 28px repinta o elemento inteiro a cada frame
