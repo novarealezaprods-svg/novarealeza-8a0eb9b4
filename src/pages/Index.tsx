@@ -144,11 +144,13 @@ const CHECKOUT_URL_FALLBACK = "https://app.kawaipay.com/checkout/10051"; // pack
 const CHECKOUT_URL_SUPREME_FALLBACK = "https://app.kawaipay.com/checkout/10258"; // pack 120
 const CHECKOUT_URL_UPSELL_FALLBACK = "https://app.kawaipay.com/checkout/10059?price=8b298a11-45a6-4697-bf9c-518fbb092c6b"; // promo R$27,90
 
-// Promo do modal de upsell: pack 120 por R$ 37,90 em vez de R$ 47,90.
+// Promo do modal de upsell. Desligada desde que o preco normal do pack 120
+// caiu pra R$ 37,90: o texto promo diz "De R$ 47,90", que deixou de existir.
+// So religar com um preco promocional menor que o normal, ajustando o texto.
 // So entra no ar quando o link do KawaiPay que realmente cobra 37,90 estiver
 // aqui. Vazio, o modal continua oferecendo o preco cheio -- o site nunca
 // anuncia um valor diferente do que o checkout cobra.
-const CHECKOUT_URL_PROMO_120 = "https://app.kawaipay.com/checkout/10258?price=a5fa7c54-d05f-4401-af5c-541fb1f8069f";
+const CHECKOUT_URL_PROMO_120 = "";
 const PROMO_120_ATIVA = CHECKOUT_URL_PROMO_120.length > 0;
 
 
@@ -885,10 +887,10 @@ export default function IndexPage() {
                     R$ 127
                   </span>
                   <span className="supreme-price text-5xl md:text-6xl font-black leading-none">
-                    R$ 47,90
+                    R$ 37,90
                   </span>
                   <span className="text-[11px] text-[#d9c98e]/80">
-                    R$ 0,40 por beat
+                    R$ 0,32 por beat
                   </span>
                 </div>
 
@@ -956,7 +958,7 @@ export default function IndexPage() {
                   </p>
                   <p className="text-lg font-black text-white leading-none">
                     <span className="line-through decoration-destructive decoration-2 text-white/60">R$ 7.200</span>{" "}
-                    <span className="text-primary">R$ 47,90</span>
+                    <span className="text-primary">R$ 37,90</span>
                   </p>
                   <p className="mt-1 text-[10px] text-muted-foreground">
                     Beat sai em média R$ 60 no mercado × 120
@@ -1247,7 +1249,7 @@ export default function IndexPage() {
             onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
             className="sticky-cta-btn"
           >
-            QUERO MEUS 120 BEATS · R$ 47,90
+            QUERO MEUS 120 BEATS · R$ 37,90
           </button>
         </div>
       )}
@@ -1331,7 +1333,7 @@ export default function IndexPage() {
                   textShadow: "0 0 12px rgba(0,255,65,0.5)",
                 }}
               >
-                {PROMO_120_ATIVA ? "R$ 37,90" : "R$ 47,90"}
+                {PROMO_120_ATIVA ? "R$ 37,90" : "R$ 37,90"}
               </span>
               <span
                 className="mt-2 inline-flex items-center px-2.5 py-1 rounded-full font-bold"
