@@ -319,7 +319,7 @@ export default function AdminPage() {
                 </div>
               </div>
               <div>
-                <Label htmlFor="checkout-supreme">Link do Checkout — Pack Suprema (R$ 37,90)</Label>
+                <Label htmlFor="checkout-supreme">Link do Checkout — Pack Suprema (R$ 47,90)</Label>
                 <div className="flex gap-2 mt-1">
                   <Input id="checkout-supreme" value={checkoutUrlSupreme} onChange={(e) => setCheckoutUrlSupreme(e.target.value)} placeholder="https://mpago.la/..." />
                   <Button onClick={() => saveSetting("checkout_url_supreme", checkoutUrlSupreme)}><Save className="w-4 h-4" /></Button>
