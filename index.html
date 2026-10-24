@@ -18,40 +18,22 @@
       trocar lá, troca aqui também.
     -->
     <link rel="preload" as="image" href="/videos/vsl-poster-2.webp" fetchpriority="high" />
-    <!-- GTM entra tarde e sem bloquear; só o DNS adiantado já basta -->
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <!-- Tracking externo: DNS adiantado pra nao atrasar o primeiro hit. -->
+    <link rel="dns-prefetch" href="https://tracking.novarealezaprods.com.br" />
     <!-- Loader styles (inline para evitar FOUC) -->
     <style>
       html, body { overflow-x: hidden; max-width: 100%; }
     </style>
     <!--
-      GTM adiado para depois do load: como script no <head> ele competia com o
-      bundle e com a imagem do hero pela banda inicial. Nada aqui depende dele
-      para renderizar, e os eventos (AddToCart/ViewContent) só disparam por
-      interação, bem depois deste ponto.
+      dataLayer tem que existir antes de qualquer push da pagina, e tem que
+      continuar com esse nome: o tracker externo le esse mesmo array global.
     -->
     <script>
       window.dataLayer = window.dataLayer || [];
-      (function (w, d, s, l, i) {
-        function carregar() {
-          w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
-          j.async = true;
-          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-          f.parentNode.insertBefore(j, f);
-        }
-        if (d.readyState === 'complete') carregar();
-        else w.addEventListener('load', carregar);
-      })(window, document, 'script', 'dataLayer', 'GTM-KX8BW3LF');
     </script>
+    <script src="https://tracking.novarealezaprods.com.br/k.js?id=kt_vhv10jo5x9" async></script>
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KX8BW3LF"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

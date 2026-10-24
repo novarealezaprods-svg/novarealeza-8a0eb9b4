@@ -20,9 +20,12 @@ import logoNovaRealeza from "@/assets/logo-nova-realeza.webp";
 // embla-carousel saem do bundle inicial e só são baixados quando necessário.
 const BeatCarouselDialog = lazy(() => import("@/components/BeatCarouselDialog"));
 
-// Teto de espera pelos pixels antes de sair para o checkout. O beacon do
-// KawaiPay leva ~800ms medidos; 1,5s cobre 4G ruim sem travar a compra.
-const CHECKOUT_BEACON_TIMEOUT_MS = 1500;
+// Valor e nome de cada oferta, como o tracking externo recebe no clique.
+// Tem que bater com o preco exibido no card e com o que o checkout cobra.
+const PRECO_120 = 47.9;
+const PRECO_50 = 19.9;
+const OFERTA_120 = "Pack 120 Beats de Trap";
+const OFERTA_50 = "Pack 50 Beats de Trap";
 
 const genres = ["TRAP", "HARD", "DRILL", "HOOD", "PLUGG", "CRANK", "NEW JAZZ"];
 const features = [
@@ -315,67 +318,22 @@ export default function IndexPage() {
     })();
   }, []);
 
-  const handleCheckout =(urlOverride?: string, _variant: "green" | "gold" = "green") => {
-    const target = urlOverride || checkoutUrl;
-    if (!target) return;
-    executeCheckout(target);
-  };
-
-  const executeCheckout = (target: string) => {
-    if (!target) return;
-
-    // Forward all current URL params (utm_*, fbclid, gclid, etc.) to checkout
-    let destination = target;
-    try {
-      const url = new URL(target);
-      const incoming = new URLSearchParams(window.location.search);
-      incoming.forEach((value, key) => {
-        if (!url.searchParams.has(key)) url.searchParams.set(key, value);
-      });
-      destination = url.toString();
-    } catch {
-      /* target não é URL absoluta: usa como veio */
-    }
-
-    // Navega na mesma aba (window.open é bloqueado no in-app browser do
-    // Instagram/TikTok), mas só depois que os pixels tiverem disparado.
-    // O AddToCart sai como beacon de imagem pro KawaiPay e leva ~800ms;
-    // navegar no mesmo tick cancelava a requisição e perdia a conversão.
-    let navigated = false;
-    const go = () => {
-      if (navigated) return;
-      navigated = true;
-      window.location.href = destination;
-    };
-
+  // O clique de compra agora so ANUNCIA a oferta no dataLayer -- quem navega
+  // e o proprio <a href>. O tracking externo carimba os parametros de
+  // campanha no href antes da saida; navegar por JS (o que esta pagina
+  // fazia) mandava a pessoa pro checkout sem a origem da venda.
+  const anunciarCliqueDeCompra = (valor: number, nomeDaOferta: string) => {
     (window as any).dataLayer = (window as any).dataLayer || [];
-
-    // Sem GTM carregado (ele entra depois do load) não há o que esperar:
-    // o eventCallback nunca viria e o usuário ficaria travado à toa.
-    if (!(window as any).google_tag_manager) {
-      (window as any).dataLayer.push({ event: "AddToCart" });
-      go();
-      return;
-    }
-
     (window as any).dataLayer.push({
-      event: "AddToCart",
-      // O GTM chama assim que todas as tags do evento terminam — normalmente
-      // bem antes do teto abaixo.
-      eventCallback: go,
-      eventTimeout: CHECKOUT_BEACON_TIMEOUT_MS,
+      event: "lpg_checkout_click",
+      value: valor,
+      currency: "BRL",
+      content_name: nomeDaOferta,
     });
-    // Rede de segurança: se alguma tag travar, o eventCallback pode não vir.
-    window.setTimeout(go, CHECKOUT_BEACON_TIMEOUT_MS);
   };
 
   const handleBasicCheckoutClick = () => {
     setShowUpsell(true);
-  };
-
-  const handleContinueBasic = () => {
-    setShowUpsell(false);
-    handleCheckout();
   };
 
   const handleGoSupreme = () => {
@@ -389,24 +347,6 @@ export default function IndexPage() {
       window.scrollTo({ top: y, behavior: "smooth" });
     }, 350);
   };
-
-  // ViewContent at 75% scroll
-  useEffect(() => {
-    let fired = false;
-    const onScroll = () => {
-      if (fired) return;
-      const scrolled = window.scrollY + window.innerHeight;
-      const total = document.documentElement.scrollHeight;
-      if (total > 0 && scrolled / total >= 0.75) {
-        fired = true;
-        (window as any).dataLayer = (window as any).dataLayer || [];
-        (window as any).dataLayer.push({ event: "ViewContent" });
-        window.removeEventListener("scroll", onScroll);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     const beatsSection = document.getElementById("ouca-antes");
@@ -814,7 +754,7 @@ export default function IndexPage() {
           <div id="pack-basico" className="flex flex-col gap-6 max-w-2xl mx-auto items-stretch scroll-mt-20">
             {/* Pack de entrada -- card preto, deliberadamente discreto pra nao
                 competir com o dourado, que e' a oferta principal. */}
-            <div className="rounded-2xl border border-white/12 bg-[#0a0a0a] p-6 md:p-8 text-center">
+            <div className="offer-card rounded-2xl border border-white/12 bg-[#0a0a0a] p-6 md:p-8 text-center">
               <h3 className="text-xl md:text-2xl font-black tracking-tight text-white">
                 PACK 50 BEATS
               </h3>
@@ -860,7 +800,7 @@ export default function IndexPage() {
             {/* Oferta única — card dourado */}
             <div
               id="oferta-suprema"
-              className="relative scroll-mt-20 rounded-2xl"
+              className="offer-card relative scroll-mt-20 rounded-2xl"
               style={{
                 border: "2px solid rgba(255, 196, 0, 0.55)",
                 boxShadow:
@@ -966,14 +906,15 @@ export default function IndexPage() {
                 </div>
 
                 <div className="mt-8 flex flex-col items-center w-full">
-                  <button
-                    onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
-                    className="supreme-cta inline-flex items-center justify-center"
+                  <a
+                    href={checkoutUrlSupreme || checkoutUrl}
+                    onClick={() => anunciarCliqueDeCompra(PRECO_120, OFERTA_120)}
+                    className="supreme-cta inline-flex items-center justify-center no-underline"
                   >
                     <span className="supreme-cta-shine" aria-hidden="true" />
                     <Download className="h-4 w-4 mr-2 relative z-10" />
                     <span className="relative z-10">QUERO MEUS 120 BEATS</span>
-                  </button>
+                  </a>
                 </div>
                 <p className="mt-4 text-xs text-[#d9c98e] flex items-center justify-center gap-1">
                   <ShieldCheck className="h-3 w-3" />
@@ -1130,14 +1071,15 @@ export default function IndexPage() {
             Já viu o suficiente. <span className="text-primary">Bora gravar?</span>
           </h2>
           <div className="mt-6 flex flex-col items-center w-full">
-            <button
-              onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
-              className="supreme-cta inline-flex items-center justify-center"
+            <a
+              href={checkoutUrlSupreme || checkoutUrl}
+              onClick={() => anunciarCliqueDeCompra(PRECO_120, OFERTA_120)}
+              className="supreme-cta inline-flex items-center justify-center no-underline"
             >
               <span className="supreme-cta-shine" aria-hidden="true" />
               <Download className="h-4 w-4 mr-2 relative z-10" />
               <span className="relative z-10">QUERO MEUS 120 BEATS</span>
-            </button>
+            </a>
           </div>
           <p className="mt-5 text-xs text-muted-foreground flex items-center justify-center gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
@@ -1245,12 +1187,13 @@ export default function IndexPage() {
 
       {showStickyCta && (
         <div className="sticky-cta-bar">
-          <button
-            onClick={() => handleCheckout(checkoutUrlSupreme || checkoutUrl, "gold")}
-            className="sticky-cta-btn"
+          <a
+            href={checkoutUrlSupreme || checkoutUrl}
+            onClick={() => anunciarCliqueDeCompra(PRECO_120, OFERTA_120)}
+            className="sticky-cta-btn inline-flex items-center justify-center no-underline"
           >
             QUERO MEUS 120 BEATS · R$ 47,90
-          </button>
+          </a>
         </div>
       )}
 
@@ -1349,12 +1292,13 @@ export default function IndexPage() {
             </div>
 
             <div className="mt-6 flex flex-col gap-3">
-              <button
+              <a
+                href={PROMO_120_ATIVA ? CHECKOUT_URL_PROMO_120 : checkoutUrlSupreme || checkoutUrl}
                 onClick={() => {
+                  anunciarCliqueDeCompra(PROMO_120_ATIVA ? 37.9 : PRECO_120, OFERTA_120);
                   setShowUpsell(false);
-                  executeCheckout(PROMO_120_ATIVA ? CHECKOUT_URL_PROMO_120 : checkoutUrlSupreme || checkoutUrl);
                 }}
-                className="w-full rounded-xl font-black transition hover:brightness-110"
+                className="w-full rounded-xl font-black transition hover:brightness-110 inline-flex items-center justify-center no-underline"
                 style={{
                   background: "linear-gradient(135deg, #00C853, #00FF41)",
                   color: "#03140a",
@@ -1364,17 +1308,18 @@ export default function IndexPage() {
                 }}
               >
                 {PROMO_120_ATIVA ? "SIM! QUERO POR R$37,90" : "SIM! QUERO OS 120 BEATS + BÔNUS"}
-              </button>
-              <button
+              </a>
+              <a
+                href={checkoutUrl}
                 onClick={() => {
+                  anunciarCliqueDeCompra(PRECO_50, OFERTA_50);
                   setShowUpsell(false);
-                  executeCheckout(checkoutUrl);
                 }}
-                className="w-full bg-transparent border border-white/30 rounded-lg py-2 hover:bg-white/10 hover:border-white/60 transition"
+                className="w-full bg-transparent border border-white/30 rounded-lg py-2 hover:bg-white/10 hover:border-white/60 transition inline-flex items-center justify-center no-underline"
                 style={{ color: "#bbb", fontSize: "14px", fontWeight: 500 }}
               >
                 Não, quero apenas o Pack 50
-              </button>
+              </a>
             </div>
           </div>
         </div>
