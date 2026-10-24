@@ -404,6 +404,10 @@ export default function IndexPage() {
             className="hero-title hero-fade-block font-extrabold tracking-tight leading-[1.1] text-[40px] md:text-[64px] text-white text-center mx-auto"
             style={{ animationDelay: "80ms" }}
           >
+            {/* Nome do produto dentro do H1 pro rastreamento conseguir ler.
+                sr-only e absoluto e 1x1px: sai do fluxo, nao muda o layout
+                nem o que a pessoa le na tela. */}
+            <span className="sr-only">{OFERTA_120}</span>{" "}
             Seu som travou no lançamento porque o beat é do <span className="text-accent">YouTube</span> 💀
           </h1>
 
