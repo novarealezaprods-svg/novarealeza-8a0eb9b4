@@ -770,9 +770,6 @@ export default function IndexPage() {
                 <span className="text-4xl md:text-5xl font-black leading-none text-white">
                   R$ 19,90
                 </span>
-                <span className="text-[11px] text-muted-foreground">
-                  R$ 0,40 por beat
-                </span>
               </div>
 
               <div className="mt-6 space-y-3 text-left max-w-sm mx-auto">
