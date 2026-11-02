@@ -110,8 +110,8 @@ function visualizerFor(name: string): string | null {
 // nivelados a -14 LUFS para que um beat nao soe mais alto que o outro.
 // BPM e tom vieram do nome dos masters originais.
 const PREVIEW_BEATS: BeatItem[] = [
-  { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
-  { name: "Type Veigh", url: "/beats/type-veigh-2.mp3", image_url: "/beat-images/type-veigh.webp" },
+  { name: "Type Leviano", url: "/beats/type-leviano-2.mp3", image_url: "/beat-images/type-leviano.webp" },
+  { name: "Type Veigh", url: "/beats/type-veigh-3.mp3", image_url: "/beat-images/type-veigh.webp" },
   { name: "Type Alee", url: "/beats/type-alee-3.mp3", image_url: "/beat-images/type-alee.webp" },
   { name: "Type Plugg", url: "/beats/type-plugg-2.mp3", image_url: "/beat-images/type-plugg-2.webp" },
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
