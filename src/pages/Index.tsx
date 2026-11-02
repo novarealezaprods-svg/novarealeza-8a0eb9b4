@@ -116,7 +116,7 @@ const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Plugg", url: "/beats/type-plugg-2.mp3", image_url: "/beat-images/type-plugg.webp" },
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
   { name: "Type Ryu", url: "/beats/type-ryu.mp3", image_url: "/beat-images/type-ryu.webp" },
-  { name: "Type Trap", url: "/beats/type-trap-2.mp3", image_url: "/beat-images/type-brandao.webp" },
+  { name: "Type Viral", url: "/beats/type-viral.mp3", image_url: "/beat-images/type-brandao.webp" },
 ];
 
 // Mesma ordem de PREVIEW_BEATS. So alimenta o texto alternativo da capa,
@@ -128,7 +128,7 @@ const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Plugg", genre: "PLUGG" },
   { name: "Type USA", genre: "TRAP" },
   { name: "Type Ryu", genre: "TYPE RYU" },
-  { name: "Type Trap", genre: "TYPE TRAP" },
+  { name: "Type Viral", genre: "TYPE VIRAL" },
   { name: "Type Drill", genre: "DRILL" },
   { name: "Type Florida", genre: "TRAP" },
 ];
