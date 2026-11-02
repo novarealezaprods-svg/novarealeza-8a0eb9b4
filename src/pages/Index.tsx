@@ -417,7 +417,7 @@ export default function IndexPage() {
             className="hero-fade mx-auto max-w-[34ch] text-[20px] md:text-[26px]"
             style={{ fontWeight: 500, color: "#E5E5E5", lineHeight: 1.35, marginTop: 20, animationDelay: "200ms" }}
           >
-            Tenha 120 beats de trap em WAV, mixados, liberados pra lançar em qualquer distribuidora.
+            Tenha 120 beats de trap em WAV, liberados pra lançar em todas plataformas.
           </p>
 
           {/* CTA que desce pro card de compra, ja que o card agora vive bem
