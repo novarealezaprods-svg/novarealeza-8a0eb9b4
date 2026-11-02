@@ -401,16 +401,18 @@ export function BeatPlayer({
 
   const name = displayName || beat.name;
   const bgImage = beat.image_url || null;
-  // O video so monta quando vai tocar: no play manual (isActive) ou no ambiente
-  // com slot livre. Card revelado sem slot fica na capa -- antes ele apagava a
-  // capa e montava um video que nunca carregava, e o card ficava preto.
-  const visualizerSrc =
-    isActive || (ambientRevealed && temSlot) ? beat.visualizer_video || null : null;
+  // O video so monta quando a pessoa aperta play no card. O modo ambiente --
+  // que ligava os visualizers sozinhos conforme o card entrava na tela -- foi
+  // desligado a pedido: os videos apareciam antes da hora e roubavam a atencao
+  // da capa. A maquinaria do ambiente (IntersectionObserver, slots,
+  // ambienteValeAPena) continua no arquivo, so nao alimenta mais nada: e' um
+  // interruptor, basta voltar as duas condicoes abaixo pra religar.
+  const visualizerSrc = isActive ? beat.visualizer_video || null : null;
   const [videoPronto, setVideoPronto] = useState(false);
   useEffect(() => {
     if (!visualizerSrc) setVideoPronto(false);
   }, [visualizerSrc]);
-  const visualizerPlaying = isPlaying || (ambientRevealed && ambientInView && temSlot);
+  const visualizerPlaying = isPlaying;
 
   return (
     <div
