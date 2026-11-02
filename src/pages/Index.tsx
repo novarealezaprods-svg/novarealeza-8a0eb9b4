@@ -113,10 +113,10 @@ const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
   { name: "Type Supernova", url: "/beats/type-supernova-2.mp3", image_url: "/beat-images/type-supernova.webp" },
   { name: "Type Alee", url: "/beats/type-alee-3.mp3", image_url: "/beat-images/type-alee.webp" },
-  { name: "Type Trap", url: "/beats/type-trap-2.mp3", image_url: "/beat-images/type-brandao.webp" },
+  { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
   { name: "Type Fug", url: "/beats/type-fug.mp3", image_url: "/beat-images/type-fug.webp" },
-  { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
+  { name: "Type Trap", url: "/beats/type-trap-2.mp3", image_url: "/beat-images/type-brandao.webp" },
 ];
 
 // Mesma ordem de PREVIEW_BEATS. So alimenta o texto alternativo da capa,
@@ -125,10 +125,10 @@ const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Leviano", genre: "TYPE LEVIANO" },
   { name: "Type Supernova", genre: "TYPE SUPERNOVA" },
   { name: "Type Alee", genre: "TYPE ALEE" },
-  { name: "Type Trap", genre: "TYPE TRAP" },
+  { name: "Type Plugg", genre: "PLUGG" },
   { name: "Type USA", genre: "TRAP" },
   { name: "Type Fug", genre: "TYPE FUG" },
-  { name: "Type Plugg", genre: "PLUGG" },
+  { name: "Type Trap", genre: "TYPE TRAP" },
   { name: "Type Drill", genre: "DRILL" },
   { name: "Type Florida", genre: "TRAP" },
 ];
@@ -781,7 +781,7 @@ export default function IndexPage() {
                     <span>{f}</span>
                   </div>
                 ))}
-                {/* Contraponto ao pack 120, que leva os 3 bonus */}
+                {/* Contraponto ao pack 120, que leva os 2 bonus */}
                 <div className="flex items-start gap-2.5 text-sm font-medium text-white/45 leading-snug">
                   <span className="mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-white/8">
                     <X className="h-2.5 w-2.5 text-white/60" strokeWidth={3.5} />
@@ -878,10 +878,6 @@ export default function IndexPage() {
                     {[
                       "Bônus 1: 28 presets pra Bandlab",
                       "Bônus 2: 28 presets vocais pra FL Studio",
-                      // TODO(jurídico): confirmar enquadramento deste sorteio na Lei
-                      // 14.790/23 (loterias/sorteios vinculados a compra) antes de manter
-                      // ativo — ver item 8 do plano de ação.
-                      "🍀 Bônus 3: Sorteio — Produção completa (mix, master, beat exclusivo, capa e distribuição para todas as plataformas digitais)",
                     ].map((f, i) => (
                       <div key={i} className="supreme-feature">
                         <span className="supreme-feature-gift" aria-hidden="true">
@@ -1288,7 +1284,7 @@ export default function IndexPage() {
                   border: "1px solid rgba(0,255,65,0.35)",
                 }}
               >
-                {PROMO_120_ATIVA ? "💰 Você economiza R$10,00" : "🎁 +70 beats e os 3 bônus"}
+                {PROMO_120_ATIVA ? "💰 Você economiza R$10,00" : "🎁 +70 beats e os 2 bônus"}
               </span>
             </div>
 
