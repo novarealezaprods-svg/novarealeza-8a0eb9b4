@@ -113,7 +113,7 @@ const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
   { name: "Type Veigh", url: "/beats/type-veigh-2.mp3", image_url: "/beat-images/type-veigh.webp" },
   { name: "Type Alee", url: "/beats/type-alee-3.mp3", image_url: "/beat-images/type-alee.webp" },
-  { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
+  { name: "Type Plugg", url: "/beats/type-plugg-2.mp3", image_url: "/beat-images/type-plugg.webp" },
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
   { name: "Type Ryu", url: "/beats/type-ryu.mp3", image_url: "/beat-images/type-ryu.webp" },
   { name: "Type Trap", url: "/beats/type-trap-2.mp3", image_url: "/beat-images/type-brandao.webp" },
