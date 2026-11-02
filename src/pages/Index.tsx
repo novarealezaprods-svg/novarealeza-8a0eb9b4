@@ -115,7 +115,7 @@ const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Alee", url: "/beats/type-alee-3.mp3", image_url: "/beat-images/type-alee.webp" },
   { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
-  { name: "Type Fug", url: "/beats/type-fug.mp3", image_url: "/beat-images/type-fug.webp" },
+  { name: "Type Ryu", url: "/beats/type-ryu.mp3", image_url: "/beat-images/type-ryu.webp" },
   { name: "Type Trap", url: "/beats/type-trap-2.mp3", image_url: "/beat-images/type-brandao.webp" },
 ];
 
@@ -127,7 +127,7 @@ const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Alee", genre: "TYPE ALEE" },
   { name: "Type Plugg", genre: "PLUGG" },
   { name: "Type USA", genre: "TRAP" },
-  { name: "Type Fug", genre: "TYPE FUG" },
+  { name: "Type Ryu", genre: "TYPE RYU" },
   { name: "Type Trap", genre: "TYPE TRAP" },
   { name: "Type Drill", genre: "DRILL" },
   { name: "Type Florida", genre: "TRAP" },
