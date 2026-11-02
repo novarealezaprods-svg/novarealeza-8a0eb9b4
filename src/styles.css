@@ -1431,7 +1431,9 @@ html, body {
   height: 56px;
   border-radius: 999px;
   background: #25d366;
-  color: #0b1f12;
+  /* glifo branco: o simbolo do WhatsApp so le como WhatsApp em branco
+     sobre verde. Em verde escuro vira um balao generico. */
+  color: #ffffff;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
   transition: transform 0.18s ease, bottom 0.25s ease;
   animation: whats-fab-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
