@@ -920,25 +920,6 @@ export default function IndexPage() {
               </div>
               </div>
             </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => setLicenseZoomOpen(true)}
-                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-3 text-xs md:text-sm font-bold shadow-[0_2px_10px_rgba(255,196,0,0.35)] hover:brightness-110 active:scale-95 transition"
-              >
-                <FileCheck className="h-3.5 w-3.5" />
-                Ver prévia da licença
-              </button>
-              <button
-                type="button"
-                onClick={() => document.getElementById("avaliacoes")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-3 text-xs md:text-sm font-bold shadow-[0_2px_10px_rgba(255,196,0,0.35)] hover:brightness-110 active:scale-95 transition"
-              >
-                <Star className="h-3.5 w-3.5" />
-                Ver avaliações
-              </button>
-            </div>
           </div>
 
           <div className="mt-10 max-w-3xl mx-auto reveal">
