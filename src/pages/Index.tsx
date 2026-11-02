@@ -147,13 +147,14 @@ const CHECKOUT_URL_FALLBACK = "https://app.kawaipay.com/checkout/10051"; // pack
 const CHECKOUT_URL_SUPREME_FALLBACK = "https://app.kawaipay.com/checkout/10258"; // pack 120
 const CHECKOUT_URL_UPSELL_FALLBACK = "https://app.kawaipay.com/checkout/10059?price=8b298a11-45a6-4697-bf9c-518fbb092c6b"; // promo R$27,90
 
-// Promo do modal de upsell. Com o preco normal do pack 120 de volta em
-// R$ 47,90, o texto promo ("De R$ 47,90" riscado, R$ 37,90, economia de
-// R$ 10,00) voltou a bater com a realidade. Continua desligada ate que o
-// link do KawaiPay que REALMENTE cobra 37,90 esteja aqui. Vazio, o modal
-// oferece o preco cheio -- o site nunca anuncia um valor diferente do que
-// o checkout cobra.
-const CHECKOUT_URL_PROMO_120 = "";
+// Promo do modal de upsell: quem clica em "QUERO O PACK 50" recebe o pack
+// 120 por R$ 29,90 em vez de R$ 47,90, economia de R$ 18,00.
+// O link abaixo foi aberto e conferido: o checkout da KawaiPay cobra
+// R$ 29,90 por "120 Beats de Trap". A regra continua valendo -- so' ligue
+// esta promo com um link que REALMENTE cobra o valor anunciado, porque o
+// site nunca pode anunciar preco diferente do que o checkout cobra.
+// Vazio, o modal volta sozinho a oferecer o preco cheio.
+const CHECKOUT_URL_PROMO_120 = "https://app.kawaipay.com/checkout/10258?price=a5fa7c54-d05f-4401-af5c-541fb1f8069f";
 const PROMO_120_ATIVA = CHECKOUT_URL_PROMO_120.length > 0;
 
 
@@ -1254,7 +1255,7 @@ export default function IndexPage() {
                   textShadow: "0 0 12px rgba(0,255,65,0.5)",
                 }}
               >
-                {PROMO_120_ATIVA ? "R$ 37,90" : "R$ 47,90"}
+                {PROMO_120_ATIVA ? "R$ 29,90" : "R$ 47,90"}
               </span>
               <span
                 className="mt-2 inline-flex items-center px-2.5 py-1 rounded-full font-bold"
@@ -1265,7 +1266,7 @@ export default function IndexPage() {
                   border: "1px solid rgba(0,255,65,0.35)",
                 }}
               >
-                {PROMO_120_ATIVA ? "💰 Você economiza R$10,00" : "🎁 +70 beats e os 2 bônus"}
+                {PROMO_120_ATIVA ? "💰 Você economiza R$18,00" : "🎁 +70 beats e os 2 bônus"}
               </span>
             </div>
 
@@ -1273,7 +1274,7 @@ export default function IndexPage() {
               <a
                 href={PROMO_120_ATIVA ? CHECKOUT_URL_PROMO_120 : checkoutUrlSupreme || checkoutUrl}
                 onClick={() => {
-                  anunciarCliqueDeCompra(PROMO_120_ATIVA ? 37.9 : PRECO_120, OFERTA_120);
+                  anunciarCliqueDeCompra(PROMO_120_ATIVA ? 29.9 : PRECO_120, OFERTA_120);
                   setShowUpsell(false);
                 }}
                 className="w-full rounded-xl font-black transition hover:brightness-110 inline-flex items-center justify-center no-underline"
@@ -1285,7 +1286,7 @@ export default function IndexPage() {
                   boxShadow: "0 0 18px rgba(0,255,65,0.45)",
                 }}
               >
-                {PROMO_120_ATIVA ? "SIM! QUERO POR R$37,90" : "SIM! QUERO OS 120 BEATS + BÔNUS"}
+                {PROMO_120_ATIVA ? "SIM! QUERO POR R$29,90" : "SIM! QUERO OS 120 BEATS + BÔNUS"}
               </a>
               <a
                 href={checkoutUrl}
