@@ -1415,3 +1415,36 @@ html, body {
 @media (prefers-reduced-motion: reduce) {
   .proof-swipe-arrow { animation: none; }
 }
+
+/* Botao flutuante do WhatsApp. Sobe pra ficar acima da barra fixa de
+   compra quando ela esta' na tela -- sem isso os dois se empilham no
+   mesmo canto e o botao fica atras. */
+.whats-fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #0b1f12;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: transform 0.18s ease, bottom 0.25s ease;
+  animation: whats-fab-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.whats-fab:hover { transform: scale(1.06); }
+.whats-fab:active { transform: scale(0.96); }
+.whats-fab.acima-da-barra {
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+}
+@keyframes whats-fab-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.9); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .whats-fab { animation: none; transition: none; }
+}

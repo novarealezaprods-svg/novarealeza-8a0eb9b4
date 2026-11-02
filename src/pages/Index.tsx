@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Check, X, Music2, Download, ShieldCheck, Star, Play, ChevronDown, Mail, Phone, Building2, User, Skull, Trophy, Zap, Lock, ShieldCheck as Shield, MessageCircle, FileCheck, ListMusic, ExternalLink } from "lucide-react";
 import { BeatPlayer, type BeatItem, pauseCurrent } from "@/components/BeatPlayer";
@@ -27,7 +26,6 @@ const PRECO_50 = 19.9;
 const OFERTA_120 = "Pack 120 Beats de Trap";
 const OFERTA_50 = "Pack 50 Beats de Trap";
 
-const genres = ["TRAP", "HARD", "DRILL", "HOOD", "PLUGG", "CRANK", "NEW JAZZ"];
 const features = [
   "120 beats de trap profissionais prontos para uso",
   "Type Leviano, Fab Godamn, Alee, Tchelo e mais",
@@ -171,6 +169,16 @@ export default function IndexPage() {
   const [openBeatIndex, setOpenBeatIndex] = useState<number | null>(null);
   const [playlists, setPlaylists] = useState<{ id: string; name: string; url: string }[]>([]);
   const [showStickyCta, setShowStickyCta] = useState(false);
+  const [showWhats, setShowWhats] = useState(false);
+
+  // Botao flutuante do WhatsApp: so' aparece depois que a pessoa rola um
+  // pouco, pra nao competir com o CTA principal logo na abertura.
+  useEffect(() => {
+    const update = () => setShowWhats(window.scrollY > 600);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   const CONTAINER = "mx-auto w-full max-w-[1400px] px-6 md:px-10";
 
@@ -517,18 +525,6 @@ export default function IndexPage() {
                 </div>
               </div>
             )}
-
-            <p className="mt-6 text-center text-xs md:text-sm font-bold uppercase tracking-wide text-white/60">
-              O que você leva?
-            </p>
-
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-2.5 reveal">
-              {genres.map((g, i) => (
-                <Badge key={i} variant="secondary" className="rounded-full px-4 py-1.5 text-xs tracking-wider uppercase">
-                  {g}
-                </Badge>
-              ))}
-            </div>
           </div>
 
         </div>
@@ -833,22 +829,6 @@ export default function IndexPage() {
                   </span>
                   <span className="text-[11px] text-[#d9c98e]/80">
                     R$ 0,40 por beat
-                  </span>
-                </div>
-
-                {/* Selos -- Arquivos WAV / Licença assinada / Zero I.A. */}
-                <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-                    <Music2 className="h-3 w-3 flex-shrink-0" />
-                    Arquivos WAV
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-                    <FileCheck className="h-3 w-3 flex-shrink-0" />
-                    Licença assinada
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] md:text-xs font-bold text-primary">
-                    <User className="h-3 w-3 flex-shrink-0" />
-                    Zero I.A.
                   </span>
                 </div>
 
@@ -1176,6 +1156,20 @@ export default function IndexPage() {
         </div>
       )}
 
+
+      {showWhats && (
+        <a
+          href="https://wa.me/5511989366001"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chamar no WhatsApp"
+          className={`whats-fab no-underline${showStickyCta ? " acima-da-barra" : ""}`}
+        >
+          <svg viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor" aria-hidden="true">
+            <path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.1-.472-.15-.671.15-.198.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.671-1.612-.919-2.207-.242-.579-.487-.5-.671-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.001 2C6.478 2 2 6.477 2 12c0 1.98.579 3.885 1.671 5.53L2 22l4.47-1.671A9.947 9.947 0 0012.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2z" />
+          </svg>
+        </a>
+      )}
 
       {licenseZoomOpen && (
         <div
