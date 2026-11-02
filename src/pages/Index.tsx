@@ -110,10 +110,10 @@ function visualizerFor(name: string): string | null {
 // nivelados a -14 LUFS para que um beat nao soe mais alto que o outro.
 // BPM e tom vieram do nome dos masters originais.
 const PREVIEW_BEATS: BeatItem[] = [
-  { name: "Type Alee", url: "/beats/type-alee-3.mp3", image_url: "/beat-images/type-alee.webp" },
-  { name: "Type Trap", url: "/beats/type-trap-2.mp3", image_url: "/beat-images/type-brandao.webp" },
   { name: "Type Leviano", url: "/beats/type-leviano.mp3", image_url: "/beat-images/type-leviano.webp" },
   { name: "Type Supernova", url: "/beats/type-supernova-2.mp3", image_url: "/beat-images/type-supernova.webp" },
+  { name: "Type Alee", url: "/beats/type-alee-3.mp3", image_url: "/beat-images/type-alee.webp" },
+  { name: "Type Trap", url: "/beats/type-trap-2.mp3", image_url: "/beat-images/type-brandao.webp" },
   { name: "Type USA", url: "/beats/type-usa.mp3", image_url: "/beat-images/type-usa.webp" },
   { name: "Type Fug", url: "/beats/type-fug.mp3", image_url: "/beat-images/type-fug.webp" },
   { name: "Type Plugg", url: "/beats/type-plugg.mp3", image_url: "/beat-images/type-plugg.webp" },
@@ -122,10 +122,10 @@ const PREVIEW_BEATS: BeatItem[] = [
 // Mesma ordem de PREVIEW_BEATS. So alimenta o texto alternativo da capa,
 // nao aparece na tela -- fora de ordem, geraria descricao errada.
 const BEAT_META: { name: string; genre: string }[] = [
-  { name: "Type Alee", genre: "TYPE ALEE" },
-  { name: "Type Trap", genre: "TYPE TRAP" },
   { name: "Type Leviano", genre: "TYPE LEVIANO" },
   { name: "Type Supernova", genre: "TYPE SUPERNOVA" },
+  { name: "Type Alee", genre: "TYPE ALEE" },
+  { name: "Type Trap", genre: "TYPE TRAP" },
   { name: "Type USA", genre: "TRAP" },
   { name: "Type Fug", genre: "TYPE FUG" },
   { name: "Type Plugg", genre: "PLUGG" },
