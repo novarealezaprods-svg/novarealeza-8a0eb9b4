@@ -1450,3 +1450,16 @@ html, body {
 @media (prefers-reduced-motion: reduce) {
   .whats-fab { animation: none; transition: none; }
 }
+
+/* 2026-11-04 -- hash novo forcado de proposito.
+   O edge do Cloudflare ficou com DUAS variantes cacheadas do mesmo arquivo
+   de CSS: a requisicao simples recebia text/css e a requisicao em modo CORS
+   recebia o index.html do fallback de 404, cacheado durante a janela de um
+   deploy. Como o <link> gerado pelo Vite leva o atributo crossorigin, todo
+   navegador pede em modo CORS -- ou seja, todo visitante recebia HTML no
+   lugar do CSS e via a pagina crua, enquanto um curl simples mostrava o
+   arquivo certo. Mudar o conteudo muda o hash do nome e cria uma URL limpa.
+   Ao verificar deploy deste site, teste SEMPRE com os cabecalhos do
+   navegador: -H "Origin: https://100beats.novarealezaprods.com.br"
+              -H "Sec-Fetch-Mode: cors" -H "Sec-Fetch-Dest: style"
+   Testar sem eles da' falso positivo. */
