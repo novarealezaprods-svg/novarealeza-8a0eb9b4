@@ -1436,6 +1436,7 @@ html, body {
   color: #ffffff;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
   transition: transform 0.18s ease, bottom 0.25s ease;
+  will-change: transform;
   animation: whats-fab-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .whats-fab:hover { transform: scale(1.06); }
