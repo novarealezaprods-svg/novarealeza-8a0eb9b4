@@ -109,8 +109,8 @@ function visualizerFor(name: string): string | null {
 // BPM e tom vieram do nome dos masters originais.
 const PREVIEW_BEATS: BeatItem[] = [
   { name: "Type Leviano", url: "/beats/type-leviano-2.mp3", image_url: "/beat-images/type-leviano.webp" },
-  { name: "Type Veigh", url: "/beats/type-veigh-3.mp3", image_url: "/beat-images/type-veigh.webp" },
   { name: "Type Alee", url: "/beats/type-alee-3.mp3", image_url: "/beat-images/type-alee.webp" },
+  { name: "Type Veigh", url: "/beats/type-veigh-3.mp3", image_url: "/beat-images/type-veigh.webp" },
   { name: "Type Plugg", url: "/beats/type-plugg-3.mp3", image_url: "/beat-images/type-plugg-2.webp" },
   { name: "Type USA", url: "/beats/type-usa-2.mp3", image_url: "/beat-images/type-usa.webp" },
   { name: "Type Ryu", url: "/beats/type-ryu.mp3", image_url: "/beat-images/type-ryu.webp" },
@@ -121,8 +121,8 @@ const PREVIEW_BEATS: BeatItem[] = [
 // nao aparece na tela -- fora de ordem, geraria descricao errada.
 const BEAT_META: { name: string; genre: string }[] = [
   { name: "Type Leviano", genre: "TYPE LEVIANO" },
-  { name: "Type Veigh", genre: "TYPE VEIGH" },
   { name: "Type Alee", genre: "TYPE ALEE" },
+  { name: "Type Veigh", genre: "TYPE VEIGH" },
   { name: "Type Plugg", genre: "PLUGG" },
   { name: "Type USA", genre: "TRAP" },
   { name: "Type Ryu", genre: "TYPE RYU" },
