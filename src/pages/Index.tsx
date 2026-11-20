@@ -406,17 +406,25 @@ export default function IndexPage() {
           />
         </header>
         <div className={`${CONTAINER} text-center flex flex-col items-center`}>
-          {/* H1 */}
-          <h1
-            className="hero-title hero-fade-block font-extrabold tracking-tight leading-[1.1] text-[40px] md:text-[64px] text-white text-center mx-auto"
-            style={{ animationDelay: "80ms" }}
-          >
-            {/* Nome do produto dentro do H1 pro rastreamento conseguir ler.
-                sr-only e absoluto e 1x1px: sai do fluxo, nao muda o layout
-                nem o que a pessoa le na tela. */}
+          {/* H1 mantido no DOM pra SEO e pro rastreamento continuar lendo o
+              nome do produto, mas fora da vista: a VSL assume o papel visual
+              que o texto do headline tinha. */}
+          <h1 className="sr-only">
             <span className="sr-only">{OFERTA_120}</span>{" "}
             Seu som travou no lançamento porque o beat é do <span className="text-accent">YouTube</span> 💀
           </h1>
+
+          {/* VSL no lugar do headline: e' o primeiro gancho visual agora,
+              onde o texto estava. Autoplay mudo, toque ativa o som -- ver
+              VideoPreview.tsx. Video fonte e' 1280x720 (16:9). */}
+          <div
+            className="hero-fade-block w-full max-w-[640px] mx-auto overflow-hidden rounded-2xl"
+            style={{ animationDelay: "80ms", border: "1px solid rgba(230,184,0,0.35)" }}
+          >
+            <Card className="relative aspect-video overflow-hidden border-0 bg-black shadow-none rounded-none">
+              {previewVideo && <VideoPreview url={previewVideo} poster={vslThumbnail ?? undefined} />}
+            </Card>
+          </div>
 
           {/* SUBTITULO */}
           <p
