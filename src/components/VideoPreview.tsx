@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Play, X } from "lucide-react";
 import { normalizeDirectUrl } from "@/lib/normalize-url";
 import { registerVslPause, pauseCurrent } from "@/components/BeatPlayer";
@@ -24,22 +25,29 @@ function getEmbedUrl(url: string): { src: string; provider: "youtube" | "vimeo" 
 export function VideoPreview({ url, poster }: { url: string; poster?: string }) {
   const embed = getEmbedUrl(url);
   const directUrl = embed ? url : normalizeDirectUrl(url);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null); // video pequeno, ambiente, sempre mudo
+  const expandedVideoRef = useRef<HTMLVideoElement>(null); // video do player dourado, com som
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Player dourado: o video sempre existe num unico <video> no DOM -- nunca
-  // duplicado -- e so muda de posicao/tamanho via CSS quando "expande".
-  // Isso e o que evita o bug de dois audios tocando ao mesmo tempo: nao ha
-  // um segundo elemento pra perder o controle. So se aplica ao video direto
-  // (mp4 proprio); o embed do YouTube/Vimeo continua como estava.
+  // Player dourado: usa um SEGUNDO <video>, so' montado em document.body (via
+  // portal) enquanto "expanded" e' true. Por que dois elementos e nao um so
+  // reposicionado por CSS: a secao do hero tem overflow-hidden, e no Safari
+  // do iPhone isso faz position:fixed de um descendente se comportar como
+  // se estivesse preso aquela caixa, em vez da tela real -- foi exatamente
+  // o bug visto no celular (fundo opaco nunca aparecia, video nao expandia
+  // de verdade). O portal escapa dessa caixa de vez.
+  // Isso NAO reintroduz o risco de dois audios: o video pequeno e' SEMPRE
+  // mudo (nunca alternado), entao so' um dos dois pode emitir som a
+  // qualquer momento -- o expandido, que so existe no DOM enquanto o
+  // player esta aberto.
   const [expanded, setExpanded] = useState(false);
 
-  // Ao clicar em qualquer beat, o player global (BeatPlayer) chama isso pra
-  // pausar a VSL na hora, evitando os dois áudios tocando juntos.
   useEffect(() => {
     const pauseVsl = () => {
       const v = videoRef.current;
       if (v && !v.paused) v.pause();
+      const ev = expandedVideoRef.current;
+      if (ev) ev.pause();
       const f = iframeRef.current;
       if (f?.contentWindow && embed) {
         const cmd =
@@ -48,10 +56,6 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
             : { method: "pause" };
         f.contentWindow.postMessage(JSON.stringify(cmd), "*");
       }
-      // Se a pessoa clicou num beat com o player dourado ainda expandido e
-      // com som, fecha e remuda aqui tambem -- senao a VSL continuaria
-      // audivel por cima da previa que acabou de comecar.
-      if (v) v.muted = true;
       setExpanded(false);
     };
     registerVslPause(pauseVsl);
@@ -88,27 +92,18 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded]);
 
-  // O video ja esta tocando (autoplay mudo) desde que a pagina carregou --
-  // "ativar o som" e' so' tirar o mute do MESMO elemento, por isso sai
-  // instantaneo: sem buffer, sem recarregar, sem esperar nada.
-  const ativar = () => {
-    const v = videoRef.current;
-    if (v) {
-      v.muted = false;
-      // Recomeca do zero: a visita pode ter clicado com o video ja no meio
-      // do loop mudo, e o pedido e' ela ver e ouvir o conteudo inteiro.
-      v.currentTime = 0;
-      v.play().catch(() => {});
-    }
-    setExpanded(true);
-  };
+  // So abre: o video expandido e' um elemento novo a cada vez que monta,
+  // entao ja nasce do zero (currentTime 0) e com som -- nao precisa
+  // sincronizar nada com o video pequeno mudo.
+  const ativar = () => setExpanded(true);
 
-  // Fechar SEMPRE remuda antes de encolher, mesmo que pareca redundante --
-  // e' a garantia contra o audio continuar saindo depois que a pessoa ja
-  // saiu do player e vai ouvir as previas dos beats logo abaixo.
+  // Fechar pausa explicitamente antes de desmontar -- garantia extra contra
+  // audio sobrando por uma fracao de segundo, mesmo que o unmount do React
+  // normalmente ja resolva isso sozinho. Importa porque logo abaixo no
+  // proximo bloco tem as previas dos beats: se sobrar som daqui, atrapalha
+  // quem ja saiu do video.
   const fechar = () => {
-    const v = videoRef.current;
-    if (v) v.muted = true;
+    expandedVideoRef.current?.pause();
     setExpanded(false);
   };
 
@@ -134,9 +129,6 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
   return (
     <>
       <div className="relative w-full h-full bg-black">
-        {/* O video nunca troca de lugar no DOM -- so' de classe, via CSS --
-            entao o play, o currentTime e o estado de mute sobrevivem intactos
-            ao abrir e fechar o player dourado. */}
         <video
           ref={videoRef}
           src={directUrl}
@@ -149,35 +141,50 @@ export function VideoPreview({ url, poster }: { url: string; poster?: string }) 
           webkit-playsinline="true"
           x5-playsinline="true"
           controls={false}
-          onClick={!expanded ? ativar : undefined}
-          className={expanded ? "vsl-video-expanded" : "absolute inset-0 w-full h-full object-cover cursor-pointer"}
+          onClick={ativar}
+          className="absolute inset-0 w-full h-full object-cover cursor-pointer"
         >
           {/* TODO: trocar por legenda real (transcricao da fala) quando
               tivermos o texto -- por ora so' evita o video sem <track>. */}
           <track kind="captions" srcLang="pt-BR" label="Português" src="/captions/empty.vtt" default />
         </video>
 
-        {!expanded && (
-          <button
-            type="button"
-            onClick={ativar}
-            aria-label="Ativar o som e assistir"
-            className="vsl-gold-btn"
-          >
-            <span className="vsl-gold-btn-ring" aria-hidden="true" />
-            <Play className="h-7 w-7 md:h-8 md:w-8 relative" fill="currentColor" />
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={ativar}
+          aria-label="Ativar o som e assistir"
+          className="vsl-gold-btn"
+        >
+          <span className="vsl-gold-btn-ring" aria-hidden="true" />
+          <Play className="h-7 w-7 md:h-8 md:w-8 relative" fill="currentColor" />
+        </button>
       </div>
 
-      {expanded && (
-        <>
-          <div className="vsl-backdrop" onClick={fechar} aria-hidden="true" />
-          <button type="button" onClick={fechar} aria-label="Fechar vídeo" className="vsl-close-btn">
-            <X className="h-6 w-6" />
-          </button>
-        </>
-      )}
+      {expanded &&
+        createPortal(
+          <>
+            {/* Fundo do proprio site, so que escurecido -- nao e' uma
+                parede solida: a pagina continua visivel por baixo, em
+                opacidade baixa. */}
+            <div className="vsl-backdrop" onClick={fechar} aria-hidden="true" />
+            <video
+              ref={expandedVideoRef}
+              src={directUrl}
+              autoPlay
+              playsInline
+              webkit-playsinline="true"
+              x5-playsinline="true"
+              controls={false}
+              className="vsl-video-expanded"
+            >
+              <track kind="captions" srcLang="pt-BR" label="Português" src="/captions/empty.vtt" default />
+            </video>
+            <button type="button" onClick={fechar} aria-label="Fechar vídeo" className="vsl-close-btn">
+              <X className="h-6 w-6" />
+            </button>
+          </>,
+          document.body
+        )}
     </>
   );
 }

@@ -1467,12 +1467,11 @@ html, body {
 
 /* ===== Player dourado da VSL =====
    Botao sempre visivel (nao so' no hover) no meio do video pequeno, pra
-   avisar que tem som. Ao clicar: desmuda o MESMO <video> (instantaneo,
-   sem recarregar nada) e expande ele via position:fixed sobre um fundo
-   opaco -- nao existe transform em nenhum ancestral do hero, entao o
-   fixed ancora na tela de verdade, nao num pai. Fechar sempre remuda
-   antes de encolher: e' a garantia contra audio vazando por cima das
-   previas de beat logo abaixo no proximo bloco. */
+   avisar que tem som. O backdrop/video-expandido/botao-fechar sao
+   renderizados via React Portal direto em document.body (ver
+   VideoPreview.tsx) -- a secao do hero tem overflow-hidden, e no Safari
+   do iPhone isso faz position:fixed de um descendente ficar preso aquela
+   caixa em vez da tela real. So' o portal escapa disso de verdade. */
 .vsl-gold-btn {
   position: absolute;
   top: 50%;
@@ -1506,11 +1505,16 @@ html, body {
   100% { transform: scale(1.35); opacity: 0; }
 }
 
+/* Fundo do proprio site, escurecido -- nao e' uma parede solida tapando
+   tudo: opacidade baixa de proposito, a pagina continua visivel por
+   baixo, so' mais escura, pra ler como pop-up sobre o site e nao como
+   uma tela preta por cima dele. */
 .vsl-backdrop {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(6, 5, 2, 0.97);
+  background: rgba(8, 7, 4, 0.55);
+  backdrop-filter: blur(2px);
   animation: vsl-backdrop-in 0.2s ease-out;
 }
 @keyframes vsl-backdrop-in {
@@ -1523,26 +1527,25 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* Largura sozinha (94vw) quase nao cresce no celular: o card pequeno ja
-     ocupa perto da tela toda ali. Largura E altura explicitas, as duas
-     generosas, e' o que faz o "aumentar a proporcao da tela" aparecer de
-     verdade -- object-fit: cover preenche a caixa cortando as bordas do
-     frame em vez de deixar tarja preta em cima/embaixo. */
-  width: min(94vw, 900px);
-  height: min(72vh, 620px);
-  height: min(72dvh, 620px);
+  /* Largura quase de ponta a ponta -- sem a margem lateral do hero, pra
+     parecer que tomou conta da tela -- e altura derivada do proprio
+     aspect-ratio do video (16:9), nunca esticada: object-fit:contain
+     garante que o quadro inteiro apareca, sem cortar as bordas (o erro
+     anterior forcava altura e largura independentes com "cover", que
+     dava zoom e cortava o conteudo). */
+  width: min(100vw, 960px);
+  max-height: 82vh;
+  max-height: 82dvh;
+  aspect-ratio: 16 / 9;
   z-index: 101;
-  border-radius: 14px;
-  object-fit: cover;
+  background: #000;
+  object-fit: contain;
   cursor: default;
-  box-shadow:
-    0 0 0 1px rgba(230, 184, 0, 0.45),
-    0 0 60px -10px rgba(230, 184, 0, 0.35),
-    0 30px 70px -15px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 10px 50px -10px rgba(0, 0, 0, 0.85);
   animation: vsl-expand-in 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 @keyframes vsl-expand-in {
-  from { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+  from { transform: translate(-50%, -50%) scale(0.92); opacity: 0.4; }
   to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
