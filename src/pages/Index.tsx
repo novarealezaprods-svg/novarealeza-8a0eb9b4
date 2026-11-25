@@ -400,7 +400,8 @@ export default function IndexPage() {
             alt="Nova Realeza"
             className="top-bar-logo h-12 md:h-16 w-auto"
             loading="eager"
-            decoding="async"
+            decoding="sync"
+            fetchPriority="high"
             width="946"
             height="424"
           />
